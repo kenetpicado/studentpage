@@ -29,29 +29,25 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>N°</th>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
                                         <th>Carnet</th>
-                                        <th>Opción</th>
+                                        <th>Pagar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($matriculas as $matricula)
-                                        <tr class="center-babe">
+                                        <tr>
                                             <td>{{ $matricula->id }}</td>
-                                            <td>
-                                                <div class="card bg-success text-white shadow">
-                                                    <div class="card-body p-2">
-                                                        {{ $matricula->carnet }}
-                                                    </div>
-                                                    
-                                                </div>
-                                                
+                                            <td>{{ $matricula->prematricula->nombre }}</td>
+                                            <td><strong>{{ $matricula->carnet }}</strong></td>
+                                            <td class="center-babe">
+                                                <a href="{{ route('pagar', $matricula->id) }}"
+                                                    class="btn btn-primary">Registrar pago <i class="fas fa-fw fa-dollar-sign"></i></a>
                                             </td>
-                                            <td><a href="{{ route('pagar', $matricula->id) }}"
-                                                    class="btn btn-primary">Registrar pago</a></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

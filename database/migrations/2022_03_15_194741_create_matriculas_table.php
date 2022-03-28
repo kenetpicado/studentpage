@@ -18,7 +18,6 @@ class CreateMatriculasTable extends Migration
             $table->string('carnet', 15)->unique();
             $table->string('pin', 6);
             $table->enum('manual', ['SI', 'NO']);
-            $table->date('fecha_matricula')->default(date('Y-m-d'));
             //
 
             //LLAVE FORANEA HACIA PREMATRICULAS

@@ -75,7 +75,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMatricula"
                     aria-expanded="true" aria-controls="collapseMatricula">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-address-book"></i>
                     <span>Matrícula</span>
                 </a>
                 <div id="collapseMatricula" class="collapse" aria-labelledby="headingTwo"
@@ -115,15 +115,22 @@
             <!-- Nav Item - CURSOS -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('curso.create') }}">
-                    <i class="fas fa-fw fa-list"></i>
+                    <i class="fas fa-clone"></i>
                     <span>Cursos</span></a>
             </li>
 
             <!-- Nav Item - PROMOTORES-->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('promotor.create') }}">
-                    <i class="fas fa-fw fa-user"></i>
+                    <i class="fas fa-male"></i>
                     <span>Promotores</span></a>
+            </li>
+
+            <!-- Nav Item - CENTROS-->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('centro.create') }}">
+                    <i class="fas fa-fw fa-folder-open"></i>
+                    <span>Centro</span></a>
             </li>
 
             <!-- Divider -->

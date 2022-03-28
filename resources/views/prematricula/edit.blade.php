@@ -37,13 +37,6 @@
                                     class="form-control is-valid" name="id"
                                     autocomplete="off" value="{{ old('id', $prematricula->id) }}" readonly>
                             </div>
-                            <div class="form-group col-6">
-                                <label for="fecha_prematricula">Fecha prematrícula</label>
-                                <input type="date"
-                                    class="form-control is-valid"
-                                    name="fecha_prematricula" autocomplete="off"
-                                    value="{{ old('fecha_prematricula', $prematricula->fecha_prematricula) }}" readonly>
-                            </div>
                         </div>
 
                         <div class="row">

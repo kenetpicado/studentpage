@@ -17,7 +17,19 @@ class PrematriculaController extends Controller
     {
         //
         $prematriculas = Prematricula::all();
-        return view('prematricula.index', compact('prematriculas', $prematriculas));
+        return view('prematricula.index', compact('prematriculas', $prematriculas))->with('status', 'todas');
+    }
+
+    public function active()
+    {
+        $prematriculas = Prematricula::has('matricula')->get();
+        return view('prematricula.index', compact('prematriculas', $prematriculas))->with('status', 'activas');
+    }
+
+    public function inactive()
+    {
+        $prematriculas = Prematricula::has('matricula', '=', '0')->get();
+        return view('prematricula.index', compact('prematriculas', $prematriculas))->with('status', 'inactivas');
     }
 
     /**

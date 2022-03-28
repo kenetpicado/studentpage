@@ -68,7 +68,7 @@
                                         <th>ID</th>
                                         <th>PIN</th>
                                         <th>Nombre</th>
-                                        <th></th>
+                                        <th>Eliminar</th>
                                     </tr>
                                 </thead>
                                 <tbody>

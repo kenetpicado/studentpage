@@ -59,9 +59,9 @@
                                     </tr>
                                     <tr>
                                         <td>Fecha de prematrícula: </td>
-                                        <td><strong>{{ $matricula->prematricula->fecha_prematricula }}</strong></td>
+                                        <td><strong>{{date("Y-m-d",  strtotime($matricula->prematricula->created_at))}}</strong></td>
                                         <td>Fecha de matricula: </td>
-                                        <td><strong>{{ $matricula->fecha_matricula }}</strong></td>
+                                        <td><strong>{{date("Y-m-d",  strtotime($matricula->created_at))}}</strong></td>
                                     </tr>
                                     <tr>
                                         <td colspan="4">
@@ -71,16 +71,22 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Nombre: </td>
-                                        <td><strong>INTITUTO TECNOLOGICO JAIRO S.A</strong></td>
-                                        <td>Dirección: </td>
-                                        <td><strong>ERMITA SAN PEDRO 3 1/2 C AL SUR</strong></td>
+                                        <td>Nombre:</td>
+                                        <td><strong> {{ $centro->nombre }}</strong></td>
+                                        <td>Teléfono: </td>
+                                        <td><strong> {{ $centro->tel }}</strong></td>
                                     </tr>
                                     <tr>
-                                        <td>Director: </td>
-                                        <td><strong>CARLOS ANTONIO RIVAS HERNANDEZ</strong></td>
-                                        <td>Teléfono: </td>
-                                        <td><strong>23118965</strong></td>
+                                        <td>Departamento:</td>
+                                        <td><strong>{{ $centro->departamento }}</strong></td>
+                                        <td>Municipio: </td>
+                                        <td><strong> {{ $centro->municipio }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Direccion: </td>
+                                        <td><strong>{{ $centro->direccion}}</strong></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 </table>
                             </div>

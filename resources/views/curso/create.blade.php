@@ -66,7 +66,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Nombre del curso</th>
-                                        <th></th>
+                                        <th>Eliminar</th>
                                     </tr>
                                 </thead>
                                 <tbody>

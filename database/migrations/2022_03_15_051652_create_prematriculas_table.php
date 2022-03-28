@@ -18,7 +18,6 @@ class CreatePrematriculasTable extends Migration
             $table->string('nombre', 45);
             $table->string('cedula', 16)->nullable();
             $table->date('fecha_nac');
-            $table->date('fecha_prematricula')->default(date('Y-m-d'));
             $table->string('tel', 8)->nullable();
             $table->string('madre', 45)->nullable();
             $table->string('padre', 45)->nullable();

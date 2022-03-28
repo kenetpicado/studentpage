@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePagosTable extends Migration
+class CreateCentrosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreatePagosTable extends Migration
      */
     public function up()
     {
-        Schema::create('pagos', function (Blueprint $table) {
+        Schema::create('centros', function (Blueprint $table) {
             $table->id();
-            $table->float('monto');
-            $table->string('concepto', 50);
-
-            //LLAVE FORANEA HACIA MATRICULA
-            $table->unsignedBigInteger('matricula_id');
-            $table->foreign('matricula_id')->references('id')->on('matriculas');
+            $table->string('nombre', 50);
+            $table->string('departamento', 15);
+            $table->string('municipio', 15);
+            $table->string('direccion', 60);
+            $table->string('tel', 8);
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreatePagosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pagos');
+        Schema::dropIfExists('centros');
     }
 }

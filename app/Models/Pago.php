@@ -12,10 +12,15 @@ class Pago extends Model
 
     protected $guarded = [];
 
-    protected $fillable = ['monto', 'matricula_id'];
+    protected $fillable = ['monto', 'concepto', 'matricula_id'];
 
     public function matricula()
     {
         return $this->belongsTo(Matricula::class);
+    }
+
+    public function setConceptoAttribute($value)
+    {
+        $this->attributes['concepto'] = trim(strtoupper($value));
     }
 }

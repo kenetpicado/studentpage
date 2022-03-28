@@ -33,10 +33,24 @@
                         <div class="row">
                             <div class="form-group col-6">
                                 <label for="monto">Monto a pagar (C$)</label>
-                                <input type="text" class="form-control @error('monto') is-invalid @enderror" name="monto"
+                                <input type="number" class="form-control @error('monto') is-invalid @enderror" name="monto"
                                     autocomplete="off" value="{{ old('monto') }}">
                                 
                                     @error('monto')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="concepto">Concepto</label>
+                                <input type="text" class="form-control @error('concepto') is-invalid @enderror" name="concepto"
+                                    autocomplete="off" value="{{ old('concepto') }}">
+                                
+                                    @error('concepto')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

@@ -25,7 +25,7 @@
                 <!-- Datos del alumno -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">MATRICULAR</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">AGREGAR MATRICULA</h6>
                     </div>
 
                     <div class="card-body">
@@ -47,7 +47,7 @@
                                             <td>{{ $prematricula->nombre }}</td>
                                             <td>{{ $prematricula->fecha_nac }}</td>
                                             <td>{{ $prematricula->tel }}</td>
-                                            <td><a href="{{ route('matricular', $prematricula->id) }}"
+                                            <td class="center-babe"><a href="{{ route('matricular', $prematricula->id) }}"
                                                     class="btn btn-primary">Matricular</a></td>
                                         </tr>
                                     @endforeach

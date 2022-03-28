@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMatriculaRequest;
 use App\Http\Requests\UpdateMatriculaRequest;
 use App\Models\Matricula;
+use App\Models\Centro;
 use App\Models\Prematricula;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,7 @@ class MatriculaController extends Controller
     {
         //MUESTRA FORMULARIO CON TODAS LAS PREMATRICULAS
         //DISPONIBLES PARA HACER UNA MATRICULA
-        $prematriculas = Prematricula::all();
+        $prematriculas = Prematricula::has('matricula', '=', '0')->get();
         return view('matricula.create', compact('prematriculas', $prematriculas));
     }
 
@@ -75,7 +76,8 @@ class MatriculaController extends Controller
     public function show(Matricula $matricula)
     {
         //
-        return view('matricula.show', compact('matricula', $matricula));
+        $centro = Centro::all()->first();
+        return view('matricula.show', compact('matricula', $matricula))->with('centro', $centro);
     }
 
     /**
