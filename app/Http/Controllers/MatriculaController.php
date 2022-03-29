@@ -51,7 +51,7 @@ class MatriculaController extends Controller
         //VALIRDAR
         $request->validate([
             'prematricula_id' => 'unique:matriculas'
-        ],[
+        ], [
             'prematricula_id.unique' => 'Esta persona ya se encuentra matriculada'
         ]);
 
@@ -59,7 +59,7 @@ class MatriculaController extends Controller
         Matricula::create([
             'carnet' => Generate::idEstudiante('CH04', $request->fecha_nac),
             'pin' => Generate::pin(),
-            'manual'=> $request->manual,
+            'manual' => $request->manual,
             'prematricula_id' => $request->prematricula_id
         ]);
 
@@ -77,7 +77,8 @@ class MatriculaController extends Controller
     {
         //
         $centro = Centro::all()->first();
-        return view('matricula.show', compact('matricula', $matricula))->with('centro', $centro);
+        return $centro ? view('matricula.show', compact('matricula', $matricula))->with('centro', $centro) : redirect()->route('centro.create');
+        //return view('matricula.show', compact('matricula', $matricula))->with('centro', $centro);
     }
 
     /**

@@ -36,7 +36,7 @@
                                         <th>Nombre</th>
                                         <th>Carnet</th>
                                         <th>Manual</th>
-                                        <th>Opciones</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -44,11 +44,7 @@
                                         <tr>
                                             <td>{{ $matricula->id }}</td>
                                             <td>{{ $matricula->prematricula->nombre }}</td>
-                                            <td>
-                                                <a href="{{ route('matricula.show', $matricula) }}">
-                                                    <strong>{{ $matricula->carnet }}</strong>
-                                                </a>
-                                            </td>
+                                            <td><strong>{{ $matricula->carnet }}</strong></td>
                                             <td>
                                                 <a href="{{ route('matricula.edit', $matricula) }}">{{ $matricula->manual }}
                                                     <i class="bi bi-pencil-square"></i></a>
@@ -58,13 +54,13 @@
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         {{-- <i class="fas fa-exclamation-circle fa-sm fa-fw text-gray-400"></i> --}}
-                                                        Ver opciones <i class="fas fa-thumbs-up"></i>
+                                                        Ver opciones <i class="fas fa-cog"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
                                                         <a class="dropdown-item" href="{{ route('prematricula.edit', $matricula->prematricula) }}">Editar</a>
-                                                        <a class="dropdown-item" href="">Opcion 2</a>
-                                                        <a class="dropdown-item" href="">Opcion 3</a>
+                                                        <a class="dropdown-item" href="{{ route('matricula.show', $matricula) }}">Ver detalles</a>
+                                                        <a class="dropdown-item" href="{{ route('pago.estudiante', $matricula) }}">Ver pagos</a>
                                                     </div>
                                                 </div>
                                             </td>

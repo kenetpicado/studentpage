@@ -119,6 +119,13 @@
                     <span>Cursos</span></a>
             </li>
 
+            <!-- Nav Item - CURSOS -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-users"></i>
+                    <span>Grupos</span></a>
+            </li>
+
             <!-- Nav Item - PROMOTORES-->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('promotor.create') }}">
@@ -126,7 +133,7 @@
                     <span>Promotores</span></a>
             </li>
 
-            <!-- Nav Item - CENTROS-->
+            <!-- Nav Item - CENTRO-->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('centro.create') }}">
                     <i class="fas fa-fw fa-folder-open"></i>

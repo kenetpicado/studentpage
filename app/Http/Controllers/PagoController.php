@@ -18,7 +18,7 @@ class PagoController extends Controller
     {
         //
         $pagos = Pago::all();
-        return view('pago.index', compact('pagos', $pagos));
+        return view('pago.index', compact('pagos', $pagos))->with('status', 'Se muestran los pagos de TODOS los alumnos');
     }
 
     /**
@@ -38,6 +38,12 @@ class PagoController extends Controller
     {
         //MOSTRAR DATOS DE LA MATRICULA QUE VA PAGAR
         return view('pago.realize', compact('matricula', $matricula));
+    }
+
+    public function pagoEstudiante(Matricula $matricula)
+    {
+        $pagos = $matricula->pagos;
+        return view('pago.index', compact('pagos', $pagos))->with('status', 'Se muestran los pagos del alumno: ' . $matricula->prematricula->nombre);
     }
 
     /**

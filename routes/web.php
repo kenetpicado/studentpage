@@ -28,6 +28,7 @@ Route::get('pagar/{matricula}', [PagoController::class, 'pagar'])->name('pagar')
 Route::get('matricular/{prematricula}', [MatriculaController::class, 'matricular'])->name('matricular');
 Route::get('prematricula-activa', [PrematriculaController::class, 'active'])->name('prematricula.activa');
 Route::get('prematricula-inactiva', [PrematriculaController::class, 'inactive'])->name('prematricula.inactiva');
+Route::get('pago-estudiante/{matricula}', [PagoController::class, 'pagoEstudiante'])->name('pago.estudiante');
 
 
 Route::resource('prematricula', PrematriculaController::class);

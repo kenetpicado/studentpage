@@ -15,6 +15,9 @@
                         <h6 class="m-0 font-weight-bold text-primary">AGREGAR DATOS DEL CENTRO DE ESTUDIO</h6>
                     </div>
                     <div class="card-body">
+                        <p>
+                            Debe establecer los datos del centro:
+                        </p>
                         <div class="row">
                             <div class="form-group col-6">
                                 <label for="nombre">Nombre del centro</label>

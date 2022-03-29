@@ -16,6 +16,7 @@
                 </div>
 
                 <div class="card-body">
+                    <p> <strong>{{$status ?? ''}}</strong></p>
                     <div class="table-responsive">
                         <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                             <thead>
