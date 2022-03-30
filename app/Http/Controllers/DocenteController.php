@@ -59,6 +59,11 @@ class DocenteController extends Controller
         return view('docente.destroy', compact('docente', $docente));
     }
 
+    public function verGrupos(Docente $docente)
+    {
+        return view('docente.grupos', compact('docente', $docente))->with('status', 'Todos los grupos asignados al docente: ' . $docente->nombre);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -68,6 +73,7 @@ class DocenteController extends Controller
     public function edit(Docente $docente)
     {
         //
+        return view('docente.edit', compact('docente', $docente));
     }
 
     /**
@@ -80,6 +86,8 @@ class DocenteController extends Controller
     public function update(UpdateDocenteRequest $request, Docente $docente)
     {
         //
+        $docente->update($request->all());
+        return redirect()->route('docente.create')->with('info', 'Se ha actualizado el docente!');
     }
 
     /**

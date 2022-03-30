@@ -6,6 +6,7 @@ use App\Http\Requests\StoreMatriculaRequest;
 use App\Http\Requests\UpdateMatriculaRequest;
 use App\Models\Matricula;
 use App\Models\Centro;
+use App\Models\Grupo;
 use App\Models\Prematricula;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,8 @@ class MatriculaController extends Controller
 
     public function matricular(Prematricula $prematricula)
     {
-        return view('matricula.realize', compact('prematricula', $prematricula));
+        $grupos = Grupo::all();
+        return view('matricula.realize', compact('prematricula', $prematricula), compact('grupos', $grupos));
     }
 
     /**
@@ -46,21 +48,15 @@ class MatriculaController extends Controller
      * @param  \App\Http\Requests\StoreMatriculaRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreMatriculaRequest $request)
     {
-        //VALIRDAR
-        $request->validate([
-            'prematricula_id' => 'unique:matriculas'
-        ], [
-            'prematricula_id.unique' => 'Esta persona ya se encuentra matriculada'
-        ]);
 
-        //GUARDAR DATOS
         Matricula::create([
             'carnet' => Generate::idEstudiante('CH04', $request->fecha_nac),
             'pin' => Generate::pin(),
             'manual' => $request->manual,
-            'prematricula_id' => $request->prematricula_id
+            'prematricula_id' => $request->prematricula_id,
+            'grupo_id' => $request->grupo_id
         ]);
 
         //MOSTRAR VISTA

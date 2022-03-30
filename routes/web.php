@@ -3,10 +3,11 @@
 use App\Http\Controllers\CentroController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DocenteController;
-use App\Http\Controllers\PrematriculaController;
-use App\Http\Controllers\PromotorController;
+use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\PrematriculaController;
+use App\Http\Controllers\PromotorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,17 +25,22 @@ Route::get('/', function () {
     return view('blank');
 });
 
-Route::get('pagar/{matricula}', [PagoController::class, 'pagar'])->name('pagar');
+//RUTAS PARTICULARES
 Route::get('matricular/{prematricula}', [MatriculaController::class, 'matricular'])->name('matricular');
+Route::get('pagar/{matricula}', [PagoController::class, 'pagar'])->name('pagar');
+Route::get('pago-estudiante/{matricula}', [PagoController::class, 'pagoEstudiante'])->name('pago.estudiante');
 Route::get('prematricula-activa', [PrematriculaController::class, 'active'])->name('prematricula.activa');
 Route::get('prematricula-inactiva', [PrematriculaController::class, 'inactive'])->name('prematricula.inactiva');
-Route::get('pago-estudiante/{matricula}', [PagoController::class, 'pagoEstudiante'])->name('pago.estudiante');
+Route::get('curso-grupos/{curso}', [CursoController::class, 'verGrupos'])->name('curso.grupos');
+Route::get('docente-grupos/{docente}', [DocenteController::class, 'verGrupos'])->name('docente.grupos');
+Route::get('grupo-alumnos/{grupo}', [GrupoController::class, 'verAlumnos'])->name('grupo.alumnos');
 
-
-Route::resource('prematricula', PrematriculaController::class);
-Route::resource('matricula', MatriculaController::class);
-Route::resource('promotor', PromotorController::class);
-Route::resource('pago', PagoController::class);
+//RECURSOS DE RUTAS
+Route::resource('centro', CentroController::class);
 Route::resource('curso', CursoController::class);
 Route::resource('docente', DocenteController::class);
-Route::resource('centro', CentroController::class);
+Route::resource('grupo', GrupoController::class);
+Route::resource('matricula', MatriculaController::class);
+Route::resource('pago', PagoController::class);
+Route::resource('prematricula', PrematriculaController::class);
+Route::resource('promotor', PromotorController::class);

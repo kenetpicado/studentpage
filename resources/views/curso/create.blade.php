@@ -60,6 +60,7 @@
                     </div>
 
                     <div class="card-body">
+                        <div class="alert alert-primary" role="alert">TODOS los cursos disponibles:</div>
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -83,7 +84,9 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="{{route('curso.show', $curso->id)}}">Eliminar <i class="fa fa-trash"></i></a>
+                                                        <a class="dropdown-item" href="{{route('curso.grupos', $curso->id)}}">Ver grupos</a>
+                                                        <a class="dropdown-item" href="{{route('curso.edit', $curso->id)}}">Editar nombre</a>
+                                                        {{-- <a class="dropdown-item" href="{{route('curso.show', $curso->id)}}">Eliminar</a> --}}
                                                     </div>
                                                 </div>
                                             </td>

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Prematricula;
 use App\Models\Pago;
+use App\Models\Grupo;
 
 class Matricula extends Model
 {
@@ -21,5 +22,9 @@ class Matricula extends Model
     public function pagos()
     {
         return $this->hasMany(Pago::class);
+    }
+    public function grupo() 
+    {
+        return $this->belongsTo(Grupo::class);
     }
 }

@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Docentes')
+@section('title', 'Grupos')
 
 @section('content')
     <div class="container-fluid">
@@ -20,65 +20,48 @@
 
         <!-- Content Row -->
         <div class="row">
-            <form class="col-xl-12 col-lg-7" action="{{ route('docente.store') }}" method="POST">
-                @csrf
-                <!-- Datos-->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">AGREGAR UN NUEVO DOCENTE</h6>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="form-group col-lg-6">
-                                <label for="nombre">Nombre del docente</label>
-                                <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                                    autocomplete="off" value="{{old('nombre')}}">
-
-                                @error('nombre')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <!-- Content Row -->
-
-        <!-- Content Row -->
-        <div class="row">
             <form class="col-xl-12 col-lg-7">
 
                 <!-- Datos -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">TODOS LOS DOCENTES</h6>
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">VER GRUPOS</h6>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="{{ route('grupo.create') }}">Crear grupo</a>
+                                
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card-body">
-                        <div class="alert alert-primary" role="alert">TODOS los docentes registrados:</div>
+                        <div class="alert alert-primary" role="alert">
+                            {{$status ?? ''}}. Haga clic aqui para <a href="{{ route('grupo.create') }}">crear un nuevo grupo.</a>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Carnet</th>
-                                        <th>PIN</th>
-                                        <th>Nombre</th>
+                                        <th>Curso</th>
+                                        <th>Grupo</th>
+                                        <th>Docente a cargo</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($docentes as $docente)
+                                    @foreach ($grupos as $grupo)
                                         <tr>
-                                            <td>{{ $docente->id }}</td>
-                                            <td>{{ $docente->carnet }}</td>
-                                            <td>{{ $docente->pin }}</td>
-                                            <td>{{ $docente->nombre }}</td>
+                                            <td>{{ $grupo->id }}</td>
+                                            <td>{{ $grupo->curso->nombre ?? ''}}</td>
+                                            <td>{{ $grupo->numero }}</td>
+                                            <td>{{ $grupo->docente->nombre }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -88,9 +71,9 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="{{route('docente.grupos', $docente->id)}}">Ver grupos</a>
-                                                        <a class="dropdown-item" href="{{route('docente.edit', $docente->id)}}">Editar nombre</a>
-                                                        {{-- <a class="dropdown-item" href="{{route('docente.show', $docente->id)}}">Eliminar</a> --}}
+                                                        <a class="dropdown-item" href="{{route('grupo.alumnos', $grupo)}}">Ver alumnos de este grupo</a>
+                                                        <a class="dropdown-item" href="{{route('grupo.edit', $grupo)}}">Cambiar profesor</a>
+                                                        <a class="dropdown-item" href="">Eliminar curso</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -100,7 +83,6 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
             </form>
         </div>

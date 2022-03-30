@@ -18,12 +18,10 @@ class CreateMatriculasTable extends Migration
             $table->string('carnet', 15)->unique();
             $table->string('pin', 6);
             $table->enum('manual', ['SI', 'NO']);
-            //
 
             //LLAVE FORANEA HACIA PREMATRICULAS
             $table->unsignedBigInteger('prematricula_id')->unique();
-            $table->foreign('prematricula_id')->references('id')->on('prematriculas');
-
+            $table->foreign('prematricula_id')->references('id')->on('prematriculas')->onDelete('cascade');
             $table->timestamps();
         });
     }

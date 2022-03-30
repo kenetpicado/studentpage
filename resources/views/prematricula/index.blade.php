@@ -45,20 +45,7 @@
                     </div>
 
                     <div class="card-body">
-                        <div>
-                            @if ($status == 'todas')
-                                <p>A continuación, se muestran <strong>TODAS</strong> las prematriculas registradas.</p>
-                            @endif
-                            @if ($status == 'activas')
-                                <p>A continuación, se muestran las prematriculas <strong>ACTIVAS</strong> es decir aquellas
-                                    que si cuentan con una matricula realizada</p>
-                            @endif
-                            @if ($status == 'inactivas')
-                                <p>A continuación, se muestran las prematriculas <strong>INACTIVAS</strong> es decir
-                                    aquellas que no cuentan con una matricula realizada</p>
-                            @endif
-
-                        </div>
+                        <div class="alert alert-primary" role="alert">{{$status ?? ''}}</div>
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>

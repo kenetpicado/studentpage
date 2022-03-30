@@ -25,6 +25,15 @@ class StoreMatriculaRequest extends FormRequest
     {
         return [
             //
+            'prematricula_id' => 'unique:matriculas',
+            'grupo_id' => 'required'
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'prematricula_id.unique' => 'Esta persona ya se encuentra matriculada',
+            'grupo_id.required' => 'Por favor, seleccione un curso.'
         ];
     }
 }

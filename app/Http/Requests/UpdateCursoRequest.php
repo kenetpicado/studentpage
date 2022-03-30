@@ -13,7 +13,7 @@ class UpdateCursoRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,7 @@ class UpdateCursoRequest extends FormRequest
     {
         return [
             //
+            'nombre' => 'required|max:45'
         ];
     }
 }

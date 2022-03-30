@@ -121,7 +121,7 @@
 
             <!-- Nav Item - CURSOS -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('grupo.index') }}">
                     <i class="fas fa-users"></i>
                     <span>Grupos</span></a>
             </li>
@@ -258,4 +258,5 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
 </body>
+
 </html>

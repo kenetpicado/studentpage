@@ -39,15 +39,7 @@ class CursoController extends Controller
      */
     public function store(StoreCursoRequest $request)
     {
-        //VALIDAR DATOS
-        $request->validate([
-            'nombre' => 'required|max:45'
-        ]);
-
-        //GUARDAR
         Curso::create($request->all());
-
-        //MOSTRAR VISTA
         return redirect()->route('curso.create')->with('info', 'El nuevo curso ha sido agregado!');
     }
 
@@ -63,6 +55,11 @@ class CursoController extends Controller
         return view('curso.destroy', compact('curso', $curso));
     }
 
+    public function verGrupos(Curso $curso)
+    {
+        return view('curso.grupos', compact('curso', $curso))->with('status', 'Todos los grupos disponibles del curso: ' . $curso->nombre);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -72,6 +69,7 @@ class CursoController extends Controller
     public function edit(Curso $curso)
     {
         //
+        return view('curso.edit', compact('curso', $curso));
     }
 
     /**
@@ -84,6 +82,8 @@ class CursoController extends Controller
     public function update(UpdateCursoRequest $request, Curso $curso)
     {
         //
+        $curso->update($request->all());
+        return redirect()->route('curso.create')->with('info', 'Se ha actualizado el curso!');
     }
 
     /**

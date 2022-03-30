@@ -35,6 +35,7 @@
                                         <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Carnet</th>
+                                        <th>Curso</th>
                                         <th>Manual</th>
                                         <th></th>
                                     </tr>
@@ -45,6 +46,7 @@
                                             <td>{{ $matricula->id }}</td>
                                             <td>{{ $matricula->prematricula->nombre }}</td>
                                             <td><strong>{{ $matricula->carnet }}</strong></td>
+                                            <td>{{ $matricula->grupo->curso->nombre}}</td>
                                             <td>
                                                 <a href="{{ route('matricula.edit', $matricula) }}">{{ $matricula->manual }}
                                                     <i class="bi bi-pencil-square"></i></a>
@@ -58,7 +60,7 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="{{ route('prematricula.edit', $matricula->prematricula) }}">Editar</a>
+                                                        {{-- <a class="dropdown-item" href="{{ route('prematricula.edit', $matricula->prematricula) }}">Editar</a> --}}
                                                         <a class="dropdown-item" href="{{ route('matricula.show', $matricula) }}">Ver detalles</a>
                                                         <a class="dropdown-item" href="{{ route('pago.estudiante', $matricula) }}">Ver pagos</a>
                                                     </div>

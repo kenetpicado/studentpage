@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateDocenteRequest extends FormRequest
+class UpdateGrupoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,13 @@ class UpdateDocenteRequest extends FormRequest
     {
         return [
             //
-            'nombre' => 'required|max:45'
+            'docente_id' => 'required',
+        ];
+    }
+    public function attributes()
+    {
+        return [
+            'docente_id' => 'docente',
         ];
     }
 }
