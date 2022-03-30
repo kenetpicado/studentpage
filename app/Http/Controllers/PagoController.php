@@ -56,7 +56,7 @@ class PagoController extends Controller
     {
         //
         Pago::create($request->all());
-        return redirect()->route('pago.create')->with('info','El pago ha sido guardado!');
+        return redirect()->route('pago.create')->with('info','ok');
     }
 
     /**

@@ -5,19 +5,6 @@
 @section('content')
     <div class="container-fluid">
 
-        {{-- SI HAY MENSAJE DE CONFIRMACION --}}
-        @if (session('info'))
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card bg-primary text-white shadow mb-2">
-                        <div class="card-body">
-                            {{ session('info') }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-
         <!-- Content Row -->
         <div class="row">
             <form class="col-xl-12 col-lg-7">
@@ -35,7 +22,7 @@
                                         <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Carnet</th>
-                                        <th>Pagar</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,11 +41,9 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
             </form>
         </div>
         <!-- Content Row -->
-
     </div>
 @endsection('content')

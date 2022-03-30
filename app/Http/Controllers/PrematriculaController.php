@@ -56,7 +56,7 @@ class PrematriculaController extends Controller
     {
         //
         Prematricula::create($request->all());
-        return redirect()->route('prematricula.create')->with('info', 'Los datos han sido guardados!');
+        return redirect()->route('prematricula.create')->with('info', 'ok');
     }
 
     /**
@@ -94,7 +94,7 @@ class PrematriculaController extends Controller
     {
         //
         $prematricula->update($request->all());
-        return redirect()->route('prematricula.index')->with('info', 'Se actualizaron los datos!');
+        return redirect()->route('prematricula.index')->with('info', 'ok');
     }
 
     /**

@@ -15,7 +15,8 @@ class CreateCursosTable extends Migration
     {
         Schema::create('cursos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 45);
+            $table->string('nombre', 45)->unique();
+            $table->enum('estado', ['0', '1'])->default('1');
             $table->timestamps();
         });
     }

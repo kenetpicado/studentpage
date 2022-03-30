@@ -44,7 +44,7 @@ class DocenteController extends Controller
             'carnet' => Generate::id('CH'),
             'pin' => Generate::pin()
         ]);
-        return redirect()->route('docente.create')->with('info', 'El nuevo docente ha sido agregado!');
+        return redirect()->route('docente.create')->with('info', 'ok');
     }
 
     /**
@@ -87,7 +87,7 @@ class DocenteController extends Controller
     {
         //
         $docente->update($request->all());
-        return redirect()->route('docente.create')->with('info', 'Se ha actualizado el docente!');
+        return redirect()->route('docente.create')->with('info', 'ok');
     }
 
     /**
@@ -100,6 +100,6 @@ class DocenteController extends Controller
     {
         //
         $docente->delete();
-        return redirect()->route('docente.create')->with('info', 'Se ha eliminado el docente!');
+        return redirect()->route('docente.create')->with('info', 'eliminado');
     }
 }

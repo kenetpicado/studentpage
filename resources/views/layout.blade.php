@@ -21,8 +21,11 @@
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
+    {{-- ICONS --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
+    {{-- SWEETALERT --}}
+    <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -257,6 +260,37 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
+
+    {{-- sweetalert2 --}}
+    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+
+    {{-- funciones extras --}}
+    <script src="{{ asset('js/functions.js') }}"></script>
+
+    {{-- SI HAY MENSAJE DE CONFIRMACION --}}
+    @if (session('info') == 'ok')
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Se han guardado los datos',
+                showConfirmButton: false,
+                timer: 1000
+            })
+        </script>
+    @endif
+
+    @if (session('info') == 'eliminado')
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Se han eliminado los datos',
+                showConfirmButton: false,
+                timer: 1000
+            })
+        </script>
+    @endif
 </body>
 
 </html>

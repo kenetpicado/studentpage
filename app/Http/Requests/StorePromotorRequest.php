@@ -24,7 +24,8 @@ class StorePromotorRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => 'required|max:45'
+            'nombre' => 'required|max:45',
+            'correo' => 'required|unique:promotors'
         ];
     }
 }

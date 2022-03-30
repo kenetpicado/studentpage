@@ -34,6 +34,7 @@ Route::get('prematricula-inactiva', [PrematriculaController::class, 'inactive'])
 Route::get('curso-grupos/{curso}', [CursoController::class, 'verGrupos'])->name('curso.grupos');
 Route::get('docente-grupos/{docente}', [DocenteController::class, 'verGrupos'])->name('docente.grupos');
 Route::get('grupo-alumnos/{grupo}', [GrupoController::class, 'verAlumnos'])->name('grupo.alumnos');
+Route::get('curso-estado/{curso}', [CursoController::class, 'estado'])->name('curso.estado');
 
 //RECURSOS DE RUTAS
 Route::resource('centro', CentroController::class);

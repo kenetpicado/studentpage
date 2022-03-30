@@ -44,7 +44,7 @@ class GrupoController extends Controller
      */
     public function store(StoreGrupoRequest $request)
     {
-        //
+        //  OBTENER DATOS PARA VALIDAR
         $curso_id = $request->curso_id;
         $curso = Curso::find($curso_id);
 
@@ -61,7 +61,7 @@ class GrupoController extends Controller
         );
 
         Grupo::create($request->all());
-        return redirect()->route('grupo.index')->with('info', 'Se ha creado el grupo!');
+        return redirect()->route('grupo.index')->with('info', 'ok');
     }
 
     /**
@@ -103,7 +103,7 @@ class GrupoController extends Controller
     {
         //
         $grupo->update($request->all());
-        return redirect()->route('grupo.index')->with('info', 'Se ha cambiado el profesor!');
+        return redirect()->route('grupo.index')->with('info', 'ok');
     }
 
     /**

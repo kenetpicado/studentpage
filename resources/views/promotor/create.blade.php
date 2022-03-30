@@ -33,9 +33,23 @@
                             <div class="form-group col-lg-6">
                                 <label for="nombre">Nombre completo</label>
                                 <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                                    autocomplete="off">
+                                    autocomplete="off" value="{{ old('nombre') }}">
 
                                 @error('nombre')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label for="correo">Correo</label>
+                                <input type="email" class="form-control @error('correo') is-invalid @enderror" name="correo"
+                                    autocomplete="off" value="{{ old('correo') }}">
+
+                                @error('correo')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

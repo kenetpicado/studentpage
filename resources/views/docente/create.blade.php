@@ -5,19 +5,6 @@
 @section('content')
     <div class="container-fluid">
 
-        {{-- SI HAY MENSAJE DE CONFIRMACION --}}
-        @if (session('info'))
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card bg-primary text-white shadow mb-2">
-                        <div class="card-body">
-                            <strong>{{ session('info') }}</strong>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-
         <!-- Content Row -->
         <div class="row">
             <form class="col-xl-12 col-lg-7" action="{{ route('docente.store') }}" method="POST">
@@ -51,7 +38,7 @@
 
         <!-- Content Row -->
         <div class="row">
-            <form class="col-xl-12 col-lg-7">
+            <div class="col-xl-12 col-lg-7">
 
                 <!-- Datos -->
                 <div class="card shadow mb-4">
@@ -83,14 +70,34 @@
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        {{-- <i class="fas fa-exclamation-circle fa-sm fa-fw text-gray-400"></i> --}}
                                                         Ver opciones <i class="fas fa-cog"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="{{route('docente.grupos', $docente->id)}}">Ver grupos</a>
-                                                        <a class="dropdown-item" href="{{route('docente.edit', $docente->id)}}">Editar nombre</a>
-                                                        {{-- <a class="dropdown-item" href="{{route('docente.show', $docente->id)}}">Eliminar</a> --}}
+
+                                                        <form class="dropdown-item"
+                                                            action="{{route('docente.grupos', $docente->id)}}" method="get">
+                                                            <input type="submit" class="dropdown-item"
+                                                                value="Ver grupos">
+                                                        </form>
+
+                                                        <form class="dropdown-item"
+                                                            action="{{route('docente.edit', $docente->id)}}" method="get">
+                                                            <input type="submit" class="dropdown-item"
+                                                                value="Editar nombre">
+                                                        </form>
+
+                                                        {{-- SI NO TIENE RELACION CON ALGUN GRUPO SE MUESTRA ELIMINAR --}}
+                                                        @if (count($docente->grupos) == 0)
+                                                            <form class="dropdown-item eliminar"
+                                                                action="{{ route('docente.destroy', $docente->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <input type="submit" class="dropdown-item"
+                                                                    value="Eliminar docente">
+                                                            </form>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </td>
@@ -100,12 +107,9 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
-            </form>
+            </div>
         </div>
         <!-- Content Row -->
-
-
     </div>
 @endsection('content')

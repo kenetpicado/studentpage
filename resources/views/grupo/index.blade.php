@@ -5,22 +5,9 @@
 @section('content')
     <div class="container-fluid">
 
-        {{-- SI HAY MENSAJE DE CONFIRMACION --}}
-        @if (session('info'))
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card bg-primary text-white shadow mb-2">
-                        <div class="card-body">
-                            <strong>{{ session('info') }}</strong>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-
         <!-- Content Row -->
         <div class="row">
-            <form class="col-xl-12 col-lg-7">
+            <div class="col-xl-12 col-lg-7">
 
                 <!-- Datos -->
                 <div class="card shadow mb-4">
@@ -71,9 +58,29 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="{{route('grupo.alumnos', $grupo)}}">Ver alumnos de este grupo</a>
-                                                        <a class="dropdown-item" href="{{route('grupo.edit', $grupo)}}">Cambiar profesor</a>
-                                                        <a class="dropdown-item" href="">Eliminar curso</a>
+                                                        
+                                                        <form class="dropdown-item"
+                                                            action="{{route('grupo.alumnos', $grupo)}}" method="get">
+                                                            <input type="submit" class="dropdown-item"
+                                                                value="Ver alumnos">
+                                                        </form>
+                                                        <form class="dropdown-item"
+                                                            action="{{route('grupo.edit', $grupo)}}" method="get">
+                                                            <input type="submit" class="dropdown-item"
+                                                                value="Cambiar docente">
+                                                        </form>
+
+                                                        {{-- SI NO TIENE RELACION CON ALGUMATRICULA SE MUESTRA ELIMINAR --}}
+                                                        @if (count($grupo->matriculas) == 0)
+                                                            <form class="dropdown-item eliminar"
+                                                                action="{{ route('grupo.destroy', $grupo->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <input type="submit" class="dropdown-item"
+                                                                    value="Eliminar grupo">
+                                                            </form>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </td>
@@ -84,10 +91,8 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
         <!-- Content Row -->
-
-
     </div>
 @endsection('content')

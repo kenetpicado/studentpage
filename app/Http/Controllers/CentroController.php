@@ -44,7 +44,7 @@ class CentroController extends Controller
     {
         //
         Centro::create($request->all());
-        return redirect()->route('centro.create');
+        return redirect()->route('centro.create')->with('info', 'ok');
     }
 
     /**
@@ -81,7 +81,7 @@ class CentroController extends Controller
     {
         //
         $centro->update($request->all());
-        return redirect()->route('centro.create')->with('info', 'Se actualizaron los datos del centro!');
+        return redirect()->route('centro.create')->with('info', 'ok');
     }
 
     /**

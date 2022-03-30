@@ -5,18 +5,7 @@
 @section('content')
     <div class="container-fluid">
 
-        {{-- SI HAY MENSAJE DE CONFIRMACION --}}
-        @if (session('info'))
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card bg-primary text-white shadow mb-2">
-                        <div class="card-body">
-                            <strong>{{ session('info') }}</strong>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
+
 
         <!-- Content Row -->
         <div class="row">
@@ -33,7 +22,7 @@
                             <div class="form-group col-lg-6">
                                 <label for="nombre">Nombre del curso</label>
                                 <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                                    autocomplete="off" value="{{old('nombre')}}">
+                                    autocomplete="off" value="{{ old('nombre') }}">
 
                                 @error('nombre')
                                     <span class="invalid-feedback" role="alert">
@@ -51,7 +40,7 @@
 
         <!-- Content Row -->
         <div class="row">
-            <form class="col-xl-12 col-lg-7">
+            <div class="col-xl-12 col-lg-7">
 
                 <!-- Datos del alumno -->
                 <div class="card shadow mb-4">
@@ -67,6 +56,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Nombre del curso</th>
+                                        <th>Estado</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -75,6 +65,15 @@
                                         <tr>
                                             <td>{{ $curso->id }}</td>
                                             <td>{{ $curso->nombre }}</td>
+                                            <td>
+                                                @if ($curso->estado == '1')
+                                                    <i class="fas fa-circle" style="color:green"></i>
+                                                    Activo
+                                                @else
+                                                    <i class="fas fa-circle"></i>
+                                                    Inactivo
+                                                @endif
+                                            </td>
                                             <td class="center-babe">
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -84,9 +83,35 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="{{route('curso.grupos', $curso->id)}}">Ver grupos</a>
-                                                        <a class="dropdown-item" href="{{route('curso.edit', $curso->id)}}">Editar nombre</a>
-                                                        {{-- <a class="dropdown-item" href="{{route('curso.show', $curso->id)}}">Eliminar</a> --}}
+
+                                                        <form class="dropdown-item"
+                                                            action="{{ route('curso.grupos', $curso->id) }}" method="get">
+                                                            <input type="submit" class="dropdown-item" value="Ver grupos">
+                                                        </form>
+
+                                                        <form class="dropdown-item"
+                                                            action="{{ route('curso.edit', $curso->id) }}" method="get">
+                                                            <input type="submit" class="dropdown-item"
+                                                                value="Editar nombre">
+                                                        </form>
+
+                                                        <form class="dropdown-item estado"
+                                                            action="{{ route('curso.estado', $curso->id) }}" method="get">
+                                                            <input type="submit" class="dropdown-item"
+                                                                value="Cambiar estado">
+                                                        </form>
+
+                                                        {{-- SI NO TIENE RELACION CON ALGUN GRUPO SE MUESTRA ELIMINAR --}}
+                                                        @if (count($curso->grupos) == 0)
+                                                            <form class="dropdown-item eliminar"
+                                                                action="{{ route('curso.destroy', $curso->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <input type="submit" class="dropdown-item"
+                                                                    value="Eliminar curso">
+                                                            </form>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </td>
@@ -96,12 +121,9 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
-            </form>
+            </div>
         </div>
         <!-- Content Row -->
-
-
     </div>
 @endsection('content')

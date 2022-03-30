@@ -30,8 +30,7 @@ class MatriculaController extends Controller
      */
     public function create()
     {
-        //MUESTRA FORMULARIO CON TODAS LAS PREMATRICULAS
-        //DISPONIBLES PARA HACER UNA MATRICULA
+        //CARGA SOLO PREMATRICULAS QUE NO TIENEN MATRICULA
         $prematriculas = Prematricula::has('matricula', '=', '0')->get();
         return view('matricula.create', compact('prematriculas', $prematriculas));
     }
@@ -60,7 +59,7 @@ class MatriculaController extends Controller
         ]);
 
         //MOSTRAR VISTA
-        return redirect()->route('matricula.create')->with('info', 'El alumno ha sido matriculado!');
+        return redirect()->route('matricula.create')->with('info', 'ok');
     }
 
     /**
@@ -71,10 +70,9 @@ class MatriculaController extends Controller
      */
     public function show(Matricula $matricula)
     {
-        //
+        //SI NO HAY DATOS DEL CENTRO REDIRECCIONA A INGRESAR DICHOS DATOS
         $centro = Centro::all()->first();
         return $centro ? view('matricula.show', compact('matricula', $matricula))->with('centro', $centro) : redirect()->route('centro.create');
-        //return view('matricula.show', compact('matricula', $matricula))->with('centro', $centro);
     }
 
     /**
@@ -101,7 +99,7 @@ class MatriculaController extends Controller
         //
         //return dd($matricula);
         $matricula->update($request->all());
-        return redirect()->route('matricula.index')->with('info', 'Se actualizaron los datos!');
+        return redirect()->route('matricula.index')->with('info', 'ok');
     }
 
     /**

@@ -25,8 +25,6 @@ class CursoController extends Controller
      */
     public function create()
     {
-        //MOSTRAR FORMULARIO PARA AGREGAR UN NUEVO CURSO
-        //ADEMAS MOSTRAR TODOS LOS CURSOS DISPONIBLES DEBAJO
         $cursos = Curso::all();
         return view('curso.create', compact('cursos', $cursos));
     }
@@ -40,7 +38,7 @@ class CursoController extends Controller
     public function store(StoreCursoRequest $request)
     {
         Curso::create($request->all());
-        return redirect()->route('curso.create')->with('info', 'El nuevo curso ha sido agregado!');
+        return redirect()->route('curso.create')->with('info', 'ok');
     }
 
     /**
@@ -58,6 +56,12 @@ class CursoController extends Controller
     public function verGrupos(Curso $curso)
     {
         return view('curso.grupos', compact('curso', $curso))->with('status', 'Todos los grupos disponibles del curso: ' . $curso->nombre);
+    }
+    public function estado(Curso $curso)
+    {
+        $nuevo_estado = ($curso->estado == '0') ? '1' : '0';
+        $curso->update(['estado'=>$nuevo_estado]);
+        return redirect()->route('curso.create')->with('info', 'ok');
     }
 
     /**
@@ -83,7 +87,7 @@ class CursoController extends Controller
     {
         //
         $curso->update($request->all());
-        return redirect()->route('curso.create')->with('info', 'Se ha actualizado el curso!');
+        return redirect()->route('curso.create')->with('info', 'ok');
     }
 
     /**
@@ -96,6 +100,6 @@ class CursoController extends Controller
     {
         //
         $curso->delete();
-        return redirect()->route('curso.create')->with('info', 'Se ha eliminado el curso!');
+        return redirect()->route('curso.create')->with('info', 'eliminado');
     }
 }

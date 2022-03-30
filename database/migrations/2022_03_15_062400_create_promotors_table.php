@@ -18,6 +18,7 @@ class CreatePromotorsTable extends Migration
             $table->string('carnet', 15)->unique();
             $table->string('pin', 6);
             $table->string('nombre', 45);
+            $table->string('correo')->unique();
             $table->timestamps();
         });
     }

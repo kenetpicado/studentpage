@@ -5,19 +5,6 @@
 @section('content')
     <div class="container-fluid">
 
-        {{-- SI HAY MENSAJE DE CONFIRMACION --}}
-        @if (session('info'))
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card bg-primary text-white shadow mb-2">
-                        <div class="card-body">
-                            {{ session('info') }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-
         <!-- Content Row -->
         <div class="row">
             <form class="col-12" action="{{ route('prematricula.store') }}" method="POST">
@@ -40,7 +27,6 @@
                                     </span>
                                 @enderror
                             </div>
-
                             <div class="form-group col-6">
                                 <label for="cedula">Cédula</label>
                                 <input type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula"
@@ -105,11 +91,9 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
-
                 </div>
             </form>
         </div>
         <!-- Content Row -->
-
     </div>
 @endsection('content')
