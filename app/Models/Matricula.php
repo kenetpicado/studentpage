@@ -14,11 +14,6 @@ class Matricula extends Model
 
     protected $guarded = [];
 
-    public function prematricula() 
-    {
-        return $this->belongsTo(Prematricula::class);
-    }
-
     public function pagos()
     {
         return $this->hasMany(Pago::class);
@@ -26,5 +21,27 @@ class Matricula extends Model
     public function grupo() 
     {
         return $this->belongsTo(Grupo::class);
+    }
+
+    //FUNCION PARA CADENA EN MAYUSCULA
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = trim(strtoupper($value));
+    }
+    public function setCedulaAttribute($value)
+    {
+        $this->attributes['cedula'] = trim(strtoupper($value));
+    }
+    public function setMadreAttribute($value)
+    {
+        $this->attributes['madre'] = trim(strtoupper($value));
+    }
+    public function setPadreAttribute($value)
+    {
+        $this->attributes['padre'] = trim(strtoupper($value));
+    }
+    public function setGradoAttribute($value)
+    {
+        $this->attributes['grado'] = trim(strtoupper($value));
     }
 }

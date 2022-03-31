@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMatriculaRequest;
-use App\Http\Requests\UpdateMatriculaRequest;
 use App\Models\Matricula;
 use App\Models\Centro;
 use App\Models\Grupo;
-use App\Models\Prematricula;
-use Illuminate\Http\Request;
 
 class MatriculaController extends Controller
 {
@@ -30,15 +27,8 @@ class MatriculaController extends Controller
      */
     public function create()
     {
-        //CARGA SOLO PREMATRICULAS QUE NO TIENEN MATRICULA
-        $prematriculas = Prematricula::has('matricula', '=', '0')->get();
-        return view('matricula.create', compact('prematriculas', $prematriculas));
-    }
-
-    public function matricular(Prematricula $prematricula)
-    {
         $grupos = Grupo::all();
-        return view('matricula.realize', compact('prematricula', $prematricula), compact('grupos', $grupos));
+        return view('matricula.create', compact('grupos', $grupos));
     }
 
     /**
@@ -49,14 +39,11 @@ class MatriculaController extends Controller
      */
     public function store(StoreMatriculaRequest $request)
     {
-
-        Matricula::create([
-            'carnet' => Generate::idEstudiante('CH04', $request->fecha_nac),
-            'pin' => Generate::pin(),
-            'manual' => $request->manual,
-            'prematricula_id' => $request->prematricula_id,
-            'grupo_id' => $request->grupo_id
+        $request->merge([
+            'carnet' =>  Generate::idEstudiante('CH04', $request->fecha_nac), 
+            'pin' => Generate::pin()
         ]);
+        Matricula::create($request->all());
 
         //MOSTRAR VISTA
         return redirect()->route('matricula.create')->with('info', 'ok');
@@ -84,7 +71,8 @@ class MatriculaController extends Controller
     public function edit(Matricula $matricula)
     {
         //
-        return view('matricula.edit', compact('matricula', $matricula));
+        $grupos = Grupo::all();
+        return view('matricula.edit', compact('matricula', $matricula), compact('grupos', $grupos));
     }
 
     /**
@@ -94,10 +82,9 @@ class MatriculaController extends Controller
      * @param  \App\Models\Matricula  $matricula
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateMatriculaRequest $request, Matricula $matricula)
+    public function update(StoreMatriculaRequest $request, Matricula $matricula)
     {
         //
-        //return dd($matricula);
         $matricula->update($request->all());
         return redirect()->route('matricula.index')->with('info', 'ok');
     }

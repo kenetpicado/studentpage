@@ -43,7 +43,7 @@ class PagoController extends Controller
     public function pagoEstudiante(Matricula $matricula)
     {
         $pagos = $matricula->pagos;
-        return view('pago.index', compact('pagos', $pagos))->with('status', 'Se muestran los pagos del alumno: ' . $matricula->prematricula->nombre);
+        return view('pago.index', compact('pagos', $pagos))->with('status', 'Se muestran los pagos del alumno: ' . $matricula->nombre);
     }
 
     /**

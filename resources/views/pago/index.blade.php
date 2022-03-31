@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="alert alert-primary" role="alert">{{$status ?? ''}}</div>
+                    <div class="alert alert-danger" role="alert">{{$status ?? ''}}</div>
                     <div class="table-responsive">
                         <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                             <thead>
@@ -33,11 +33,11 @@
                                 @foreach ($pagos as $pago)
                                 <tr>
                                     <td>{{$pago->id}}</td>
-                                    <td>{{$pago->matricula->prematricula->nombre}}</td>
+                                    <td>{{$pago->matricula->nombre}}</td>
                                     <td>{{$pago->matricula->carnet}}</td>
                                     <td>{{$pago->monto}}</td>
                                     <td>{{$pago->concepto}}</td>
-                                    <td>{{date("Y-m-d",  strtotime($pago->created_at))}}</td>
+                                    <td>{{date("d - F - Y",  strtotime($pago->created_at))}}</td>
                                 </tr>
                                 @endforeach 
                             </tbody>

@@ -14,7 +14,7 @@ class AddGrupoToMatriculas extends Migration
     public function up()
     {
         Schema::table('matriculas', function (Blueprint $table) {
-            $table->unsignedBigInteger('grupo_id')->after('prematricula_id');
+            $table->unsignedBigInteger('grupo_id')->after('manual');
             $table->foreign('grupo_id')->references('id')->on('grupos');
         });
     }

@@ -24,7 +24,6 @@
                                         <th>Nombre</th>
                                         <th>Carnet</th>
                                         <th>Curso</th>
-                                        <th>Manual</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -32,13 +31,9 @@
                                     @foreach ($matriculas as $matricula)
                                         <tr>
                                             <td>{{ $matricula->id }}</td>
-                                            <td>{{ $matricula->prematricula->nombre }}</td>
+                                            <td>{{ $matricula->nombre }}</td>
                                             <td><strong>{{ $matricula->carnet }}</strong></td>
                                             <td>{{ $matricula->grupo->curso->nombre}}</td>
-                                            <td>
-                                                <a href="{{ route('matricula.edit', $matricula) }}">{{ $matricula->manual }}
-                                                    <i class="bi bi-pencil-square"></i></a>
-                                            </td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -51,6 +46,8 @@
                                                         {{-- <a class="dropdown-item" href="{{ route('prematricula.edit', $matricula->prematricula) }}">Editar</a> --}}
                                                         <a class="dropdown-item" href="{{ route('matricula.show', $matricula) }}">Ver detalles</a>
                                                         <a class="dropdown-item" href="{{ route('pago.estudiante', $matricula) }}">Ver pagos</a>
+                                                        <a class="dropdown-item" href="{{ route('matricula.edit', $matricula) }}">Editar</a>
+
                                                     </div>
                                                 </div>
                                             </td>

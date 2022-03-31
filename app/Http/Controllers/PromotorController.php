@@ -6,6 +6,9 @@ use App\Http\Requests\StorePromotorRequest;
 use App\Http\Requests\UpdatePromotorRequest;
 use App\Models\Promotor;
 use App\Http\Controllers\Generate;
+use App\Mail\SendCredentials;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class PromotorController extends Controller
 {
@@ -43,11 +46,14 @@ class PromotorController extends Controller
         //Guardar promotor
         Promotor::create([
             'nombre' => $request->nombre,
+            'correo' => $request->correo,
             'carnet' => Generate::id('CH'),
-            'pin' => Generate::pin()
+            'pin' => Generate::pin() 
         ]);
+
+        Mail::to($request->correo)->send(new SendCredentials());
         
-        return redirect()->route('promotor.create')->with('info', 'El promotor ha sido guardado!');
+        return redirect()->route('promotor.create')->with('info', 'ok');
     }
 
     /**
@@ -95,6 +101,6 @@ class PromotorController extends Controller
     {
         //
         $promotor->delete();
-        return redirect()->route('promotor.create')->with('info', 'Se ha eliminado el promotor!');
+        return redirect()->route('promotor.create')->with('info', 'eliminado');
     }
 }

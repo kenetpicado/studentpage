@@ -22,8 +22,8 @@
                                 <table class="table table-borderless">
                                     <tr class="center-babe">
                                         <td colspan="4">
-                                            <h5> <strong>INTITUTO TECNOLOGICO JAIRO S.A</strong> </h5>
-                                            <h6>Matricula 2022</h6>
+                                            <h5> <strong>{{ $centro->nombre }}</strong> </h5>
+                                            <h6>Matricula {{date("Y",  strtotime($matricula->created_at))}}</h6>
                                             <h6></h6>
                                         </td>
                                     </tr>
@@ -41,27 +41,27 @@
                                     </tr>
                                     <tr>
                                         <td>Nombre: </td>
-                                        <td><strong> {{ $matricula->prematricula->nombre }}</strong></td>
+                                        <td><strong> {{ $matricula->nombre }}</strong></td>
                                         <td>Cédula: </td>
-                                        <td><strong>{{ $matricula->prematricula->cedula }}</strong></td>
+                                        <td><strong>{{ $matricula->cedula }}</strong></td>
                                     </tr>
                                     <tr>
                                         <td>Fecha de nacimiento: </td>
-                                        <td><strong> {{ $matricula->prematricula->fecha_nac }}</strong></td>
+                                        <td><strong> {{ $matricula->fecha_nac }}</strong></td>
                                         <td>Teléfono: </td>
-                                        <td><strong>{{ $matricula->prematricula->tel }}</strong></td>
+                                        <td><strong>{{ $matricula->tel }}</strong></td>
                                     </tr>
                                     <tr>
                                         <td>Nombre de la Madre: </td>
-                                        <td><strong> {{ $matricula->prematricula->madre }}</strong></td>
+                                        <td><strong> {{ $matricula->madre }}</strong></td>
                                         <td>Nombre del Padre: </td>
-                                        <td><strong>{{ $matricula->prematricula->padre }}</strong></td>
+                                        <td><strong>{{ $matricula->padre }}</strong></td>
                                     </tr>
                                     <tr>
-                                        <td>Fecha de prematrícula: </td>
-                                        <td><strong>{{date("Y-m-d",  strtotime($matricula->prematricula->created_at))}}</strong></td>
-                                        <td>Fecha de matricula: </td>
+                                        <td>Fecha de matrícula: </td>
                                         <td><strong>{{date("Y-m-d",  strtotime($matricula->created_at))}}</strong></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <td colspan="4">

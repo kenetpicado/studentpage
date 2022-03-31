@@ -26,11 +26,9 @@ Route::get('/', function () {
 });
 
 //RUTAS PARTICULARES
-Route::get('matricular/{prematricula}', [MatriculaController::class, 'matricular'])->name('matricular');
+//Route::get('matricular/{prematricula}', [MatriculaController::class, 'matricular'])->name('matricular');
 Route::get('pagar/{matricula}', [PagoController::class, 'pagar'])->name('pagar');
 Route::get('pago-estudiante/{matricula}', [PagoController::class, 'pagoEstudiante'])->name('pago.estudiante');
-Route::get('prematricula-activa', [PrematriculaController::class, 'active'])->name('prematricula.activa');
-Route::get('prematricula-inactiva', [PrematriculaController::class, 'inactive'])->name('prematricula.inactiva');
 Route::get('curso-grupos/{curso}', [CursoController::class, 'verGrupos'])->name('curso.grupos');
 Route::get('docente-grupos/{docente}', [DocenteController::class, 'verGrupos'])->name('docente.grupos');
 Route::get('grupo-alumnos/{grupo}', [GrupoController::class, 'verAlumnos'])->name('grupo.alumnos');

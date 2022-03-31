@@ -29,7 +29,7 @@
                                     @foreach ($matriculas as $matricula)
                                         <tr>
                                             <td>{{ $matricula->id }}</td>
-                                            <td>{{ $matricula->prematricula->nombre }}</td>
+                                            <td>{{ $matricula->nombre }}</td>
                                             <td><strong>{{ $matricula->carnet }}</strong></td>
                                             <td class="center-babe">
                                                 <a href="{{ route('pagar', $matricula->id) }}"

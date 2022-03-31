@@ -25,14 +25,24 @@ class StoreMatriculaRequest extends FormRequest
     {
         return [
             //
-            'prematricula_id' => 'unique:matriculas',
+            'nombre' => 'required|max:45',
+            'cedula' => 'nullable|min:16|max:16',
+            'fecha_nac' => 'required|date',
+            'tel' => 'nullable|min:8|max:8',
+            'grado' => 'required|max:45',
             'grupo_id' => 'required'
+        ];
+    }
+    public function attributes()
+    {
+        return [
+            'fecha_nac' => 'fecha de nacimiento',
+            'tel' => 'telefono',
         ];
     }
     public function messages()
     {
         return [
-            'prematricula_id.unique' => 'Esta persona ya se encuentra matriculada',
             'grupo_id.required' => 'Por favor, seleccione un curso.'
         ];
     }
