@@ -59,7 +59,7 @@
                                     @foreach ($grupo->matriculas as $matricula)
                                         <tr>
                                             <td>{{ $matricula->id }}</td>
-                                            <td>{{$matricula->prematricula->nombre}}</td>
+                                            <td>{{ $matricula->nombre}}</td>
                                             <td>{{ $matricula->carnet}}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
@@ -70,7 +70,7 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="">Vacio</a>
+
                                                         <a class="dropdown-item" href="{{ route('pago.estudiante', $matricula) }}">Ver pagos</a>
                                                     </div>
                                                 </div>

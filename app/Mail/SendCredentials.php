@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Centro;
 use App\Models\Docente;
 use App\Models\Promotor;
 use Illuminate\Bus\Queueable;
@@ -13,17 +14,18 @@ class SendCredentials extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $promotor;
+    public $promotor, $centro;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Promotor $promotor, Centro $centro)
     {
         //
-        //$this->promotor = $promotor;
+        $this->promotor = $promotor;
+        $this->centro = $centro;
     }
 
     /**
@@ -33,6 +35,7 @@ class SendCredentials extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.promotor');
+        return $this->view('mails.promotor')
+            ->subject('Credenciales Promotor');
     }
 }

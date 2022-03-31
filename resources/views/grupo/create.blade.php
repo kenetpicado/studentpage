@@ -5,19 +5,6 @@
 @section('content')
     <div class="container-fluid">
 
-        {{-- SI HAY MENSAJE DE CONFIRMACION --}}
-        @if (session('info'))
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card bg-primary text-white shadow mb-2">
-                        <div class="card-body">
-                            {{ session('info') }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-
         <!-- Content Row -->
         <div class="row">
             <form class="col-12" action="{{ route('grupo.store') }}" method="POST">

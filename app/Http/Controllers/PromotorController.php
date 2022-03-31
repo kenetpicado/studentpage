@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePromotorRequest;
 use App\Models\Promotor;
 use App\Http\Controllers\Generate;
 use App\Mail\SendCredentials;
+use App\Models\Centro;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -43,16 +44,21 @@ class PromotorController extends Controller
      */
     public function store(StorePromotorRequest $request)
     {
-        //Guardar promotor
-        Promotor::create([
-            'nombre' => $request->nombre,
-            'correo' => $request->correo,
-            'carnet' => Generate::id('CH'),
-            'pin' => Generate::pin() 
-        ]);
+        $id = Generate::id('CH');
+        $pin = Generate::pin();
 
-        Mail::to($request->correo)->send(new SendCredentials());
+        $request->merge([
+            'carnet' =>  $id, 
+            'pin' => $pin
+        ]);
         
+        $promotor = new Promotor($request->all());
+
+        //Guardar promotor
+        Promotor::create($request->all());
+
+        Mail::to($request->correo)->send(new SendCredentials($promotor, Centro::all()->first()));
+
         return redirect()->route('promotor.create')->with('info', 'ok');
     }
 

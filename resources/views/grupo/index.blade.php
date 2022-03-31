@@ -22,14 +22,15 @@
                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                 aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" href="{{ route('grupo.create') }}">Crear grupo</a>
-                                
+
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
                         <div class="alert alert-primary" role="alert">
-                            {{$status ?? ''}}. Haga clic aqui para <a href="{{ route('grupo.create') }}">crear un nuevo grupo.</a>
+                            {{ $status ?? '' }}. Haga clic aqui para <a href="{{ route('grupo.create') }}">crear un nuevo
+                                grupo.</a>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
@@ -46,7 +47,7 @@
                                     @foreach ($grupos as $grupo)
                                         <tr>
                                             <td>{{ $grupo->id }}</td>
-                                            <td>{{ $grupo->curso->nombre ?? ''}}</td>
+                                            <td>{{ $grupo->curso->nombre ?? '' }}</td>
                                             <td>{{ $grupo->numero }}</td>
                                             <td>{{ $grupo->docente->nombre }}</td>
                                             <td>
@@ -58,14 +59,13 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        
+
                                                         <form class="dropdown-item"
-                                                            action="{{route('grupo.alumnos', $grupo)}}" method="get">
-                                                            <input type="submit" class="dropdown-item"
-                                                                value="Ver alumnos">
+                                                            action="{{ route('grupo.alumnos', $grupo) }}" method="get">
+                                                            <input type="submit" class="dropdown-item" value="Ver alumnos">
                                                         </form>
                                                         <form class="dropdown-item"
-                                                            action="{{route('grupo.edit', $grupo)}}" method="get">
+                                                            action="{{ route('grupo.edit', $grupo) }}" method="get">
                                                             <input type="submit" class="dropdown-item"
                                                                 value="Cambiar docente">
                                                         </form>
