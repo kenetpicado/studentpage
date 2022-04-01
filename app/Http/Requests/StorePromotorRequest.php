@@ -25,7 +25,7 @@ class StorePromotorRequest extends FormRequest
     {
         return [
             'nombre' => 'required|max:45',
-            'correo' => 'required|unique:promotors'
+            'correo' => 'required|unique:promotors|email:rfc,dns'
         ];
     }
 }

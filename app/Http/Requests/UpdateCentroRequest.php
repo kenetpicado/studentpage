@@ -25,11 +25,6 @@ class UpdateCentroRequest extends FormRequest
     {
         return [
             //
-            'nombre' => 'required|max:50',
-            'departamento' => 'required|max:15',
-            'municipio' => 'required|max:15',
-            'direccion' => 'required|max:60',
-            'tel' => 'required|min:8|max:8',
         ];
     }
 }

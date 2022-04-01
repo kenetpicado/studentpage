@@ -28,7 +28,7 @@
                                     </span>
                                 @enderror
                             </div>
-                            
+
                         </div>
                         <div class="row">
                             <div class="form-group col-lg-6">
@@ -52,7 +52,7 @@
 
         <!-- Content Row -->
         <div class="row">
-            <form class="col-xl-12 col-lg-7">
+            <div class="col-xl-12 col-lg-7">
 
                 <!-- Datos  -->
                 <div class="card shadow mb-4">
@@ -66,9 +66,9 @@
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>ID</th>
-                                        <th>PIN</th>
+                                        <th>Carnet</th>
                                         <th>Nombre</th>
+                                        <th>Correo</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -77,8 +77,8 @@
                                         <tr>
                                             <td>{{ $promotor->id }}</td>
                                             <td>{{ $promotor->carnet }}</td>
-                                            <td>{{ $promotor->pin }}</td>
                                             <td>{{ $promotor->nombre }}</td>
+                                            <td>{{ $promotor->correo }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -88,7 +88,21 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="{{route('promotor.show', $promotor->id)}}">Eliminar <i class="fa fa-trash"></i></a>
+
+                                                        <form class="dropdown-item"
+                                                            action="{{ route('promotor.edit', $promotor->id) }}"
+                                                            method="get">
+                                                            <input type="submit" class="dropdown-item" value="Editar">
+                                                        </form>
+
+                                                        <form class="dropdown-item eliminar"
+                                                            action="{{ route('promotor.destroy', $promotor->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="submit" class="dropdown-item"
+                                                                value="Eliminar promotor">
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </td>
@@ -98,9 +112,8 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
-            </form>
+            </div>
         </div>
         <!-- Content Row -->
 

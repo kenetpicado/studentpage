@@ -6,10 +6,10 @@ use App\Http\Requests\StorePromotorRequest;
 use App\Http\Requests\UpdatePromotorRequest;
 use App\Models\Promotor;
 use App\Http\Controllers\Generate;
-use App\Mail\SendCredentials;
-use App\Models\Centro;
+use App\Mail\CredencialesPromotor;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rule;
 
 class PromotorController extends Controller
 {
@@ -21,7 +21,7 @@ class PromotorController extends Controller
     public function index()
     {
         //
-        
+
     }
 
     /**
@@ -44,20 +44,27 @@ class PromotorController extends Controller
      */
     public function store(StorePromotorRequest $request)
     {
+        //Generar credenciales
         $id = Generate::id('CH');
         $pin = Generate::pin();
 
+        //Agregar credenciales en claro
         $request->merge([
-            'carnet' =>  $id, 
+            'carnet' =>  $id,
             'pin' => $pin
         ]);
-        
+
+        //Guardar instancia para enviar
         $promotor = new Promotor($request->all());
 
-        //Guardar promotor
+        //Encriptar el pin
+        $request->merge(['pin' => Hash::make($pin)]);
+
+        //Guardar en la base de datos
         Promotor::create($request->all());
 
-        Mail::to($request->correo)->send(new SendCredentials($promotor, Centro::all()->first()));
+        //Enviar correo
+        Mail::to($request->correo)->send(new CredencialesPromotor($promotor));
 
         return redirect()->route('promotor.create')->with('info', 'ok');
     }
@@ -71,7 +78,6 @@ class PromotorController extends Controller
     public function show(Promotor $promotor)
     {
         //
-        return view('promotor.destroy', compact('promotor', $promotor));
     }
 
     /**
@@ -83,6 +89,7 @@ class PromotorController extends Controller
     public function edit(Promotor $promotor)
     {
         //
+        return view('promotor.edit', compact('promotor', $promotor));
     }
 
     /**
@@ -94,7 +101,14 @@ class PromotorController extends Controller
      */
     public function update(UpdatePromotorRequest $request, Promotor $promotor)
     {
-        //
+        //VALIDAR QUE EL CORREO SEA UNICO
+        //PERO QUE IGNORE EL PROPIO
+        $request->validate(
+            ['correo' => [Rule::unique('promotors')->ignore($promotor->id)]]
+        );
+
+        $promotor->update($request->all());
+        return redirect()->route('promotor.create')->with('info', 'ok');
     }
 
     /**

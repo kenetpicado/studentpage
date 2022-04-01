@@ -25,7 +25,8 @@ class StoreDocenteRequest extends FormRequest
     {
         return [
             //
-            'nombre' => 'required|max:45'
+            'nombre' => 'required|max:45',
+            'correo' => 'required|unique:docentes|email:rfc,dns'
         ];
     }
 }

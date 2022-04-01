@@ -13,7 +13,7 @@ class UpdatePromotorRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,7 +26,7 @@ class UpdatePromotorRequest extends FormRequest
         return [
             //
             'nombre' => 'required|max:45',
-            'correo' => 'required|unique:promotors'
+            'correo' => 'required|email:rfc,dns'
         ];
     }
 }

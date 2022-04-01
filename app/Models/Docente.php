@@ -17,6 +17,10 @@ class Docente extends Model
     {
         $this->attributes['nombre'] = trim(strtoupper($value));
     }
+    public function setCorreoAttribute($value)
+    {
+        $this->attributes['correo'] = trim(strtolower($value));
+    }
 
     public function grupos()
     {

@@ -14,7 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'StudentPage'),
-
+    'enterprise' => env('ENTERPRISE', 'gaita development'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

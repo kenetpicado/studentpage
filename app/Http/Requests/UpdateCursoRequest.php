@@ -25,13 +25,6 @@ class UpdateCursoRequest extends FormRequest
     {
         return [
             //
-            'nombre' => 'required|unique:cursos|max:45'
-        ];
-    }
-    public function messages()
-    {
-        return [
-            'nombre.unique' => 'Ya existe un curso con este nombre.'
         ];
     }
 }

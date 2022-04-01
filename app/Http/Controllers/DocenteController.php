@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDocenteRequest;
 use App\Http\Requests\UpdateDocenteRequest;
+use App\Mail\CredencialesDocente;
 use App\Models\Docente;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rule;
 
 class DocenteController extends Controller
 {
@@ -38,12 +42,28 @@ class DocenteController extends Controller
      */
     public function store(StoreDocenteRequest $request)
     {
-        //
-        Docente::create([
-            'nombre' => $request->nombre,
-            'carnet' => Generate::id('CH'),
-            'pin' => Generate::pin()
+        //Generar credenciales
+        $id = Generate::id('CH');
+        $pin = Generate::pin();
+
+        //Agregar credenciales en claro
+        $request->merge([
+            'carnet' =>  $id, 
+            'pin' => $pin
         ]);
+
+        //Guardar instancia para enviar
+        $docente = new Docente($request->all());
+
+        //Encriptar el pin
+        $request->merge(['pin' => Hash::make($pin)]);
+
+        //Guardar en la base de datos
+        Docente::create($request->all());
+
+        //Enviar correo
+        Mail::to($request->correo)->send(new CredencialesDocente($docente));
+
         return redirect()->route('docente.create')->with('info', 'ok');
     }
 
@@ -56,7 +76,6 @@ class DocenteController extends Controller
     public function show(Docente $docente)
     {
         //
-        return view('docente.destroy', compact('docente', $docente));
     }
 
     public function verGrupos(Docente $docente)
@@ -85,7 +104,12 @@ class DocenteController extends Controller
      */
     public function update(UpdateDocenteRequest $request, Docente $docente)
     {
-        //
+        //VALIDAR QUE EL CORREO SEA UNICO
+        //PERO QUE IGNORE EL PROPIO
+        $request->validate(
+                ['correo' => [Rule::unique('docentes')->ignore($docente->id)]]
+        );
+
         $docente->update($request->all());
         return redirect()->route('docente.create')->with('info', 'ok');
     }

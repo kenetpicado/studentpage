@@ -77,7 +77,7 @@ class CentroController extends Controller
      * @param  \App\Models\Centro  $centro
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCentroRequest $request, Centro $centro)
+    public function update(StoreCentroRequest $request, Centro $centro)
     {
         //
         $centro->update($request->all());

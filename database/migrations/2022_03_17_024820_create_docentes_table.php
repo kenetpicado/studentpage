@@ -16,8 +16,9 @@ class CreateDocentesTable extends Migration
         Schema::create('docentes', function (Blueprint $table) {
             $table->id();
             $table->string('carnet', 15)->unique();
-            $table->string('pin', 6);
+            $table->string('pin', 70);
             $table->string('nombre', 45);
+            $table->string('correo')->unique();
             $table->timestamps();
         });
     }

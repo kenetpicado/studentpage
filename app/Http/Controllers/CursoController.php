@@ -50,7 +50,6 @@ class CursoController extends Controller
     public function show(Curso $curso)
     {
         //
-        return view('curso.destroy', compact('curso', $curso));
     }
 
     public function verGrupos(Curso $curso)
@@ -83,7 +82,7 @@ class CursoController extends Controller
      * @param  \App\Models\Curso  $curso
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCursoRequest $request, Curso $curso)
+    public function update(StoreCursoRequest $request, Curso $curso)
     {
         //
         $curso->update($request->all());

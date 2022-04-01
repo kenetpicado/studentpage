@@ -29,6 +29,19 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label for="correo">Correo</label>
+                                <input type="email" class="form-control @error('correo') is-invalid @enderror" name="correo"
+                                    autocomplete="off" value="{{old('correo')}}">
+
+                                @error('correo')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
                 </div>
@@ -53,9 +66,9 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Carnet</th>
-                                        <th>PIN</th>
+                                        <th>Carnet</th>  
                                         <th>Nombre</th>
+                                        <th>Correo</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -64,8 +77,8 @@
                                         <tr>
                                             <td>{{ $docente->id }}</td>
                                             <td>{{ $docente->carnet }}</td>
-                                            <td>{{ $docente->pin }}</td>
                                             <td>{{ $docente->nombre }}</td>
+                                            <td>{{ $docente->correo }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -84,7 +97,7 @@
                                                         <form class="dropdown-item"
                                                             action="{{route('docente.edit', $docente->id)}}" method="get">
                                                             <input type="submit" class="dropdown-item"
-                                                                value="Editar nombre">
+                                                                value="Editar">
                                                         </form>
 
                                                         {{-- SI NO TIENE RELACION CON ALGUN GRUPO SE MUESTRA ELIMINAR --}}

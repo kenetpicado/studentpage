@@ -34,6 +34,12 @@ Route::get('docente-grupos/{docente}', [DocenteController::class, 'verGrupos'])-
 Route::get('grupo-alumnos/{grupo}', [GrupoController::class, 'verAlumnos'])->name('grupo.alumnos');
 Route::get('curso-estado/{curso}', [CursoController::class, 'estado'])->name('curso.estado');
 
+//RUTA PARA PROBAR LAS INTERFACES DE LOS CORREOS
+Route::get('/mailable', function () {
+    $invoice = App\Models\Promotor::all()->first();
+ 
+    return new App\Mail\CredencialesPromotor($invoice);
+});
 //RECURSOS DE RUTAS
 Route::resource('centro', CentroController::class);
 Route::resource('curso', CursoController::class);
