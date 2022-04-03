@@ -17,7 +17,8 @@ class MatriculaController extends Controller
     public function index()
     {
         $matriculas = Matricula::all();
-        return view('matricula.index', compact('matriculas', $matriculas));
+        $grupos = Grupo::all();
+        return view('matricula.index', compact('matriculas', 'grupos'));
     }
 
     /**
@@ -27,8 +28,7 @@ class MatriculaController extends Controller
      */
     public function create()
     {
-        $grupos = Grupo::all();
-        return view('matricula.create', compact('grupos', $grupos));
+
     }
 
     /**
@@ -46,7 +46,7 @@ class MatriculaController extends Controller
         Matricula::create($request->all());
 
         //MOSTRAR VISTA
-        return redirect()->route('matricula.create')->with('info', 'ok');
+        return redirect()->route('matricula.index')->with('info', 'ok');
     }
 
     /**

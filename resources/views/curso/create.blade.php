@@ -5,21 +5,29 @@
 @section('content')
     <div class="container-fluid">
 
+        {{-- Boton abrir modal --}}
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Cursos</h1>
+            <button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#cursoModalCreate">
+                Agregar <i class="fas fa-plus ml-1"></i>
+            </button>
+        </div>
 
-
-        <!-- Content Row -->
-        <div class="row">
-            <form class="col-xl-12 col-lg-7" action="{{ route('curso.store') }}" method="POST">
-                @csrf
-                <!-- Datos-->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">AGREGAR UN NUEVO CURSO</h6>
+        <!-- Curso Modal -->
+        <div class="modal fade" id="cursoModalCreate" tabindex="-1" role="dialog" aria-labelledby="cursoModalCreate"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">AGREGAR UN NUEVO CURSO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="form-group col-lg-6">
+                    <form action="{{ route('curso.store') }}" method="POST">
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
                                 <label for="nombre">Nombre del curso</label>
                                 <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
                                     autocomplete="off" value="{{ old('nombre') }}">
@@ -31,12 +39,16 @@
                                 @enderror
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
-        <!-- Content Row -->
+
+        
 
         <!-- Content Row -->
         <div class="row">
@@ -84,30 +96,27 @@
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
 
-                                                        <form class="dropdown-item"
-                                                            action="{{ route('curso.grupos', $curso->id) }}" method="get">
-                                                            <input type="submit" class="dropdown-item" value="Ver grupos">
-                                                        </form>
+                                                        <a href="{{ route('curso.grupos', $curso->id) }}" class="dropdown-item">Ver grupos</a>
+                                                        <a href="{{ route('curso.edit', $curso->id) }}" class="dropdown-item">Editar</a>
 
-                                                        <form class="dropdown-item"
-                                                            action="{{ route('curso.edit', $curso->id) }}" method="get">
-                                                            <input type="submit" class="dropdown-item"
-                                                                value="Editar nombre">
-                                                        </form>
+                                                        <div class="dropdown-divider"></div>
 
-                                                        <form class="dropdown-item estado"
+                                                        
+                                                        <form class="dropdown-item estado d-sm-flex"
                                                             action="{{ route('curso.estado', $curso->id) }}" method="get">
+                                                            <i class="fas fa-exchange-alt m-auto"></i>
                                                             <input type="submit" class="dropdown-item"
                                                                 value="Cambiar estado">
                                                         </form>
 
                                                         {{-- SI NO TIENE RELACION CON ALGUN GRUPO SE MUESTRA ELIMINAR --}}
                                                         @if (count($curso->grupos) == 0)
-                                                            <form class="dropdown-item eliminar"
+                                                            <form class="dropdown-item eliminar d-sm-flex"
                                                                 action="{{ route('curso.destroy', $curso->id) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
+                                                                <i class="fas fa-trash m-auto"></i>
                                                                 <input type="submit" class="dropdown-item"
                                                                     value="Eliminar curso">
                                                             </form>
@@ -127,3 +136,11 @@
         <!-- Content Row -->
     </div>
 @endsection('content')
+
+@section('re-open')
+    @if ($errors->any())
+        <script>
+            $('#cursoModalCreate').modal('show')
+        </script>
+    @endif
+@endsection

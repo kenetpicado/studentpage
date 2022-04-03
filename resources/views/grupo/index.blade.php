@@ -5,6 +5,16 @@
 @section('content')
     <div class="container-fluid">
 
+        <!-- Boton abrir modal -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Grupos</h1>
+            <button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#grupoModalCreate">
+                Agregar <i class="fas fa-plus ml-1"></i>
+            </button>
+        </div>
+
+        @include('grupo.modal')
+
         <!-- Content Row -->
         <div class="row">
             <div class="col-xl-12 col-lg-7">
@@ -14,24 +24,10 @@
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">VER GRUPOS</h6>
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="{{ route('grupo.create') }}">Crear grupo</a>
-
-                            </div>
-                        </div>
                     </div>
 
                     <div class="card-body">
-                        <div class="alert alert-primary" role="alert">
-                            {{ $status ?? '' }}. Haga clic aqui para <a href="{{ route('grupo.create') }}">crear un nuevo
-                                grupo.</a>
-                        </div>
+                        <div class="alert alert-danger" role="alert">{{ $status ?? '' }}</div>
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -96,3 +92,11 @@
         <!-- Content Row -->
     </div>
 @endsection('content')
+
+@section('re-open')
+@if ($errors->any())
+<script>
+    $('#grupoModalCreate').modal('show')
+</script>
+@endif
+@endsection

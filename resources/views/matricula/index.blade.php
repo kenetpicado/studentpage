@@ -5,6 +5,16 @@
 @section('content')
     <div class="container-fluid">
 
+        <!-- Boton abrir modal -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Matriculas</h1>
+            <button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#matriculaModalCreate">
+                Agregar <i class="fas fa-plus ml-1"></i>
+            </button>
+        </div>
+
+        @include('matricula.modal')
+
         <!-- Content Row -->
         <div class="row">
             <form class="col-xl-12 col-lg-7">
@@ -33,7 +43,7 @@
                                             <td>{{ $matricula->id }}</td>
                                             <td>{{ $matricula->nombre }}</td>
                                             <td><strong>{{ $matricula->carnet }}</strong></td>
-                                            <td>{{ $matricula->grupo->curso->nombre}}</td>
+                                            <td>{{ $matricula->grupo->curso->nombre }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -44,9 +54,14 @@
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
                                                         {{-- <a class="dropdown-item" href="{{ route('prematricula.edit', $matricula->prematricula) }}">Editar</a> --}}
-                                                        <a class="dropdown-item" href="{{ route('matricula.show', $matricula) }}">Ver detalles</a>
-                                                        <a class="dropdown-item" href="{{ route('pago.estudiante', $matricula) }}">Ver pagos</a>
-                                                        <a class="dropdown-item" href="{{ route('matricula.edit', $matricula) }}">Editar</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('matricula.show', $matricula) }}">Ver
+                                                            detalles</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('pago.estudiante', $matricula) }}">Ver
+                                                            pagos</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('matricula.edit', $matricula) }}">Editar</a>
 
                                                     </div>
                                                 </div>
@@ -63,3 +78,11 @@
         <!-- Content Row -->
     </div>
 @endsection('content')
+
+@section('re-open')
+    @if ($errors->any())
+        <script>
+            $('#matriculaModalCreate').modal('show')
+        </script>
+    @endif
+@endsection

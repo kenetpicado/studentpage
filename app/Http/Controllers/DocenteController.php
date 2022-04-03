@@ -62,7 +62,7 @@ class DocenteController extends Controller
         Docente::create($request->all());
 
         //Enviar correo
-        Mail::to($request->correo)->send(new CredencialesDocente($docente));
+        //Mail::to($request->correo)->send(new CredencialesDocente($docente));
 
         return redirect()->route('docente.create')->with('info', 'ok');
     }

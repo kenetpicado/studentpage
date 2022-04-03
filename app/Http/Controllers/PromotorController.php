@@ -64,7 +64,7 @@ class PromotorController extends Controller
         Promotor::create($request->all());
 
         //Enviar correo
-        Mail::to($request->correo)->send(new CredencialesPromotor($promotor));
+        //Mail::to($request->correo)->send(new CredencialesPromotor($promotor));
 
         return redirect()->route('promotor.create')->with('info', 'ok');
     }

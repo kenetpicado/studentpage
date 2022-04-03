@@ -5,35 +5,42 @@
 @section('content')
     <div class="container-fluid">
 
-        <!-- Content Row -->
-        <div class="row">
-            <form class="col-xl-12 col-lg-7" action="{{ route('docente.store') }}" method="POST">
-                @csrf
-                <!-- Datos-->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">AGREGAR UN NUEVO DOCENTE</h6>
+        <!-- Boton abrir modal -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Docentes</h1>
+            <button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#docenteModalCreate">
+                Agregar <i class="fas fa-plus ml-1"></i>
+            </button>
+        </div>
+        
+        <!-- Docente Modal -->
+        <div class="modal fade" id="docenteModalCreate" tabindex="-1" role="dialog" aria-labelledby="docenteModalCreate"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">AGREGAR UN NUEVO DOCENTE</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="form-group col-lg-6">
+                    <form class="" action="{{ route('docente.store') }}" method="POST">
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
                                 <label for="nombre">Nombre del docente</label>
                                 <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                                    autocomplete="off" value="{{old('nombre')}}">
-
+                                    autocomplete="off" value="{{ old('nombre') }}">
                                 @error('nombre')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-6">
+                            <div class="form-group">
                                 <label for="correo">Correo</label>
                                 <input type="email" class="form-control @error('correo') is-invalid @enderror" name="correo"
-                                    autocomplete="off" value="{{old('correo')}}">
+                                    autocomplete="off" value="{{ old('correo') }}">
 
                                 @error('correo')
                                     <span class="invalid-feedback" role="alert">
@@ -42,12 +49,15 @@
                                 @enderror
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
-        <!-- Content Row -->
+
 
         <!-- Content Row -->
         <div class="row">
@@ -59,6 +69,12 @@
                         <h6 class="m-0 font-weight-bold text-primary">TODOS LOS DOCENTES</h6>
                     </div>
 
+                    @error('nombre')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+
                     <div class="card-body">
                         <div class="alert alert-primary" role="alert">TODOS los docentes registrados:</div>
                         <div class="table-responsive">
@@ -66,7 +82,7 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Carnet</th>  
+                                        <th>Carnet</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
                                         <th></th>
@@ -88,27 +104,21 @@
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
 
-                                                        <form class="dropdown-item"
-                                                            action="{{route('docente.grupos', $docente->id)}}" method="get">
-                                                            <input type="submit" class="dropdown-item"
-                                                                value="Ver grupos">
-                                                        </form>
-
-                                                        <form class="dropdown-item"
-                                                            action="{{route('docente.edit', $docente->id)}}" method="get">
-                                                            <input type="submit" class="dropdown-item"
-                                                                value="Editar">
-                                                        </form>
+                                                        <a href="{{ route('docente.grupos', $docente->id) }}" class="dropdown-item">Ver grupos</a>
+                                                        <a href="{{ route('docente.edit', $docente->id) }}" class="dropdown-item">Editar</a>
 
                                                         {{-- SI NO TIENE RELACION CON ALGUN GRUPO SE MUESTRA ELIMINAR --}}
                                                         @if (count($docente->grupos) == 0)
-                                                            <form class="dropdown-item eliminar"
+                                                        <div class="dropdown-divider"></div>
+                                                            <form class="dropdown-item eliminar d-sm-flex"
                                                                 action="{{ route('docente.destroy', $docente->id) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
+                                                                <i class="fas fa-trash m-auto"></i>
                                                                 <input type="submit" class="dropdown-item"
                                                                     value="Eliminar docente">
+                                                                    
                                                             </form>
                                                         @endif
                                                     </div>
@@ -126,3 +136,11 @@
         <!-- Content Row -->
     </div>
 @endsection('content')
+
+@section('re-open')
+    @if ($errors->any())
+        <script>
+            $('#docenteModalCreate').modal('show')
+        </script>
+    @endif
+@endsection

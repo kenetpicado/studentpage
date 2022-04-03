@@ -19,8 +19,11 @@ class GrupoController extends Controller
     public function index()
     {
         //
+        $cursos = Curso::all();
+        $docentes = Docente::all();
         $grupos = Grupo::all();
-        return view('grupo.index', compact('grupos', $grupos))->with('status', 'Todos los cursos y grupos registrados');
+
+        return view('grupo.index',compact('grupos', 'cursos', 'docentes'))->with('status', 'Todos los cursos y grupos registrados');
     }
 
     /**
@@ -31,9 +34,6 @@ class GrupoController extends Controller
     public function create()
     {
         //
-        $cursos = Curso::all();
-        $docentes = Docente::all();
-        return view('grupo.create', compact('cursos', $cursos), compact('docentes', $docentes));
     }
 
     /**
@@ -56,7 +56,7 @@ class GrupoController extends Controller
                 }),
             ],
             [
-                'numero.unique' => 'Ya existe un ' . $request->numero . ' del curso ' . $curso->nombre 
+                'numero.unique' => 'Ya existe un ' . $request->numero . ' del curso ' . $curso->nombre
             ]
         );
 

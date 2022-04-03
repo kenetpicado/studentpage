@@ -5,33 +5,39 @@
 @section('content')
     <div class="container-fluid">
 
-        <!-- Content Row -->
-        <div class="row">
-            <form class="col-xl-12 col-lg-7" action="{{ route('promotor.store') }}" method="POST">
-                @csrf
-                <!-- Datos del promotor -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">AGREGAR PROMOTOR</h6>
-                    </div>
+        <!-- Boton abrir modal -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Promotores</h1>
+            <button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#promotorModalCreate">
+                Agregar <i class="fas fa-plus ml-1"></i>
+            </button>
+        </div>
 
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="form-group col-lg-6">
-                                <label for="nombre">Nombre completo</label>
+        <!-- Docente Modal -->
+        <div class="modal fade" id="promotorModalCreate" tabindex="-1" role="dialog"
+            aria-labelledby="promotorModalCreate" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">AGREGAR UN NUEVO PROMOTOR</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="" action="{{ route('promotor.store') }}" method="POST">
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="nombre">Nombre del promotor</label>
                                 <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
                                     autocomplete="off" value="{{ old('nombre') }}">
-
                                 @error('nombre')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-6">
+                            <div class="form-group">
                                 <label for="correo">Correo</label>
                                 <input type="email" class="form-control @error('correo') is-invalid @enderror" name="correo"
                                     autocomplete="off" value="{{ old('correo') }}">
@@ -43,12 +49,15 @@
                                 @enderror
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
-        <!-- Content Row -->
 
         <!-- Content Row -->
         <div class="row">
@@ -61,6 +70,7 @@
                     </div>
 
                     <div class="card-body">
+                        <div class="alert alert-primary" role="alert">TODOS los promotores registrados:</div>
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -88,18 +98,16 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
+                                                        <a href="{{ route('promotor.edit', $promotor->id) }}" class="dropdown-item">Editar</a>
 
-                                                        <form class="dropdown-item"
-                                                            action="{{ route('promotor.edit', $promotor->id) }}"
-                                                            method="get">
-                                                            <input type="submit" class="dropdown-item" value="Editar">
-                                                        </form>
+                                                        <div class="dropdown-divider"></div>
 
-                                                        <form class="dropdown-item eliminar"
+                                                        <form class="dropdown-item eliminar d-sm-flex"
                                                             action="{{ route('promotor.destroy', $promotor->id) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')
+                                                            <i class="fas fa-trash m-auto"></i>
                                                             <input type="submit" class="dropdown-item"
                                                                 value="Eliminar promotor">
                                                         </form>
@@ -119,3 +127,11 @@
 
     </div>
 @endsection('content')
+
+@section('re-open')
+    @if ($errors->any())
+        <script>
+            $('#promotorModalCreate').modal('show')
+        </script>
+    @endif
+@endsection

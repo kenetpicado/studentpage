@@ -4,6 +4,7 @@ $('.estado').submit(function (e) {
   Swal.fire({
     title: 'Cambiar estado del curso',
     icon: 'warning',
+    text: 'Esta acción cambiará el estado del curso a Inactivo',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
@@ -20,8 +21,8 @@ $('.estado').submit(function (e) {
 $('.eliminar').submit(function (e) {
   e.preventDefault();
   Swal.fire({
-    title: 'Elminar',
-    text: 'Esta accion no se puede deshacer.',
+    title: 'Elminar elemento',
+    text: 'Esta acción no se puede deshacer.',
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
