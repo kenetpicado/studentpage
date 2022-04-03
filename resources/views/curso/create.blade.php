@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        
+
 
         <!-- Content Row -->
         <div class="row">
@@ -69,6 +69,7 @@
                                         <th>ID</th>
                                         <th>Nombre del curso</th>
                                         <th>Estado</th>
+                                        <th>Grupos</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -79,13 +80,17 @@
                                             <td>{{ $curso->nombre }}</td>
                                             <td>
                                                 @if ($curso->estado == '1')
-                                                    <i class="fas fa-circle" style="color:green"></i>
-                                                    Activo
+                                                    <span class="badge badge-pill badge-success">Activo</span>
                                                 @else
-                                                    <i class="fas fa-circle"></i>
-                                                    Inactivo
+                                                    <span class="badge badge-pill badge-danger">Inactivo</span>
                                                 @endif
                                             </td>
+                                            <td>
+                                                <span class="badge badge-pill badge-success">
+                                                    {{ count($curso->grupos) }}
+                                                </span>
+                                            </td>
+
                                             <td class="center-babe">
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -96,12 +101,14 @@
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
 
-                                                        <a href="{{ route('curso.grupos', $curso->id) }}" class="dropdown-item">Ver grupos</a>
-                                                        <a href="{{ route('curso.edit', $curso->id) }}" class="dropdown-item">Editar</a>
+                                                        <a href="{{ route('curso.grupos', $curso->id) }}"
+                                                            class="dropdown-item">Ver grupos</a>
+                                                        <a href="{{ route('curso.edit', $curso->id) }}"
+                                                            class="dropdown-item">Editar</a>
 
                                                         <div class="dropdown-divider"></div>
 
-                                                        
+
                                                         <form class="dropdown-item estado d-sm-flex"
                                                             action="{{ route('curso.estado', $curso->id) }}" method="get">
                                                             <i class="fas fa-exchange-alt m-auto"></i>
