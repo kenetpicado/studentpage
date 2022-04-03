@@ -5,6 +5,14 @@
 @section('content')
     <div class="container-fluid">
 
+        <!-- Boton abrir modal -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Pagos</h1>
+        {{-- <button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#matriculaModalCreate">
+            Agregar <i class="fas fa-plus ml-1"></i>
+        </button> --}}
+    </div>
+
         <!-- Content Row -->
         <div class="row">
             <form class="col-xl-12 col-lg-7">

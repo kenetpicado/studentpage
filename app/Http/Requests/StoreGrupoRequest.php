@@ -28,6 +28,7 @@ class StoreGrupoRequest extends FormRequest
             'curso_id' => 'required',
             'docente_id' => 'required',
             'numero' => 'required',
+            'horario' => 'required|max:20'
         ];
     }
 

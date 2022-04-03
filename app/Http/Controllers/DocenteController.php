@@ -31,7 +31,7 @@ class DocenteController extends Controller
     {
         //
         $docentes = Docente::all();
-        return view('docente.create', compact('docentes', $docentes));
+        return view('docente.create', compact('docentes'));
     }
 
     /**

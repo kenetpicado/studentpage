@@ -5,18 +5,10 @@
 @section('content')
     <div class="container-fluid">
 
-        {{-- SI HAY MENSAJE DE CONFIRMACION --}}
-        @if (session('info'))
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card bg-primary text-white shadow mb-2">
-                        <div class="card-body">
-                            <strong>{{ session('info') }}</strong>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
+        <!-- Cabecera -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">"{{$grupo->curso->nombre}}" - {{$grupo->numero}}</h1>
+        </div>
 
         <!-- Content Row -->
         <div class="row">
@@ -41,7 +33,7 @@
                     </div>
 
                     <div class="card-body">
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-primary" role="alert">
                             {{$status ?? ''}}
                             Mostrando todos los alumnos del grupo {{$grupo->numero}} del curso {{$grupo->curso->nombre}}
                         </div>

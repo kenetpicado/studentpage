@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'StudentPage'),
+    'name' => ('StudentPage'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

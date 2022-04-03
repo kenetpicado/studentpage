@@ -27,25 +27,27 @@
                     </div>
 
                     <div class="card-body">
-                        <div class="alert alert-danger" role="alert">{{ $status ?? '' }}</div>
+                        <div class="alert alert-primary" role="alert">{{ $status ?? '' }}</div>
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>Curso</th>
                                         <th>Grupo</th>
+                                        <th>Horario</th>
                                         <th>Docente a cargo</th>
+                                        <th>Alumnos</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($grupos as $grupo)
                                         <tr>
-                                            <td>{{ $grupo->id }}</td>
                                             <td>{{ $grupo->curso->nombre ?? '' }}</td>
                                             <td>{{ $grupo->numero }}</td>
+                                            <td>{{ $grupo->horario}}</td>
                                             <td>{{ $grupo->docente->nombre }}</td>
+                                            <td><span class="badge badge-pill badge-success">{{count($grupo->matriculas)}}</span></td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"

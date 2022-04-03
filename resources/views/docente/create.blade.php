@@ -85,6 +85,7 @@
                                         <th>Carnet</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
+                                        <th>Grupos</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -95,6 +96,7 @@
                                             <td>{{ $docente->carnet }}</td>
                                             <td>{{ $docente->nombre }}</td>
                                             <td>{{ $docente->correo }}</td>
+                                            <td><span class="badge badge-pill badge-success">{{count($docente->grupos)}}</span></td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"

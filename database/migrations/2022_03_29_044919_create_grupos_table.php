@@ -17,6 +17,7 @@ class CreateGruposTable extends Migration
             $table->id();
             $table->enum('numero', ['GP1', 'GP2', 'GP3', 'GP4']);
             $table->string('notificacion', 100)->nullable();
+            $table->string('horario', 20);
 
             $table->unsignedBigInteger('curso_id');
             $table->foreign('curso_id')

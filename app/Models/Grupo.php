@@ -28,4 +28,8 @@ class Grupo extends Model
     {
         return $this->hasMany(Matricula::class);
     }
+    public function setHorarioAttribute($value)
+    {
+        $this->attributes['horario'] = trim(strtoupper($value));
+    }
 }
