@@ -26,22 +26,16 @@ Route::get('/', function () {
 });
 
 //RUTAS PARTICULARES
-//Route::get('matricular/{prematricula}', [MatriculaController::class, 'matricular'])->name('matricular');
-Route::get('pagar/{matricula}', [PagoController::class, 'pagar'])->name('pagar');
 Route::get('pago-estudiante/{matricula}', [PagoController::class, 'pagoEstudiante'])->name('pago.estudiante');
-Route::get('curso-grupos/{curso}', [CursoController::class, 'verGrupos'])->name('curso.grupos');
-Route::get('docente-grupos/{docente}', [DocenteController::class, 'verGrupos'])->name('docente.grupos');
-Route::get('grupo-alumnos/{grupo}', [GrupoController::class, 'verAlumnos'])->name('grupo.alumnos');
-Route::get('curso-estado/{curso}', [CursoController::class, 'estado'])->name('curso.estado');
 
 //RUTA PARA PROBAR LAS INTERFACES DE LOS CORREOS
-Route::get('/mailable', function () {
-    $invoice = App\Models\Promotor::all()->first();
+// Route::get('/mailable', function () {
+//     $invoice = App\Models\Promotor::all()->first();
  
-    return new App\Mail\CredencialesPromotor($invoice);
-});
+//     return new App\Mail\CredencialesPromotor($invoice);
+// });
+
 //RECURSOS DE RUTAS
-Route::resource('centro', CentroController::class);
 Route::resource('curso', CursoController::class);
 Route::resource('docente', DocenteController::class);
 Route::resource('grupo', GrupoController::class);

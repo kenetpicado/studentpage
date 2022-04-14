@@ -19,11 +19,11 @@ class GrupoController extends Controller
     public function index()
     {
         //
-        $cursos = Curso::all();
-        $docentes = Docente::all();
+        $cursos = Curso::where('estado', '=', '1')->get();
+        $docentes = Docente::where('estado', '=', '1')->get();
         $grupos = Grupo::all();
 
-        return view('grupo.index',compact('grupos', 'cursos', 'docentes'))->with('status', 'Todos los cursos y grupos registrados');
+        return view('grupo.index',compact('grupos', 'cursos', 'docentes'));
     }
 
     /**
@@ -73,10 +73,7 @@ class GrupoController extends Controller
     public function show(Grupo $grupo)
     {
         //
-    }
-    public function verAlumnos(Grupo $grupo)
-    {
-        return view('grupo.alumnos', compact('grupo', $grupo));
+        return view('grupo.show', compact('grupo'));
     }
 
     /**

@@ -21,7 +21,8 @@ class PromotorController extends Controller
     public function index()
     {
         //
-
+        $promotors = Promotor::all();
+        return view('promotor.index', compact('promotors', $promotors));
     }
 
     /**
@@ -32,8 +33,6 @@ class PromotorController extends Controller
     public function create()
     {
         //
-        $promotors = Promotor::all();
-        return view('promotor.create', compact('promotors', $promotors));
     }
 
     /**
@@ -45,7 +44,7 @@ class PromotorController extends Controller
     public function store(StorePromotorRequest $request)
     {
         //Generar credenciales
-        $id = Generate::id('CH');
+        $id = Generate::id($request->sucursal);
         $pin = Generate::pin();
 
         //Agregar credenciales en claro
@@ -66,7 +65,7 @@ class PromotorController extends Controller
         //Enviar correo
         //Mail::to($request->correo)->send(new CredencialesPromotor($promotor));
 
-        return redirect()->route('promotor.create')->with('info', 'ok');
+        return redirect()->route('promotor.index')->with('info', 'ok');
     }
 
     /**
@@ -89,7 +88,7 @@ class PromotorController extends Controller
     public function edit(Promotor $promotor)
     {
         //
-        return view('promotor.edit', compact('promotor', $promotor));
+        return view('promotor.edit', compact('promotor'));
     }
 
     /**
@@ -108,7 +107,7 @@ class PromotorController extends Controller
         );
 
         $promotor->update($request->all());
-        return redirect()->route('promotor.create')->with('info', 'ok');
+        return redirect()->route('promotor.index')->with('info', 'ok');
     }
 
     /**
@@ -121,6 +120,6 @@ class PromotorController extends Controller
     {
         //
         $promotor->delete();
-        return redirect()->route('promotor.create')->with('info', 'eliminado');
+        return redirect()->route('promotor.index')->with('info', 'eliminado');
     }
 }

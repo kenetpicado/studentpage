@@ -1,7 +1,7 @@
-<!-- Grupos Modal -->
+<!-- Agregar -->
 <div class="modal fade" id="grupoModalCreate" tabindex="-1" role="dialog" aria-labelledby="grupoModalCreate"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalCenterTitle">AGREGAR UN NUEVO GRUPO</h5>
@@ -18,8 +18,7 @@
                             <option selected disabled value="">Seleccionar</option>
                             @foreach ($cursos as $curso)
                                 <option value="{{ $curso->id }}"
-                                    {{ old('curso_id') == $curso->id ? 'selected' : '' }}>{{ $curso->id }} -
-                                    {{ $curso->nombre }}</option>
+                                    {{ old('curso_id') == $curso->id ? 'selected' : '' }}>{{ $curso->nombre }}</option>
                             @endforeach
                         </select>
 
@@ -36,8 +35,7 @@
                             <option selected disabled value="">Seleccionar</option>
                             @foreach ($docentes as $docente)
                                 <option value="{{ $docente->id }}"
-                                    {{ old('docente_id') == $docente->id ? 'selected' : '' }}>{{ $docente->id }}
-                                    - {{ $docente->nombre }}</option>
+                                    {{ old('docente_id') == $docente->id ? 'selected' : '' }}>{{ $docente->nombre }}</option>
                             @endforeach
                         </select>
                         @error('docente_id')

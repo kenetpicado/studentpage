@@ -25,6 +25,7 @@ class UpdateCursoRequest extends FormRequest
     {
         return [
             //
+            'nombre' => 'required|max:45'
         ];
     }
 }

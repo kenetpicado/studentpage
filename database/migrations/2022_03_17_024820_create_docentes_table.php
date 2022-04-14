@@ -15,10 +15,12 @@ class CreateDocentesTable extends Migration
     {
         Schema::create('docentes', function (Blueprint $table) {
             $table->id();
-            $table->string('carnet', 15)->unique();
+            $table->string('carnet', 7)->unique();
             $table->string('pin', 70);
             $table->string('nombre', 45);
             $table->string('correo')->unique();
+            $table->enum('estado', ['0', '1'])->default('1');
+            $table->string('sucursal', 5);
             $table->timestamps();
         });
     }

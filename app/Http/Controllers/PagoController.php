@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePagoRequest;
 use App\Http\Requests\UpdatePagoRequest;
+use App\Models\Grupo;
 use App\Models\Matricula;
 use App\Models\Pago;
 
@@ -17,8 +18,6 @@ class PagoController extends Controller
     public function index()
     {
         //
-        $pagos = Pago::all();
-        return view('pago.index', compact('pagos', $pagos))->with('status', 'Se muestran los pagos de TODOS los alumnos');
     }
 
     /**
@@ -28,22 +27,12 @@ class PagoController extends Controller
      */
     public function create()
     {
-        //MUESTRA TABLA CON TODAS LAS MATRICULAS
-        //DIPONIBLES PARA REALIZAR UN PAGO
-        $matriculas = Matricula::all();
-        return view('pago.create', compact('matriculas', $matriculas));
-    }
-
-    public function pagar(Matricula $matricula)
-    {
-        //MOSTRAR DATOS DE LA MATRICULA QUE VA PAGAR
-        return view('pago.realize', compact('matricula', $matricula));
+        //
     }
 
     public function pagoEstudiante(Matricula $matricula)
     {
-        $pagos = $matricula->pagos;
-        return view('pago.index', compact('pagos', $pagos))->with('status', 'Se muestran los pagos del alumno: ' . $matricula->nombre);
+        return view('pago.index', compact('matricula'));
     }
 
     /**
@@ -56,7 +45,9 @@ class PagoController extends Controller
     {
         //
         Pago::create($request->all());
-        return redirect()->route('pago.create')->with('info','ok');
+
+        $matricula = Matricula::find($request->matricula_id);
+        return redirect()->route('pago.estudiante', $matricula)->with('info','ok');
     }
 
     /**

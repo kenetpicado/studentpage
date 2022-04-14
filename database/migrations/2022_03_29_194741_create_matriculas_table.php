@@ -26,7 +26,13 @@ class CreateMatriculasTable extends Migration
             $table->string('pin', 6);
             $table->enum('manual', ['SI', 'NO']);
 
-            //La llave foranea de grupos esta en otra migracion
+            $table->unsignedBigInteger('promotor_id')->nullable();
+            $table->foreign('promotor_id')
+                ->references('id')
+                ->on('promotors');
+
+            // $table->unsignedBigInteger('grupo_id');
+            // $table->foreign('grupo_id')->references('id')->on('grupos');
 
             $table->timestamps();
         });

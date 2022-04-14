@@ -20,6 +20,8 @@ class DocenteController extends Controller
     public function index()
     {
         //
+        $docentes = Docente::all();
+        return view('docente.index', compact('docentes'));
     }
 
     /**
@@ -30,8 +32,6 @@ class DocenteController extends Controller
     public function create()
     {
         //
-        $docentes = Docente::all();
-        return view('docente.create', compact('docentes'));
     }
 
     /**
@@ -43,7 +43,7 @@ class DocenteController extends Controller
     public function store(StoreDocenteRequest $request)
     {
         //Generar credenciales
-        $id = Generate::id('CH');
+        $id = Generate::id($request->sucursal);
         $pin = Generate::pin();
 
         //Agregar credenciales en claro
@@ -64,7 +64,7 @@ class DocenteController extends Controller
         //Enviar correo
         //Mail::to($request->correo)->send(new CredencialesDocente($docente));
 
-        return redirect()->route('docente.create')->with('info', 'ok');
+        return redirect()->route('docente.index')->with('info', 'ok');
     }
 
     /**
@@ -76,11 +76,11 @@ class DocenteController extends Controller
     public function show(Docente $docente)
     {
         //
+        return view('docente.show', compact('docente', $docente));
     }
 
     public function verGrupos(Docente $docente)
     {
-        return view('docente.grupos', compact('docente', $docente))->with('status', 'Todos los grupos asignados al docente: ' . $docente->nombre);
     }
 
     /**
@@ -111,7 +111,7 @@ class DocenteController extends Controller
         );
 
         $docente->update($request->all());
-        return redirect()->route('docente.create')->with('info', 'ok');
+        return redirect()->route('docente.index')->with('info', 'ok');
     }
 
     /**
@@ -124,6 +124,6 @@ class DocenteController extends Controller
     {
         //
         $docente->delete();
-        return redirect()->route('docente.create')->with('info', 'eliminado');
+        return redirect()->route('docente.index')->with('info', 'eliminado');
     }
 }

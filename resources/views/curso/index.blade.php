@@ -1,29 +1,26 @@
 @extends('layout')
 
-@section('title', 'Grupos')
+@section('title', 'Cursos')
 
 @section('content')
     <div class="container-fluid">
 
-        <!-- Cabecera -->
+        {{-- Cabecera --}}
         <div class="d-sm-flex align-items-center justify-content-between m-2">
-            <h1 class="h3 mb-0 text-gray-800">Grupos</h1>
-            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#grupoModalCreate">
+            <h1 class="h3 mb-0 text-gray-800">Cursos</h1>
+            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#cursoModalCreate">
                 Agregar <i class="fas fa-plus ml-1"></i>
             </button>
         </div>
-
-        @include('grupo.modal')
 
         <!-- Content Row -->
         <div class="row">
             <div class="col-xl-12 col-lg-7">
 
-                <!-- Datos -->
+                <!-- Datos del alumno -->
                 <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">TODOS LOS GRUPOS</h6>
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">TODOS LOS CURSOS</h6>
                     </div>
 
                     <div class="card-body">
@@ -31,26 +28,24 @@
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>Curso</th>
-                                        <th>Grupo</th>
-                                        <th>Año</th>
-                                        <th>Horario</th>
-                                        <th>Docente a cargo</th>
-                                        <th>Alumnos</th>
+                                        <th>Nombre del curso</th>
+                                        <th>Estado</th>
+                                        <th>Grupos</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($grupos as $grupo)
+                                    @foreach ($cursos as $curso)
                                         <tr>
-                                            <td>{{ $grupo->curso->nombre ?? '' }}</td>
-                                            <td>{{ $grupo->numero }}</td>
-                                            <td>{{ $grupo->anyo }}</td>
-                                            <td>{{ $grupo->horario }}</td>
-                                            <td>{{ $grupo->docente->nombre }}</td>
-                                            <td><span
-                                                    class="badge badge-pill badge-success">{{ count($grupo->matriculas) }}</span>
+                                            <td>{{ $curso->nombre }}</td>
+                                            <td>
+                                                @if ($curso->estado == '1')
+                                                    <span class="badge badge-pill badge-success">Activo</span>
+                                                @else
+                                                    <span class="badge badge-pill badge-danger">Inactivo</span>
+                                                @endif
                                             </td>
+                                            <td>{{ count($curso->grupos) }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -59,14 +54,14 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a href="{{ route('grupo.show', $grupo) }}"
-                                                            class="dropdown-item">Ver alumnos</a>
-                                                        <a href="{{ route('grupo.edit', $grupo) }}"
-                                                            class="dropdown-item">Editar</a>
+
+                                                        <a href="{{ route('curso.show', $curso) }}" class="dropdown-item">Ver grupos</a>
+                                                        <a href="{{ route('curso.edit', $curso) }}" class="dropdown-item">Editar</a>
                                                     </div>
                                                 </div>
+                                                
                                             </td>
-                                        </tr>
+                                        </tr> 
                                     @endforeach
                                 </tbody>
                             </table>
@@ -75,14 +70,17 @@
                 </div>
             </div>
         </div>
-        <!-- Content Row -->
     </div>
 @endsection('content')
+
+@section('agregarModal')
+    @include('curso.modal')
+@endsection
 
 @section('re-open')
     @if ($errors->any())
         <script>
-            $('#grupoModalCreate').modal('show')
+            $('#cursoModalCreate').modal('show')
         </script>
     @endif
 @endsection

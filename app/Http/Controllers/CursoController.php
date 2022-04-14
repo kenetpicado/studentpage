@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCursoRequest;
 use App\Http\Requests\UpdateCursoRequest;
 use App\Models\Curso;
+use Illuminate\Validation\Rule;
 
 class CursoController extends Controller
 {
@@ -16,6 +17,8 @@ class CursoController extends Controller
     public function index()
     {
         //
+        $cursos = Curso::all();
+        return view('curso.index', compact('cursos'));
     }
 
     /**
@@ -25,8 +28,6 @@ class CursoController extends Controller
      */
     public function create()
     {
-        $cursos = Curso::all();
-        return view('curso.create', compact('cursos', $cursos));
     }
 
     /**
@@ -38,7 +39,7 @@ class CursoController extends Controller
     public function store(StoreCursoRequest $request)
     {
         Curso::create($request->all());
-        return redirect()->route('curso.create')->with('info', 'ok');
+        return redirect()->route('curso.index')->with('info', 'ok');
     }
 
     /**
@@ -50,17 +51,11 @@ class CursoController extends Controller
     public function show(Curso $curso)
     {
         //
+        return view('curso.show', compact('curso'));
     }
 
     public function verGrupos(Curso $curso)
     {
-        return view('curso.grupos', compact('curso', $curso))->with('status', 'Todos los grupos disponibles del curso: ' . $curso->nombre);
-    }
-    public function estado(Curso $curso)
-    {
-        $nuevo_estado = ($curso->estado == '0') ? '1' : '0';
-        $curso->update(['estado'=>$nuevo_estado]);
-        return redirect()->route('curso.create')->with('info', 'ok');
     }
 
     /**
@@ -72,7 +67,7 @@ class CursoController extends Controller
     public function edit(Curso $curso)
     {
         //
-        return view('curso.edit', compact('curso', $curso));
+        return view('curso.edit', compact('curso'));
     }
 
     /**
@@ -82,11 +77,16 @@ class CursoController extends Controller
      * @param  \App\Models\Curso  $curso
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreCursoRequest $request, Curso $curso)
+    public function update(UpdateCursoRequest $request, Curso $curso)
     {
-        //
+        //NOMBRE UNICO IGNORANDO EL PROPIO
+        $request->validate(
+            ['nombre' => [Rule::unique('cursos')->ignore($curso->id)]],
+            ['nombre.unique' => 'Ya existe un curso con este nombre.']
+        );
+
         $curso->update($request->all());
-        return redirect()->route('curso.create')->with('info', 'ok');
+        return redirect()->route('curso.index')->with('info', 'ok');
     }
 
     /**
@@ -99,6 +99,6 @@ class CursoController extends Controller
     {
         //
         $curso->delete();
-        return redirect()->route('curso.create')->with('info', 'eliminado');
+        return redirect()->route('curso.index')->with('info', 'eliminado');
     }
 }

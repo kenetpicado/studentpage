@@ -1,53 +1,88 @@
 @extends('layout')
 
-@section('title', 'Editar nombre')
+@section('title', 'Editar docente')
 
 @section('content')
     <div class="container-fluid">
 
+        @if (count($docente->grupos) == 0)
+            <!-- Cabecera -->
+            <div class="d-sm-flex align-items-center justify-content-end m-2">
+                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#eliminar">
+                    Eliminar <i class="fas fa-trash ml-1"></i>
+                </button>
+            </div>
+        @endif
+
         <!-- Content Row -->
         <div class="row">
-            <form class="col-xl-12 col-lg-7" action="{{ route('docente.update', $docente) }}" method="POST">
-                @csrf
-                @method('PUT')
+            <div class="col-xl-12 col-lg-7">
+
                 <!-- Datos-->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR NOMBRE DEL DOCENTE</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">EDITAR DOCENTE</h6>
                     </div>
 
                     <div class="card-body">
-                        <div class="row">
-                            <div class="form-group col-lg-6">
-                                <label for="nombre">Nombre del docente</label>
-                                <input type="text" class="form-control is-valid @error('nombre') is-invalid @enderror" name="nombre"
-                                    autocomplete="off" value="{{old('nombre', $docente->nombre)}}">
-
-                                @error('nombre')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                        <form action="{{ route('docente.update', $docente) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h6>Carnet: <strong>{{ $docente->carnet }}</strong> </h6>
+                                    <hr>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-6">
-                                <label for="correo">Correo</label>
-                                <input type="email" class="form-control is-valid @error('correo') is-invalid @enderror" name="correo"
-                                    autocomplete="off" value="{{old('correo', $docente->correo)}}">
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="nombre">Nombre del docente</label>
+                                    <input type="text" class="form-control is-valid @error('nombre') is-invalid @enderror"
+                                        name="nombre" autocomplete="off" value="{{ old('nombre', $docente->nombre) }}">
 
-                                @error('correo')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                    @error('nombre')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="correo">Correo</label>
+                                    <input type="email" class="form-control is-valid @error('correo') is-invalid @enderror"
+                                        name="correo" autocomplete="off" value="{{ old('correo', $docente->correo) }}">
+
+                                    @error('correo')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label>Estado</label>
+                                    <select name="estado" class="form-control is-valid">
+                                        <option value="1"
+                                            {{ old('estado') == $docente->estado || $docente->estado == '1' ? 'selected' : '' }}>
+                                            Activo</option>
+                                        <option value="0"
+                                            {{ old('estado') == $docente->estado || $docente->estado == '0' ? 'selected' : '' }}>
+                                            Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">Actualizar</button>
+                        </form>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
         <!-- Content Row -->
     </div>
 @endsection('content')
+
+@section('agregarModal')
+    @include('docente.modal')
+@endsection

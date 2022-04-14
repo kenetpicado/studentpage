@@ -15,9 +15,10 @@ class CreateGruposTable extends Migration
     {
         Schema::create('grupos', function (Blueprint $table) {
             $table->id();
-            $table->enum('numero', ['GP1', 'GP2', 'GP3', 'GP4']);
+            $table->string('numero', 3);
             $table->string('notificacion', 100)->nullable();
             $table->string('horario', 20);
+            $table->year('anyo')->default(date('Y'));
 
             $table->unsignedBigInteger('curso_id');
             $table->foreign('curso_id')
