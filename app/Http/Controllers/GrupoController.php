@@ -8,9 +8,15 @@ use App\Models\Grupo;
 use App\Models\Curso;
 use App\Models\Docente;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class GrupoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,12 +24,28 @@ class GrupoController extends Controller
      */
     public function index()
     {
-        //
-        $cursos = Curso::where('estado', '=', '1')->get();
-        $docentes = Docente::where('estado', '=', '1')->get();
-        $grupos = Grupo::all();
+        Gate::authorize('admin');
 
-        return view('grupo.index',compact('grupos', 'cursos', 'docentes'));
+        //Cursos deben cargarse todos
+        $cursos = Curso::where('estado', '=', '1')->get();
+
+        $sucursal = Auth::user()->sucursal;
+
+        switch (true) {
+            case ($sucursal == 'CH'):
+                $docentes = Docente::where('estado', '=', '1')->where('sucursal', '=', 'CH')->get();
+                $grupos = Grupo::where('sucursal', '=', 'CH')->get();
+                break;
+            case ($sucursal == 'MG'):
+                $docentes = Docente::where('estado', '=', '1')->where('sucursal', '=', 'MG')->get();
+                $grupos = Grupo::where('sucursal', '=', 'MG')->get();
+                break;
+            default:
+                $docentes = Docente::where('estado', '=', '1')->get();
+                $grupos = Grupo::all();
+                break;
+        }
+        return view('grupo.index', compact('grupos', 'cursos', 'docentes'));
     }
 
     /**
@@ -44,15 +66,15 @@ class GrupoController extends Controller
      */
     public function store(StoreGrupoRequest $request)
     {
-        //  OBTENER DATOS PARA VALIDAR
+        //OBTENER DATOS PARA VALIDAR
         $curso_id = $request->curso_id;
         $curso = Curso::find($curso_id);
 
-        //VALIRDAR QUE NO HAYA OTRO GRUPO DEL MISMO CURSO
+        //VALIRDAR QUE NO HAYA OTRO GRUPO DEL MISMO CURSO EN LA MISMA SUCURSAL
         $request->validate(
             [
-                'numero' => Rule::unique('grupos')->where(function ($query) use ($curso_id) {
-                    return $query->where('curso_id', $curso_id);
+                'numero' => Rule::unique('grupos')->where(function ($query) use ($curso_id, $request) {
+                    return $query->where('curso_id', $curso_id)->where('sucursal', $request->sucursal);
                 }),
             ],
             [

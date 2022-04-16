@@ -12,6 +12,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+
     <title>{{ config('app.name') }} - Login</title>
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 </head>

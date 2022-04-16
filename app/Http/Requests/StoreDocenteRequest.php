@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreDocenteRequest extends FormRequest
 {
@@ -25,9 +26,9 @@ class StoreDocenteRequest extends FormRequest
     {
         return [
             //
+            'carnet' => 'unique:docentes',
             'nombre' => 'required|max:45',
             'correo' => 'required|unique:docentes|email:rfc,dns',
-            'sucursal' => 'required'
         ];
     }
 }

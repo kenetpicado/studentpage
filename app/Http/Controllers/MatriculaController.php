@@ -25,7 +25,7 @@ class MatriculaController extends Controller
      */
     public function index()
     {
-        Gate::authorize('matricular');
+        Gate::authorize('matricula');
 
         $rol = Auth::user()->rol;
         $sucursal = Auth::user()->sucursal;
@@ -66,7 +66,20 @@ class MatriculaController extends Controller
      */
     public function store(StoreMatriculaRequest $request)
     {
-        Gate::authorize('matricular');
+        Gate::authorize('matricula');
+
+        //Si es admin de sucursal especifica
+        $sucursal = Auth::user()->sucursal;
+
+        if ($sucursal != 'all') {
+            $request->merge([
+                'sucursal' =>  $sucursal,
+            ]);
+        } else {
+            $request->validate([
+                'sucursal' => 'required',
+            ]);
+        }
 
         //Encontrar el promotor quien matricula
         $promotor = Promotor::where('carnet', '=', Auth::user()->email)->first();
@@ -95,7 +108,7 @@ class MatriculaController extends Controller
      */
     public function show(Matricula $matricula)
     {
-        Gate::authorize('matricular');
+        Gate::authorize('matricula');
 
         return view('matricula.show', compact('matricula'));
     }
@@ -108,7 +121,7 @@ class MatriculaController extends Controller
      */
     public function edit(Matricula $matricula)
     {
-        Gate::authorize('matricular');
+        Gate::authorize('matricula');
 
         $grupos = Grupo::all();
         return view('matricula.edit', compact('matricula', $matricula), compact('grupos', $grupos));
@@ -123,7 +136,7 @@ class MatriculaController extends Controller
      */
     public function update(UpdateMatriculaRequest $request, Matricula $matricula)
     {
-        Gate::authorize('matricular');
+        Gate::authorize('matricula');
 
         $matricula->update($request->all());
         return redirect()->route('matricula.index')->with('info', 'ok');

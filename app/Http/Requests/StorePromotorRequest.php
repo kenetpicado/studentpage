@@ -24,6 +24,7 @@ class StorePromotorRequest extends FormRequest
     public function rules()
     {
         return [
+            'carnet' => 'unique:promotors',
             'nombre' => 'required|max:45',
             'correo' => 'required|unique:promotors|email:rfc,dns',
         ];
