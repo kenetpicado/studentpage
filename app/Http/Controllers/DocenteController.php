@@ -5,13 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDocenteRequest;
 use App\Http\Requests\UpdateDocenteRequest;
 use App\Mail\CredencialesDocente;
+use App\Mail\Restablecimiento;
 use App\Models\Docente;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
 
 class DocenteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +28,14 @@ class DocenteController extends Controller
      */
     public function index()
     {
-        //
-        $docentes = Docente::all();
+        Gate::authorize('docentes');
+
+        if (Auth::user()->sucursal == 'all') {
+            $docentes = Docente::all();
+        } else {
+            $docentes = Docente::where('sucursal', '=', Auth::user()->sucursal)->get();
+        }
+
         return view('docente.index', compact('docentes'));
     }
 
@@ -43,26 +58,31 @@ class DocenteController extends Controller
     public function store(StoreDocenteRequest $request)
     {
         //Generar credenciales
-        $id = Generate::id($request->sucursal);
+        $id = Generate::id($request->sucursal . '-', 4);
         $pin = Generate::pin();
 
         //Agregar credenciales en claro
         $request->merge([
-            'carnet' =>  $id, 
-            'pin' => $pin
+            'carnet' =>  $id,
         ]);
 
         //Guardar instancia para enviar
         $docente = new Docente($request->all());
 
-        //Encriptar el pin
-        $request->merge(['pin' => Hash::make($pin)]);
-
         //Guardar en la base de datos
         Docente::create($request->all());
 
+        //Guardar cuenta de usuario
+        User::create([
+            'name' => $request->nombre,
+            'email' => $id,
+            'password' => Hash::make('FFFFFF'),
+            'rol' => 'docente',
+            'sucursal' => $request->sucursal
+        ]);
+
         //Enviar correo
-        //Mail::to($request->correo)->send(new CredencialesDocente($docente));
+        Mail::to($request->correo)->send(new CredencialesDocente($docente, $pin));
 
         return redirect()->route('docente.index')->with('info', 'ok');
     }
@@ -104,13 +124,29 @@ class DocenteController extends Controller
      */
     public function update(UpdateDocenteRequest $request, Docente $docente)
     {
-        //VALIDAR QUE EL CORREO SEA UNICO
-        //PERO QUE IGNORE EL PROPIO
-        $request->validate(
-                ['correo' => [Rule::unique('docentes')->ignore($docente->id)]]
-        );
+        //Obtener usuario
+        $user = User::where('email', '=', $docente->carnet)->first();
 
-        $docente->update($request->all());
+        //si hay flag de pin restablecemos
+        if ($request->has('pin')) {
+            $pin =  Generate::pin();
+            $user->update(['password' => Hash::make('FFFFFF')]);
+
+            //Enviar correo con nuevo pin
+            Mail::to($docente->correo)->send(new Restablecimiento($docente->carnet, $pin));
+        } else {
+            //Correo unico ignorando el propio
+            $request->validate([
+                'correo' => ['required', Rule::unique('docentes')->ignore($docente->id)],
+                'nombre' => 'required',
+            ]);
+            //Actualizar en tabla docente
+            $docente->update($request->all());
+
+            //Actualizar en tabla User
+            $user->update(['name' => $request->nombre]);
+        }
+
         return redirect()->route('docente.index')->with('info', 'ok');
     }
 

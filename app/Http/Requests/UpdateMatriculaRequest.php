@@ -25,6 +25,19 @@ class UpdateMatriculaRequest extends FormRequest
     {
         return [
             //
+            'nombre' => 'required|max:45',
+            'cedula' => 'nullable|alpha_dash|min:16|max:16',
+            'fecha_nac' => 'required|date',
+            'tel' => 'nullable|min:8|max:8',
+            'grado' => 'required|max:45',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'fecha_nac' => 'fecha de nacimiento',
+            'tel' => 'telefono',
         ];
     }
 }

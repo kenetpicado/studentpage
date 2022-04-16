@@ -33,9 +33,10 @@
                                     <tr>
                                         <th>Curso</th>
                                         <th>Grupo</th>
+                                        <th>Sucursal</th>
                                         <th>Año</th>
                                         <th>Horario</th>
-                                        <th>Docente a cargo</th>
+                                        <th>Docente</th>
                                         <th>Alumnos</th>
                                         <th></th>
                                     </tr>
@@ -45,12 +46,11 @@
                                         <tr>
                                             <td>{{ $grupo->curso->nombre ?? '' }}</td>
                                             <td>{{ $grupo->numero }}</td>
+                                            <td>{{ $grupo->sucursal }}</td>
                                             <td>{{ $grupo->anyo }}</td>
                                             <td>{{ $grupo->horario }}</td>
                                             <td>{{ $grupo->docente->nombre }}</td>
-                                            <td><span
-                                                    class="badge badge-pill badge-success">{{ count($grupo->matriculas) }}</span>
-                                            </td>
+                                            <td>{{ count($grupo->matriculas) }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"

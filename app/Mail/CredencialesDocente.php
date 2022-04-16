@@ -13,15 +13,17 @@ class CredencialesDocente extends Mailable
     use Queueable, SerializesModels;
 
     public $docente;
+    public $pin;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Docente $docente)
+    public function __construct(Docente $docente, $pin)
     {
         //
         $this->docente = $docente;
+        $this->pin = $pin;
     }
 
     /**

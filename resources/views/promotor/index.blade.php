@@ -31,21 +31,31 @@
                                         <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
-                                        <th>Sucursal</th>
+                                        <th>Matrículas</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($promotors as $promotor)
-                                    <tr>
+                                        <tr>
                                             <td>{{ $promotor->carnet }}</td>
                                             <td>{{ $promotor->nombre }}</td>
                                             <td>{{ $promotor->correo }}</td>
-                                            <td>{{ $promotor->sucursal }}</td>
+                                            <td>{{ count($promotor->matriculas) }}</td>
                                             <td>
-                                                <a href="{{ route('promotor.edit', $promotor->id) }}"><i class="fas fa-tasks"></i></a>
+                                                <div class="dropdown no-arrow">
+                                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-tasks"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                        aria-labelledby="dropdownMenuLink">
+                                                        <a href="{{ route('promotor.edit', $promotor->id) }}"
+                                                            class="dropdown-item">Editar</a>
+                                                    </div>
+                                                </div>
                                             </td>
-                                        </tr>   
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>

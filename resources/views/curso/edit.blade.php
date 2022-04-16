@@ -5,30 +5,35 @@
 @section('content')
     <div class="container-fluid">
 
-        @if (count($curso->grupos) == 0)
-            <!-- Cabecera -->
-        <div class="d-sm-flex align-items-center justify-content-end m-2">
-            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#eliminar">
-                Eliminar <i class="fas fa-trash ml-1"></i>
-            </button>
-        </div>
-        @endif
-        
         <!-- Content Row -->
         <div class="row">
             <div class="col-xl-12 col-lg-7">
 
                 <!-- Datos-->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR CURSO</h6>
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">EDITAR CURSO: {{ $curso->nombre }}</h6>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                aria-labelledby="dropdownMenuLink">
+                                <div class="dropdown-header">Opciones:</div>
+                                @if (count($curso->grupos) == 0)
+                                    <a class="dropdown-item" href="#" data-toggle="modal"
+                                        data-target="#eliminar">Eliminar</a>
+                                @endif
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card-body">
                         <form action="{{ route('curso.update', $curso) }}" method="POST">
                             @csrf
                             @method('PUT')
-                            
+
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label for="nombre">Cambiar nombre del curso</label>
@@ -47,10 +52,10 @@
                                     <label>Estado</label>
                                     <select name="estado" class="form-control is-valid">
                                         <option value="1"
-                                            {{ old('estado') == $curso->estado || $curso->estado == '1' ? 'selected' : '' }}>
+                                            {{ old('estado') == '1' || $curso->estado == '1' ? 'selected' : '' }}>
                                             Activo</option>
                                         <option value="0"
-                                            {{ old('estado') == $curso->estado || $curso->estado == '0' ? 'selected' : '' }}>
+                                            {{ old('estado') == '0' || $curso->estado == '0' ? 'selected' : '' }}>
                                             Inactivo</option>
                                     </select>
                                 </div>

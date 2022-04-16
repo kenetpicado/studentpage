@@ -25,8 +25,8 @@ class UpdatePromotorRequest extends FormRequest
     {
         return [
             //
-            'nombre' => 'required|max:45',
-            'correo' => 'required|email:rfc,dns'
+            'nombre' => 'max:45',
+            'correo' => 'email:rfc,dns'
         ];
     }
 }

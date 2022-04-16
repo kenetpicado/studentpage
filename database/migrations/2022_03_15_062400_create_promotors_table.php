@@ -16,10 +16,8 @@ class CreatePromotorsTable extends Migration
         Schema::create('promotors', function (Blueprint $table) {
             $table->id();
             $table->string('carnet', 7)->unique();
-            $table->string('pin', 70);
             $table->string('nombre', 45);
             $table->string('correo')->unique();
-            $table->string('sucursal', 5);
             $table->timestamps();
         });
     }

@@ -21,4 +21,9 @@ class Pago extends Model
     {
         $this->attributes['concepto'] = trim(strtoupper($value));
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date('d-m-y', strtotime($value));
+    }
 }

@@ -15,9 +15,9 @@ class Generate extends Controller
     }
 
     //Funcion para generar un ID
-    static function id($location)
+    static function id($location, $cant)
     {
-        return $location . "-" . Generate::specific_number(4);
+        return $location . Generate::specific_number($cant);
     }
 
     static function idEstudiante($location, $fecha)

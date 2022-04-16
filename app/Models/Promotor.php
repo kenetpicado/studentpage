@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Matricula;
 
 class Promotor extends Model
 {
@@ -19,5 +20,10 @@ class Promotor extends Model
     public function setCorreoAttribute($value)
     {
         $this->attributes['correo'] = trim(strtolower($value));
+    }
+
+    public function matriculas()
+    {
+        return $this->hasMany(Matricula::class);
     }
 }

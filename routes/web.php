@@ -1,14 +1,13 @@
 <?php
 
-use App\Http\Controllers\CentroController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\PagoController;
-use App\Http\Controllers\PrematriculaController;
 use App\Http\Controllers\PromotorController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,11 +28,10 @@ Route::get('/', function () {
 Route::get('pago-estudiante/{matricula}', [PagoController::class, 'pagoEstudiante'])->name('pago.estudiante');
 
 //RUTA PARA PROBAR LAS INTERFACES DE LOS CORREOS
-// Route::get('/mailable', function () {
-//     $invoice = App\Models\Promotor::all()->first();
+Route::get('/mailable', function () {
  
-//     return new App\Mail\CredencialesPromotor($invoice);
-// });
+    return new App\Mail\Restablecimiento('carnebb', 'pinbb');
+});
 
 //RECURSOS DE RUTAS
 Route::resource('curso', CursoController::class);
@@ -41,5 +39,9 @@ Route::resource('docente', DocenteController::class);
 Route::resource('grupo', GrupoController::class);
 Route::resource('matricula', MatriculaController::class);
 Route::resource('pago', PagoController::class);
-Route::resource('prematricula', PrematriculaController::class);
 Route::resource('promotor', PromotorController::class);
+Auth::routes(['register' => false]);
+//Auth::routes();
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

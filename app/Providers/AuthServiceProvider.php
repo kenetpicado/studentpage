@@ -25,6 +25,16 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        //Solo promores y administradores pueden acceder a MATRICULA
+        Gate::define('matricular', function($user){
+            return $user->rol == 'promotor' || $user->rol == 'admin';
+        });
+
+        //Solo administradores pueden acceder a DOCENTE
+        Gate::define('docentes', function($user){
+            return $user->rol == 'admin';
+        });
+
+
     }
 }

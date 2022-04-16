@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePromotorRequest;
 use App\Http\Requests\UpdatePromotorRequest;
 use App\Models\Promotor;
+use App\Models\User;
 use App\Http\Controllers\Generate;
 use App\Mail\CredencialesPromotor;
+use App\Mail\Restablecimiento;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
@@ -44,7 +46,7 @@ class PromotorController extends Controller
     public function store(StorePromotorRequest $request)
     {
         //Generar credenciales
-        $id = Generate::id($request->sucursal);
+        $id = Generate::id('PM-', 4);
         $pin = Generate::pin();
 
         //Agregar credenciales en claro
@@ -56,11 +58,16 @@ class PromotorController extends Controller
         //Guardar instancia para enviar
         $promotor = new Promotor($request->all());
 
-        //Encriptar el pin
-        $request->merge(['pin' => Hash::make($pin)]);
+        //Guardar en tabla prormotors
+        Promotor::create($request->except('pin'));
 
-        //Guardar en la base de datos
-        Promotor::create($request->all());
+        //Guardar cuenta de usuario
+        User::create([
+            'name' => $request->nombre,
+            'email' => $id,
+            'password' => Hash::make('FFFFFF'),
+            'rol' => 'promotor',
+        ]);
 
         //Enviar correo
         //Mail::to($request->correo)->send(new CredencialesPromotor($promotor));
@@ -100,13 +107,30 @@ class PromotorController extends Controller
      */
     public function update(UpdatePromotorRequest $request, Promotor $promotor)
     {
-        //VALIDAR QUE EL CORREO SEA UNICO
-        //PERO QUE IGNORE EL PROPIO
-        $request->validate(
-            ['correo' => [Rule::unique('promotors')->ignore($promotor->id)]]
-        );
+        //Obtener usuario
+        $user = User::where('email', '=', $promotor->carnet)->first();
 
-        $promotor->update($request->all());
+        //si hay flag de pin restablecemos
+        if ($request->has('pin')) {
+            $pin =  Generate::pin();
+            $user->update(['password' => Hash::make('FFFFFF')]);
+
+            //Enviar correo con nuevo pin
+            //Mail::to($promotor->correo)->send(new Restablecimiento($promotor->carnet, $pin));
+        } else {
+            //Correo unico ignorando el propio
+            $request->validate([
+                'correo' => ['required', Rule::unique('promotors')->ignore($promotor->id)],
+                'nombre' => 'required',
+            ]);
+
+            //Actualizar en tabla docente
+            $promotor->update($request->all());
+
+            //Actualizar en tabla User
+            $user->update(['name' => $request->nombre]);
+        }
+
         return redirect()->route('promotor.index')->with('info', 'ok');
     }
 
@@ -118,7 +142,10 @@ class PromotorController extends Controller
      */
     public function destroy(Promotor $promotor)
     {
-        //
+        //Elimino de la tabla Users
+        User::where('email', '=', $promotor->carnet)->first()->delete();
+        
+        //Elimino de la tabla promotor
         $promotor->delete();
         return redirect()->route('promotor.index')->with('info', 'eliminado');
     }

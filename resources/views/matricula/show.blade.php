@@ -22,8 +22,8 @@
                                 <table class="table table-borderless">
                                     <tr class="center-babe">
                                         <td colspan="4">
-                                            <h5> <strong>{{ $centro->nombre }}</strong> </h5>
-                                            <h6>Matricula {{date("Y",  strtotime($matricula->created_at))}}</h6>
+                                            <h5> <strong>INSTITUO TECNOLOGICO</strong> </h5>
+                                            <h6>Matricula {{date('Y', strtotime($matricula->created_at))}}</h6>
                                             <h6></h6>
                                         </td>
                                     </tr>
@@ -59,32 +59,7 @@
                                     </tr>
                                     <tr>
                                         <td>Fecha de matrícula: </td>
-                                        <td><strong>{{date("Y-m-d",  strtotime($matricula->created_at))}}</strong></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4">
-                                            <br>
-                                            <h6>Datos del centro</h6>
-                                            <hr>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nombre:</td>
-                                        <td><strong> {{ $centro->nombre }}</strong></td>
-                                        <td>Teléfono: </td>
-                                        <td><strong> {{ $centro->tel }}</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Departamento:</td>
-                                        <td><strong>{{ $centro->departamento }}</strong></td>
-                                        <td>Municipio: </td>
-                                        <td><strong> {{ $centro->municipio }}</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Direccion: </td>
-                                        <td><strong>{{ $centro->direccion}}</strong></td>
+                                        <td><strong>{{$matricula->created_at}}</strong></td>
                                         <td></td>
                                         <td></td>
                                     </tr>

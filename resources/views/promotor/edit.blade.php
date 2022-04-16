@@ -5,21 +5,31 @@
 @section('content')
     <div class="container-fluid">
 
-        <!-- Cabecera -->
-        <div class="d-sm-flex align-items-center justify-content-end m-2">
-            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#eliminar">
-                Eliminar <i class="fas fa-trash ml-1"></i>
-            </button>
-        </div>
-
         <!-- Content Row -->
         <div class="row">
             <div class="col-lg-12">
 
                 <!-- Datos del promotor -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR PROMOTOR</h6>
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">EDITAR PROMOTOR: {{ $promotor->carnet }}</h6>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                aria-labelledby="dropdownMenuLink">
+                                <div class="dropdown-header">Opciones:</div>
+                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                    data-target="#restablecer">Restablecer PIN</a>
+                                @if (count($promotor->matriculas) == 0)
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#" data-toggle="modal"
+                                        data-target="#eliminar">Eliminar</a>
+                                @endif
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card-body">

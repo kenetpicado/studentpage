@@ -91,47 +91,6 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="form-group col-lg-6">
-                                <label for="manual">Manual de usuario</label>
-                                <select name="manual" class="form-control is-valid">
-                                    @if ($matricula->manual == 'NO')
-                                        <option selected value="NO">NO</option>
-                                        <option value="SI">SI</option>
-                                    @else
-                                        <option value="NO">NO</option>
-                                        <option selected value="SI">SI</option>
-                                    @endif
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-6">
-                                <label for="grupo_id">Seleccionar curso y grupo</label>
-                                <select name="grupo_id" class="form-control is-valid @error('grupo_id') is-invalid @enderror">
-                                    <option disabled value="">Seleccionar</option>
-                                    @foreach ($grupos as $grupo)
-                                        @if ($matricula->grupo_id == $grupo->id)
-                                            <option selected value="{{ $grupo->id }}"
-                                                {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
-                                                {{ $grupo->curso->nombre }} -
-                                                {{ $grupo->numero }}
-                                            </option>
-                                        @else
-                                            <option value="{{ $grupo->id }}"
-                                                {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
-                                                {{ $grupo->curso->nombre }} -
-                                                {{ $grupo->numero }}
-                                            </option>
-                                        @endif
-                                    @endforeach
-                                </select>
-
-                                @error('grupo_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>

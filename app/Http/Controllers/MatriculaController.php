@@ -3,12 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMatriculaRequest;
+use App\Http\Requests\UpdateMatriculaRequest;
 use App\Models\Matricula;
-use App\Models\Centro;
 use App\Models\Grupo;
+use App\Models\Promotor;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 
 class MatriculaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +25,26 @@ class MatriculaController extends Controller
      */
     public function index()
     {
-        $matriculas = Matricula::all();
+        Gate::authorize('matricular');
+
+        $rol = Auth::user()->rol;
+        $sucursal = Auth::user()->sucursal;
+
+        switch (true) {
+            case ($rol == 'promotor'):
+                $matriculas = Promotor::where('carnet', '=', Auth::user()->email)->first()->matriculas;
+                break;
+            case ($rol == 'admin' && $sucursal == 'CH'):
+                $matriculas = Matricula::where('sucursal', '=', 'CH')->get();
+                break;
+            case ($rol == 'admin' && $sucursal == 'MG'):
+                $matriculas = Matricula::where('sucursal', '=', 'MG')->get();
+                break;
+            default:
+                $matriculas = Matricula::all();
+                break;
+        }
+
         $grupos = Grupo::all();
         return view('matricula.index', compact('matriculas', 'grupos'));
     }
@@ -28,7 +56,6 @@ class MatriculaController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -39,10 +66,21 @@ class MatriculaController extends Controller
      */
     public function store(StoreMatriculaRequest $request)
     {
+        Gate::authorize('matricular');
+
+        //Encontrar el promotor quien matricula
+        $promotor = Promotor::where('carnet', '=', Auth::user()->email)->first();
+
+        $id = !$promotor ? null : $promotor->id;
+
+        //Agregar campos que faltan
         $request->merge([
-            'carnet' =>  Generate::idEstudiante('CH04', $request->fecha_nac), 
-            'pin' => Generate::pin()
+            'carnet' =>  Generate::idEstudiante($request->sucursal . '04', $request->fecha_nac),
+            'pin' => Generate::pin(),
+            'promotor_id' => $id,
         ]);
+
+        //Guardar datos
         Matricula::create($request->all());
 
         //MOSTRAR VISTA
@@ -57,9 +95,9 @@ class MatriculaController extends Controller
      */
     public function show(Matricula $matricula)
     {
-        //SI NO HAY DATOS DEL CENTRO REDIRECCIONA A INGRESAR DICHOS DATOS
-        $centro = Centro::all()->first();
-        return $centro ? view('matricula.show', compact('matricula', $matricula))->with('centro', $centro) : redirect()->route('centro.create');
+        Gate::authorize('matricular');
+
+        return view('matricula.show', compact('matricula'));
     }
 
     /**
@@ -70,7 +108,8 @@ class MatriculaController extends Controller
      */
     public function edit(Matricula $matricula)
     {
-        //
+        Gate::authorize('matricular');
+
         $grupos = Grupo::all();
         return view('matricula.edit', compact('matricula', $matricula), compact('grupos', $grupos));
     }
@@ -82,9 +121,10 @@ class MatriculaController extends Controller
      * @param  \App\Models\Matricula  $matricula
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreMatriculaRequest $request, Matricula $matricula)
+    public function update(UpdateMatriculaRequest $request, Matricula $matricula)
     {
-        //
+        Gate::authorize('matricular');
+
         $matricula->update($request->all());
         return redirect()->route('matricula.index')->with('info', 'ok');
     }

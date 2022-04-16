@@ -24,15 +24,15 @@ class CreateMatriculasTable extends Migration
             $table->string('grado', 45);
             $table->string('carnet', 15)->unique();
             $table->string('pin', 6);
-            $table->enum('manual', ['SI', 'NO']);
+            $table->string('sucursal', 5);
 
             $table->unsignedBigInteger('promotor_id')->nullable();
             $table->foreign('promotor_id')
                 ->references('id')
                 ->on('promotors');
 
-            // $table->unsignedBigInteger('grupo_id');
-            // $table->foreign('grupo_id')->references('id')->on('grupos');
+            $table->unsignedBigInteger('grupo_id')->nullable();
+            $table->foreign('grupo_id')->references('id')->on('grupos');
 
             $table->timestamps();
         });

@@ -30,7 +30,7 @@ class StoreMatriculaRequest extends FormRequest
             'fecha_nac' => 'required|date',
             'tel' => 'nullable|min:8|max:8',
             'grado' => 'required|max:45',
-            'grupo_id' => 'required'
+            'sucursal' => 'required',
         ];
     }
     public function attributes()
@@ -38,12 +38,6 @@ class StoreMatriculaRequest extends FormRequest
         return [
             'fecha_nac' => 'fecha de nacimiento',
             'tel' => 'telefono',
-        ];
-    }
-    public function messages()
-    {
-        return [
-            'grupo_id.required' => 'Por favor, seleccione un curso.'
         ];
     }
 }

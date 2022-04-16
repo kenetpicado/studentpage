@@ -11,7 +11,7 @@ le correspondan según su rol:
 
 @component('mail::panel')
 <h4>ID: {{ $docente->carnet }} </h4>
-<h4>PIN: {{ $docente->pin }}</h4>
+<h4>PIN: {{ $pin }}</h4>
 @endcomponent
 
 Asegúrate de no perder esta información, de ser asi recuerde que siempre puede

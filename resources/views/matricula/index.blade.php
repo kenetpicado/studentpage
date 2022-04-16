@@ -25,7 +25,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">TODAS LAS MATRICULAS</h6>
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body ">
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -34,6 +34,8 @@
                                         <th>Nombre</th>
                                         <th>Carnet</th>
                                         <th>Curso</th>
+                                        <th>Promotor</th>
+                                        <th>Fecha</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -43,26 +45,28 @@
                                             <td>{{ $matricula->id }}</td>
                                             <td>{{ $matricula->nombre }}</td>
                                             <td><strong>{{ $matricula->carnet }}</strong></td>
-                                            <td>{{ $matricula->grupo->curso->nombre }}</td>
+                                            <td>{{ $matricula->grupo->curso->nombre ?? '' }}</td>
+                                            <td>{{ $matricula->promotor->carnet ?? ''}}</td>
+                                            <td>{{ $matricula->created_at}}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        {{-- <i class="fas fa-exclamation-circle fa-sm fa-fw text-gray-400"></i> --}}
-                                                        Ver opciones <i class="fas fa-cog"></i>
+                                                        <i class="fas fa-tasks"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        {{-- <a class="dropdown-item" href="{{ route('prematricula.edit', $matricula->prematricula) }}">Editar</a> --}}
                                                         <a class="dropdown-item"
-                                                            href="{{ route('matricula.show', $matricula) }}">Ver
-                                                            detalles</a>
+                                                        href="{{ route('matricula.show', $matricula) }}">Inscribir grupo</a>
                                                         <a class="dropdown-item"
-                                                            href="{{ route('pago.estudiante', $matricula) }}">Ver
-                                                            pagos</a>
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('matricula.edit', $matricula) }}">Editar</a>
-
+                                                        href="{{ route('matricula.show', $matricula) }}">Ver
+                                                        detalles</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('pago.estudiante', $matricula) }}">Ver
+                                                        pagos</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('matricula.edit', $matricula) }}">Editar</a>
+                                                        
                                                     </div>
                                                 </div>
                                             </td>
