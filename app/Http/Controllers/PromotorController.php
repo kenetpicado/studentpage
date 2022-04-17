@@ -15,6 +15,7 @@ use Illuminate\Validation\Rule;
 
 class PromotorController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +25,13 @@ class PromotorController extends Controller
     {
         //
         $promotors = Promotor::all();
-        return view('promotor.index', compact('promotors', $promotors));
+        return view('promotor.index', compact('promotors'));
+    }
+    public function indexapi()
+    {
+        //
+        $promotors = Promotor::all();
+        return $promotors;
     }
 
     /**
