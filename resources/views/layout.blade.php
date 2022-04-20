@@ -108,7 +108,7 @@
     @yield('re-open')
 
     {{-- SI HAY MENSAJE DE CONFIRMACION --}}
-    @if (session('info') == 'ok')
+    {{-- @if (session('info') == 'ok')
         <script>
             Swal.fire({
                 position: 'center',
@@ -118,7 +118,7 @@
                 timer: 1000
             })
         </script>
-    @endif
+    @endif --}}
 
     @if (session('info') == 'eliminado')
         <script>

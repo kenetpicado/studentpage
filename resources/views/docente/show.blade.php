@@ -23,6 +23,9 @@
                                     <tr>
                                         <th>Curso</th>
                                         <th>Grupo</th>
+                                        <th>Horario</th>
+                                        <th>Sucursal</th>
+                                        <th>Año</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -30,6 +33,9 @@
                                         <tr>
                                             <td>{{ $grupo->curso->nombre }}</td>
                                             <td>{{ $grupo->numero }}</td>
+                                            <td>{{ $grupo->horario }}</td>
+                                            <td>{{ $grupo->sucursal }}</td>
+                                            <td>{{ $grupo->anyo }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

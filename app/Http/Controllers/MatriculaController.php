@@ -84,6 +84,7 @@ class MatriculaController extends Controller
         //Encontrar el promotor quien matricula
         $promotor = Promotor::where('carnet', '=', Auth::user()->email)->first();
 
+        //Si matricula un admin el campo id promotor es null
         $id = !$promotor ? null : $promotor->id;
 
         //Agregar campos que faltan
@@ -138,7 +139,30 @@ class MatriculaController extends Controller
     {
         Gate::authorize('matricula');
 
-        $matricula->update($request->all());
+        //si hay flag de inscribir a grupo
+        if ($request->has('inscribir')) {
+            $request->validate([
+                'grupo_id' => 'required',
+            ],[], [
+                'grupo_id' => 'grupo'
+            ]);
+        } 
+        //si es actualizacion de datos
+        else {
+            $request->validate([
+                'nombre' => 'required|max:45',
+                'cedula' => 'nullable|alpha_dash|min:16|max:16',
+                'fecha_nac' => 'required|date',
+                'tel' => 'nullable|min:8|max:8',
+                'grado' => 'required|max:45',
+            ], [], [
+                'fecha_nac' => 'fecha de nacimiento',
+                'tel' => 'telefono',
+            ]);
+        }
+
+        //agregar datos menos el flag
+        $matricula->update($request->except('inscribir'));
         return redirect()->route('matricula.index')->with('info', 'ok');
     }
 

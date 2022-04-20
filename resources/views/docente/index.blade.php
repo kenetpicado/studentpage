@@ -31,9 +31,7 @@
                                         <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
-                                        <th>Sucursal</th>
                                         <th>Estado</th>
-                                        <th>Grupos</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -43,7 +41,6 @@
                                             <td>{{ $docente->carnet }}</td>
                                             <td>{{ $docente->nombre }}</td>
                                             <td>{{ $docente->correo }}</td>
-                                            <td>{{ $docente->sucursal}}</td>
                                             <td>
                                                 @if ($docente->estado == '1')
                                                     <span class="badge badge-pill badge-success">Activo</span>
@@ -51,7 +48,6 @@
                                                     <span class="badge badge-pill badge-danger">Inactivo</span>
                                                 @endif
                                             </td>
-                                            <td>{{count($docente->grupos)}}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"

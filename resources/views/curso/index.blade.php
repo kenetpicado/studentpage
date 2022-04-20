@@ -30,7 +30,6 @@
                                     <tr>
                                         <th>Nombre del curso</th>
                                         <th>Estado</th>
-                                        <th>Grupos</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -45,7 +44,6 @@
                                                     <span class="badge badge-pill badge-danger">Inactivo</span>
                                                 @endif
                                             </td>
-                                            <td>{{ count($curso->grupos) }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"

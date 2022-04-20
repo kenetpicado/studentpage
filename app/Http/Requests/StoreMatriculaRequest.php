@@ -33,6 +33,7 @@ class StoreMatriculaRequest extends FormRequest
             'grado' => 'required|max:45',
         ];
     }
+
     public function attributes()
     {
         return [

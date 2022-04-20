@@ -15,7 +15,6 @@ class CreateGruposTable extends Migration
     {
         Schema::create('grupos', function (Blueprint $table) {
             $table->id();
-            $table->string('numero', 3);
             $table->string('notificacion', 100)->nullable();
             $table->string('horario', 20);
             $table->year('anyo')->default(date('Y'));

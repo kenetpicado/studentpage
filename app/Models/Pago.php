@@ -24,6 +24,6 @@ class Pago extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return date('d-m-y', strtotime($value));
+        return date('d-m-Y', strtotime($value));
     }
 }

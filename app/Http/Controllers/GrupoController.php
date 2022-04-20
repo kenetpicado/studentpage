@@ -66,22 +66,19 @@ class GrupoController extends Controller
      */
     public function store(StoreGrupoRequest $request)
     {
-        //OBTENER DATOS PARA VALIDAR
-        $curso_id = $request->curso_id;
-        $curso = Curso::find($curso_id);
+        //Si es admin de sucursal especifica
+        $sucursal = Auth::user()->sucursal;
 
-        //VALIRDAR QUE NO HAYA OTRO GRUPO DEL MISMO CURSO EN LA MISMA SUCURSAL
-        $request->validate(
-            [
-                'numero' => Rule::unique('grupos')->where(function ($query) use ($curso_id, $request) {
-                    return $query->where('curso_id', $curso_id)->where('sucursal', $request->sucursal);
-                }),
-            ],
-            [
-                'numero.unique' => 'Ya existe un ' . $request->numero . ' del curso ' . $curso->nombre
-            ]
-        );
-
+        if ($sucursal != 'all') {
+            $request->merge([
+                'sucursal' =>  $sucursal,
+            ]);
+        } else {
+            $request->validate([
+                'sucursal' => 'required',
+            ]);
+        }
+        
         Grupo::create($request->all());
         return redirect()->route('grupo.index')->with('info', 'ok');
     }
@@ -108,7 +105,7 @@ class GrupoController extends Controller
     {
         //
         $docentes = Docente::all();
-        return view('grupo.edit', compact('grupo', $grupo), compact('docentes', $docentes));
+        return view('grupo.edit', compact('grupo', 'docentes'));
     }
 
     /**
@@ -134,5 +131,7 @@ class GrupoController extends Controller
     public function destroy(Grupo $grupo)
     {
         //
+        $grupo->delete();
+        return redirect()->route('grupo.index')->with('info', 'eliminado');
     }
 }

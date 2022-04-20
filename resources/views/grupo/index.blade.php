@@ -13,8 +13,6 @@
             </button>
         </div>
 
-        @include('grupo.modal')
-
         <!-- Content Row -->
         <div class="row">
             <div class="col-xl-12 col-lg-7">
@@ -32,25 +30,19 @@
                                 <thead>
                                     <tr>
                                         <th>Curso</th>
-                                        <th>Grupo</th>
-                                        <th>Sucursal</th>
-                                        <th>Año</th>
                                         <th>Horario</th>
                                         <th>Docente</th>
-                                        <th>Alumnos</th>
+                                        <th>Año</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($grupos as $grupo)
                                         <tr>
-                                            <td>{{ $grupo->curso->nombre ?? '' }}</td>
-                                            <td>{{ $grupo->numero }}</td>
-                                            <td>{{ $grupo->sucursal }}</td>
-                                            <td>{{ $grupo->anyo }}</td>
+                                            <td>{{ $grupo->curso->nombre ?? '' }}</td> 
                                             <td>{{ $grupo->horario }}</td>
                                             <td>{{ $grupo->docente->nombre }}</td>
-                                            <td>{{ count($grupo->matriculas) }}</td>
+                                            <td>{{ $grupo->anyo }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -78,6 +70,10 @@
         <!-- Content Row -->
     </div>
 @endsection('content')
+
+@section('agregarModal')
+    @include('grupo.modal')
+@endsection
 
 @section('re-open')
     @if ($errors->any())

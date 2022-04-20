@@ -12,10 +12,11 @@
                 <!-- Datos -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">{{$grupo->curso->nombre}} - {{$grupo->numero}} - {{$grupo->anyo}}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">{{ $grupo->curso->nombre }}</h6>
                     </div>
 
                     <div class="card-body">
+                        
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -28,8 +29,8 @@
                                 <tbody>
                                     @foreach ($grupo->matriculas as $matricula)
                                         <tr>
-                                            <td>{{ $matricula->carnet}}</td>
-                                            <td>{{ $matricula->nombre}}</td>
+                                            <td>{{ $matricula->carnet }}</td>
+                                            <td>{{ $matricula->nombre }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -38,7 +39,8 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a href="{{ route('pago.estudiante', $matricula) }}" class="dropdown-item">Pagos</a>
+                                                        <a href="{{ route('pago.estudiante', $matricula) }}"
+                                                            class="dropdown-item">Pagos</a>
                                                     </div>
                                                 </div>
                                             </td>

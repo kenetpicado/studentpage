@@ -30,7 +30,6 @@
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Carnet</th>
                                         <th>Curso</th>
@@ -42,7 +41,6 @@
                                 <tbody>
                                     @foreach ($matriculas as $matricula)
                                         <tr>
-                                            <td>{{ $matricula->id }}</td>
                                             <td>{{ $matricula->nombre }}</td>
                                             <td><strong>{{ $matricula->carnet }}</strong></td>
                                             <td>{{ $matricula->grupo->curso->nombre ?? '' }}</td>
@@ -57,7 +55,7 @@
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
                                                         <a class="dropdown-item"
-                                                        href="{{ route('matricula.show', $matricula) }}">Inscribir grupo</a>
+                                                        href="{{ route('matricula.inscribir', $matricula) }}">Inscribir a curso</a>
                                                         <a class="dropdown-item"
                                                         href="{{ route('matricula.show', $matricula) }}">Ver
                                                         detalles</a>

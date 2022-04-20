@@ -22,6 +22,7 @@
                                 <thead>
                                     <tr>
                                         <th>Grupo</th>
+                                        <th>Horario</th>
                                         <th>Docente a cargo</th>
                                     </tr>
                                 </thead>
@@ -29,6 +30,7 @@
                                     @foreach ($curso->grupos as $grupo)
                                         <tr>
                                             <td>{{ $grupo->numero }}</td>
+                                            <td>{{ $grupo->horario }}</td>
                                             <td>{{ $grupo->docente->nombre }}</td>
                                         </tr>
                                     @endforeach

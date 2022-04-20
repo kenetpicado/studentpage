@@ -37,12 +37,6 @@
                             @csrf
                             @method('PUT')
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <h6>Carnet: <strong>{{ $promotor->carnet }}</strong> </h6>
-                                    <hr>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label for="nombre">Nombre completo</label>
                                     <input type="text" class="form-control is-valid @error('nombre') is-invalid @enderror"
