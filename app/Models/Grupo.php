@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Curso;
 use App\Models\Docente;
 use App\Models\Matricula;
+use App\Models\GrupoMatricula;
 
 class Grupo extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+    public $timestamps = false;
 
     public function curso() 
     {
@@ -26,8 +28,9 @@ class Grupo extends Model
 
     public function matriculas()
     {
-        return $this->hasMany(Matricula::class);
+        return $this->belongsToMany(Matricula::class)->withPivot('id');
     }
+
     public function setHorarioAttribute($value)
     {
         $this->attributes['horario'] = trim(strtoupper($value));

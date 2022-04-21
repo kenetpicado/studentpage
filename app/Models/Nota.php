@@ -4,23 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Matricula;
+use App\Models\GrupoMatricula;
 
-class Pago extends Model
+class Nota extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    //Relacion 1:n inversa a matricula
-    public function matricula()
+    public function setUnidadAttribute($value)
     {
-        return $this->belongsTo(Matricula::class);
+        $this->attributes['unidad'] = trim(strtoupper($value));
     }
 
-    public function setConceptoAttribute($value)
+    //
+    public function grupomatricula()
     {
-        $this->attributes['concepto'] = trim(strtoupper($value));
+        return $this->belongsTo(GrupoMatricula::class);
     }
 
     public function getCreatedAtAttribute($value)

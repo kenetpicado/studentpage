@@ -66,18 +66,10 @@ class GrupoController extends Controller
      */
     public function store(StoreGrupoRequest $request)
     {
-        //Si es admin de sucursal especifica
-        $sucursal = Auth::user()->sucursal;
-
-        if ($sucursal != 'all') {
-            $request->merge([
-                'sucursal' =>  $sucursal,
-            ]);
-        } else {
-            $request->validate([
-                'sucursal' => 'required',
-            ]);
-        }
+        //Se crear sucursal del grupo en funcion de la suscursal del docente
+        $request->merge([
+            'sucursal' =>  Docente::find($request->docente_id)->first()->sucursal,
+        ]);
         
         Grupo::create($request->all());
         return redirect()->route('grupo.index')->with('info', 'ok');

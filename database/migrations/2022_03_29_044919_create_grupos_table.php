@@ -29,8 +29,6 @@ class CreateGruposTable extends Migration
             $table->foreign('docente_id')
                 ->references('id')
                 ->on('docentes');
-
-            $table->timestamps();
         });
     }
 

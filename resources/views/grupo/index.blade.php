@@ -30,8 +30,9 @@
                                 <thead>
                                     <tr>
                                         <th>Curso</th>
-                                        <th>Horario</th>
                                         <th>Docente</th>
+                                        <th>Horario</th>
+                                        <th>Sucursal</th>
                                         <th>Año</th>
                                         <th></th>
                                     </tr>
@@ -40,8 +41,9 @@
                                     @foreach ($grupos as $grupo)
                                         <tr>
                                             <td>{{ $grupo->curso->nombre ?? '' }}</td> 
-                                            <td>{{ $grupo->horario }}</td>
                                             <td>{{ $grupo->docente->nombre }}</td>
+                                            <td>{{ $grupo->horario }}</td>
+                                            <td>{{ $grupo->sucursal }}</td>
                                             <td>{{ $grupo->anyo }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">

@@ -9,13 +9,27 @@ use App\Models\Grupo;
 use App\Models\Promotor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-
+use App\Models\GrupoMatricula;
 
 class MatriculaController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    //Inscribir a un curso
+    public function inscribir(Matricula $matricula)
+    {
+        $grupos = Grupo::where('sucursal', $matricula->sucursal)->get();
+        return view('matricula.inscribir', compact('matricula', 'grupos'));
+    }
+
+    //Agregar nota
+    public function agregar(Matricula $matricula, $grupo_id)
+    {
+        $mt = GrupoMatricula::where('grupo_id', $grupo_id)->where('matricula_id', $matricula->id)->first();
+        return view('nota.create', compact('matricula', 'mt'));
     }
 
     /**
@@ -143,10 +157,12 @@ class MatriculaController extends Controller
         if ($request->has('inscribir')) {
             $request->validate([
                 'grupo_id' => 'required',
-            ],[], [
+            ], [], [
                 'grupo_id' => 'grupo'
             ]);
-        } 
+
+            $matricula->grupos()->attach($request->grupo_id);
+        }
         //si es actualizacion de datos
         else {
             $request->validate([
@@ -159,10 +175,11 @@ class MatriculaController extends Controller
                 'fecha_nac' => 'fecha de nacimiento',
                 'tel' => 'telefono',
             ]);
+
+            //agregar datos menos el flag
+            $matricula->update($request->except('inscribir'));
         }
 
-        //agregar datos menos el flag
-        $matricula->update($request->except('inscribir'));
         return redirect()->route('matricula.index')->with('info', 'ok');
     }
 

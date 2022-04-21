@@ -11,6 +11,7 @@ class Docente extends Model
     use HasFactory;
 
     protected $guarded = [];
+    public $timestamps = false;
 
     //FUNCION PARA CADENA EN MAYUSCULA
     public function setNombreAttribute($value)
@@ -22,6 +23,7 @@ class Docente extends Model
         $this->attributes['correo'] = trim(strtolower($value));
     }
 
+    //Relacion 1:n a grupos
     public function grupos()
     {
         return $this->hasMany(Grupo::class);

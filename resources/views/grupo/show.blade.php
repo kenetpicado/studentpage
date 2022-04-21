@@ -39,6 +39,8 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
+                                                        <a href="{{ route('nota.agregar', [$matricula, $grupo->id]) }}"
+                                                            class="dropdown-item">Notas</a>
                                                         <a href="{{ route('pago.estudiante', $matricula) }}"
                                                             class="dropdown-item">Pagos</a>
                                                     </div>

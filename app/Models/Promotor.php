@@ -11,6 +11,7 @@ class Promotor extends Model
     use HasFactory;
 
     protected $guarded = [];
+    public $timestamps = false;
     
     //FUNCION PARA CADENA EN MAYUSCULA
     public function setNombreAttribute($value)

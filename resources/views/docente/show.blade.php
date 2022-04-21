@@ -22,7 +22,6 @@
                                 <thead>
                                     <tr>
                                         <th>Curso</th>
-                                        <th>Grupo</th>
                                         <th>Horario</th>
                                         <th>Sucursal</th>
                                         <th>Año</th>
@@ -32,7 +31,6 @@
                                     @foreach ($docente->grupos as $grupo)
                                         <tr>
                                             <td>{{ $grupo->curso->nombre }}</td>
-                                            <td>{{ $grupo->numero }}</td>
                                             <td>{{ $grupo->horario }}</td>
                                             <td>{{ $grupo->sucursal }}</td>
                                             <td>{{ $grupo->anyo }}</td>

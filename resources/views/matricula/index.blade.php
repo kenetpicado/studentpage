@@ -43,7 +43,7 @@
                                         <tr>
                                             <td>{{ $matricula->nombre }}</td>
                                             <td><strong>{{ $matricula->carnet }}</strong></td>
-                                            <td>{{ $matricula->grupo->curso->nombre ?? '' }}</td>
+                                            <td>{{ $matricula->grupos->first()->curso->nombre ?? '' }}</td>
                                             <td>{{ $matricula->promotor->carnet ?? ''}}</td>
                                             <td>{{ $matricula->created_at}}</td>
                                             <td>
@@ -59,9 +59,6 @@
                                                         <a class="dropdown-item"
                                                         href="{{ route('matricula.show', $matricula) }}">Ver
                                                         detalles</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('pago.estudiante', $matricula) }}">Ver
-                                                        pagos</a>
                                                     <a class="dropdown-item"
                                                         href="{{ route('matricula.edit', $matricula) }}">Editar</a>
                                                         

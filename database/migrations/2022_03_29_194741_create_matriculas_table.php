@@ -31,9 +31,6 @@ class CreateMatriculasTable extends Migration
                 ->references('id')
                 ->on('promotors');
 
-            $table->unsignedBigInteger('grupo_id')->nullable();
-            $table->foreign('grupo_id')->references('id')->on('grupos');
-
             $table->timestamps();
         });
     }

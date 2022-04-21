@@ -18,6 +18,7 @@ class Curso extends Model
          $this->attributes['nombre'] = trim(strtoupper($value));
      }
 
+     //Relacion 1:n a grupos
      public function grupos()
     {
         return $this->hasMany(Grupo::class);
