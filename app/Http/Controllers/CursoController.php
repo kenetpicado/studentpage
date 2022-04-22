@@ -22,7 +22,7 @@ class CursoController extends Controller
     public function index()
     {
         //
-        $cursos = Curso::all();
+        $cursos = Curso::all(['id', 'nombre', 'estado']);
         return view('curso.index', compact('cursos'));
     }
 
@@ -56,7 +56,7 @@ class CursoController extends Controller
     public function show(Curso $curso)
     {
         //
-        return view('curso.show', compact('curso'));
+        //return view('curso.show', compact('curso'));
     }
 
     public function verGrupos(Curso $curso)

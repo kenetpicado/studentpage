@@ -34,7 +34,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($mt->notas as $nota)
+                                    @foreach ($notas as $nota)
                                         <tr>
                                             <td>{{ $nota->created_at }}</td>
                                             <td>{{ $nota->unidad }}</td>

@@ -26,9 +26,10 @@ class Grupo extends Model
         return $this->belongsTo(Docente::class);
     }
 
+    //Relacion n:m a matriculas
     public function matriculas()
     {
-        return $this->belongsToMany(Matricula::class)->withPivot('id');
+        return $this->belongsToMany(Matricula::class);
     }
 
     public function setHorarioAttribute($value)

@@ -13,7 +13,7 @@
                 <!-- Datos del alumno -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR GRUPO: {{ $grupo->curso->nombre }}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">EDITAR GRUPO</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -21,7 +21,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                 aria-labelledby="dropdownMenuLink">
-                                @if (count($grupo->matriculas) == 0)
+                                @if ($cant == 0)
                                     <a class="dropdown-item" href="#" data-toggle="modal"
                                         data-target="#eliminar">Eliminar</a>
                                 @else

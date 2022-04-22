@@ -16,11 +16,6 @@ class Matricula extends Model
 
     protected $guarded = [];
 
-    public function notas()
-    {
-        return $this->hasManyThrough('App\Models\Nota', 'App\Models\GrupoMatricula');
-    }
-
     //Relacion 1:m a pago
     public function pagos()
     {
@@ -36,7 +31,7 @@ class Matricula extends Model
     //Relacion n:m a grupos
     public function grupos()
     {
-        return $this->belongsToMany(Grupo::class)->withPivot('id');
+        return $this->belongsToMany(Grupo::class);
     }
 
     //FUNCION PARA CADENA EN MAYUSCULA
@@ -66,8 +61,8 @@ class Matricula extends Model
         return date('d-m-Y', strtotime($value));
     }
 
-    // public function getFechaNacAttribute($value)
-    // {
-    //     return date('d-m-Y', strtotime($value));
-    // }
+    public function getFechaNacAttribute($value)
+    {
+        return date('d-m-Y', strtotime($value));
+    }
 }

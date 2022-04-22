@@ -52,8 +52,6 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-
-                                                        <a href="{{ route('curso.show', $curso) }}" class="dropdown-item">Ver grupos</a>
                                                         <a href="{{ route('curso.edit', $curso) }}" class="dropdown-item">Editar</a>
                                                     </div>
                                                 </div>

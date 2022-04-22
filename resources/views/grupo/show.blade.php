@@ -12,7 +12,7 @@
                 <!-- Datos -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">{{ $grupo->curso->nombre }}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">ALUMNOS</h6>
                     </div>
 
                     <div class="card-body">
@@ -39,7 +39,7 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a href="{{ route('nota.agregar', [$matricula, $grupo->id]) }}"
+                                                        <a href="{{ route('nota.agregar', [$matricula->id, $grupo->id]) }}"
                                                             class="dropdown-item">Notas</a>
                                                         <a href="{{ route('pago.estudiante', $matricula) }}"
                                                             class="dropdown-item">Pagos</a>

@@ -8,7 +8,8 @@
         <!-- Boton abrir modal -->
         <div class="d-sm-flex align-items-center justify-content-between m-2">
             <h1 class="h3 mb-0 text-gray-800">Matriculas</h1>
-            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#matriculaModalCreate">
+            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal"
+                data-target="#matriculaModalCreate">
                 Agregar <i class="fas fa-plus ml-1"></i>
             </button>
         </div>
@@ -32,7 +33,6 @@
                                     <tr>
                                         <th>Nombre</th>
                                         <th>Carnet</th>
-                                        <th>Curso</th>
                                         <th>Promotor</th>
                                         <th>Fecha</th>
                                         <th></th>
@@ -41,11 +41,19 @@
                                 <tbody>
                                     @foreach ($matriculas as $matricula)
                                         <tr>
-                                            <td>{{ $matricula->nombre }}</td>
-                                            <td><strong>{{ $matricula->carnet }}</strong></td>
-                                            <td>{{ $matricula->grupos->first()->curso->nombre ?? '' }}</td>
-                                            <td>{{ $matricula->promotor->carnet ?? ''}}</td>
-                                            <td>{{ $matricula->created_at}}</td>
+                                            <td>
+                                                
+                                                {{ $matricula->nombre }}</td>
+                                            <td>
+                                                {{ $matricula->carnet }}
+                                                @if ($matricula->inscrito == '1')
+                                                <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
+                                                @else
+                                                    <i class="fas fa-circle fa-xs"></i>
+                                                @endif
+                                            </td>
+                                            <td>{{ $matricula->promotor->carnet ?? '' }}</td>
+                                            <td>{{ $matricula->created_at }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -55,13 +63,14 @@
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
                                                         <a class="dropdown-item"
-                                                        href="{{ route('matricula.inscribir', $matricula) }}">Inscribir a curso</a>
+                                                            href="{{ route('matricula.inscribir', $matricula) }}">Inscribir
+                                                            a curso</a>
                                                         <a class="dropdown-item"
-                                                        href="{{ route('matricula.show', $matricula) }}">Ver
-                                                        detalles</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('matricula.edit', $matricula) }}">Editar</a>
-                                                        
+                                                            href="{{ route('matricula.show', $matricula) }}">Ver
+                                                            detalles</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('matricula.edit', $matricula) }}">Editar</a>
+
                                                     </div>
                                                 </div>
                                             </td>

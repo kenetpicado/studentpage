@@ -13,26 +13,13 @@
                 <!-- Datos-->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">VER MATRICULA</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">DATOS DE LA MATRICULA</h6>
                     </div>
 
                     <div class="card-body" id="imprimible">
                         <div class="row">
                             <div class="form-group col-lg-12">
                                 <table class="table table-borderless">
-                                    <tr class="center-babe">
-                                        <td colspan="4">
-                                            <h5> <strong>INSTITUO TECNOLOGICO</strong> </h5>
-                                            <h6>Matricula {{date('Y', strtotime($matricula->created_at))}}</h6>
-                                            <h6></h6>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4">
-                                            <h6>Datos del alumno</h6>
-                                            <hr>
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <td>Carnet:</td>
                                         <td><strong> {{ $matricula->carnet }}</strong></td>

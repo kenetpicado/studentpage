@@ -31,7 +31,6 @@
                                         <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
-                                        <th>Matrículas</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -41,7 +40,6 @@
                                             <td>{{ $promotor->carnet }}</td>
                                             <td>{{ $promotor->nombre }}</td>
                                             <td>{{ $promotor->correo }}</td>
-                                            <td>{{ count($promotor->matriculas) }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"

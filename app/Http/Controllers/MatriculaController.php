@@ -10,6 +10,9 @@ use App\Models\Promotor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\GrupoMatricula;
+use App\Models\Nota;
+use Illuminate\Validation\Rule;
+use Symfony\Component\ErrorHandler\Debug;
 
 class MatriculaController extends Controller
 {
@@ -26,10 +29,16 @@ class MatriculaController extends Controller
     }
 
     //Agregar nota
-    public function agregar(Matricula $matricula, $grupo_id)
+    public function agregar($matricula_id, $grupo_id)
     {
-        $mt = GrupoMatricula::where('grupo_id', $grupo_id)->where('matricula_id', $matricula->id)->first();
-        return view('nota.create', compact('matricula', 'mt'));
+        $matricula = Matricula::find($matricula_id, ['id', 'nombre']);
+        
+        //Obtener el grupo en la tabla pivot
+        $mt = GrupoMatricula::where('grupo_id', $grupo_id)->where('matricula_id', $matricula->id)->first('id');
+        
+        //Obtener las notas
+        $notas = Nota::where('grupo_matricula_id', $mt->id)->get(['created_at', 'unidad', 'valor']);
+        return view('nota.create', compact('matricula', 'mt', 'notas'));
     }
 
     /**
@@ -41,26 +50,45 @@ class MatriculaController extends Controller
     {
         Gate::authorize('matricula');
 
-        $rol = Auth::user()->rol;
-        $sucursal = Auth::user()->sucursal;
+        $user = Auth::user();
 
         switch (true) {
-            case ($rol == 'promotor'):
-                $matriculas = Promotor::where('carnet', '=', Auth::user()->email)->first()->matriculas;
+            case ($user->rol == 'promotor'):
+                $id = Promotor::where('carnet', $user->email)->first(['id'])->id;
+                
+                $matriculas = Matricula::where('promotor_id', $id)->with([
+                    'promotor' => function ($query) {
+                        $query->select('id', 'carnet');
+                    }
+                ])->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
-            case ($rol == 'admin' && $sucursal == 'CH'):
-                $matriculas = Matricula::where('sucursal', '=', 'CH')->get();
+
+            case ($user->rol == 'admin' && $user->sucursal == 'CH'):
+                $matriculas = Matricula::where('sucursal', 'CH')->with([
+                    'promotor' => function ($query) {
+                        $query->select('id', 'carnet');
+                    }
+                ])->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
-            case ($rol == 'admin' && $sucursal == 'MG'):
-                $matriculas = Matricula::where('sucursal', '=', 'MG')->get();
+
+            case ($user->rol == 'admin' && $user->sucursal == 'MG'):
+                $matriculas = Matricula::where('sucursal', 'MG')->with([
+                    'promotor' => function ($query) {
+                        $query->select('id', 'carnet');
+                    }
+                ])->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
+
             default:
-                $matriculas = Matricula::all();
+                $matriculas = Matricula::with([
+                    'promotor' => function ($query) {
+                        $query->select('id', 'carnet');
+                    }
+                ])->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
         }
 
-        $grupos = Grupo::all();
-        return view('matricula.index', compact('matriculas', 'grupos'));
+        return view('matricula.index', compact('matriculas'));
     }
 
     /**
@@ -83,11 +111,11 @@ class MatriculaController extends Controller
         Gate::authorize('matricula');
 
         //Si es admin de sucursal especifica
-        $sucursal = Auth::user()->sucursal;
+        $user = Auth::user();
 
-        if ($sucursal != 'all') {
+        if ($user->sucursal != 'all') {
             $request->merge([
-                'sucursal' =>  $sucursal,
+                'sucursal' =>  $user->sucursal,
             ]);
         } else {
             $request->validate([
@@ -95,11 +123,8 @@ class MatriculaController extends Controller
             ]);
         }
 
-        //Encontrar el promotor quien matricula
-        $promotor = Promotor::where('carnet', '=', Auth::user()->email)->first();
-
-        //Si matricula un admin el campo id promotor es null
-        $id = !$promotor ? null : $promotor->id;
+        //Si matricula un admin id promotor es null
+        $id = $user->rol == 'admin' ? null : Promotor::where('carnet', '=', $user->email)->first(['id'])->id;
 
         //Agregar campos que faltan
         $request->merge([
@@ -109,10 +134,10 @@ class MatriculaController extends Controller
         ]);
 
         //Guardar datos
-        Matricula::create($request->all());
+        $matricula = Matricula::create($request->all());
 
         //MOSTRAR VISTA
-        return redirect()->route('matricula.index')->with('info', 'ok');
+        return redirect()->route('matricula.inscribir', compact('matricula'));
     }
 
     /**
@@ -137,9 +162,7 @@ class MatriculaController extends Controller
     public function edit(Matricula $matricula)
     {
         Gate::authorize('matricula');
-
-        $grupos = Grupo::all();
-        return view('matricula.edit', compact('matricula', $matricula), compact('grupos', $grupos));
+        return view('matricula.edit', compact('matricula'));
     }
 
     /**
@@ -156,12 +179,17 @@ class MatriculaController extends Controller
         //si hay flag de inscribir a grupo
         if ($request->has('inscribir')) {
             $request->validate([
-                'grupo_id' => 'required',
-            ], [], [
+                'grupo_id' => ['required', Rule::unique('grupo_matricula')->where(function ($query) use ($matricula) {
+                    return $query->where('matricula_id', $matricula->id);
+                })],
+            ], [
+                'grupo_id.unique' => 'Ya pertenece a este grupo'
+            ], [
                 'grupo_id' => 'grupo'
             ]);
 
             $matricula->grupos()->attach($request->grupo_id);
+            $matricula->update(['inscrito' => '1']);
         }
         //si es actualizacion de datos
         else {

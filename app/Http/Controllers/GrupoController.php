@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateGrupoRequest;
 use App\Models\Grupo;
 use App\Models\Curso;
 use App\Models\Docente;
+use App\Models\GrupoMatricula;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -27,22 +28,47 @@ class GrupoController extends Controller
         Gate::authorize('admin');
 
         //Cursos deben cargarse todos
-        $cursos = Curso::where('estado', '=', '1')->get();
+        $cursos = Curso::where('estado', '=', '1')->get(['id', 'nombre']);
 
         $sucursal = Auth::user()->sucursal;
 
         switch (true) {
             case ($sucursal == 'CH'):
-                $docentes = Docente::where('estado', '=', '1')->where('sucursal', '=', 'CH')->get();
-                $grupos = Grupo::where('sucursal', '=', 'CH')->get();
+                $docentes = Docente::where('estado', '=', '1')->where('sucursal', '=', 'CH')->get(['id', 'nombre']);
+                
+                $grupos = Grupo::where('sucursal', '=', 'CH')->with([
+                    'curso' => function ($query) {
+                        $query->select('id', 'nombre');
+                    },
+                    'docente' => function ($query) {
+                        $query->select('id', 'nombre');
+                    },
+                ])->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
                 break;
+
             case ($sucursal == 'MG'):
-                $docentes = Docente::where('estado', '=', '1')->where('sucursal', '=', 'MG')->get();
-                $grupos = Grupo::where('sucursal', '=', 'MG')->get();
+                $docentes = Docente::where('estado', '=', '1')->where('sucursal', '=', 'MG')->get(['id', 'nombre']);
+                $grupos = Grupo::where('sucursal', '=', 'MG')->with([
+                    'curso' => function ($query) {
+                        $query->select('id', 'nombre');
+                    },
+                    'docente' => function ($query) {
+                        $query->select('id', 'nombre');
+                    },
+                ])->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
                 break;
+
             default:
-                $docentes = Docente::where('estado', '=', '1')->get();
-                $grupos = Grupo::all();
+                $docentes = Docente::where('estado', '=', '1')->get(['id', 'nombre']);
+                
+                $grupos = Grupo::with([
+                    'curso' => function ($query) {
+                        $query->select('id', 'nombre');
+                    },
+                    'docente' => function ($query) {
+                        $query->select('id', 'nombre');
+                    },
+                ])->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
                 break;
         }
         return view('grupo.index', compact('grupos', 'cursos', 'docentes'));
@@ -68,7 +94,7 @@ class GrupoController extends Controller
     {
         //Se crear sucursal del grupo en funcion de la suscursal del docente
         $request->merge([
-            'sucursal' =>  Docente::find($request->docente_id)->first()->sucursal,
+            'sucursal' => Docente::find($request->docente_id)->sucursal,
         ]);
         
         Grupo::create($request->all());
@@ -96,8 +122,10 @@ class GrupoController extends Controller
     public function edit(Grupo $grupo)
     {
         //
-        $docentes = Docente::all();
-        return view('grupo.edit', compact('grupo', 'docentes'));
+        $docentes = Docente::where('sucursal', $grupo->sucursal)->get(['id', 'nombre']);
+        $cant = GrupoMatricula::where('grupo_id', $grupo->id)->count();
+
+        return view('grupo.edit', compact('grupo', 'docentes', 'cant'));
     }
 
     /**

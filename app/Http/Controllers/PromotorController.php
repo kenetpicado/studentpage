@@ -28,7 +28,7 @@ class PromotorController extends Controller
     public function index()
     {
         //
-        $promotors = Promotor::all();
+        $promotors = Promotor::all(['id', 'carnet', 'nombre', 'correo']);
         return view('promotor.index', compact('promotors', $promotors));
     }
 
@@ -130,7 +130,7 @@ class PromotorController extends Controller
             ]);
 
             //Actualizar en tabla docente
-            $promotor->update($request->all());
+            $promotor->update($request->all(['nombre', 'correo']));
 
             //Actualizar en tabla User
             $user->update(['name' => $request->nombre]);

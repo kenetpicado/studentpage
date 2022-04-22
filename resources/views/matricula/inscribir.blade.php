@@ -13,14 +13,22 @@
                 <div class="card shadow mb-4">
 
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">INSCRIBIR: {{ $matricula->nombre }}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">INSCRIBIR</h6>
                     </div>
 
                     <div class="card-body">
                         <form action="{{ route('matricula.update', $matricula) }}" method="POST">
                             @csrf
                             @method('PUT')
-
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <p>
+                                        A continuación, se muestran los cursos disponibles en función de la 
+                                        sucursal asignada al estudiante.
+                                    </p>
+                                </div>
+                            </div>
+                            
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label>Selecionar grupo</label>
@@ -28,8 +36,11 @@
                                     <select name="grupo_id" class="form-control @error('grupo_id') is-invalid @enderror">
                                         <option selected disabled value="">Seleccionar</option>
                                         @foreach ($grupos as $grupo)
-                                            <option value="{{ $grupo->id }}">{{ $grupo->curso->nombre }} /
-                                                {{ $grupo->horario }} / {{ $grupo->docente->nombre }}</option>
+                                            <option value="{{ $grupo->id }}" {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
+                                                {{ $grupo->curso->nombre }} /
+                                                {{ $grupo->horario }} / 
+                                                {{ $grupo->docente->nombre }}
+                                            </option>
                                         @endforeach
                                     </select>
 

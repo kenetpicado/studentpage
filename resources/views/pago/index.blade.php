@@ -31,7 +31,6 @@
                                         <th>Fecha</th>
                                         <th>Monto C$</th>
                                         <th>Concepto</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
