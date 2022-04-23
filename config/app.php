@@ -14,6 +14,7 @@ return [
     */
 
     'name' => ('StudentPage'),
+    'centro' => ('Instituto Tecnológico Megabyte Service'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

@@ -149,7 +149,6 @@ class MatriculaController extends Controller
     public function show(Matricula $matricula)
     {
         Gate::authorize('matricula');
-
         return view('matricula.show', compact('matricula'));
     }
 

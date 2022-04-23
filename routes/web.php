@@ -43,6 +43,11 @@ Route::get('/mailable', function () {
     return new App\Mail\Restablecimiento('carnebb', 'pinbb');
 });
 
+//Ver matricula
+Route::get('matricula-ver/{matricula}', function (Matricula $matricula) {
+    return new App\Mail\VerMatricula($matricula);
+})->name('matricula.ver');
+
 //RECURSOS DE RUTAS
 Route::resource('curso', CursoController::class);
 Route::resource('docente', DocenteController::class);

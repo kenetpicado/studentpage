@@ -106,15 +106,17 @@ class DocenteController extends Controller
      * @param  \App\Models\Docente  $docente
      * @return \Illuminate\Http\Response
      */
-    public function show(Docente $docente)
+    public function show($docente_id)
     {
-        $grupos = Grupo::where('docente_id', $docente->id)->with([
+        $docente = Docente::find($docente_id, ['id', 'nombre']);
+
+        $grupos = Grupo::where('docente_id', $docente_id)->with([
             'curso' => function ($query) {
                 $query->select('id', 'nombre');
             }
-        ])->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id']);
+        ])->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
 
-        return view('docente.show', compact('grupos'));
+        return view('docente.show', compact('grupos', 'docente'));
     }
 
     /**

@@ -58,11 +58,11 @@ class Matricula extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return date('d-m-Y', strtotime($value));
+        return date('Y-m-d', strtotime($value));
     }
 
-    public function getFechaNacAttribute($value)
-    {
-        return date('d-m-Y', strtotime($value));
-    }
+    // public function getFechaNacAttribute($value)
+    // {
+    //     return date('d-m-Y', strtotime($value));
+    // }
 }
