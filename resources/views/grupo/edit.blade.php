@@ -5,6 +5,14 @@
 @section('content')
     <div class="container-fluid">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('grupo.index') }}">Grupos</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Editar</li>
+            </ol>
+        </nav>
+
         <!-- Content Row -->
         <div class="row">
             <form class="col-12" action="{{ route('grupo.update', $grupo) }}" method="POST">
@@ -32,14 +40,22 @@
                     </div>
 
                     <div class="card-body">
+
                         <div class="row">
                             <div class="form-group col-lg-6">
-                                <label for="docente_id">Cambiar docente</label>
-                                <select name="docente_id" class="form-control is-valid @error('docente_id') is-invalid @enderror">
+                                Cambiar docente / horario del grupo selecionado.
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label for="docente_id">Seleccionar docente</label>
+                                <select name="docente_id" class="form-control @error('docente_id') is-invalid @enderror">
                                     <option selected disabled value="">Seleccionar</option>
                                     @foreach ($docentes as $docente)
                                         <option value="{{ $docente->id }}"
-                                            {{ old('docente_id') == $docente->id ||$docente->id == $grupo->docente->id ? 'selected' : '' }}>{{ $docente->nombre }}</option>
+                                            {{ old('docente_id') == $docente->id ? 'selected' : '' }}>
+                                            {{ $docente->nombre }}</option>
                                     @endforeach
                                 </select>
                                 @error('docente_id')
@@ -52,7 +68,7 @@
                         <div class="row">
                             <div class="form-group col-lg-6">
                                 <label for="horario">Horario</label>
-                                <input type="text" class="form-control is-valid @error('horario') is-invalid @enderror"
+                                <input type="text" class="form-control @error('horario') is-invalid @enderror"
                                     name="horario" autocomplete="off" value="{{ old('horario', $grupo->horario) }}">
                                 @error('horario')
                                     <span class="invalid-feedback" role="alert">

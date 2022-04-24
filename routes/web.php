@@ -30,18 +30,18 @@ Route::get('/', function () {
 });
 
 //Realizar un pago
-Route::get('pago-estudiante/{matricula}', [PagoController::class, 'pagoEstudiante'])->name('pago.estudiante');
+Route::get('pagar/{matricula}/{grupo}', [PagoController::class, 'pagar'])->name('pagar');
 
 //Inscribir a un curso
 Route::get('inscribir/{matricula}', [MatriculaController::class, 'inscribir'])->name('matricula.inscribir');
 
 //Agregar nota
-Route::get('nota-agregar/{matricula}/{grupo}', [MatriculaController::class, 'agregar'])->name('nota.agregar');
+Route::get('nota-agregar/{matricula}/{grupo}', [NotaController::class, 'agregar'])->name('nota.agregar');
 
 //RUTA PARA PROBAR LAS INTERFACES DE LOS CORREOS
-Route::get('/mailable', function () {
-    return new App\Mail\Restablecimiento('carnebb', 'pinbb');
-});
+// Route::get('/mailable', function () {
+//     return new App\Mail\Restablecimiento('carnebb', 'pinbb');
+// });
 
 //Ver matricula
 Route::get('matricula-ver/{matricula}', function (Matricula $matricula) {
@@ -57,4 +57,4 @@ Route::resource('pago', PagoController::class);
 Route::resource('promotor', PromotorController::class);
 Route::resource('nota', NotaController::class);
 Auth::routes(['register' => false]);
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

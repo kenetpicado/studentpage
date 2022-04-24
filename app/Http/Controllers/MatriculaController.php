@@ -22,23 +22,14 @@ class MatriculaController extends Controller
     }
 
     //Inscribir a un curso
-    public function inscribir(Matricula $matricula)
+    public function inscribir($matricula_id)
     {
-        $grupos = Grupo::where('sucursal', $matricula->sucursal)->get();
-        return view('matricula.inscribir', compact('matricula', 'grupos'));
-    }
+        $matricula = Matricula::find($matricula_id, ['id', 'sucursal']);
 
-    //Agregar nota
-    public function agregar($matricula_id, $grupo_id)
-    {
-        $matricula = Matricula::find($matricula_id, ['id', 'nombre']);
-        
-        //Obtener el grupo en la tabla pivot
-        $mt = GrupoMatricula::where('grupo_id', $grupo_id)->where('matricula_id', $matricula->id)->first('id');
-        
-        //Obtener las notas
-        $notas = Nota::where('grupo_matricula_id', $mt->id)->get(['created_at', 'unidad', 'valor']);
-        return view('nota.create', compact('matricula', 'mt', 'notas'));
+        //Cargar todos los grupos disponibles de la sucursal dada
+        $grupos = Grupo::where('sucursal', $matricula->sucursal)->get();
+
+        return view('matricula.inscribir', compact('matricula', 'grupos'));
     }
 
     /**
@@ -56,35 +47,26 @@ class MatriculaController extends Controller
             case ($user->rol == 'promotor'):
                 $id = Promotor::where('carnet', $user->email)->first(['id'])->id;
                 
-                $matriculas = Matricula::where('promotor_id', $id)->with([
-                    'promotor' => function ($query) {
-                        $query->select('id', 'carnet');
-                    }
-                ])->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
+                $matriculas = Matricula::where('promotor_id', $id)
+                ->with(['promotor:id,carnet'])
+                ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
 
             case ($user->rol == 'admin' && $user->sucursal == 'CH'):
-                $matriculas = Matricula::where('sucursal', 'CH')->with([
-                    'promotor' => function ($query) {
-                        $query->select('id', 'carnet');
-                    }
-                ])->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
+                $matriculas = Matricula::where('sucursal', 'CH')
+                ->with(['promotor:id,carnet'])
+                ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
 
             case ($user->rol == 'admin' && $user->sucursal == 'MG'):
-                $matriculas = Matricula::where('sucursal', 'MG')->with([
-                    'promotor' => function ($query) {
-                        $query->select('id', 'carnet');
-                    }
-                ])->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
+                $matriculas = Matricula::where('sucursal', 'MG')
+                ->with(['promotor:id,carnet'])
+                ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
 
             default:
-                $matriculas = Matricula::with([
-                    'promotor' => function ($query) {
-                        $query->select('id', 'carnet');
-                    }
-                ])->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
+                $matriculas = Matricula::with(['promotor:id,carnet'])
+                ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
         }
 
@@ -98,6 +80,7 @@ class MatriculaController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -137,7 +120,8 @@ class MatriculaController extends Controller
         $matricula = Matricula::create($request->all());
 
         //MOSTRAR VISTA
-        return redirect()->route('matricula.inscribir', compact('matricula'));
+        //return redirect()->route('matricula.inscribir', compact('matricula'));
+        return back();
     }
 
     /**
@@ -148,8 +132,7 @@ class MatriculaController extends Controller
      */
     public function show(Matricula $matricula)
     {
-        Gate::authorize('matricula');
-        return view('matricula.show', compact('matricula'));
+        //
     }
 
     /**

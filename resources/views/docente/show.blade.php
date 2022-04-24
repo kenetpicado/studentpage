@@ -5,6 +5,14 @@
 @section('content')
     <div class="container-fluid">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('docente.index') }}">Docentes</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Grupos</li>
+            </ol>
+        </nav>
+
         <!-- Content Row -->
         <div class="row">
             <form class="col-xl-12 col-lg-7">

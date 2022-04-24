@@ -5,6 +5,14 @@
 @section('content')
     <div class="container-fluid">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('promotor.index') }}">Promotores</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Editar</li>
+            </ol>
+        </nav>
+
         <!-- Content Row -->
         <div class="row">
             <div class="col-lg-12">
@@ -39,7 +47,7 @@
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label for="nombre">Nombre completo</label>
-                                    <input type="text" class="form-control is-valid @error('nombre') is-invalid @enderror"
+                                    <input type="text" class="form-control @error('nombre') is-invalid @enderror"
                                         name="nombre" autocomplete="off" value="{{ old('nombre', $promotor->nombre) }}">
 
                                     @error('nombre')
@@ -53,7 +61,7 @@
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label for="correo">Correo</label>
-                                    <input type="email" class="form-control is-valid @error('correo') is-invalid @enderror"
+                                    <input type="email" class="form-control @error('correo') is-invalid @enderror"
                                         name="correo" autocomplete="off" value="{{ old('correo', $promotor->correo) }}">
 
                                     @error('correo')

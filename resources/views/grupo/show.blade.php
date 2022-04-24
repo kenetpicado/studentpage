@@ -5,6 +5,14 @@
 @section('content')
     <div class="container-fluid">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('grupo.index') }}">Grupos</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Alumnos</li>
+            </ol>
+        </nav>
+
         <!-- Content Row -->
         <div class="row">
             <form class="col-xl-12 col-lg-7">
@@ -12,15 +20,16 @@
                 <!-- Datos -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">{{$grupo->curso->nombre}} - ALUMNOS</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">ALUMNOS</h6>
                     </div>
 
                     <div class="card-body">
-                        
+
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Carnet</th>
                                         <th>Nombre</th>
                                         <th></th>
@@ -29,6 +38,7 @@
                                 <tbody>
                                     @foreach ($grupo->matriculas as $matricula)
                                         <tr>
+                                            <td>{{ $matricula->id }}</td>
                                             <td>{{ $matricula->carnet }}</td>
                                             <td>{{ $matricula->nombre }}</td>
                                             <td>
@@ -41,7 +51,7 @@
                                                         aria-labelledby="dropdownMenuLink">
                                                         <a href="{{ route('nota.agregar', [$matricula->id, $grupo->id]) }}"
                                                             class="dropdown-item">Notas</a>
-                                                        <a href="{{ route('pago.estudiante', $matricula) }}"
+                                                        <a href="{{ route('pagar', [$matricula->id, $grupo->id]) }}"
                                                             class="dropdown-item">Pagos</a>
                                                     </div>
                                                 </div>

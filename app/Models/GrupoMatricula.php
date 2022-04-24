@@ -9,6 +9,7 @@ use App\Models\Nota;
 class GrupoMatricula extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     protected $table = "grupo_matricula";
 

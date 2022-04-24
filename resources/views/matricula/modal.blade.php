@@ -1,5 +1,5 @@
 <!-- Matricula Modal -->
-<div class="modal fade" id="matriculaModalCreate" tabindex="-1" role="dialog" aria-labelledby="matriculaModalCreate"
+<div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="matriculaModalCreate"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">

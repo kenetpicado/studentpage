@@ -5,6 +5,14 @@
 @section('content')
     <div class="container-fluid">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('matricula.index') }}">Matriculas</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Inscribir</li>
+            </ol>
+        </nav>
+
         <!-- Content Row -->
         <div class="row">
             <div class="col-xl-12 col-lg-7">
@@ -22,23 +30,21 @@
                             @method('PUT')
                             <div class="row">
                                 <div class="form-group col-lg-6">
-                                    <p>
-                                        A continuación, se muestran los cursos disponibles en función de la 
-                                        sucursal asignada al estudiante.
-                                    </p>
+                                    A continuación, se muestran los cursos disponibles en función de la
+                                    sucursal asignada al estudiante.
                                 </div>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label>Selecionar grupo</label>
-
                                     <select name="grupo_id" class="form-control @error('grupo_id') is-invalid @enderror">
                                         <option selected disabled value="">Seleccionar</option>
                                         @foreach ($grupos as $grupo)
-                                            <option value="{{ $grupo->id }}" {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
+                                            <option value="{{ $grupo->id }}"
+                                                {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
                                                 {{ $grupo->curso->nombre }} /
-                                                {{ $grupo->horario }} / 
+                                                {{ $grupo->horario }} /
                                                 {{ $grupo->docente->nombre }}
                                             </option>
                                         @endforeach

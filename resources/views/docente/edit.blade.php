@@ -5,6 +5,14 @@
 @section('content')
     <div class="container-fluid">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('home')}}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{route('docente.index')}}">Docentes</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Editar</li>
+            </ol>
+        </nav>
+
         <!-- Content Row -->
         <div class="row">
             <div class="col-xl-12 col-lg-7">
@@ -41,7 +49,7 @@
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label for="nombre">Nombre del docente</label>
-                                    <input type="text" class="form-control is-valid @error('nombre') is-invalid @enderror"
+                                    <input type="text" class="form-control @error('nombre') is-invalid @enderror"
                                         name="nombre" autocomplete="off" value="{{ old('nombre', $docente->nombre) }}">
 
                                     @error('nombre')
@@ -54,7 +62,7 @@
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label for="correo">Correo</label>
-                                    <input type="email" class="form-control is-valid @error('correo') is-invalid @enderror"
+                                    <input type="email" class="form-control @error('correo') is-invalid @enderror"
                                         name="correo" autocomplete="off" value="{{ old('correo', $docente->correo) }}">
 
                                     @error('correo')
@@ -67,7 +75,7 @@
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label>Estado</label>
-                                    <select name="estado" class="form-control is-valid">
+                                    <select name="estado" class="form-control">
                                         <option value="1"
                                             {{ old('estado') == '1' || $docente->estado == '1' ? 'selected' : '' }}>
                                             Activo</option>

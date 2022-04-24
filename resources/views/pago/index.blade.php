@@ -5,13 +5,14 @@
 @section('content')
     <div class="container-fluid">
 
-        <!-- Cabecera -->
-        <div class="d-sm-flex align-items-center justify-content-between m-2">
-            <h1 class="h3 mb-0 text-gray-800">Pagos</h1>
-            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#agregar">
-                Agregar <i class="fas fa-plus ml-1"></i>
-            </button>
-        </div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('grupo.index') }}">Grupos</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('grupo.show', $grupo_id) }}">Alumnos</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Pagos</li>
+            </ol>
+        </nav>
 
         <!-- Content Row -->
         <div class="row">
@@ -19,8 +20,13 @@
 
                 <!-- Datos de los pagos -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">{{ $matricula->nombre }}</h6>
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">{{$matricula->nombre}} - PAGOS</h6>
+                        <div class="dropdown no-arrow">
+                            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#agregar">
+                                Agregar <i class="fas fa-plus ml-1"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="card-body">

@@ -31,10 +31,12 @@ class DocenteController extends Controller
     {
         Gate::authorize('admin');
 
-        if (Auth::user()->sucursal == 'all') {
+        $sucursal = Auth::user()->sucursal;
+
+        if ($sucursal == 'all') {
             $docentes = Docente::all(['id', 'carnet', 'nombre', 'correo', 'estado']);
         } else {
-            $docentes = Docente::where('sucursal', '=', Auth::user()->sucursal)->get(['id', 'carnet', 'nombre', 'correo', 'estado']);
+            $docentes = Docente::where('sucursal', $sucursal)->get(['id', 'carnet', 'nombre', 'correo', 'estado']);
         }
 
         return view('docente.index', compact('docentes'));
@@ -127,6 +129,7 @@ class DocenteController extends Controller
      */
     public function edit(Docente $docente)
     {
+        //
         Gate::authorize('admin');
         return view('docente.edit', compact('docente'));
     }

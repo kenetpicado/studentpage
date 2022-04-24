@@ -1,5 +1,5 @@
 <!-- Agregar -->
-<div class="modal fade" id="cursoModalCreate" tabindex="-1" role="dialog" aria-labelledby="cursoModalCreate"
+<div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="cursoModalCreate"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

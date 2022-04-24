@@ -8,16 +8,20 @@ use App\Models\Grupo;
 use App\Models\Curso;
 use App\Models\Docente;
 use App\Models\GrupoMatricula;
+use App\Models\Matricula;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class GrupoController extends Controller
 {
+    //
     public function __construct()
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,51 +31,27 @@ class GrupoController extends Controller
     {
         Gate::authorize('admin');
 
-        //Cursos deben cargarse todos
-        $cursos = Curso::where('estado', '=', '1')->get(['id', 'nombre']);
-
         $sucursal = Auth::user()->sucursal;
 
         switch (true) {
             case ($sucursal == 'CH'):
-                $docentes = Docente::where('estado', '=', '1')->where('sucursal', '=', 'CH')->get(['id', 'nombre']);
-                
-                $grupos = Grupo::where('sucursal', '=', 'CH')->with([
-                    'curso' => function ($query) {
-                        $query->select('id', 'nombre');
-                    },
-                    'docente' => function ($query) {
-                        $query->select('id', 'nombre');
-                    },
-                ])->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
+                $grupos = Grupo::where('sucursal', 'CH')
+                ->with(['curso:id,nombre','docente:id,nombre'])
+                ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
                 break;
 
             case ($sucursal == 'MG'):
-                $docentes = Docente::where('estado', '=', '1')->where('sucursal', '=', 'MG')->get(['id', 'nombre']);
-                $grupos = Grupo::where('sucursal', '=', 'MG')->with([
-                    'curso' => function ($query) {
-                        $query->select('id', 'nombre');
-                    },
-                    'docente' => function ($query) {
-                        $query->select('id', 'nombre');
-                    },
-                ])->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
+                $grupos = Grupo::where('sucursal', 'MG')
+                ->with(['curso:id,nombre','docente:id,nombre'])
+                ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
                 break;
 
             default:
-                $docentes = Docente::where('estado', '=', '1')->get(['id', 'nombre']);
-                
-                $grupos = Grupo::with([
-                    'curso' => function ($query) {
-                        $query->select('id', 'nombre');
-                    },
-                    'docente' => function ($query) {
-                        $query->select('id', 'nombre');
-                    },
-                ])->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
+                $grupos = Grupo::with(['curso:id,nombre','docente:id,nombre'])
+                ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
                 break;
         }
-        return view('grupo.index', compact('grupos', 'cursos', 'docentes'));
+        return view('grupo.index', compact('grupos'));
     }
 
     /**
@@ -82,6 +62,26 @@ class GrupoController extends Controller
     public function create()
     {
         //
+        $sucursal = Auth::user()->sucursal;
+
+        //Cursos deben cargarse todos mientras esten activos
+        $cursos = Curso::where('estado', '1')->get(['id', 'nombre']);
+
+        switch (true) {
+            case ($sucursal == 'CH'):
+                $docentes = Docente::where('estado', '1')->where('sucursal', 'CH')->get(['id', 'nombre']);
+                break;
+
+            case ($sucursal == 'MG'):
+                $docentes = Docente::where('estado', '1')->where('sucursal', 'MG')->get(['id', 'nombre']);
+                break;
+
+            default:
+                $docentes = Docente::where('estado', '1')->get(['id', 'nombre']);
+                break;
+        }
+
+        return view('grupo.create', compact('cursos', 'docentes'));
     }
 
     /**
@@ -96,7 +96,7 @@ class GrupoController extends Controller
         $request->merge([
             'sucursal' => Docente::find($request->docente_id)->sucursal,
         ]);
-        
+
         Grupo::create($request->all());
         return redirect()->route('grupo.index')->with('info', 'ok');
     }
@@ -107,9 +107,10 @@ class GrupoController extends Controller
      * @param  \App\Models\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function show(Grupo $grupo)
+    public function show($grupo_id)
     {
         //
+        $grupo = Grupo::with('matriculas:id,carnet,nombre')->where('id', $grupo_id)->first(['id']);
         return view('grupo.show', compact('grupo'));
     }
 
@@ -121,8 +122,10 @@ class GrupoController extends Controller
      */
     public function edit(Grupo $grupo)
     {
-        //
-        $docentes = Docente::where('sucursal', $grupo->sucursal)->get(['id', 'nombre']);
+        //Cargar todos los docentes
+        $docentes = Docente::where('estado', '1')->where('sucursal', $grupo->sucursal)->get(['id', 'nombre']);
+        
+        //Cantidad de grupos en la tabla pivot
         $cant = GrupoMatricula::where('grupo_id', $grupo->id)->count();
 
         return view('grupo.edit', compact('grupo', 'docentes', 'cant'));

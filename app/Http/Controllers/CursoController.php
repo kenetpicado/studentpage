@@ -33,6 +33,7 @@ class CursoController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -43,8 +44,9 @@ class CursoController extends Controller
      */
     public function store(StoreCursoRequest $request)
     {
+        //
         Curso::create($request->all());
-        return redirect()->route('curso.index')->with('info', 'ok');
+        return back()->with('info', 'ok');
     }
 
     /**
@@ -56,11 +58,6 @@ class CursoController extends Controller
     public function show(Curso $curso)
     {
         //
-        //return view('curso.show', compact('curso'));
-    }
-
-    public function verGrupos(Curso $curso)
-    {
     }
 
     /**
@@ -91,7 +88,7 @@ class CursoController extends Controller
         );
 
         $curso->update($request->all());
-        return redirect()->route('curso.index')->with('info', 'ok');
+        return back()->with('info', 'ok');
     }
 
     /**

@@ -5,13 +5,12 @@
 @section('content')
     <div class="container-fluid">
 
-        {{-- Cabecera --}}
-        <div class="d-sm-flex align-items-center justify-content-between m-2">
-            <h1 class="h3 mb-0 text-gray-800">Cursos</h1>
-            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#cursoModalCreate">
-                Agregar <i class="fas fa-plus ml-1"></i>
-            </button>
-        </div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('home')}}">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Cursos</li>
+            </ol>
+        </nav>
 
         <!-- Content Row -->
         <div class="row">
@@ -19,8 +18,13 @@
 
                 <!-- Datos del alumno -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">TODOS LOS CURSOS</h6>
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">CURSOS</h6>
+                        <div class="dropdown no-arrow">
+                            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#agregar">
+                                Agregar<i class="fas fa-plus ml-1"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="card-body">
@@ -28,6 +32,7 @@
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Nombre del curso</th>
                                         <th>Estado</th>
                                         <th></th>
@@ -36,6 +41,7 @@
                                 <tbody>
                                     @foreach ($cursos as $curso)
                                         <tr>
+                                            <td>{{ $curso->id }}</td>
                                             <td>{{ $curso->nombre }}</td>
                                             <td>
                                                 @if ($curso->estado == '1')
@@ -76,7 +82,7 @@
 @section('re-open')
     @if ($errors->any())
         <script>
-            $('#cursoModalCreate').modal('show')
+            $('#agregar').modal('show')
         </script>
     @endif
 @endsection

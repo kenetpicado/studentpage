@@ -28,8 +28,8 @@ class PromotorController extends Controller
     public function index()
     {
         //
-        $promotors = Promotor::all(['id', 'carnet', 'nombre', 'correo']);
-        return view('promotor.index', compact('promotors', $promotors));
+        $promotors = Promotor::withCount('matriculas')->get(['id', 'carnet', 'nombre', 'correo']);
+        return view('promotor.index', compact('promotors'));
     }
 
     /**
@@ -56,15 +56,11 @@ class PromotorController extends Controller
 
         //Agregar credenciales en claro
         $request->merge([
-            'carnet' =>  $id,
-            'pin' => $pin
+            'carnet' =>  $id
         ]);
 
-        //Guardar instancia para enviar
-        $promotor = new Promotor($request->all());
-
         //Guardar en tabla prormotors
-        Promotor::create($request->except('pin'));
+        $promotor = Promotor::create($request->all());
 
         //Guardar cuenta de usuario
         User::create([
@@ -75,7 +71,7 @@ class PromotorController extends Controller
         ]);
 
         //Enviar correo
-        //Mail::to($request->correo)->send(new CredencialesPromotor($promotor));
+        //Mail::to($request->correo)->send(new CredencialesPromotor($promotor, $pin));
 
         return redirect()->route('promotor.index')->with('info', 'ok');
     }
@@ -148,7 +144,7 @@ class PromotorController extends Controller
     public function destroy(Promotor $promotor)
     {
         //Elimino de la tabla Users
-        User::where('email', '=', $promotor->carnet)->first()->delete();
+        User::where('email', $promotor->carnet)->first()->delete();
         
         //Elimino de la tabla promotor
         $promotor->delete();

@@ -35,9 +35,14 @@ class PagoController extends Controller
         //
     }
 
-    public function pagoEstudiante(Matricula $matricula)
+    //Cargar vista de los pagos
+    public function pagar($matricula_id, $grupo_id)
     {
-        return view('pago.index', compact('matricula'));
+        //
+        $matricula = Matricula::with('pagos:id,created_at,monto,concepto,matricula_id')
+        ->find($matricula_id, ['id', 'nombre']);
+
+        return view('pago.index', compact('matricula', 'grupo_id'));
     }
 
     /**
@@ -50,9 +55,7 @@ class PagoController extends Controller
     {
         //
         Pago::create($request->all());
-
-        $matricula = Matricula::find($request->matricula_id);
-        return redirect()->route('pago.estudiante', $matricula)->with('info','ok');
+        return back();
     }
 
     /**

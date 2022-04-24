@@ -1,16 +1,17 @@
 @component('mail::message')
-# {{config('app.centro')}}
-Matricula {{date('Y', strtotime($matricula->created_at))}}
-<br>
-<br>
+# <p style="text-align:center"><strong>{{config('app.centro')}}</strong></p>
+<p style="text-align:center">Matricula {{date('Y', strtotime($matricula->created_at))}}</p>
+
 @component('mail::panel')
-Datos de la matricula
+<h4>Credenciales</h4>
+<h4>Carnet: {{$matricula->carnet}}</h4>
+<h4>PIN: {{$matricula->pin}}</h4>
 @endcomponent
-<br>
+
 @component('mail::table')
-|Carnet|{{$matricula->carnet}}|
+|Datos de la matricula||
 |:-------------|:-------------|
-|PIN|{{$matricula->pin}}|
+|||
 |Nombre completo|<strong>{{$matricula->nombre}}</strong>|
 |Fecha de nacimiento|{{$matricula->fecha_nac}}|
 |Teléfono|{{$matricula->tel}}|
@@ -20,6 +21,7 @@ Datos de la matricula
 |Fecha de matricula|{{$matricula->created_at}}|
 @endcomponent
 
-<a href="javascript:window.print()">Imprimir</a>
+<p style="text-align:right"><a href="javascript:window.print()">Imprimir</a></p>
+
 
 @endcomponent

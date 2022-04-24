@@ -34,6 +34,11 @@ class Matricula extends Model
         return $this->belongsToMany(Grupo::class);
     }
 
+    public function notas()
+    {
+        return $this->hasManyThrough(Nota::class, GrupoMatricula::class);
+    }
+
     //FUNCION PARA CADENA EN MAYUSCULA
     public function setNombreAttribute($value)
     {

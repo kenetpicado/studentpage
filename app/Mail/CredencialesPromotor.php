@@ -13,15 +13,17 @@ class CredencialesPromotor extends Mailable
     use Queueable, SerializesModels;
 
     public $promotor;
+    public $pin;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Promotor $promotor)
+    public function __construct(Promotor $promotor, $pin)
     {
         //
         $this->promotor = $promotor;
+        $this->pin = $pin;
     }
 
     /**

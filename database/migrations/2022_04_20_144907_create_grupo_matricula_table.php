@@ -22,7 +22,7 @@ class CreateGrupoMatriculaTable extends Migration
             $table->unsignedBigInteger('matricula_id');
             $table->foreign('matricula_id')->references('id')->on('matriculas');
 
-            $table->timestamps();
+            //$table->timestamps();
         });
     }
 

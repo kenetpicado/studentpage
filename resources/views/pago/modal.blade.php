@@ -36,7 +36,7 @@
                         @enderror
                     </div>
                 </div>
-                <input type="hidden" name="matricula_id" value="{{ $matricula->id }}">
+                <input type="hidden" name="matricula_id" value="{{ $matricula->id}}">
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Guardar</button>
