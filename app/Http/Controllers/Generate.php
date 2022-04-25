@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class Generate extends Controller
 {
+
     //Funcion para generar un PIN de 6 digitos
     static function pin()
     {

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCursoRequest;
 use App\Http\Requests\UpdateCursoRequest;
 use App\Models\Curso;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class CursoController extends Controller
 {

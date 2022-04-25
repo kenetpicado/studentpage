@@ -40,7 +40,7 @@ class PagoController extends Controller
     {
         //
         $matricula = Matricula::with('pagos:id,created_at,monto,concepto,matricula_id')
-        ->find($matricula_id, ['id', 'nombre']);
+            ->find($matricula_id, ['id', 'nombre']);
 
         return view('pago.index', compact('matricula', 'grupo_id'));
     }
@@ -53,9 +53,78 @@ class PagoController extends Controller
      */
     public function store(StorePagoRequest $request)
     {
-        //
+        //Si es de tipo mensualidad
+        if ($request->tipo == '1') {
+
+            $request->validate([
+                'monto' => 'required|numeric|gt:0',
+                'recibo' => 'required',
+            ]);
+
+            //Generar el nuevo mes
+            $mes = $this->generar_mes(Pago::where('matricula_id', $request->matricula_id)
+                ->where('tipo', '1')
+                ->get('concepto')
+                ->last()->concepto);
+
+            //Agregar al request
+            $request->merge(['concepto' => $mes]);
+        } else {
+            //Si es tipo otro validar el campo extra
+            $request->validate([
+                'concepto' => 'required|max:50',
+                'monto' => 'required|numeric|gt:0',
+                'recibo' => 'required',
+            ]);
+        }
+
         Pago::create($request->all());
         return back();
+    }
+
+    public function generar_mes($value)
+    {
+        switch ($value) {
+            case '':
+                return 'ENERO';
+                break;
+            case 'ENERO':
+                return 'FEBRERO';
+                break;
+            case 'FEBRERO':
+                return 'MARZO';
+                break;
+            case 'MARZO':
+                return 'ABRIL';
+                break;
+            case 'ABRIL':
+                return 'MAYO';
+                break;
+            case 'MAYO':
+                return 'JUNIO';
+                break;
+            case 'JUNIO':
+                return 'JULIO';
+                break;
+            case 'JULIO':
+                return 'AGOSTO';
+                break;
+            case 'AGOSTO':
+                return 'SEPTIEMBRE';
+                break;
+            case 'SEPTIEMBRE':
+                return 'OCTUBRE';
+                break;
+            case 'OCTUBRE':
+                return 'NOVIEMBRE';
+                break;
+            case 'NOVIEMBRE':
+                return 'DICIEMBRE';
+                break;
+            default:
+                return 'ENERO';
+                break;
+        }
     }
 
     /**

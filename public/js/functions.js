@@ -35,3 +35,17 @@ $('.eliminar').submit(function (e) {
     }
   })
 })
+
+tipo.addEventListener("change", function () {
+  if (tipo.value == "1") {
+      document.getElementById("concepto").disabled = true;
+  } else {
+      document.getElementById("concepto").disabled = false;
+  }
+});
+
+if (tipo.value == "1") {
+  document.getElementById("concepto").disabled = true;
+} else {
+  document.getElementById("concepto").disabled = false;
+}

@@ -25,8 +25,6 @@ class StorePagoRequest extends FormRequest
     {
         return [
             //
-            'monto' => 'required|numeric|gt:0',
-            'concepto' => 'required|max:50',
         ];
     }
 }

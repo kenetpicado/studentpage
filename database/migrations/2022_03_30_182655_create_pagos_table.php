@@ -16,7 +16,9 @@ class CreatePagosTable extends Migration
         Schema::create('pagos', function (Blueprint $table) {
             $table->id();
             $table->float('monto');
+            $table->string('recibo', 10);
             $table->string('concepto', 50);
+            $table->enum('tipo', ['1', '0'])->default('1');
 
             //LLAVE FORANEA HACIA MATRICULA
             $table->unsignedBigInteger('matricula_id');

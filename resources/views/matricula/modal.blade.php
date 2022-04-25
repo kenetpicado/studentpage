@@ -25,20 +25,6 @@
                             @enderror
                         </div>
                         <div class="form-group col-6">
-                            <label for="cedula">Cédula</label>
-                            <input type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula"
-                                autocomplete="off" value="{{ old('cedula') }}" placeholder="000-000000-00000">
-
-                            @error('cedula')
-                                <span class="  invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-lg-6">
                             <label for="fecha_nac">Fecha de nacimiento</label>
                             <input type="date" class="form-control @error('fecha_nac') is-invalid @enderror"
                                 name="fecha_nac" value="{{ old('fecha_nac', '2000-01-01') }}">
@@ -49,12 +35,28 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="form-group col-lg-6">
-                            <label for="tel">Teléfono</label>
-                            <input type="number" class="form-control @error('tel') is-invalid @enderror" name="tel"
-                                autocomplete="off" value="{{ old('tel') }}" placeholder="00000000">
 
-                            @error('tel')
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="cedula">Cédula</label>
+                            <input type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula"
+                                autocomplete="off" value="{{ old('cedula') }}">
+
+                            @error('cedula')
+                                <span class="  invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label for="grado">Último grado aprobado</label>
+                            <input type="text" class="form-control @error('grado') is-invalid @enderror" name="grado"
+                                autocomplete="off" value="{{ old('grado') }}">
+
+                            @error('grado')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -77,20 +79,34 @@
                     </div>
 
                     <div class="row">
-                        <div class="form-group col-lg-6">
-                            <label for="grado">Último grado aprobado</label>
-                            <input type="text" class="form-control @error('grado') is-invalid @enderror" name="grado"
-                                autocomplete="off" value="{{ old('grado') }}">
+                        <div class="form-group col-6">
+                            <label for="tel">Teléfono</label>
+                            <input type="number" class="form-control @error('tel') is-invalid @enderror" name="tel"
+                                autocomplete="off" value="{{ old('tel') }}">
 
-                            @error('grado')
+                            @error('tel')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
 
-                        @if (Auth::user()->sucursal == 'all')
-                            <div class="form-group col-lg-6">
+                        @if ($user->rol == 'admin')
+                            <div class="form-group col-6">
+                                <label>Carnet (Opcional)</label>
+                                <input type="text" class="form-control @error('carnet') is-invalid @enderror"
+                                    name="carnet" autocomplete="off" value="{{ old('carnet') }}">
+
+                                @error('carnet')
+                                    <span class="  invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        @endif
+
+                        @if ($user->sucursal == 'all')
+                            <div class="form-group col-6">
                                 <label for="sucursal">Sucursal</label>
                                 <select name="sucursal" class="form-control @error('sucursal') is-invalid @enderror">
                                     <option selected disabled value="">Seleccionar</option>
@@ -108,25 +124,6 @@
                             </div>
                         @endif
                     </div>
-
-                    {{-- <div class="form-group col-lg-6">
-                            <label for="grupo_id">Seleccionar curso y grupo</label>
-                            <select name="grupo_id" class="form-control @error('grupo_id') is-invalid @enderror">
-                                <option selected disabled value="">Seleccionar</option>
-                                @foreach ($grupos as $grupo)
-                                    <option value="{{ $grupo->id }}"
-                                        {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
-                                        {{ $grupo->curso->nombre }} -
-                                        {{ $grupo->numero }}</option>
-                                @endforeach
-                            </select>
-
-                            @error('grupo_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

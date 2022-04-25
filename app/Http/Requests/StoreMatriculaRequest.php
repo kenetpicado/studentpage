@@ -25,7 +25,7 @@ class StoreMatriculaRequest extends FormRequest
     {
         return [
             //
-            'carnet' => 'unique:matriculas',
+            'carnet' => 'nullable|unique:matriculas|alpha_dash|min:15|max:15',
             'nombre' => 'required|max:45',
             'cedula' => 'nullable|alpha_dash|min:16|max:16',
             'fecha_nac' => 'required|date',

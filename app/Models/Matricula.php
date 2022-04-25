@@ -61,6 +61,11 @@ class Matricula extends Model
         $this->attributes['grado'] = trim(strtoupper($value));
     }
 
+    public function setCarnetAttribute($value)
+    {
+        $this->attributes['carnet'] = trim(strtoupper($value));
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return date('Y-m-d', strtotime($value));

@@ -11,15 +11,15 @@ class Curso extends Model
     use HasFactory;
 
     protected $guarded = [];
-    
-     //FUNCION PARA CADENA EN MAYUSCULA
-     public function setNombreAttribute($value)
-     {
-         $this->attributes['nombre'] = trim(strtoupper($value));
-     }
 
-     //Relacion 1:n a grupos
-     public function grupos()
+    //FUNCION PARA CADENA EN MAYUSCULA
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = trim(strtoupper($value));
+    }
+
+    //Relacion 1:n a grupos
+    public function grupos()
     {
         return $this->hasMany(Grupo::class);
     }

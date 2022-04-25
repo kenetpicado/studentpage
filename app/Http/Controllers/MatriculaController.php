@@ -27,7 +27,9 @@ class MatriculaController extends Controller
         $matricula = Matricula::find($matricula_id, ['id', 'sucursal']);
 
         //Cargar todos los grupos disponibles de la sucursal dada
-        $grupos = Grupo::where('sucursal', $matricula->sucursal)->get();
+        $grupos = Grupo::where('sucursal', $matricula->sucursal)
+            ->with(['docente:id,nombre', 'curso:id,nombre'])
+            ->get(['id', 'horario', 'curso_id', 'docente_id']);
 
         return view('matricula.inscribir', compact('matricula', 'grupos'));
     }
@@ -46,31 +48,31 @@ class MatriculaController extends Controller
         switch (true) {
             case ($user->rol == 'promotor'):
                 $id = Promotor::where('carnet', $user->email)->first(['id'])->id;
-                
+
                 $matriculas = Matricula::where('promotor_id', $id)
-                ->with(['promotor:id,carnet'])
-                ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
+                    ->with(['promotor:id,carnet'])
+                    ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
 
             case ($user->rol == 'admin' && $user->sucursal == 'CH'):
                 $matriculas = Matricula::where('sucursal', 'CH')
-                ->with(['promotor:id,carnet'])
-                ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
+                    ->with(['promotor:id,carnet'])
+                    ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
 
             case ($user->rol == 'admin' && $user->sucursal == 'MG'):
                 $matriculas = Matricula::where('sucursal', 'MG')
-                ->with(['promotor:id,carnet'])
-                ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
+                    ->with(['promotor:id,carnet'])
+                    ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
 
             default:
                 $matriculas = Matricula::with(['promotor:id,carnet'])
-                ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
+                    ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
         }
 
-        return view('matricula.index', compact('matriculas'));
+        return view('matricula.index', compact('matriculas', 'user'));
     }
 
     /**
@@ -109,9 +111,11 @@ class MatriculaController extends Controller
         //Si matricula un admin id promotor es null
         $id = $user->rol == 'admin' ? null : Promotor::where('carnet', '=', $user->email)->first(['id'])->id;
 
+        $carnet = $request->carnet != '' ? $request->carnet : Generate::idEstudiante($request->sucursal . '04', $request->fecha_nac);
+
         //Agregar campos que faltan
         $request->merge([
-            'carnet' =>  Generate::idEstudiante($request->sucursal . '04', $request->fecha_nac),
+            'carnet' =>  $carnet,
             'pin' => Generate::pin(),
             'promotor_id' => $id,
         ]);
@@ -120,7 +124,6 @@ class MatriculaController extends Controller
         $matricula = Matricula::create($request->all());
 
         //MOSTRAR VISTA
-        //return redirect()->route('matricula.inscribir', compact('matricula'));
         return back();
     }
 
