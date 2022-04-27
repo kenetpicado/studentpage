@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="" action="{{ route('promotor.store') }}" method="POST">
+            <form class="" action="{{ route('promotores.store') }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     <div class="form-group">
@@ -55,7 +55,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form action="{{ route('promotor.destroy', $promotor->id ?? '') }}" method="POST">
+            <form action="{{ route('promotores.destroy', $promotor->id ?? '') }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <div class="modal-body">
@@ -83,7 +83,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form action="{{ route('promotor.update', $promotor ?? '') }}" method="POST">
+            <form action="{{ route('promotores.update', $promotor ?? '') }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">

@@ -7,7 +7,7 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('home')}}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{route('index')}}">Inicio</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Grupos</li>
             </ol>
         </nav>
@@ -21,7 +21,7 @@
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">GRUPOS</h6>
                         <div class="dropdown no-arrow">
-                            <a href="{{route('grupo.create')}}" class="btn btn-sm btn-primary ml-2">
+                            <a href="{{route('grupos.create')}}" class="btn btn-sm btn-primary ml-2">
                                 Agregar <i class="fas fa-plus ml-1"></i>
                             </a>
                         </div>
@@ -56,9 +56,9 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a href="{{ route('grupo.show', $grupo->id) }}"
+                                                        <a href="{{ route('grupos.show', $grupo->id) }}"
                                                             class="dropdown-item">Alumnos</a>
-                                                        <a href="{{ route('grupo.edit', $grupo) }}"
+                                                        <a href="{{ route('grupos.edit', $grupo->id) }}"
                                                             class="dropdown-item">Editar</a>
                                                     </div>
                                                 </div>

@@ -8,7 +8,7 @@ class Generate extends Controller
 {
 
     //Funcion para generar un PIN de 6 digitos
-    static function pin()
+    public static function pin()
     {
         $comb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $shfl = str_shuffle($comb);
@@ -16,12 +16,12 @@ class Generate extends Controller
     }
 
     //Funcion para generar un ID
-    static function id($location, $cant)
+    public static function id($location, $cant)
     {
         return $location . Generate::specific_number($cant);
     }
 
-    static function idEstudiante($location, $fecha)
+    public static function idEstudiante($location, $fecha)
     {
         //1998-05-26
         //260598

@@ -39,7 +39,7 @@ class PagoController extends Controller
     public function pagar($matricula_id, $grupo_id)
     {
         //
-        $matricula = Matricula::with('pagos:id,created_at,monto,concepto,matricula_id')
+        $matricula = Matricula::with('pagos:id,created_at,recibo,monto,concepto,matricula_id')
             ->find($matricula_id, ['id', 'nombre']);
 
         return view('pago.index', compact('matricula', 'grupo_id'));
@@ -61,11 +61,15 @@ class PagoController extends Controller
                 'recibo' => 'required',
             ]);
 
-            //Generar el nuevo mes
-            $mes = $this->generar_mes(Pago::where('matricula_id', $request->matricula_id)
-                ->where('tipo', '1')
-                ->get('concepto')
-                ->last()->concepto);
+
+            //Obtener el ultimo mes registrado
+            $ultimo = Pago::where('matricula_id', $request->matricula_id)->where('tipo', '1')->get('concepto')->last();
+
+            if ($ultimo == null) {
+                $mes = $this->generar_mes('');
+            } else {
+                $mes = $this->generar_mes($ultimo->concepto);
+            }
 
             //Agregar al request
             $request->merge(['concepto' => $mes]);

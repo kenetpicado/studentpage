@@ -7,7 +7,7 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('home')}}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{route('index')}}">Inicio</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Docentes</li>
             </ol>
         </nav>
@@ -36,7 +36,6 @@
                                         <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
-                                        <th>Estado</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -44,16 +43,16 @@
                                     @foreach ($docentes as $docente)
                                         <tr>
                                             <td>{{ $docente->id }}</td>
-                                            <td>{{ $docente->carnet }}</td>
-                                            <td>{{ $docente->nombre }}</td>
-                                            <td>{{ $docente->correo }}</td>
                                             <td>
+                                                {{ $docente->carnet }}
                                                 @if ($docente->estado == '1')
-                                                    <span class="badge badge-pill badge-success">Activo</span>
+                                                <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
                                                 @else
-                                                    <span class="badge badge-pill badge-danger">Inactivo</span>
+                                                    <i class="fas fa-circle fa-xs"></i>
                                                 @endif
                                             </td>
+                                            <td>{{ $docente->nombre }}</td>
+                                            <td>{{ $docente->correo }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -63,8 +62,8 @@
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
 
-                                                        <a href="{{ route('docente.show', $docente->id) }}" class="dropdown-item">Ver grupos</a>
-                                                        <a href="{{ route('docente.edit', $docente->id) }}" class="dropdown-item">Editar</a>
+                                                        <a href="{{ route('docentes.show', $docente->id) }}" class="dropdown-item">Ver grupos</a>
+                                                        <a href="{{ route('docentes.edit', $docente->id) }}" class="dropdown-item">Editar</a>
                                                     </div>
                                                 </div>
                                             </td>

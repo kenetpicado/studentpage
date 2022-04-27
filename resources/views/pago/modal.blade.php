@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="" action="{{ route('pago.store') }}" method="POST">
+            <form class="" action="{{ route('pagos.store') }}" method="POST">
                 <div class="modal-body">
                     @csrf
 

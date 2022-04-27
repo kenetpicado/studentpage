@@ -7,12 +7,14 @@ use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\NotaController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PromotorController;
+use App\Http\Controllers\HomeController;
 use App\Models\Matricula;
 use App\Models\Grupo;
 use App\Models\GrupoMatricula;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Nota;
+use PHPUnit\Framework\MockObject\Rule\Parameters;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,18 +27,18 @@ use App\Models\Nota;
 |
 */
 
-Route::get('/', function () {
-    return view('blank');
-});
-
 //Realizar un pago
-Route::get('pagar/{matricula}/{grupo}', [PagoController::class, 'pagar'])->name('pagar');
-
-//Inscribir a un curso
-Route::get('inscribir/{matricula}', [MatriculaController::class, 'inscribir'])->name('matricula.inscribir');
+Route::get('pagos/{matricula}/{grupo}/pagar', [PagoController::class, 'pagar'])->name('pagos.pagar');
 
 //Agregar nota
-Route::get('nota-agregar/{matricula}/{grupo}', [NotaController::class, 'agregar'])->name('nota.agregar');
+Route::get('notas/{matricula}/{grupo}/agregar', [NotaController::class, 'agregar'])->name('notas.agregar');
+
+//Inscribir a un curso
+Route::get('matriculas/{matricula}/inscribir', [MatriculaController::class, 'inscribir'])->name('matriculas.inscribir');
+
+//Cambiar de grupo
+Route::get('grupos/{matricula}/{grupo}/selecionar', [GrupoController::class, 'seleccionar'])->name('grupos.seleccionar');
+Route::put('cambiar/{pivot}', [GrupoController::class, 'cambiar'])->name('grupos.cambiar');
 
 //RUTA PARA PROBAR LAS INTERFACES DE LOS CORREOS
 // Route::get('/mailable', function () {
@@ -44,17 +46,25 @@ Route::get('nota-agregar/{matricula}/{grupo}', [NotaController::class, 'agregar'
 // });
 
 //Ver matricula
-Route::get('matricula-ver/{matricula}', function (Matricula $matricula) {
+Route::get('matriculas/{matricula}/ver', function (Matricula $matricula) {
     return new App\Mail\VerMatricula($matricula);
-})->name('matricula.ver');
+})->name('matriculas.ver');
 
-//RECURSOS DE RUTAS
-Route::resource('curso', CursoController::class);
-Route::resource('docente', DocenteController::class);
-Route::resource('grupo', GrupoController::class);
-Route::resource('matricula', MatriculaController::class);
-Route::resource('pago', PagoController::class);
-Route::resource('promotor', PromotorController::class);
-Route::resource('nota', NotaController::class);
+//RECURSOS
+Route::resources([
+    'cursos' => CursoController::class,
+    'docentes' => DocenteController::class,
+    'pagos' => PagoController::class,
+    'notas' => NotaController::class,
+    'matriculas' => MatriculaController::class,
+    'grupos' => GrupoController::class,
+    '/' => HomeController::class,
+]);
+
+//Recurso particar para establcer la llave promotor
+Route::resource('promotores', PromotorController::class)->parameters([
+    'promotores' => 'promotor'
+]);
+
+//Login
 Auth::routes(['register' => false]);
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

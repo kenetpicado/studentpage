@@ -6,7 +6,6 @@ use App\Http\Requests\StoreCursoRequest;
 use App\Http\Requests\UpdateCursoRequest;
 use App\Models\Curso;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Str;
 
 class CursoController extends Controller
 {
@@ -89,7 +88,7 @@ class CursoController extends Controller
         );
 
         $curso->update($request->all());
-        return back()->with('info', 'ok');
+        return redirect()->route('cursos.index')->with('info', 'ok');
     }
 
     /**
@@ -102,6 +101,6 @@ class CursoController extends Controller
     {
         //
         $curso->delete();
-        return redirect()->route('curso.index')->with('info', 'eliminado');
+        return redirect()->route('cursos.index')->with('info', 'eliminado');
     }
 }

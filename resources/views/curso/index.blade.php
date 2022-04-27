@@ -7,7 +7,7 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('home')}}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{route('index')}}">Inicio</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Cursos</li>
             </ol>
         </nav>
@@ -58,7 +58,7 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a href="{{ route('curso.edit', $curso) }}" class="dropdown-item">Editar</a>
+                                                        <a href="{{ route('cursos.edit', $curso) }}" class="dropdown-item">Editar</a>
                                                     </div>
                                                 </div>
                                                 

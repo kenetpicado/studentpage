@@ -7,9 +7,9 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('grupo.index') }}">Grupos</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('grupo.show', $grupo_id) }}">Alumnos</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('grupos.show', $grupo_id) }}">Alumnos</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Pagos</li>
             </ol>
         </nav>
@@ -35,6 +35,7 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
+                                        <th>Recibo</th>
                                         <th>Monto C$</th>
                                         <th>Concepto</th>
                                     </tr>
@@ -43,6 +44,7 @@
                                     @foreach ($matricula->pagos as $pago)
                                         <tr>
                                             <td>{{ $pago->created_at }}</td>
+                                            <td>{{ $pago->recibo }}</td>
                                             <td>{{ $pago->monto }}</td>
                                             <td>{{ $pago->concepto }}</td>
                                         </tr>

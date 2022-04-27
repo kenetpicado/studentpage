@@ -7,7 +7,7 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Matriculas</li>
             </ol>
         </nav>
@@ -35,8 +35,8 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Nombre</th>
                                         <th>Carnet</th>
+                                        <th>Nombre</th>
                                         <th>Promotor</th>
                                         <th>Fecha</th>
                                         <th></th>
@@ -46,7 +46,7 @@
                                     @foreach ($matriculas as $matricula)
                                         <tr>
                                             <td>{{ $matricula->id }}</td>
-                                            <td>{{ $matricula->nombre }}</td><td>
+                                            <td>
                                                 {{ $matricula->carnet }}
                                                 @if ($matricula->inscrito == '1')
                                                 <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
@@ -54,6 +54,7 @@
                                                     <i class="fas fa-circle fa-xs"></i>
                                                 @endif
                                             </td>
+                                            <td>{{ $matricula->nombre }}</td>
                                             <td>{{ $matricula->promotor->carnet ?? '' }}</td>
                                             <td>{{ $matricula->created_at }}</td>
                                             <td>
@@ -65,13 +66,13 @@
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
                                                         <a class="dropdown-item"
-                                                            href="{{ route('matricula.inscribir', $matricula->id) }}">Inscribir
+                                                            href="{{ route('matriculas.inscribir', $matricula->id) }}">Inscribir
                                                             a curso</a>
                                                         <a class="dropdown-item"
-                                                            href="{{ route('matricula.ver', $matricula) }}" target="_blank">Ver
+                                                            href="{{ route('matriculas.ver', $matricula) }}" target="_blank">Ver
                                                             detalles</a>
                                                         <a class="dropdown-item"
-                                                            href="{{ route('matricula.edit', $matricula) }}">Editar</a>
+                                                            href="{{ route('matriculas.edit', $matricula) }}">Editar</a>
 
                                                     </div>
                                                 </div>

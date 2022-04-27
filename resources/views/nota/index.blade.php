@@ -7,9 +7,9 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('grupo.index') }}">Grupos</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('grupo.show', $grupo_id) }}">Alumnos</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('grupos.show', $grupo_id) }}">Alumnos</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Notas</li>
             </ol>
         </nav>

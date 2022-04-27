@@ -7,21 +7,21 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('grupo.index') }}">Grupos</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Editar</li>
             </ol>
         </nav>
 
         <!-- Content Row -->
         <div class="row">
-            <form class="col-12" action="{{ route('grupo.update', $grupo) }}" method="POST">
+            <form class="col-12" action="{{ route('grupos.update', $grupo) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <!-- Datos del alumno -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR GRUPO</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">EDITAR GRUPO: {{$grupo->curso->nombre}} - {{$grupo->docente->nombre}}</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -43,7 +43,7 @@
 
                         <div class="row">
                             <div class="form-group col-lg-6">
-                                Cambiar docente / horario del grupo selecionado.
+                                Cambiar docente/horario del grupo selecionado.
                             </div>
                         </div>
 
@@ -54,7 +54,7 @@
                                     <option selected disabled value="">Seleccionar</option>
                                     @foreach ($docentes as $docente)
                                         <option value="{{ $docente->id }}"
-                                            {{ old('docente_id') == $docente->id ? 'selected' : '' }}>
+                                            {{ old('docente_id') == $docente->id || $docente->id == $grupo->docente->id ? 'selected' : '' }}>
                                             {{ $docente->nombre }}</option>
                                     @endforeach
                                 </select>
@@ -95,7 +95,7 @@
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <form action="{{ route('grupo.destroy', $grupo->id ?? '') }}" method="POST">
+                    <form action="{{ route('grupos.destroy', $grupo->id ?? '') }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <div class="modal-body">

@@ -7,8 +7,8 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('grupo.index') }}">Grupos</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Alumnos</li>
             </ol>
         </nav>
@@ -20,7 +20,7 @@
                 <!-- Datos -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">ALUMNOS</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">{{$grupo->curso->nombre}} / {{$grupo->horario}} / {{$grupo->docente->nombre}}</h6>
                     </div>
 
                     <div class="card-body">
@@ -49,10 +49,12 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a href="{{ route('nota.agregar', [$matricula->id, $grupo->id]) }}"
+                                                        <a href="{{ route('notas.agregar', [$matricula->id, $grupo->id]) }}"
                                                             class="dropdown-item">Notas</a>
-                                                        <a href="{{ route('pagar', [$matricula->id, $grupo->id]) }}"
+                                                        <a href="{{ route('pagos.pagar', [$matricula->id, $grupo->id]) }}"
                                                             class="dropdown-item">Pagos</a>
+                                                        <a href="{{ route('grupos.seleccionar', [$matricula->id, $grupo->id]) }}"
+                                                            class="dropdown-item">Cambiar de grupo</a>
                                                     </div>
                                                 </div>
                                             </td>

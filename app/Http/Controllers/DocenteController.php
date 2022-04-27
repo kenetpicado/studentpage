@@ -99,7 +99,7 @@ class DocenteController extends Controller
         //Enviar correo
         //Mail::to($request->correo)->send(new CredencialesDocente($docente, $pin));
 
-        return redirect()->route('docente.index')->with('info', 'ok');
+        return redirect()->route('docentes.index')->with('info', 'ok');
     }
 
     /**
@@ -168,7 +168,7 @@ class DocenteController extends Controller
             $user->update(['name' => $request->nombre]);
         }
 
-        return redirect()->route('docente.index')->with('info', 'ok');
+        return redirect()->route('docentes.index')->with('info', 'ok');
     }
 
     /**
@@ -186,6 +186,6 @@ class DocenteController extends Controller
         
         //Elimino de la tabla promotor
         $docente->delete();
-        return redirect()->route('docente.index')->with('info', 'eliminado');
+        return redirect()->route('docentes.index')->with('info', 'eliminado');
     }
 }

@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('curso.store') }}" method="POST">
+            <form action="{{ route('cursos.store') }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     <div class="form-group">
@@ -44,7 +44,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form action="{{ route('curso.destroy', $curso->id ?? '') }}" method="POST">
+            <form action="{{ route('cursos.destroy', $curso->id ?? '') }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <div class="modal-body">

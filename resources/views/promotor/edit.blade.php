@@ -7,8 +7,8 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('promotor.index') }}">Promotores</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('promotores.index') }}">Promotores</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Editar</li>
             </ol>
         </nav>
@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="{{ route('promotor.update', $promotor) }}" method="POST">
+                        <form action="{{ route('promotores.update', $promotor) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -72,7 +72,7 @@
                                 </div>
 
                             </div>
-                            <button type="submit" class="btn btn-success">Actualizar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
                         </form>
                     </div>
                 </div>

@@ -48,13 +48,9 @@ class Matricula extends Model
     {
         $this->attributes['cedula'] = trim(strtoupper($value));
     }
-    public function setMadreAttribute($value)
+    public function setTutorAttribute($value)
     {
-        $this->attributes['madre'] = trim(strtoupper($value));
-    }
-    public function setPadreAttribute($value)
-    {
-        $this->attributes['padre'] = trim(strtoupper($value));
+        $this->attributes['tutor'] = trim(strtoupper($value));
     }
     public function setGradoAttribute($value)
     {

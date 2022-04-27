@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="" action="{{ route('matricula.store') }}" method="POST">
+            <form class="" action="{{ route('matriculas.store') }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     <div class="row">
@@ -66,19 +66,10 @@
 
                     <div class="row">
                         <div class="form-group col-lg-6">
-                            <label for="madre">Nombre de la Madre</label>
-                            <input type="text" class="form-control" name="madre" autocomplete="off"
-                                value="{{ old('madre') }}">
+                            <label for="tutor">Tutor</label>
+                            <input type="text" class="form-control" name="tutor" autocomplete="off"
+                                value="{{ old('tutor') }}">
                         </div>
-
-                        <div class="form-group col-lg-6">
-                            <label for="padre">Nombre del Padre</label>
-                            <input type="text" class="form-control" name="padre" autocomplete="off"
-                                value="{{ old('padre') }}">
-                        </div>
-                    </div>
-
-                    <div class="row">
                         <div class="form-group col-6">
                             <label for="tel">Teléfono</label>
                             <input type="number" class="form-control @error('tel') is-invalid @enderror" name="tel"
@@ -90,7 +81,9 @@
                                 </span>
                             @enderror
                         </div>
+                    </div>
 
+                    <div class="row">
                         @if ($user->rol == 'admin')
                             <div class="form-group col-6">
                                 <label>Carnet (Opcional)</label>

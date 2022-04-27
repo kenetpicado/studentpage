@@ -7,15 +7,15 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('matricula.index') }}">Matriculas</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('matriculas.index') }}">Matriculas</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Editar</li>
             </ol>
         </nav>
 
         <!-- Content Row -->
         <div class="row">
-            <form class="col-xl-12 col-lg-7" action="{{ route('matricula.update', $matricula->id) }}" method="POST">
+            <form class="col-xl-12 col-lg-7" action="{{ route('matriculas.update', $matricula->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <!-- Datos-->
@@ -76,17 +76,10 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-lg-6">
-                                <label for="madre">Nombre de la Madre</label>
-                                <input type="text" class="form-control" name="madre" autocomplete="off"
-                                    value="{{ old('madre', $matricula->madre) }}">
+                                <label for="tutor">Tutor</label>
+                                <input type="text" class="form-control" name="tutor" autocomplete="off"
+                                    value="{{ old('tutor', $matricula->tutor) }}">
                             </div>
-                            <div class="form-group col-lg-6">
-                                <label for="padre">Nombre del Padre</label>
-                                <input type="text" class="form-control" name="padre" autocomplete="off"
-                                    value="{{ old('padre', $matricula->padre) }}">
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="form-group col-lg-6">
                                 <label for="tel">Teléfono</label>
                                 <input type="number" class="form-control @error('tel') is-invalid @enderror" name="tel"

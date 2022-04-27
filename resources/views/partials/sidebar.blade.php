@@ -22,37 +22,37 @@
 
     <!-- Nav Item - DOCENTES -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('docente.index') }}">
+        <a class="nav-link" href="{{ route('docentes.index') }}">
             <i class="fas fa-fw fa-user"></i>
             <span>Docentes</span></a>
     </li>
 
     <!-- Nav Item - CURSOS -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('curso.index') }}">
+        <a class="nav-link" href="{{ route('cursos.index') }}">
             <i class="fas fa-clone"></i>
             <span>Cursos</span></a>
     </li>
 
     <!-- Nav Item - CURSOS -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('grupo.index') }}">
+        <a class="nav-link" href="{{ route('grupos.index') }}">
             <i class="fas fa-users"></i>
             <span>Grupos</span></a>
     </li>
 
     <!-- Nav Item - PROMOTORES-->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('promotor.index') }}">
+        <a class="nav-link" href="{{ route('promotores.index') }}">
             <i class="fas fa-male"></i>
             <span>Promotores</span></a>
     </li>
 
     <!-- Nav Item - MATRICULA -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('matricula.index') }}">
+        <a class="nav-link" href="{{ route('matriculas.index') }}">
             <i class="fas fa-address-book"></i>
-            <span>Matricula</span></a>
+            <span>Matriculas</span></a>
     </li>
 
     <!-- Divider -->

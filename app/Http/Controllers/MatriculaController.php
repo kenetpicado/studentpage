@@ -24,10 +24,11 @@ class MatriculaController extends Controller
     //Inscribir a un curso
     public function inscribir($matricula_id)
     {
-        $matricula = Matricula::find($matricula_id, ['id', 'sucursal']);
+        $matricula = Matricula::find($matricula_id, ['id', 'sucursal', 'nombre']);
 
         //Cargar todos los grupos disponibles de la sucursal dada
         $grupos = Grupo::where('sucursal', $matricula->sucursal)
+            ->where('anyo', date('Y'))
             ->with(['docente:id,nombre', 'curso:id,nombre'])
             ->get(['id', 'horario', 'curso_id', 'docente_id']);
 
@@ -50,6 +51,7 @@ class MatriculaController extends Controller
                 $id = Promotor::where('carnet', $user->email)->first(['id'])->id;
 
                 $matriculas = Matricula::where('promotor_id', $id)
+                    ->where('anyo', date('Y'))
                     ->with(['promotor:id,carnet'])
                     ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
@@ -193,7 +195,7 @@ class MatriculaController extends Controller
             $matricula->update($request->except('inscribir'));
         }
 
-        return redirect()->route('matricula.index')->with('info', 'ok');
+        return redirect()->route('matriculas.index')->with('info', 'ok');
     }
 
     /**

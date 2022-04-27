@@ -73,7 +73,7 @@ class PromotorController extends Controller
         //Enviar correo
         //Mail::to($request->correo)->send(new CredencialesPromotor($promotor, $pin));
 
-        return redirect()->route('promotor.index')->with('info', 'ok');
+        return redirect()->route('promotores.index')->with('info', 'ok');
     }
 
     /**
@@ -132,7 +132,7 @@ class PromotorController extends Controller
             $user->update(['name' => $request->nombre]);
         }
 
-        return redirect()->route('promotor.index')->with('info', 'ok');
+        return redirect()->route('promotores.index')->with('info', 'ok');
     }
 
     /**
@@ -148,6 +148,6 @@ class PromotorController extends Controller
         
         //Elimino de la tabla promotor
         $promotor->delete();
-        return redirect()->route('promotor.index')->with('info', 'eliminado');
+        return redirect()->route('promotores.index')->with('info', 'eliminado');
     }
 }

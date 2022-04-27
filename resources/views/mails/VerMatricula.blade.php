@@ -16,8 +16,7 @@
 |Fecha de nacimiento|{{$matricula->fecha_nac}}|
 |Teléfono|{{$matricula->tel}}|
 |Cédula|{{$matricula->cedula}}|
-|Nombre de la Madre|{{$matricula->madre}}|
-|Nombre del Padre|{{$matricula->padre}}|
+|Tutor|{{$matricula->tutor}}|
 |Fecha de matricula|{{$matricula->created_at}}|
 @endcomponent
 
