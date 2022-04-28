@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCursoRequest;
 use App\Http\Requests\UpdateCursoRequest;
 use App\Models\Curso;
-use Illuminate\Validation\Rule;
+
 
 class CursoController extends Controller
 {
@@ -81,12 +81,6 @@ class CursoController extends Controller
      */
     public function update(UpdateCursoRequest $request, Curso $curso)
     {
-        //NOMBRE UNICO IGNORANDO EL PROPIO
-        $request->validate(
-            ['nombre' => [Rule::unique('cursos')->ignore($curso->id)]],
-            ['nombre.unique' => 'Ya existe un curso con este nombre.']
-        );
-
         $curso->update($request->all());
         return redirect()->route('cursos.index')->with('info', 'ok');
     }

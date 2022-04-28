@@ -70,8 +70,8 @@
                                         </span>
                                     @enderror
                                 </div>
-
                             </div>
+                            <input type="hidden" name="promotor_id" value="{{ $promotor->id }}">
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </form>
                     </div>

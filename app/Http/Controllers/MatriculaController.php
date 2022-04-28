@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InscribirRequest;
 use App\Http\Requests\StoreMatriculaRequest;
 use App\Http\Requests\UpdateMatriculaRequest;
 use App\Models\Matricula;
@@ -9,10 +10,6 @@ use App\Models\Grupo;
 use App\Models\Promotor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use App\Models\GrupoMatricula;
-use App\Models\Nota;
-use Illuminate\Validation\Rule;
-use Symfony\Component\ErrorHandler\Debug;
 
 class MatriculaController extends Controller
 {
@@ -21,8 +18,8 @@ class MatriculaController extends Controller
         $this->middleware('auth');
     }
 
-    //Inscribir a un curso
-    public function inscribir($matricula_id)
+    //Form para seleccionar grupo a inscribir
+    public function seleccionar($matricula_id)
     {
         $matricula = Matricula::find($matricula_id, ['id', 'sucursal', 'nombre']);
 
@@ -33,6 +30,17 @@ class MatriculaController extends Controller
             ->get(['id', 'horario', 'curso_id', 'docente_id']);
 
         return view('matricula.inscribir', compact('matricula', 'grupos'));
+    }
+
+    //Ejecutar inscripcion
+    public function inscribir(InscribirRequest $request, $matricula_id)
+    {
+        $matricula = Matricula::find($matricula_id, ['id', 'inscrito']);
+
+        $matricula->grupos()->attach($request->grupo_id);
+
+        $matricula->update(['inscrito' => '1']);
+        return redirect()->route('matriculas.index')->with('info', 'ok');
     }
 
     /**
@@ -97,21 +105,18 @@ class MatriculaController extends Controller
     {
         Gate::authorize('matricula');
 
-        //Si es admin de sucursal especifica
-        $user = Auth::user();
+        //Obtener usuario
+        $user = $request->user();
 
+        //Si es admin de sucursal especifica
         if ($user->sucursal != 'all') {
             $request->merge([
                 'sucursal' =>  $user->sucursal,
             ]);
-        } else {
-            $request->validate([
-                'sucursal' => 'required',
-            ]);
         }
 
         //Si matricula un admin id promotor es null
-        $id = $user->rol == 'admin' ? null : Promotor::where('carnet', '=', $user->email)->first(['id'])->id;
+        $id = $user->rol == 'admin' ? null : Promotor::where('carnet', $user->email)->first(['id'])->id;
 
         $carnet = $request->carnet != '' ? $request->carnet : Generate::idEstudiante($request->sucursal . '04', $request->fecha_nac);
 
@@ -123,7 +128,7 @@ class MatriculaController extends Controller
         ]);
 
         //Guardar datos
-        $matricula = Matricula::create($request->all());
+        Matricula::create($request->all());
 
         //MOSTRAR VISTA
         return back();
@@ -163,38 +168,7 @@ class MatriculaController extends Controller
     {
         Gate::authorize('matricula');
 
-        //si hay flag de inscribir a grupo
-        if ($request->has('inscribir')) {
-            $request->validate([
-                'grupo_id' => ['required', Rule::unique('grupo_matricula')->where(function ($query) use ($matricula) {
-                    return $query->where('matricula_id', $matricula->id);
-                })],
-            ], [
-                'grupo_id.unique' => 'Ya pertenece a este grupo'
-            ], [
-                'grupo_id' => 'grupo'
-            ]);
-
-            $matricula->grupos()->attach($request->grupo_id);
-            $matricula->update(['inscrito' => '1']);
-        }
-        //si es actualizacion de datos
-        else {
-            $request->validate([
-                'nombre' => 'required|max:45',
-                'cedula' => 'nullable|alpha_dash|min:16|max:16',
-                'fecha_nac' => 'required|date',
-                'tel' => 'nullable|min:8|max:8',
-                'grado' => 'required|max:45',
-            ], [], [
-                'fecha_nac' => 'fecha de nacimiento',
-                'tel' => 'telefono',
-            ]);
-
-            //agregar datos menos el flag
-            $matricula->update($request->except('inscribir'));
-        }
-
+        $matricula->update($request->all());
         return redirect()->route('matriculas.index')->with('info', 'ok');
     }
 

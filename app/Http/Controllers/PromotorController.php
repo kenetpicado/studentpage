@@ -8,10 +8,8 @@ use App\Models\Promotor;
 use App\Models\User;
 use App\Http\Controllers\Generate;
 use App\Mail\CredencialesPromotor;
-use App\Mail\Restablecimiento;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rule;
 
 class PromotorController extends Controller
 {
@@ -28,7 +26,8 @@ class PromotorController extends Controller
     public function index()
     {
         //
-        $promotors = Promotor::withCount('matriculas')->get(['id', 'carnet', 'nombre', 'correo']);
+        $promotors = Promotor::withCount('matriculas')
+            ->get(['id', 'carnet', 'nombre', 'correo']);
         return view('promotor.index', compact('promotors'));
     }
 
@@ -108,24 +107,11 @@ class PromotorController extends Controller
      */
     public function update(UpdatePromotorRequest $request, Promotor $promotor)
     {
-        //Obtener usuario
-        $user = User::where('email', '=', $promotor->carnet)->first();
+        if ($request->nombre != $promotor->nombre || $request->correo != $promotor->correo) {
+            //Obtener usuario
+            $user = User::where('email', $promotor->carnet)->first(['id', 'name']);
 
-        //si hay flag de pin restablecemos
-        if ($request->has('pin')) {
-            $pin =  Generate::pin();
-            $user->update(['password' => Hash::make('FFFFFF')]);
-
-            //Enviar correo con nuevo pin
-            //Mail::to($promotor->correo)->send(new Restablecimiento($promotor->carnet, $pin));
-        } else {
-            //Correo unico ignorando el propio
-            $request->validate([
-                'correo' => ['required', Rule::unique('promotors')->ignore($promotor->id)],
-                'nombre' => 'required',
-            ]);
-
-            //Actualizar en tabla docente
+            //Actualizar en tabla PROMOTOR
             $promotor->update($request->all(['nombre', 'correo']));
 
             //Actualizar en tabla User
@@ -145,7 +131,7 @@ class PromotorController extends Controller
     {
         //Elimino de la tabla Users
         User::where('email', $promotor->carnet)->first()->delete();
-        
+
         //Elimino de la tabla promotor
         $promotor->delete();
         return redirect()->route('promotores.index')->with('info', 'eliminado');

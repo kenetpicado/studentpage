@@ -83,9 +83,11 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form action="{{ route('promotores.update', $promotor ?? '') }}" method="POST">
+            <form action="{{ route('cambiar.pin') }}" method="POST">
                 @csrf
-                @method('PUT')
+                <input type="hidden" name="carnet" value="{{$promotor->carnet ?? ''}}">
+                <input type="hidden" name="correo" value="{{$promotor->correo ?? ''}}">
+                <input type="hidden" name="tipo" value="promotores">
                 <div class="modal-body">
                     <p>
                         Esta acción enviará al correo del promotor el nuevo PIN generado.
@@ -95,7 +97,6 @@
                         y solicite un restablecimiento.
                     </p>
                 </div>
-                <input type="hidden" name="pin" value="">
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-danger">Restablecer</button>

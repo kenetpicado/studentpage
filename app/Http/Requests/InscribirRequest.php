@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class UpdateMatriculaRequest extends FormRequest
+class InscribirRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,18 +26,24 @@ class UpdateMatriculaRequest extends FormRequest
     {
         return [
             //
-            'nombre' => 'required|max:45',
-            'cedula' => 'nullable|alpha_dash|min:16|max:16',
-            'fecha_nac' => 'required|date',
-            'tel' => 'nullable|min:8|max:8',
-            'grado' => 'required|max:45',
+            'grupo_id' => ['required', 
+            Rule::unique('grupo_matricula')->where(function ($query) {
+                return $query->where('matricula_id', $this->matricula_id);
+            })],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'grupo_id.unique' => 'Ya pertenece a este grupo',
+        ];
+    }
+
     public function attributes()
     {
         return [
-            'fecha_nac' => 'fecha de nacimiento',
-            'tel' => 'telefono',
+            'grupo_id' => 'grupo',
         ];
     }
 }

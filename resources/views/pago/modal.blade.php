@@ -22,7 +22,7 @@
                             </select>
                         </div>
                         <div class="form-group col-6">
-                            <label>Otro</label>
+                            <label>Concepto</label>
                             <input type="text" id="concepto" class="form-control @error('concepto') is-invalid @enderror"
                                 name="concepto" disabled autocomplete="off" value="{{ old('concepto') }}">
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreMatriculaRequest extends FormRequest
 {
@@ -31,6 +32,7 @@ class StoreMatriculaRequest extends FormRequest
             'fecha_nac' => 'required|date',
             'tel' => 'nullable|min:8|max:8',
             'grado' => 'required|max:45',
+            'sucursal' => [Rule::requiredIf($this->user()->sucursal == 'all')]
         ];
     }
 

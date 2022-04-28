@@ -53,37 +53,67 @@ class PagoController extends Controller
      */
     public function store(StorePagoRequest $request)
     {
-        //Si es de tipo mensualidad
-        if ($request->tipo == '1') {
+        //Obtener el ultimo mes registrado
+        $ultimo = Pago::where('matricula_id', $request->matricula_id)->where('tipo', '1')->get('concepto')->last();
 
-            $request->validate([
-                'monto' => 'required|numeric|gt:0',
-                'recibo' => 'required',
-            ]);
-
-
-            //Obtener el ultimo mes registrado
-            $ultimo = Pago::where('matricula_id', $request->matricula_id)->where('tipo', '1')->get('concepto')->last();
-
-            if ($ultimo == null) {
-                $mes = $this->generar_mes('');
-            } else {
-                $mes = $this->generar_mes($ultimo->concepto);
-            }
-
-            //Agregar al request
-            $request->merge(['concepto' => $mes]);
+        if ($ultimo == null) {
+            $meses = array("ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE");
+            $mes = $meses[date('n')-1];
         } else {
-            //Si es tipo otro validar el campo extra
-            $request->validate([
-                'concepto' => 'required|max:50',
-                'monto' => 'required|numeric|gt:0',
-                'recibo' => 'required',
-            ]);
+            $mes = $this->generar_mes($ultimo->concepto);
         }
+
+        //Agregar al request
+        $request->merge(['concepto' => $mes]);
 
         Pago::create($request->all());
         return back();
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Pago  $pago
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Pago $pago)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Pago  $pago
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Pago $pago)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdatePagoRequest  $request
+     * @param  \App\Models\Pago  $pago
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdatePagoRequest $request, Pago $pago)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Pago  $pago
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Pago $pago)
+    {
+        //
     }
 
     public function generar_mes($value)
@@ -129,50 +159,5 @@ class PagoController extends Controller
                 return 'ENERO';
                 break;
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pago  $pago
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Pago $pago)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pago  $pago
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Pago $pago)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatePagoRequest  $request
-     * @param  \App\Models\Pago  $pago
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdatePagoRequest $request, Pago $pago)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pago  $pago
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Pago $pago)
-    {
-        //
     }
 }

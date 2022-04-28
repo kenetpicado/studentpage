@@ -25,9 +25,10 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="{{ route('matriculas.update', $matricula) }}" method="POST">
+                        <form action="{{ route('matriculas.inscribir', $matricula->id) }}" method="POST">
                             @csrf
                             @method('PUT')
+
                             <p>Alumno:</p>
                             <p><strong>{{ $matricula->nombre }}</strong></p>
 
@@ -53,7 +54,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <input type="hidden" name="inscribir">
+                            <input type="hidden" name="matricula_id" value="{{ $matricula->id }}">
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </form>
                     </div>

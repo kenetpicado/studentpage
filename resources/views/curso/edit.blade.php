@@ -68,6 +68,7 @@
                                     </select>
                                 </div>
                             </div>
+                            <input type="hidden" name="curso_id" value="{{$curso->id}}">
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </form>
                     </div>

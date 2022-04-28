@@ -66,7 +66,7 @@
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
                                                         <a class="dropdown-item"
-                                                            href="{{ route('matriculas.inscribir', $matricula->id) }}">Inscribir
+                                                            href="{{ route('matriculas.seleccionar', $matricula->id) }}">Inscribir
                                                             a curso</a>
                                                         <a class="dropdown-item"
                                                             href="{{ route('matriculas.ver', $matricula) }}" target="_blank">Ver

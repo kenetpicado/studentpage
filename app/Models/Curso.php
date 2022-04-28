@@ -10,7 +10,8 @@ class Curso extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['nombre', 'estado'];
+    public $timestamps = false;
 
     //FUNCION PARA CADENA EN MAYUSCULA
     public function setNombreAttribute($value)

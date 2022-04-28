@@ -85,6 +85,7 @@
                                     </select>
                                 </div>
                             </div>
+                            <input type="hidden" name="docente_id" value="{{$docente->id}}">
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </form>
                     </div>

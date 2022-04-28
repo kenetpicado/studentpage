@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DocenteController;
+use App\Http\Controllers\Generate;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\NotaController;
@@ -9,12 +10,8 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PromotorController;
 use App\Http\Controllers\HomeController;
 use App\Models\Matricula;
-use App\Models\Grupo;
-use App\Models\GrupoMatricula;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Nota;
-use PHPUnit\Framework\MockObject\Rule\Parameters;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,21 +31,20 @@ Route::get('pagos/{matricula}/{grupo}/pagar', [PagoController::class, 'pagar'])-
 Route::get('notas/{matricula}/{grupo}/agregar', [NotaController::class, 'agregar'])->name('notas.agregar');
 
 //Inscribir a un curso
-Route::get('matriculas/{matricula}/inscribir', [MatriculaController::class, 'inscribir'])->name('matriculas.inscribir');
+Route::get('matriculas/{matricula}/inscribir', [MatriculaController::class, 'seleccionar'])->name('matriculas.seleccionar');
+Route::put('matriculas/{matricula}/inscribir', [MatriculaController::class, 'inscribir'])->name('matriculas.inscribir');
 
 //Cambiar de grupo
 Route::get('grupos/{matricula}/{grupo}/selecionar', [GrupoController::class, 'seleccionar'])->name('grupos.seleccionar');
 Route::put('cambiar/{pivot}', [GrupoController::class, 'cambiar'])->name('grupos.cambiar');
 
+//Restablecer pin
+Route::post('cambiar/pin', [Generate::class, 'cambiar_pin'])->name('cambiar.pin');
+
 //RUTA PARA PROBAR LAS INTERFACES DE LOS CORREOS
 // Route::get('/mailable', function () {
 //     return new App\Mail\Restablecimiento('carnebb', 'pinbb');
 // });
-
-//Ver matricula
-Route::get('matriculas/{matricula}/ver', function (Matricula $matricula) {
-    return new App\Mail\VerMatricula($matricula);
-})->name('matriculas.ver');
 
 //RECURSOS
 Route::resources([
@@ -68,3 +64,8 @@ Route::resource('promotores', PromotorController::class)->parameters([
 
 //Login
 Auth::routes(['register' => false]);
+
+//Ver matricula
+Route::get('matriculas/{matricula}/ver', function (Matricula $matricula) {
+    return new App\Mail\VerMatricula($matricula);
+})->name('matriculas.ver');

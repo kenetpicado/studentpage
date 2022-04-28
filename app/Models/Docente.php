@@ -10,7 +10,7 @@ class Docente extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['carnet', 'nombre', 'correo', 'estado', 'sucursal'];
     public $timestamps = false;
 
     //FUNCION PARA CADENA EN MAYUSCULA

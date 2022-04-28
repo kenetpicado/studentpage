@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDocenteRequest;
 use App\Http\Requests\UpdateDocenteRequest;
 use App\Mail\CredencialesDocente;
-use App\Mail\Restablecimiento;
 use App\Models\Docente;
 use App\Models\User;
 use App\Models\Grupo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
 
 class DocenteController extends Controller
@@ -63,15 +61,11 @@ class DocenteController extends Controller
         Gate::authorize('admin');
 
         //Si es admin de sucursal especifica
-        $sucursal = Auth::user()->sucursal;
+        $sucursal = $request->user()->sucursal;
 
         if ($sucursal != 'all') {
             $request->merge([
                 'sucursal' =>  $sucursal,
-            ]);
-        } else {
-            $request->validate([
-                'sucursal' => 'required',
             ]);
         }
 
@@ -112,11 +106,9 @@ class DocenteController extends Controller
     {
         $docente = Docente::find($docente_id, ['id', 'nombre']);
 
-        $grupos = Grupo::where('docente_id', $docente_id)->with([
-            'curso' => function ($query) {
-                $query->select('id', 'nombre');
-            }
-        ])->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
+        $grupos = Grupo::where('docente_id', $docente_id)
+            ->with(['curso:id,nombre'])
+            ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
 
         return view('docente.show', compact('grupos', 'docente'));
     }
@@ -146,27 +138,13 @@ class DocenteController extends Controller
         Gate::authorize('admin');
 
         //Obtener usuario de la tabla user
-        $user = User::where('email', $docente->carnet)->first(['id', 'name', 'password']);
+        $user = User::where('email', $docente->carnet)->first(['id', 'name']);
 
-        //si hay flag de pin restablecemos
-        if ($request->has('pin')) {
-            $pin =  Generate::pin();
-            $user->update(['password' => Hash::make('FFFFFF')]);
+        //Actualizar en tabla docente
+        $docente->update($request->all());
 
-            //Enviar correo con nuevo pin
-            //Mail::to($docente->correo)->send(new Restablecimiento($docente->carnet, $pin));
-        } else {
-            //Correo unico ignorando el propio
-            $request->validate([
-                'correo' => ['required', Rule::unique('docentes')->ignore($docente->id)],
-                'nombre' => 'required',
-            ]);
-            //Actualizar en tabla docente
-            $docente->update($request->all());
-
-            //Actualizar en tabla User
-            $user->update(['name' => $request->nombre]);
-        }
+        //Actualizar en tabla User
+        $user->update(['name' => $request->nombre]);
 
         return redirect()->route('docentes.index')->with('info', 'ok');
     }
@@ -180,10 +158,10 @@ class DocenteController extends Controller
     public function destroy(Docente $docente)
     {
         Gate::authorize('admin');
-        
+
         //Elimino de la tabla Users
-        User::where('email', '=', $docente->carnet)->first()->delete();
-        
+        User::where('email', $docente->carnet)->first()->delete();
+
         //Elimino de la tabla promotor
         $docente->delete();
         return redirect()->route('docentes.index')->with('info', 'eliminado');
