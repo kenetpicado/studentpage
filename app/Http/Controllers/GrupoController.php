@@ -30,28 +30,32 @@ class GrupoController extends Controller
      */
     public function index()
     {
-        Gate::authorize('admin');
+        //Gate::authorize('admin');
 
-        $sucursal = Auth::user()->sucursal;
+        $user = Auth::user();
 
         switch (true) {
-            case ($sucursal == 'CH'):
-                $grupos = Grupo::where('sucursal', 'CH')
-                    ->with(['curso:id,nombre', 'docente:id,nombre'])
+            case ($user->sucursal == 'all' || $user->sucursal == 'admin'):
+                $grupos = Grupo::with(['curso:id,nombre', 'docente:id,nombre'])
                     ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
                 break;
 
-            case ($sucursal == 'MG'):
-                $grupos = Grupo::where('sucursal', 'MG')
+                //Si es docente solo cargar sus propios grupos
+            case ($user->rol == 'docente'):
+                $id = Docente::where('carnet', $user->email)->first('id')->id;
+
+                $grupos = Grupo::where('docente_id', $id)
                     ->with(['curso:id,nombre', 'docente:id,nombre'])
                     ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
                 break;
 
             default:
-                $grupos = Grupo::with(['curso:id,nombre', 'docente:id,nombre'])
+                $grupos = Grupo::where('sucursal', $user->sucursal)
+                    ->with(['curso:id,nombre', 'docente:id,nombre'])
                     ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
                 break;
         }
+
         return view('grupo.index', compact('grupos'));
     }
 
@@ -85,17 +89,19 @@ class GrupoController extends Controller
         $pivot = GrupoMatricula::find($pivot_id);
 
         //Validar que no se mueva al mismo grupo
-        $request->validate([
-            'grupo_id' => ['required', Rule::unique('grupo_matricula')->where(function ($query) use ($pivot) {
-                return $query->where('matricula_id', $pivot->matricula_id);
-            })]
-        ], 
-        [
-            'grupo_id.unique' => 'Ya pertenece a este grupo'
-        ],  
-        [
-            'grupo_id' => 'grupo'
-        ]);
+        $request->validate(
+            [
+                'grupo_id' => ['required', Rule::unique('grupo_matricula')->where(function ($query) use ($pivot) {
+                    return $query->where('matricula_id', $pivot->matricula_id);
+                })]
+            ],
+            [
+                'grupo_id.unique' => 'Ya pertenece a este grupo'
+            ],
+            [
+                'grupo_id' => 'grupo'
+            ]
+        );
 
         $pivot->update($request->all());
 
@@ -116,16 +122,14 @@ class GrupoController extends Controller
         $cursos = Curso::where('estado', '1')->get(['id', 'nombre']);
 
         switch (true) {
-            case ($sucursal == 'CH'):
-                $docentes = Docente::where('estado', '1')->where('sucursal', 'CH')->get(['id', 'nombre']);
-                break;
-
-            case ($sucursal == 'MG'):
-                $docentes = Docente::where('estado', '1')->where('sucursal', 'MG')->get(['id', 'nombre']);
+            case ($sucursal == 'all'):
+                $docentes = Docente::where('estado', '1')->get(['id', 'nombre']);
                 break;
 
             default:
-                $docentes = Docente::where('estado', '1')->get(['id', 'nombre']);
+                $docentes = Docente::where('estado', '1')
+                    ->where('sucursal', $sucursal)
+                    ->get(['id', 'nombre']);
                 break;
         }
 
@@ -158,8 +162,10 @@ class GrupoController extends Controller
     public function show($grupo_id)
     {
         //
-        $grupo = Grupo::with('matriculas:id,carnet,nombre', 'curso:id,nombre', 'docente:id,nombre')
-            ->where('id', $grupo_id)->first(['id', 'horario', 'curso_id', 'docente_id']);
+        $grupo = Grupo::with('grupo_matricula.matricula:id,carnet,nombre', 'curso:id,nombre', 'docente:id,nombre')
+            ->withCount('grupo_matricula')
+            ->find($grupo_id, ['id', 'horario', 'curso_id', 'docente_id']);
+
         return view('grupo.show', compact('grupo'));
     }
 

@@ -7,6 +7,7 @@ use App\Http\Requests\StoreMatriculaRequest;
 use App\Http\Requests\UpdateMatriculaRequest;
 use App\Models\Matricula;
 use App\Models\Grupo;
+use App\Models\GrupoMatricula;
 use App\Models\Promotor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -33,13 +34,14 @@ class MatriculaController extends Controller
     }
 
     //Ejecutar inscripcion
-    public function inscribir(InscribirRequest $request, $matricula_id)
+    public function inscribir(InscribirRequest $request)
     {
-        $matricula = Matricula::find($matricula_id, ['id', 'inscrito']);
+        $matricula = Matricula::find($request->matricula_id, ['id', 'inscrito']);
 
-        $matricula->grupos()->attach($request->grupo_id);
+        GrupoMatricula::create($request->all());
 
         $matricula->update(['inscrito' => '1']);
+
         return redirect()->route('matriculas.index')->with('info', 'ok');
     }
 
@@ -55,6 +57,7 @@ class MatriculaController extends Controller
         $user = Auth::user();
 
         switch (true) {
+                //Si es un promotor
             case ($user->rol == 'promotor'):
                 $id = Promotor::where('carnet', $user->email)->first(['id'])->id;
 
@@ -64,19 +67,15 @@ class MatriculaController extends Controller
                     ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
 
-            case ($user->rol == 'admin' && $user->sucursal == 'CH'):
-                $matriculas = Matricula::where('sucursal', 'CH')
-                    ->with(['promotor:id,carnet'])
-                    ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
-                break;
-
-            case ($user->rol == 'admin' && $user->sucursal == 'MG'):
-                $matriculas = Matricula::where('sucursal', 'MG')
+                //Si es admin y de una sucursal especifica
+            case ($user->rol == 'admin' && $user->sucursal != 'all'):
+                $matriculas = Matricula::where('sucursal', $user->sucursal)
                     ->with(['promotor:id,carnet'])
                     ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
 
             default:
+                //Si es root
                 $matriculas = Matricula::with(['promotor:id,carnet'])
                     ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;

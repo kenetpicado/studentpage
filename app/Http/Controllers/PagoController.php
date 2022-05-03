@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePagoRequest;
 use App\Http\Requests\UpdatePagoRequest;
-use App\Models\Grupo;
-use App\Models\Matricula;
+use App\Models\GrupoMatricula;
 use App\Models\Pago;
 
 class PagoController extends Controller
@@ -38,11 +37,14 @@ class PagoController extends Controller
     //Cargar vista de los pagos
     public function pagar($matricula_id, $grupo_id)
     {
-        //
-        $matricula = Matricula::with('pagos:id,created_at,recibo,monto,concepto,matricula_id')
-            ->find($matricula_id, ['id', 'nombre']);
+        //Obtener el grupo en la tabla pivot
+        $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
+            ->where('matricula_id', $matricula_id)
+            ->with('pagos:id,created_at,recibo,monto,concepto,grupo_matricula_id')
+            ->with('matricula:id,nombre')
+            ->first(['id', 'matricula_id']);
 
-        return view('pago.index', compact('matricula', 'grupo_id'));
+        return view('pago.index', compact('pivot', 'grupo_id'));
     }
 
     /**
@@ -54,17 +56,19 @@ class PagoController extends Controller
     public function store(StorePagoRequest $request)
     {
         //Obtener el ultimo mes registrado
-        $ultimo = Pago::where('matricula_id', $request->matricula_id)->where('tipo', '1')->get('concepto')->last();
+        $ultimo = Pago::where('grupo_matricula_id', $request->grupo_matricula_id)->where('tipo', '1')->get('concepto')->last();
 
-        if ($ultimo == null) {
-            $meses = array("ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE");
-            $mes = $meses[date('n')-1];
-        } else {
-            $mes = $this->generar_mes($ultimo->concepto);
+        //SI es mensualidad
+        if ($request->tipo == '1') {
+            if ($ultimo == null) {
+                $meses = array("ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE");
+                $mes = $meses[date('n') - 1];
+            } else {
+                $mes = $this->generar_mes($ultimo->concepto);
+            }
+            //Agregar al request
+            $request->merge(['concepto' => $mes]);
         }
-
-        //Agregar al request
-        $request->merge(['concepto' => $mes]);
 
         Pago::create($request->all());
         return back();

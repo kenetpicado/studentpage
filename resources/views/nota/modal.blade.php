@@ -11,24 +11,12 @@
             </div>
             <form class="" action="{{ route('notas.store') }}" method="POST">
                 <div class="modal-body">
-                    @csrf
-                    <div class="form-group">
-                        <label for="unidad">Unidad</label>
-                        <input type="text" class="form-control @error('unidad') is-invalid @enderror" name="unidad"
-                            autocomplete="off" value="{{ old('unidad') }}">
-
-                        @error('unidad')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-
+                    @csrf 
                     <div class="form-group">
 
                         <label for="valor">Nota</label>
-                        <input type="number" class="form-control @error('valor') is-invalid @enderror" name="valor"
-                            autocomplete="off" value="{{ old('valor') }}">
+                        <input type="text" class="form-control @error('valor') is-invalid @enderror" name="valor"
+                            autocomplete="off" value="{{ old('valor') }}" autofocus>
 
                         @error('valor')
                             <span class="invalid-feedback" role="alert">
@@ -38,6 +26,7 @@
                     </div>
    
                 </div>
+                <input type="hidden" name="unidad" value="MOD {{$pivot->notas_count + 1}}">
                 <input type="hidden" name="grupo_matricula_id" value="{{$pivot->id}}">
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

@@ -27,9 +27,14 @@ class Grupo extends Model
     }
 
     //Relacion n:m a matriculas
-    public function matriculas()
+    /* public function matriculas()
     {
         return $this->belongsToMany(Matricula::class);
+    } */
+
+    public function grupo_matricula()
+    {
+        return $this->hasMany(GrupoMatricula::class);
     }
 
     public function setHorarioAttribute($value)

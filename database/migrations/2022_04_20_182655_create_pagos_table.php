@@ -20,9 +20,9 @@ class CreatePagosTable extends Migration
             $table->string('concepto', 50);
             $table->enum('tipo', ['1', '0'])->default('1');
 
-            //LLAVE FORANEA HACIA MATRICULA
-            $table->unsignedBigInteger('matricula_id');
-            $table->foreign('matricula_id')->references('id')->on('matriculas');
+            $table->unsignedBigInteger('grupo_matricula_id');
+            $table->foreign('grupo_matricula_id')->references('id')->on('grupo_matricula');
+            
             $table->timestamps();
         });
     }

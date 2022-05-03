@@ -16,12 +16,6 @@ class Matricula extends Model
 
     protected $guarded = [];
 
-    //Relacion 1:m a pago
-    public function pagos()
-    {
-        return $this->hasMany(Pago::class);
-    }
-
     //Relacion 1:1 inversa a promotor
     public function promotor()
     {
@@ -29,15 +23,20 @@ class Matricula extends Model
     }
 
     //Relacion n:m a grupos
-    public function grupos()
+    // public function grupos()
+    // {
+    //     return $this->belongsToMany(Grupo::class);
+    // }
+
+    public function grupo_matricula()
     {
-        return $this->belongsToMany(Grupo::class);
+        return $this->hasMany(GrupoMatricula::class);
     }
 
-    public function notas()
-    {
-        return $this->hasManyThrough(Nota::class, GrupoMatricula::class);
-    }
+    // public function notas()
+    // {
+    //     return $this->hasManyThrough(Nota::class, GrupoMatricula::class);
+    // }
 
     //FUNCION PARA CADENA EN MAYUSCULA
     public function setNombreAttribute($value)

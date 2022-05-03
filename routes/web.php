@@ -30,9 +30,11 @@ Route::get('pagos/{matricula}/{grupo}/pagar', [PagoController::class, 'pagar'])-
 //Agregar nota
 Route::get('notas/{matricula}/{grupo}/agregar', [NotaController::class, 'agregar'])->name('notas.agregar');
 
+Route::get('notas/{grupo}/reporte', [NotaController::class, 'reporte'])->name('notas.reporte');
+
 //Inscribir a un curso
 Route::get('matriculas/{matricula}/inscribir', [MatriculaController::class, 'seleccionar'])->name('matriculas.seleccionar');
-Route::put('matriculas/{matricula}/inscribir', [MatriculaController::class, 'inscribir'])->name('matriculas.inscribir');
+Route::put('matriculas/inscribir', [MatriculaController::class, 'inscribir'])->name('matriculas.inscribir');
 
 //Cambiar de grupo
 Route::get('grupos/{matricula}/{grupo}/selecionar', [GrupoController::class, 'seleccionar'])->name('grupos.seleccionar');

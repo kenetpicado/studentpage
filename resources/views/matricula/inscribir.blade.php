@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="{{ route('matriculas.inscribir', $matricula->id) }}" method="POST">
+                        <form action="{{ route('matriculas.inscribir') }}" method="POST">
                             @csrf
                             @method('PUT')
 

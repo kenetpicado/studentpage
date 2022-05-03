@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreNotaRequest;
 use App\Http\Requests\UpdateNotaRequest;
+use App\Models\Grupo;
 use App\Models\Nota;
-use App\Models\Matricula;
 use App\Models\GrupoMatricula;
 
 class NotaController extends Controller
@@ -33,15 +33,31 @@ class NotaController extends Controller
     //Agregar nota
     public function agregar($matricula_id, $grupo_id)
     {
-        //Obtener el estudiante
-        $matricula = Matricula::find($matricula_id, ['id', 'nombre']);
-
         //Obtener el grupo en la tabla pivot
-        $pivot = GrupoMatricula::where('grupo_id', $grupo_id)->where('matricula_id', $matricula->id)->first('id');
+        $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
+            ->where('matricula_id', $matricula_id)
+            ->with('notas:id,created_at,unidad,valor,grupo_matricula_id')
+            ->with('matricula:id,nombre')
+            ->withCount('notas')
+            ->first('id');
 
-        //Obtener las notas
-        $notas = Nota::where('grupo_matricula_id', $pivot->id)->get(['id', 'created_at', 'unidad', 'valor']);
-        return view('nota.index', compact('matricula', 'pivot', 'notas', 'grupo_id'));
+        return view('nota.index', compact('pivot', 'grupo_id'));
+    }
+
+    public function reporte($grupo_id)
+    {
+        $grupo = Grupo::where('id', $grupo_id)
+            ->with(['curso:id,nombre', 'docente:id,nombre'])
+            ->first(['id', 'horario', 'docente_id', 'curso_id']);
+
+        $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
+            ->with('notas:id,unidad,valor,grupo_matricula_id')
+            ->with('matricula:id,nombre,carnet')
+            ->get();
+
+        $modulos = $pivot->first()->notas;
+
+        return view('nota.reporte', compact('pivot', 'modulos', 'grupo'));
     }
 
     /**
