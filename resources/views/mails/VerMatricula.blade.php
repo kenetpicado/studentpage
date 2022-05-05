@@ -3,7 +3,6 @@
 <p style="text-align:center">Matricula {{date('Y', strtotime($matricula->created_at))}}</p>
 
 @component('mail::panel')
-<h4>Credenciales</h4>
 <h4>Carnet: {{$matricula->carnet}}</h4>
 <h4>PIN: {{$matricula->pin}}</h4>
 @endcomponent

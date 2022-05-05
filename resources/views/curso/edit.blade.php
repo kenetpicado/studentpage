@@ -20,7 +20,7 @@
                 <!-- Datos-->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR CURSO: {{ $curso->nombre }}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">EDITAR CURSO</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -29,7 +29,7 @@
                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                 aria-labelledby="dropdownMenuLink">
                                 <div class="dropdown-header">Opciones:</div>
-                                @if (count($curso->grupos) == 0)
+                                @if ($curso->grupos_count == 0)
                                     <a class="dropdown-item" href="#" data-toggle="modal"
                                         data-target="#eliminar">Eliminar</a>
                                 @endif

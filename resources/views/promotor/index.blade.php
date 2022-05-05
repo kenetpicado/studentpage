@@ -42,9 +42,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($promotors as $promotor)
+                                    @foreach ($promotors as $key => $promotor)
                                         <tr>
-                                            <td>{{ $promotor->id }}</td>
+                                            <td>{{ $key + 1}}</td>
                                             <td>{{ $promotor->carnet }}</td>
                                             <td>{{ $promotor->nombre }}</td>
                                             <td>{{ $promotor->correo }}</td>

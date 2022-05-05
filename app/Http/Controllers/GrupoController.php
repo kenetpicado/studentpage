@@ -14,6 +14,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use App\Http\Requests\InscribirRequest;
 
 class GrupoController extends Controller
 {
@@ -62,49 +63,28 @@ class GrupoController extends Controller
     //Mostrar formulario de cambio de grupo
     public function seleccionar($matricula_id, $grupo_id)
     {
-        //pivot
+        //pivotv - grupomatricula
         $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
-            ->where('matricula_id', $matricula_id)->first();
-
-        //Obtener el grupo actual
-        $grupo = Grupo::with('curso:id,nombre', 'docente:id,nombre')
-            ->find($grupo_id, ['id', 'horario', 'sucursal', 'curso_id', 'docente_id']);
+            ->where('matricula_id', $matricula_id)
+            ->with('grupo:id,sucursal,curso_id')
+            ->first();
 
         //Cargar los grupos destino de la misma sucursal y del mismo curso
-        $grupos = Grupo::where('sucursal', $grupo->sucursal) //Misma suscursal
-            ->where('curso_id', $grupo->curso_id) //mismo curso
+        $grupos = Grupo::where('sucursal', $pivot->grupo->sucursal) //Misma suscursal
+            ->where('curso_id', $pivot->grupo->curso_id) //mismo curso
             ->where('anyo', date('Y')) //anyo actual
             ->where('id', '!=', $grupo_id) //excluir id actual
             ->with('curso:id,nombre', 'docente:id,nombre') //con relaciones
             ->get(['id', 'horario', 'curso_id', 'docente_id']); //parametros
 
-        $matricula = Matricula::find($matricula_id, ['nombre']);
-
-        return view('grupo.cambiar', compact('pivot', 'grupos', 'grupo_id', 'matricula', 'grupo'));
+        return view('grupo.cambiar', compact('pivot', 'grupos', 'grupo_id'));
     }
 
     //Actualizar nuevo grupo
-    public function cambiar(Request $request, $pivot_id)
+    public function cambiar(InscribirRequest $request, $pivot_id)
     {
         $pivot = GrupoMatricula::find($pivot_id);
-
-        //Validar que no se mueva al mismo grupo
-        $request->validate(
-            [
-                'grupo_id' => ['required', Rule::unique('grupo_matricula')->where(function ($query) use ($pivot) {
-                    return $query->where('matricula_id', $pivot->matricula_id);
-                })]
-            ],
-            [
-                'grupo_id.unique' => 'Ya pertenece a este grupo'
-            ],
-            [
-                'grupo_id' => 'grupo'
-            ]
-        );
-
         $pivot->update($request->all());
-
         return redirect()->route('grupos.show', $request->oldgrupo)->with('info', 'ok');
     }
 
@@ -161,12 +141,11 @@ class GrupoController extends Controller
      */
     public function show($grupo_id)
     {
-        //
-        $grupo = Grupo::with('grupo_matricula.matricula:id,carnet,nombre', 'curso:id,nombre', 'docente:id,nombre')
-            ->withCount('grupo_matricula')
-            ->find($grupo_id, ['id', 'horario', 'curso_id', 'docente_id']);
+        $grupo = GrupoMatricula::where('grupo_id', $grupo_id)
+            ->with('matricula:id,carnet,nombre')
+            ->get();
 
-        return view('grupo.show', compact('grupo'));
+        return view('grupo.show', compact('grupo', 'grupo_id'));
     }
 
     /**
@@ -178,15 +157,16 @@ class GrupoController extends Controller
     public function edit($grupo_id)
     {
         //Cargar grupo con el docente
-        $grupo = Grupo::with('docente:id,nombre', 'curso:id,nombre')->find($grupo_id, ['id', 'horario', 'sucursal', 'docente_id', 'curso_id']);
+        $grupo = Grupo::with('docente:id,nombre')
+            ->withCount('grupo_matricula')
+            ->find($grupo_id);
 
         //Cargar todos los docentes
-        $docentes = Docente::where('estado', '1')->where('sucursal', $grupo->sucursal)->get(['id', 'nombre']);
+        $docentes = Docente::where('estado', '1')
+            ->where('sucursal', $grupo->sucursal)
+            ->get(['id', 'nombre']);
 
-        //Cantidad de grupos en la tabla pivot
-        $cant = GrupoMatricula::where('grupo_id', $grupo->id)->count();
-
-        return view('grupo.edit', compact('grupo', 'docentes', 'cant'));
+        return view('grupo.edit', compact('grupo', 'docentes'));
     }
 
     /**

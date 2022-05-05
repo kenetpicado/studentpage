@@ -36,18 +36,18 @@
                                         <th>Curso</th>
                                         <th>Docente</th>
                                         <th>Horario</th>
-                                        <th>Sucursal</th>
+                                        <th>Año - Sucursal</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($grupos as $grupo)
+                                    @foreach ($grupos as $key => $grupo)
                                         <tr>
-                                            <td>{{ $grupo->id }}</td>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $grupo->curso->nombre }}</td> 
                                             <td>{{ $grupo->docente->nombre }}</td>
                                             <td>{{ $grupo->horario }}</td>
-                                            <td>{{ $grupo->sucursal }} - {{ $grupo->anyo }}</td>
+                                            <td>{{ $grupo->anyo }} - {{ $grupo->sucursal }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"

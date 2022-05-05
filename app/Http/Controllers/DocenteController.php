@@ -104,13 +104,11 @@ class DocenteController extends Controller
      */
     public function show($docente_id)
     {
-        $docente = Docente::find($docente_id, ['id', 'nombre']);
-
         $grupos = Grupo::where('docente_id', $docente_id)
             ->with(['curso:id,nombre'])
-            ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
+            ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id']);
 
-        return view('docente.show', compact('grupos', 'docente'));
+        return view('docente.show', compact('grupos'));
     }
 
     /**

@@ -66,9 +66,10 @@ class CursoController extends Controller
      * @param  \App\Models\Curso  $curso
      * @return \Illuminate\Http\Response
      */
-    public function edit(Curso $curso)
+    public function edit($curso_id)
     {
         //
+        $curso = Curso::withCount('grupos')->find($curso_id,);
         return view('curso.edit', compact('curso'));
     }
 

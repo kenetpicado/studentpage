@@ -26,7 +26,7 @@
                     </div>
    
                 </div>
-                <input type="hidden" name="unidad" value="MOD {{$pivot->notas_count + 1}}">
+                <input type="hidden" name="unidad" value="MOD {{count($pivot->notas) + 1}}">
                 <input type="hidden" name="grupo_matricula_id" value="{{$pivot->id}}">
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

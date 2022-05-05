@@ -13,7 +13,7 @@ class UpdateNotaRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,7 @@ class UpdateNotaRequest extends FormRequest
     {
         return [
             //
+            'valor' => 'required|numeric|min:0|max:100',
         ];
     }
 }

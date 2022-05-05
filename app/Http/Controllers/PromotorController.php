@@ -26,8 +26,7 @@ class PromotorController extends Controller
     public function index()
     {
         //
-        $promotors = Promotor::withCount('matriculas')
-            ->get(['id', 'carnet', 'nombre', 'correo']);
+        $promotors = Promotor::withCount('matriculas')->get();
         return view('promotor.index', compact('promotors'));
     }
 
@@ -92,9 +91,10 @@ class PromotorController extends Controller
      * @param  \App\Models\Promotor  $promotor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Promotor $promotor)
+    public function edit($promotor_id)
     {
         //
+        $promotor = Promotor::withCount('matriculas')->find($promotor_id);
         return view('promotor.edit', compact('promotor'));
     }
 

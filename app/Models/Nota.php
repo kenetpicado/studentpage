@@ -11,7 +11,7 @@ class Nota extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['unidad', 'valor'];
 
     public function grupo_matricula()
     {

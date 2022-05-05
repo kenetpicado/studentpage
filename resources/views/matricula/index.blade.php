@@ -69,7 +69,7 @@
                                                             href="{{ route('matriculas.seleccionar', $matricula->id) }}">Inscribir
                                                             a curso</a>
                                                         <a class="dropdown-item"
-                                                            href="{{ route('matriculas.ver', $matricula) }}" target="_blank">Ver
+                                                            href="{{ route('matriculas.show', $matricula) }}" target="_blank">Ver
                                                             detalles</a>
                                                         <a class="dropdown-item"
                                                             href="{{ route('matriculas.edit', $matricula) }}">Editar</a>

@@ -37,9 +37,7 @@ class NotaController extends Controller
         $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
             ->where('matricula_id', $matricula_id)
             ->with('notas:id,created_at,unidad,valor,grupo_matricula_id')
-            ->with('matricula:id,nombre')
-            ->withCount('notas')
-            ->first('id');
+            ->first();
 
         return view('nota.index', compact('pivot', 'grupo_id'));
     }
@@ -57,7 +55,7 @@ class NotaController extends Controller
 
         $modulos = $pivot->first()->notas;
 
-        return view('nota.reporte', compact('pivot', 'modulos', 'grupo'));
+        return view('nota.reporte', compact('pivot', 'grupo', 'modulos'));
     }
 
     /**
@@ -90,9 +88,10 @@ class NotaController extends Controller
      * @param  \App\Models\Nota  $nota
      * @return \Illuminate\Http\Response
      */
-    public function edit(Nota $nota)
+    public function edit(Nota $nota, $matricula_id, $grupo_id)
     {
         //
+        return view('nota.edit', compact('nota', 'grupo_id', 'matricula_id'));
     }
 
     /**
@@ -105,6 +104,8 @@ class NotaController extends Controller
     public function update(UpdateNotaRequest $request, Nota $nota)
     {
         //
+        $nota->update($request->all());
+        return redirect()->route('notas.agregar', [$request->matricula_id, $request->grupo_id]);
     }
 
     /**

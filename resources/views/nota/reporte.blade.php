@@ -50,9 +50,10 @@
                                 <div class="card-body">
                                     <p>Docente: <strong>{{ $grupo->docente->nombre }}</strong></p>
                                     <p>Horario: <strong>{{ $grupo->horario }}</strong></p>
-                                    <p>Fecha: <strong>{{date('d-m-Y')}}</strong> </p>
+                                    <p>Fecha: <strong>{{ date('d-m-Y') }}</strong> </p>
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="" width="100%" cellspacing="0">
+
                                             <thead>
                                                 <th>Nombre</th>
                                                 <th>Carnet</th>
@@ -60,8 +61,8 @@
                                                     <th>{{ $modulo->unidad }}</th>
                                                 @endforeach
                                             </thead>
-                                            <tbody>
-                                                @foreach ($pivot as $alumno)
+                                            @foreach ($pivot as $alumno)
+                                                <tbody>
                                                     <tr>
                                                         <td>{{ $alumno->matricula->nombre }}</td>
                                                         <td>{{ $alumno->matricula->carnet }}</td>
@@ -69,8 +70,9 @@
                                                             <td>{{ $nota->valor }}</td>
                                                         @endforeach
                                                     </tr>
-                                                @endforeach
-                                            </tbody>
+                                                </tbody>
+                                            @endforeach
+
                                         </table>
                                     </div>
                                 </div>

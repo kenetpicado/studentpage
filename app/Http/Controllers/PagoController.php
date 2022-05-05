@@ -41,8 +41,7 @@ class PagoController extends Controller
         $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
             ->where('matricula_id', $matricula_id)
             ->with('pagos:id,created_at,recibo,monto,concepto,grupo_matricula_id')
-            ->with('matricula:id,nombre')
-            ->first(['id', 'matricula_id']);
+            ->first(['id']);
 
         return view('pago.index', compact('pivot', 'grupo_id'));
     }

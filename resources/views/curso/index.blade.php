@@ -58,7 +58,7 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a href="{{ route('cursos.edit', $curso) }}" class="dropdown-item">Editar</a>
+                                                        <a href="{{ route('cursos.edit', $curso->id) }}" class="dropdown-item">Editar</a>
                                                     </div>
                                                 </div>
                                                 

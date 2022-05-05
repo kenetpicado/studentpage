@@ -29,9 +29,6 @@
                             @csrf
                             @method('PUT')
 
-                            <p>Alumno:</p>
-                            <p><strong>{{ $matricula->nombre }}</strong></p>
-
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label>Selecionar grupo</label>

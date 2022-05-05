@@ -21,7 +21,7 @@
                 <!-- Datos de los pagos -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">{{ $pivot->matricula->nombre }} - PAGOS</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">PAGOS</h6>
                         <div class="dropdown no-arrow">
                             <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal"
                                 data-target="#agregar">

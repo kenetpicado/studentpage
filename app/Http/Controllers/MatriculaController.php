@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InscribirRequest;
 use App\Http\Requests\StoreMatriculaRequest;
 use App\Http\Requests\UpdateMatriculaRequest;
+use App\Mail\VerMatricula;
 use App\Models\Matricula;
 use App\Models\Grupo;
 use App\Models\GrupoMatricula;
@@ -22,7 +23,7 @@ class MatriculaController extends Controller
     //Form para seleccionar grupo a inscribir
     public function seleccionar($matricula_id)
     {
-        $matricula = Matricula::find($matricula_id, ['id', 'sucursal', 'nombre']);
+        $matricula = Matricula::find($matricula_id, ['id', 'sucursal']);
 
         //Cargar todos los grupos disponibles de la sucursal dada
         $grupos = Grupo::where('sucursal', $matricula->sucursal)
@@ -36,11 +37,10 @@ class MatriculaController extends Controller
     //Ejecutar inscripcion
     public function inscribir(InscribirRequest $request)
     {
-        $matricula = Matricula::find($request->matricula_id, ['id', 'inscrito']);
-
         GrupoMatricula::create($request->all());
 
-        $matricula->update(['inscrito' => '1']);
+        Matricula::find($request->matricula_id, ['id', 'inscrito'])
+            ->update(['inscrito' => '1']);
 
         return redirect()->route('matriculas.index')->with('info', 'ok');
     }
@@ -142,6 +142,7 @@ class MatriculaController extends Controller
     public function show(Matricula $matricula)
     {
         //
+        return new VerMatricula($matricula);
     }
 
     /**

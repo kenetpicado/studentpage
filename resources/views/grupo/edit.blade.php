@@ -21,7 +21,7 @@
                 <!-- Datos del alumno -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR GRUPO: {{$grupo->curso->nombre}} - {{$grupo->docente->nombre}}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">EDITAR GRUPO</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -29,7 +29,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                 aria-labelledby="dropdownMenuLink">
-                                @if ($cant == 0)
+                                @if ($grupo->grupo_matricula_count == 0)
                                     <a class="dropdown-item" href="#" data-toggle="modal"
                                         data-target="#eliminar">Eliminar</a>
                                 @else
@@ -40,12 +40,6 @@
                     </div>
 
                     <div class="card-body">
-
-                        <div class="row">
-                            <div class="form-group col-lg-6">
-                                Cambiar docente/horario del grupo selecionado.
-                            </div>
-                        </div>
 
                         <div class="row">
                             <div class="form-group col-lg-6">
