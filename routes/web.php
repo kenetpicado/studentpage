@@ -1,47 +1,29 @@
 <?php
 
+use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DocenteController;
-use App\Http\Controllers\GrupoController;
-use App\Http\Controllers\MatriculaController;
-use App\Http\Controllers\PagoController;
+use App\Http\Controllers\Generate;
 use App\Http\Controllers\PromotorController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+//Restablecer pin
+Route::post('cambiar/pin', [Generate::class, 'cambiar_pin'])->name('cambiar.pin');
 
-Route::get('/', function () {
-    return view('blank');
-});
+Route::resource('/', HomeController::class);
+Route::resource('cursos', CursoController::class);
+Route::resource('docentes', DocenteController::class);
 
-//RUTAS PARTICULARES
-Route::get('pago-estudiante/{matricula}', [PagoController::class, 'pagoEstudiante'])->name('pago.estudiante');
+//Recurso para establcer la llave promotor
+Route::resource('promotores', PromotorController::class)
+    ->parameters(['promotores' => 'promotor']);
 
-//RUTA PARA PROBAR LAS INTERFACES DE LOS CORREOS
-Route::get('/mailable', function () {
- 
-    return new App\Mail\Restablecimiento('carnebb', 'pinbb');
-});
-
-//RECURSOS DE RUTAS
-Route::resource('curso', CursoController::class);
-Route::resource('docente', DocenteController::class);
-Route::resource('grupo', GrupoController::class);
-Route::resource('matricula', MatriculaController::class);
-Route::resource('pago', PagoController::class);
-Route::resource('promotor', PromotorController::class);
+//Login
 Auth::routes(['register' => false]);
-//Auth::routes();
 
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Rutas alumnos - Ver grupos
+Route::get('consulta', [ConsultaController::class, 'index'])->name('consulta.index');
+Route::get('consulta/{id}/notas', [ConsultaController::class, 'notas'])->name('consulta.notas');
+Route::get('consulta/{id}/pagos', [ConsultaController::class, 'pagos'])->name('consulta.pagos');

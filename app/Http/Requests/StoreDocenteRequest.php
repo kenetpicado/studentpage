@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class StoreDocenteRequest extends FormRequest
 {
@@ -29,6 +29,7 @@ class StoreDocenteRequest extends FormRequest
             'carnet' => 'unique:docentes',
             'nombre' => 'required|max:45',
             'correo' => 'required|unique:docentes|email:rfc,dns',
+            'sucursal' => [Rule::requiredIf($this->user()->sucursal == 'all')]
         ];
     }
 }

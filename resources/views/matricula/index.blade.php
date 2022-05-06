@@ -5,13 +5,12 @@
 @section('content')
     <div class="container-fluid">
 
-        <!-- Boton abrir modal -->
-        <div class="d-sm-flex align-items-center justify-content-between m-2">
-            <h1 class="h3 mb-0 text-gray-800">Matriculas</h1>
-            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#matriculaModalCreate">
-                Agregar <i class="fas fa-plus ml-1"></i>
-            </button>
-        </div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Matriculas</li>
+            </ol>
+        </nav>
 
         @include('matricula.modal')
 
@@ -21,8 +20,13 @@
 
                 <!-- Datos -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">TODAS LAS MATRICULAS</h6>
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">MATRICULAS</h6>
+                        <div class="dropdown no-arrow">
+                            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#agregar">
+                                Agregar<i class="fas fa-plus ml-1"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="card-body ">
@@ -30,10 +34,9 @@
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Nombre</th>
+                                        <th>#</th>
                                         <th>Carnet</th>
-                                        <th>Curso</th>
+                                        <th>Nombre</th>
                                         <th>Promotor</th>
                                         <th>Fecha</th>
                                         <th></th>
@@ -43,30 +46,35 @@
                                     @foreach ($matriculas as $matricula)
                                         <tr>
                                             <td>{{ $matricula->id }}</td>
+                                            <td>
+                                                {{ $matricula->carnet }}
+                                                @if ($matricula->inscrito == '1')
+                                                <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
+                                                @else
+                                                    <i class="fas fa-circle fa-xs"></i>
+                                                @endif
+                                            </td>
                                             <td>{{ $matricula->nombre }}</td>
-                                            <td><strong>{{ $matricula->carnet }}</strong></td>
-                                            <td>{{ $matricula->grupo->curso->nombre ?? '' }}</td>
-                                            <td>{{ $matricula->promotor->carnet ?? ''}}</td>
-                                            <td>{{ $matricula->created_at}}</td>
+                                            <td>{{ $matricula->promotor->carnet ?? '' }}</td>
+                                            <td>{{ $matricula->created_at }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-tasks"></i>
+                                                    <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
+                                                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="fas fa-cog"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
                                                         <a class="dropdown-item"
-                                                        href="{{ route('matricula.show', $matricula) }}">Inscribir grupo</a>
+                                                            href="{{ route('matriculas.seleccionar', $matricula->id) }}">Inscribir
+                                                            a curso</a>
                                                         <a class="dropdown-item"
-                                                        href="{{ route('matricula.show', $matricula) }}">Ver
-                                                        detalles</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('pago.estudiante', $matricula) }}">Ver
-                                                        pagos</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('matricula.edit', $matricula) }}">Editar</a>
-                                                        
+                                                            href="{{ route('matriculas.show', $matricula) }}" target="_blank">Ver
+                                                            detalles</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('matriculas.edit', $matricula) }}">Editar</a>
+
                                                     </div>
                                                 </div>
                                             </td>
@@ -86,7 +94,7 @@
 @section('re-open')
     @if ($errors->any())
         <script>
-            $('#matriculaModalCreate').modal('show')
+            $('#agregar').modal('show')
         </script>
     @endif
 @endsection

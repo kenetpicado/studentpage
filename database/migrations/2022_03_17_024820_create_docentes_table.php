@@ -20,7 +20,6 @@ class CreateDocentesTable extends Migration
             $table->string('correo')->unique();
             $table->enum('estado', ['0', '1'])->default('1');
             $table->string('sucursal', 5);
-            $table->timestamps();
         });
     }
 

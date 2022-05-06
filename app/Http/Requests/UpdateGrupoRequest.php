@@ -26,11 +26,13 @@ class UpdateGrupoRequest extends FormRequest
         return [
             //
             'docente_id' => 'required',
+            'horario' => 'required|max:20',
         ];
     }
     public function attributes()
     {
         return [
+            'curso_id' => 'curso',
             'docente_id' => 'docente',
         ];
     }

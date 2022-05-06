@@ -5,6 +5,14 @@
 @section('content')
     <div class="container-fluid">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('promotores.index') }}">Promotores</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Editar</li>
+            </ol>
+        </nav>
+
         <!-- Content Row -->
         <div class="row">
             <div class="col-lg-12">
@@ -12,7 +20,7 @@
                 <!-- Datos del promotor -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR PROMOTOR: {{ $promotor->carnet }}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">EDITAR PROMOTOR</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -23,7 +31,7 @@
                                 <div class="dropdown-header">Opciones:</div>
                                 <a class="dropdown-item" href="#" data-toggle="modal"
                                     data-target="#restablecer">Restablecer PIN</a>
-                                @if (count($promotor->matriculas) == 0)
+                                @if ($promotor->matriculas_count == 0)
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#" data-toggle="modal"
                                         data-target="#eliminar">Eliminar</a>
@@ -33,19 +41,13 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="{{ route('promotor.update', $promotor) }}" method="POST">
+                        <form action="{{ route('promotores.update', $promotor) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <h6>Carnet: <strong>{{ $promotor->carnet }}</strong> </h6>
-                                    <hr>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label for="nombre">Nombre completo</label>
-                                    <input type="text" class="form-control is-valid @error('nombre') is-invalid @enderror"
+                                    <input type="text" class="form-control @error('nombre') is-invalid @enderror"
                                         name="nombre" autocomplete="off" value="{{ old('nombre', $promotor->nombre) }}">
 
                                     @error('nombre')
@@ -59,7 +61,7 @@
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label for="correo">Correo</label>
-                                    <input type="email" class="form-control is-valid @error('correo') is-invalid @enderror"
+                                    <input type="email" class="form-control @error('correo') is-invalid @enderror"
                                         name="correo" autocomplete="off" value="{{ old('correo', $promotor->correo) }}">
 
                                     @error('correo')
@@ -68,9 +70,9 @@
                                         </span>
                                     @enderror
                                 </div>
-
                             </div>
-                            <button type="submit" class="btn btn-success">Actualizar</button>
+                            <input type="hidden" name="promotor_id" value="{{ $promotor->id }}">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
                         </form>
                     </div>
                 </div>

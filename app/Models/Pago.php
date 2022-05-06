@@ -4,18 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Matricula;
+use App\Models\GrupoMatricula;
 
 class Pago extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
-
-    public function matricula()
-    {
-        return $this->belongsTo(Matricula::class);
-    }
 
     public function setConceptoAttribute($value)
     {
@@ -24,6 +19,6 @@ class Pago extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return date('d-m-y', strtotime($value));
+        return date('d-m-Y', strtotime($value));
     }
 }

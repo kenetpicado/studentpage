@@ -1,5 +1,5 @@
 <!-- Agregar -->
-<div class="modal fade" id="cursoModalCreate" tabindex="-1" role="dialog" aria-labelledby="cursoModalCreate"
+<div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="cursoModalCreate"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('curso.store') }}" method="POST">
+            <form action="{{ route('cursos.store') }}" method="POST">
                 <div class="modal-body">
                     @csrf
                     <div class="form-group">
@@ -44,7 +44,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form action="{{ route('curso.destroy', $curso->id ?? '') }}" method="POST">
+            <form action="{{ route('cursos.destroy', $curso->id ?? '') }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <div class="modal-body">

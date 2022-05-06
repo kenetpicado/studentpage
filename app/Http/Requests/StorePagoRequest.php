@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StorePagoRequest extends FormRequest
 {
@@ -25,8 +26,9 @@ class StorePagoRequest extends FormRequest
     {
         return [
             //
+            'concepto' => [Rule::requiredIf($this->tipo == '0'), 'max:50'],
             'monto' => 'required|numeric|gt:0',
-            'concepto' => 'required|max:50',
+            'recibo' => 'required',
         ];
     }
 }

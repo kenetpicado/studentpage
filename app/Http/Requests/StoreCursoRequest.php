@@ -25,9 +25,10 @@ class StoreCursoRequest extends FormRequest
     {
         return [
             //
-            'nombre' => 'required|unique:cursos|max:45'
+            'nombre' => ['required', 'max:45', 'unique:cursos']
         ];
     }
+    
     public function messages()
     {
         return [

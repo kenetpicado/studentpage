@@ -8,10 +8,8 @@ use App\Models\Promotor;
 use App\Models\User;
 use App\Http\Controllers\Generate;
 use App\Mail\CredencialesPromotor;
-use App\Mail\Restablecimiento;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rule;
 
 class PromotorController extends Controller
 {
@@ -24,14 +22,8 @@ class PromotorController extends Controller
     public function index()
     {
         //
-        $promotors = Promotor::all();
+        $promotors = Promotor::withCount('matriculas')->get();
         return view('promotor.index', compact('promotors'));
-    }
-    public function indexapi()
-    {
-        //
-        $promotors = Promotor::all();
-        return $promotors;
     }
 
     /**
@@ -58,15 +50,11 @@ class PromotorController extends Controller
 
         //Agregar credenciales en claro
         $request->merge([
-            'carnet' =>  $id,
-            'pin' => $pin
+            'carnet' =>  $id
         ]);
 
-        //Guardar instancia para enviar
-        $promotor = new Promotor($request->all());
-
         //Guardar en tabla prormotors
-        Promotor::create($request->except('pin'));
+        $promotor = Promotor::create($request->all());
 
         //Guardar cuenta de usuario
         User::create([
@@ -77,9 +65,9 @@ class PromotorController extends Controller
         ]);
 
         //Enviar correo
-        //Mail::to($request->correo)->send(new CredencialesPromotor($promotor));
+        //Mail::to($request->correo)->send(new CredencialesPromotor($promotor, $pin));
 
-        return redirect()->route('promotor.index')->with('info', 'ok');
+        return redirect()->route('promotores.index')->with('info', 'ok');
     }
 
     /**
@@ -99,9 +87,10 @@ class PromotorController extends Controller
      * @param  \App\Models\Promotor  $promotor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Promotor $promotor)
+    public function edit($promotor_id)
     {
         //
+        $promotor = Promotor::withCount('matriculas')->find($promotor_id);
         return view('promotor.edit', compact('promotor'));
     }
 
@@ -114,31 +103,18 @@ class PromotorController extends Controller
      */
     public function update(UpdatePromotorRequest $request, Promotor $promotor)
     {
-        //Obtener usuario
-        $user = User::where('email', '=', $promotor->carnet)->first();
+        if ($request->nombre != $promotor->nombre || $request->correo != $promotor->correo) {
+            //Obtener usuario
+            $user = User::where('email', $promotor->carnet)->first(['id', 'name']);
 
-        //si hay flag de pin restablecemos
-        if ($request->has('pin')) {
-            $pin =  Generate::pin();
-            $user->update(['password' => Hash::make('FFFFFF')]);
-
-            //Enviar correo con nuevo pin
-            //Mail::to($promotor->correo)->send(new Restablecimiento($promotor->carnet, $pin));
-        } else {
-            //Correo unico ignorando el propio
-            $request->validate([
-                'correo' => ['required', Rule::unique('promotors')->ignore($promotor->id)],
-                'nombre' => 'required',
-            ]);
-
-            //Actualizar en tabla docente
-            $promotor->update($request->all());
+            //Actualizar en tabla PROMOTOR
+            $promotor->update($request->all(['nombre', 'correo']));
 
             //Actualizar en tabla User
             $user->update(['name' => $request->nombre]);
         }
 
-        return redirect()->route('promotor.index')->with('info', 'ok');
+        return redirect()->route('promotores.index')->with('info', 'ok');
     }
 
     /**
@@ -150,10 +126,10 @@ class PromotorController extends Controller
     public function destroy(Promotor $promotor)
     {
         //Elimino de la tabla Users
-        User::where('email', '=', $promotor->carnet)->first()->delete();
-        
+        User::where('email', $promotor->carnet)->first()->delete();
+
         //Elimino de la tabla promotor
         $promotor->delete();
-        return redirect()->route('promotor.index')->with('info', 'eliminado');
+        return redirect()->route('promotores.index')->with('info', 'eliminado');
     }
 }

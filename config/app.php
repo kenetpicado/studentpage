@@ -14,6 +14,7 @@ return [
     */
 
     'name' => ('StudentPage'),
+    'centro' => ('Instituto Tecnológico Megabyte Service'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -106,7 +107,7 @@ return [
     */
 
     'faker_locale' => 'en_US',
-
+    
     /*
     |--------------------------------------------------------------------------
     | Encryption Key

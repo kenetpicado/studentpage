@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCursoRequest extends FormRequest
 {
@@ -25,7 +26,13 @@ class UpdateCursoRequest extends FormRequest
     {
         return [
             //
-            'nombre' => 'required|max:45'
+            'nombre' => ['required', 'max:45', Rule::unique('cursos')->ignore($this->curso_id)]
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'nombre.unique' => 'Ya existe un curso con este nombre.'
         ];
     }
 }

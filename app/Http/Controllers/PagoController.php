@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePagoRequest;
 use App\Http\Requests\UpdatePagoRequest;
-use App\Models\Grupo;
-use App\Models\Matricula;
+use App\Models\GrupoMatricula;
 use App\Models\Pago;
 
 class PagoController extends Controller
@@ -30,9 +29,16 @@ class PagoController extends Controller
         //
     }
 
-    public function pagoEstudiante(Matricula $matricula)
+    //Cargar vista de los pagos
+    public function pagar($matricula_id, $grupo_id)
     {
-        return view('pago.index', compact('matricula'));
+        //Obtener el grupo en la tabla pivot
+        $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
+            ->where('matricula_id', $matricula_id)
+            ->with('pagos:id,created_at,recibo,monto,concepto,grupo_matricula_id')
+            ->first(['id']);
+
+        return view('pago.index', compact('pivot', 'grupo_id'));
     }
 
     /**
@@ -43,12 +49,25 @@ class PagoController extends Controller
      */
     public function store(StorePagoRequest $request)
     {
-        //
-        Pago::create($request->all());
+        //Obtener el ultimo mes registrado
+        $ultimo = Pago::where('grupo_matricula_id', $request->grupo_matricula_id)->where('tipo', '1')->get('concepto')->last();
 
-        $matricula = Matricula::find($request->matricula_id);
-        return redirect()->route('pago.estudiante', $matricula)->with('info','ok');
+        //SI es mensualidad
+        if ($request->tipo == '1') {
+            if ($ultimo == null) {
+                $meses = array("ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE");
+                $mes = $meses[date('n') - 1];
+            } else {
+                $mes = $this->generar_mes($ultimo->concepto);
+            }
+            //Agregar al request
+            $request->merge(['concepto' => $mes]);
+        }
+
+        Pago::create($request->all());
+        return back();
     }
+
 
     /**
      * Display the specified resource.
@@ -93,5 +112,50 @@ class PagoController extends Controller
     public function destroy(Pago $pago)
     {
         //
+    }
+
+    public function generar_mes($value)
+    {
+        switch ($value) {
+            case '':
+                return 'ENERO';
+                break;
+            case 'ENERO':
+                return 'FEBRERO';
+                break;
+            case 'FEBRERO':
+                return 'MARZO';
+                break;
+            case 'MARZO':
+                return 'ABRIL';
+                break;
+            case 'ABRIL':
+                return 'MAYO';
+                break;
+            case 'MAYO':
+                return 'JUNIO';
+                break;
+            case 'JUNIO':
+                return 'JULIO';
+                break;
+            case 'JULIO':
+                return 'AGOSTO';
+                break;
+            case 'AGOSTO':
+                return 'SEPTIEMBRE';
+                break;
+            case 'SEPTIEMBRE':
+                return 'OCTUBRE';
+                break;
+            case 'OCTUBRE':
+                return 'NOVIEMBRE';
+                break;
+            case 'NOVIEMBRE':
+                return 'DICIEMBRE';
+                break;
+            default:
+                return 'ENERO';
+                break;
+        }
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCursoRequest;
 use App\Http\Requests\UpdateCursoRequest;
 use App\Models\Curso;
-use Illuminate\Validation\Rule;
+
 
 class CursoController extends Controller
 {
@@ -17,7 +17,7 @@ class CursoController extends Controller
     public function index()
     {
         //
-        $cursos = Curso::all();
+        $cursos = Curso::all(['id', 'nombre', 'estado']);
         return view('curso.index', compact('cursos'));
     }
 
@@ -28,6 +28,7 @@ class CursoController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -38,8 +39,9 @@ class CursoController extends Controller
      */
     public function store(StoreCursoRequest $request)
     {
+        //
         Curso::create($request->all());
-        return redirect()->route('curso.index')->with('info', 'ok');
+        return back()->with('info', 'ok');
     }
 
     /**
@@ -51,11 +53,6 @@ class CursoController extends Controller
     public function show(Curso $curso)
     {
         //
-        return view('curso.show', compact('curso'));
-    }
-
-    public function verGrupos(Curso $curso)
-    {
     }
 
     /**
@@ -64,9 +61,10 @@ class CursoController extends Controller
      * @param  \App\Models\Curso  $curso
      * @return \Illuminate\Http\Response
      */
-    public function edit(Curso $curso)
+    public function edit($curso_id)
     {
         //
+        $curso = Curso::withCount('grupos')->find($curso_id,);
         return view('curso.edit', compact('curso'));
     }
 
@@ -79,14 +77,8 @@ class CursoController extends Controller
      */
     public function update(UpdateCursoRequest $request, Curso $curso)
     {
-        //NOMBRE UNICO IGNORANDO EL PROPIO
-        $request->validate(
-            ['nombre' => [Rule::unique('cursos')->ignore($curso->id)]],
-            ['nombre.unique' => 'Ya existe un curso con este nombre.']
-        );
-
         $curso->update($request->all());
-        return redirect()->route('curso.index')->with('info', 'ok');
+        return redirect()->route('cursos.index')->with('info', 'ok');
     }
 
     /**
@@ -99,6 +91,6 @@ class CursoController extends Controller
     {
         //
         $curso->delete();
-        return redirect()->route('curso.index')->with('info', 'eliminado');
+        return redirect()->route('cursos.index')->with('info', 'eliminado');
     }
 }

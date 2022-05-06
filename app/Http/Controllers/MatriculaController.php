@@ -2,20 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InscribirRequest;
 use App\Http\Requests\StoreMatriculaRequest;
 use App\Http\Requests\UpdateMatriculaRequest;
+use App\Mail\VerMatricula;
 use App\Models\Matricula;
 use App\Models\Grupo;
+use App\Models\GrupoMatricula;
 use App\Models\Promotor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class MatriculaController extends Controller
 {
-    public function __construct()
+    //Form para seleccionar grupo a inscribir
+    public function seleccionar($matricula_id)
     {
-        $this->middleware('auth');
+        $matricula = Matricula::find($matricula_id, ['id', 'sucursal']);
+
+        //Cargar todos los grupos disponibles de la sucursal dada
+        $grupos = Grupo::where('sucursal', $matricula->sucursal)
+            ->where('anyo', date('Y'))
+            ->with(['docente:id,nombre', 'curso:id,nombre'])
+            ->get(['id', 'horario', 'curso_id', 'docente_id']);
+
+        return view('matricula.inscribir', compact('matricula', 'grupos'));
+    }
+
+    //Ejecutar inscripcion
+    public function inscribir(InscribirRequest $request)
+    {
+        GrupoMatricula::create($request->all());
+
+        Matricula::find($request->matricula_id, ['id', 'inscrito'])
+            ->update(['inscrito' => '1']);
+
+        return redirect()->route('matriculas.index')->with('info', 'ok');
     }
 
     /**
@@ -27,26 +51,34 @@ class MatriculaController extends Controller
     {
         Gate::authorize('matricula');
 
-        $rol = Auth::user()->rol;
-        $sucursal = Auth::user()->sucursal;
+        $user = Auth::user();
 
         switch (true) {
-            case ($rol == 'promotor'):
-                $matriculas = Promotor::where('carnet', '=', Auth::user()->email)->first()->matriculas;
+                //Si es un promotor
+            case ($user->rol == 'promotor'):
+                $id = Promotor::where('carnet', $user->email)->first(['id'])->id;
+
+                $matriculas = Matricula::where('promotor_id', $id)
+                    ->where('anyo', date('Y'))
+                    ->with(['promotor:id,carnet'])
+                    ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
-            case ($rol == 'admin' && $sucursal == 'CH'):
-                $matriculas = Matricula::where('sucursal', '=', 'CH')->get();
+
+                //Si es admin y de una sucursal especifica
+            case ($user->rol == 'admin' && $user->sucursal != 'all'):
+                $matriculas = Matricula::where('sucursal', $user->sucursal)
+                    ->with(['promotor:id,carnet'])
+                    ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
-            case ($rol == 'admin' && $sucursal == 'MG'):
-                $matriculas = Matricula::where('sucursal', '=', 'MG')->get();
-                break;
+
             default:
-                $matriculas = Matricula::all();
+                //Si es root
+                $matriculas = Matricula::with(['promotor:id,carnet'])
+                    ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
                 break;
         }
 
-        $grupos = Grupo::all();
-        return view('matricula.index', compact('matriculas', 'grupos'));
+        return view('matricula.index', compact('matriculas', 'user'));
     }
 
     /**
@@ -56,6 +88,7 @@ class MatriculaController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -68,36 +101,43 @@ class MatriculaController extends Controller
     {
         Gate::authorize('matricula');
 
-        //Si es admin de sucursal especifica
-        $sucursal = Auth::user()->sucursal;
+        //Obtener usuario
+        $user = $request->user();
 
-        if ($sucursal != 'all') {
+        //Si es admin de sucursal especifica
+        if ($user->sucursal != 'all') {
             $request->merge([
-                'sucursal' =>  $sucursal,
-            ]);
-        } else {
-            $request->validate([
-                'sucursal' => 'required',
+                'sucursal' =>  $user->sucursal,
             ]);
         }
 
-        //Encontrar el promotor quien matricula
-        $promotor = Promotor::where('carnet', '=', Auth::user()->email)->first();
+        //Si matricula un admin id promotor es null
+        $id = $user->rol == 'admin' ? null : Promotor::where('carnet', $user->email)->first(['id'])->id;
 
-        $id = !$promotor ? null : $promotor->id;
+        $carnet = $request->carnet != '' ? $request->carnet : Generate::idEstudiante($request->sucursal . '04', $request->fecha_nac);
+        $pin = Generate::pin();
 
         //Agregar campos que faltan
         $request->merge([
-            'carnet' =>  Generate::idEstudiante($request->sucursal . '04', $request->fecha_nac),
-            'pin' => Generate::pin(),
+            'carnet' =>  $carnet,
+            'pin' => $pin,
             'promotor_id' => $id,
         ]);
 
         //Guardar datos
         Matricula::create($request->all());
 
+        //Guardar cuenta de usuario
+        User::create([
+            'name' => $request->nombre,
+            'email' => $carnet,
+            'password' => Hash::make($pin),
+            'rol' => 'alumno',
+            'sucursal' => $request->sucursal
+        ]);
+
         //MOSTRAR VISTA
-        return redirect()->route('matricula.index')->with('info', 'ok');
+        return back();
     }
 
     /**
@@ -108,9 +148,8 @@ class MatriculaController extends Controller
      */
     public function show(Matricula $matricula)
     {
-        Gate::authorize('matricula');
-
-        return view('matricula.show', compact('matricula'));
+        //
+        return new VerMatricula($matricula);
     }
 
     /**
@@ -122,9 +161,7 @@ class MatriculaController extends Controller
     public function edit(Matricula $matricula)
     {
         Gate::authorize('matricula');
-
-        $grupos = Grupo::all();
-        return view('matricula.edit', compact('matricula', $matricula), compact('grupos', $grupos));
+        return view('matricula.edit', compact('matricula'));
     }
 
     /**
@@ -139,7 +176,7 @@ class MatriculaController extends Controller
         Gate::authorize('matricula');
 
         $matricula->update($request->all());
-        return redirect()->route('matricula.index')->with('info', 'ok');
+        return redirect()->route('matriculas.index')->with('info', 'ok');
     }
 
     /**
