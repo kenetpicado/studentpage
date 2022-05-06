@@ -8,22 +8,12 @@ use App\Models\Grupo;
 use App\Models\Curso;
 use App\Models\Docente;
 use App\Models\GrupoMatricula;
-use App\Models\Matricula;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Http\Request;
 use App\Http\Requests\InscribirRequest;
 
 class GrupoController extends Controller
 {
-    //
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *

@@ -7,7 +7,7 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('index')}}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Docentes</li>
             </ol>
         </nav>
@@ -21,7 +21,8 @@
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">DOCENTES</h6>
                         <div class="dropdown no-arrow">
-                            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#agregar">
+                            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal"
+                                data-target="#agregar">
                                 Agregar<i class="fas fa-plus ml-1"></i>
                             </button>
                         </div>
@@ -46,7 +47,7 @@
                                             <td>
                                                 {{ $docente->carnet }}
                                                 @if ($docente->estado == '1')
-                                                <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
+                                                    <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
                                                 @else
                                                     <i class="fas fa-circle fa-xs"></i>
                                                 @endif
@@ -55,15 +56,18 @@
                                             <td>{{ $docente->correo }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-tasks"></i>
+                                                    <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
+                                                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="fas fa-cog"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
 
-                                                        <a href="{{ route('docentes.show', $docente->id) }}" class="dropdown-item">Ver grupos</a>
-                                                        <a href="{{ route('docentes.edit', $docente->id) }}" class="dropdown-item">Editar</a>
+                                                        <a href="{{ route('docentes.show', $docente->id) }}"
+                                                            class="dropdown-item">Ver grupos</a>
+                                                        <a href="{{ route('docentes.edit', $docente->id) }}"
+                                                            class="dropdown-item">Editar</a>
                                                     </div>
                                                 </div>
                                             </td>

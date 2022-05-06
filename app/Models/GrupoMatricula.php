@@ -31,7 +31,6 @@ class GrupoMatricula extends Model
         return $this->belongsTo(Matricula::class);
     }
 
-    //
     public function notas()
     {
         return $this->hasMany(Nota::class);

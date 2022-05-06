@@ -4,10 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Pago;
-use App\Models\Grupo;
 use App\Models\Promotor;
-use App\Models\Nota;
 use App\Models\GrupoMatricula;
 
 class Matricula extends Model
@@ -22,21 +19,10 @@ class Matricula extends Model
         return $this->belongsTo(Promotor::class);
     }
 
-    //Relacion n:m a grupos
-    // public function grupos()
-    // {
-    //     return $this->belongsToMany(Grupo::class);
-    // }
-
     public function grupo_matricula()
     {
         return $this->hasMany(GrupoMatricula::class);
     }
-
-    // public function notas()
-    // {
-    //     return $this->hasManyThrough(Nota::class, GrupoMatricula::class);
-    // }
 
     //FUNCION PARA CADENA EN MAYUSCULA
     public function setNombreAttribute($value)
@@ -65,9 +51,4 @@ class Matricula extends Model
     {
         return date('Y-m-d', strtotime($value));
     }
-
-    // public function getFechaNacAttribute($value)
-    // {
-    //     return date('d-m-Y', strtotime($value));
-    // }
 }

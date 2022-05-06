@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Curso;
 use App\Models\Docente;
-use App\Models\Matricula;
 use App\Models\GrupoMatricula;
 
 class Grupo extends Model
@@ -25,12 +24,6 @@ class Grupo extends Model
     {
         return $this->belongsTo(Docente::class);
     }
-
-    //Relacion n:m a matriculas
-    /* public function matriculas()
-    {
-        return $this->belongsToMany(Matricula::class);
-    } */
 
     public function grupo_matricula()
     {

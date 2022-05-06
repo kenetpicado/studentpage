@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\GrupoMatricula;
-use App\Models\Matricula;
 
 class Nota extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['unidad', 'valor'];
+    protected $fillable = ['unidad', 'valor', 'grupo_matricula_id'];
 
     public function grupo_matricula()
     {

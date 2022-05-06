@@ -12,14 +12,11 @@ use App\Models\GrupoMatricula;
 use App\Models\Promotor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class MatriculaController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     //Form para seleccionar grupo a inscribir
     public function seleccionar($matricula_id)
     {
@@ -118,16 +115,26 @@ class MatriculaController extends Controller
         $id = $user->rol == 'admin' ? null : Promotor::where('carnet', $user->email)->first(['id'])->id;
 
         $carnet = $request->carnet != '' ? $request->carnet : Generate::idEstudiante($request->sucursal . '04', $request->fecha_nac);
+        $pin = Generate::pin();
 
         //Agregar campos que faltan
         $request->merge([
             'carnet' =>  $carnet,
-            'pin' => Generate::pin(),
+            'pin' => $pin,
             'promotor_id' => $id,
         ]);
 
         //Guardar datos
         Matricula::create($request->all());
+
+        //Guardar cuenta de usuario
+        User::create([
+            'name' => $request->nombre,
+            'email' => $carnet,
+            'password' => Hash::make($pin),
+            'rol' => 'alumno',
+            'sucursal' => $request->sucursal
+        ]);
 
         //MOSTRAR VISTA
         return back();

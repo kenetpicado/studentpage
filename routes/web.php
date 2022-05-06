@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\Generate;
@@ -21,3 +22,8 @@ Route::resource('promotores', PromotorController::class)
 
 //Login
 Auth::routes(['register' => false]);
+
+//Rutas alumnos - Ver grupos
+Route::get('consulta', [ConsultaController::class, 'index'])->name('consulta.index');
+Route::get('consulta/{id}/notas', [ConsultaController::class, 'notas'])->name('consulta.notas');
+Route::get('consulta/{id}/pagos', [ConsultaController::class, 'pagos'])->name('consulta.pagos');
