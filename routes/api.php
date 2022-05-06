@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PromotorController;
+use App\Http\Controllers\Api\V1\MatriculaController as MatriculaV1;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +18,3 @@ use App\Http\Controllers\PromotorController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::get('promotorapi', [PromotorController::class, 'indexapi']);	
-Route::post('promotorapi', [PromotorController::class, 'indexapi']);	
-
