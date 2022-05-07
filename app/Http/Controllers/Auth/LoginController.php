@@ -38,11 +38,11 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function authenticated($request , $user){
-        if($user->rol =='alumno'){
-            return redirect()->route('consulta.index') ;
-        }else{
-            return redirect()->route('index') ;
-        }
-    }
+    // public function authenticated($request , $user){
+    //     if($user->rol =='alumno'){
+    //         return redirect()->route('consulta.index') ;
+    //     }else{
+    //         return redirect()->route('index') ;
+    //     }
+    // }
 }

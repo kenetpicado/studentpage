@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Hash;
 
 class MatriculaController extends Controller
 {
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     //Form para seleccionar grupo a inscribir
     public function seleccionar($matricula_id)
     {
