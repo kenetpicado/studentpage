@@ -35,19 +35,25 @@
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>Modulo</th>
+                                        <th>#</th>
+                                        <th>Materia</th>
                                         <th>Nota</th>
                                         <th>Fecha</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($pivot->notas as $nota)
+                                    @foreach ($pivot->notas as $key => $nota)
                                         <tr>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $nota->unidad }}</td>
                                             <td>{{ $nota->valor }}</td>
                                             <td>{{ $nota->created_at }}</td>
-                                            <td><a href="{{route('notas.editar', [$nota->id, $pivot->matricula_id, $grupo_id])}}">Modificar</a></td>
+                                            <td>
+                                                <a href="{{ route('notas.editar', [$nota->id, $pivot->matricula_id, $grupo_id]) }}">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

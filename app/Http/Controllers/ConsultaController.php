@@ -11,11 +11,14 @@ use Illuminate\Support\Facades\Gate;
 
 class ConsultaController extends Controller
 {
-    //
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         //
-
         $user = Matricula::where('carnet', Auth::user()->email)->first(['id', 'nombre', 'carnet']);
 
         $pivot = GrupoMatricula::where('matricula_id', $user->id)
@@ -29,7 +32,7 @@ class ConsultaController extends Controller
     {
         Gate::authorize('nota_mine', $pivot_id);
 
-        $notas = Nota::where('grupo_matricula_id', $pivot_id)->get(['id', 'unidad', 'valor']);
+        $notas = Nota::where('grupo_matricula_id', $pivot_id)->orderBy('unidad')->get(['id', 'unidad', 'valor']);
         return view('consulta.nota', compact('notas'));
     }
 

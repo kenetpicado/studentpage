@@ -10,7 +10,8 @@
                 <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('grupos.show', $grupo_id) }}">Alumnos</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('notas.agregar', [$matricula_id, $grupo_id]) }}">Notas</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('notas.agregar', [$matricula_id, $grupo_id]) }}">Notas</a>
+                </li>
                 <li class="breadcrumb-item active" aria-current="page">Editar</li>
             </ol>
         </nav>
@@ -22,14 +23,28 @@
                 <!-- Datos-->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR {{ $nota->unidad }}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">EDITAR NOTA}</h6>
                     </div>
 
                     <div class="card-body">
                         <form action="{{ route('notas.update', $nota) }}" method="POST">
                             @csrf
                             @method('PUT')
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="unidad">Materia</label>
+                                    <input type="text" class="form-control @error('unidad') is-invalid @enderror"
+                                        name="unidad" autocomplete="off" value="{{ old('unidad', $nota->unidad) }}"
+                                        autofocus>
 
+                                    @error('unidad')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label for="valor">Nota</label>

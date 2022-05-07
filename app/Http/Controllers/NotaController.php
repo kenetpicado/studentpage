@@ -10,6 +10,10 @@ use App\Models\GrupoMatricula;
 
 class NotaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -46,10 +50,14 @@ class NotaController extends Controller
     {
         $grupo = Grupo::where('id', $grupo_id)
             ->with(['curso:id,nombre', 'docente:id,nombre'])
-            ->first(['id', 'horario', 'docente_id', 'curso_id']);
+            ->first(['id', 'horario', 'sucursal', 'docente_id', 'curso_id']);
 
         $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
-            ->with('notas:id,unidad,valor,grupo_matricula_id')
+            ->with([
+                'notas' => function ($query) {
+                    $query->select('id', 'unidad', 'valor', 'grupo_matricula_id')->orderBy('unidad');
+                }
+            ])
             ->with('matricula:id,nombre,carnet')
             ->get();
 

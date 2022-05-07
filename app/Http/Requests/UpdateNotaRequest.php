@@ -25,6 +25,7 @@ class UpdateNotaRequest extends FormRequest
     {
         return [
             //
+            'unidad' => ['required', 'max:50', 'regex:/^[1-9][1-9]?-[a-zA-Z\s]+$/'],
             'valor' => 'required|numeric|min:0|max:100',
         ];
     }

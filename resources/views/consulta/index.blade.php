@@ -12,7 +12,7 @@
                 <!-- Datos -->
                 <div class="card">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">DATOS DEL ALUMNO</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">CONSULTA</h6>
                     </div>
 
                     <div class="card-body">
@@ -28,7 +28,7 @@
                         @else
                             <div class="row">
                                 @foreach ($pivot as $gm)
-                                    <div class="col">
+                                    <div class="col-lg-6">
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ $gm->grupo->curso->nombre }}</h5>
