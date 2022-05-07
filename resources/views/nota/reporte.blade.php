@@ -37,7 +37,7 @@
                     <div class="row">
                         <div class="col-xl-12 col-lg-7">
                             <!-- Datos -->
-                            <div class="card"  id="seleccion">
+                            <div class="card" id="seleccion">
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">REPORTE DE NOTAS -
                                         {{ $grupo->curso->nombre }}</h6>
@@ -56,40 +56,37 @@
                                     @endif
                                     <p>Fecha: <strong>{{ date('d-m-Y') }}</strong> </p>
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="" width="100%" cellspacing="0">
+                                        <table class="table table-bordered table-sm" width="100%" cellspacing="0">
 
                                             <thead>
                                                 <th>Nombre</th>
-                                                <th>Carnet</th>
-                                                @foreach ($modulos as $modulo)
-                                                    <th>{{$modulo->unidad}}</th>
-                                                @endforeach
+                                                {{-- <th>Carnet</th> --}}
+                                                <th colspan="{{ count($modulos) }}" class="center-babe">Materias</th>
                                             </thead>
-                                            @foreach ($pivot as $alumno)
-                                                <tbody>
+                                            <tbody>
+                                                @foreach ($pivot as $alumno)
                                                     <tr>
-                                                        <td>
-                                                            <small>{{ $alumno->matricula->nombre }}</small>
-                                                        </td>
-                                                        <td>
+                                                        <td style="vertical-align:middle;">
+                                                            {{ $alumno->matricula->nombre }}</td>
+                                                        {{-- <td>
                                                             <small>{{ $alumno->matricula->carnet }}</small>
-                                                        </td>
+                                                        </td> --}}
                                                         @foreach ($alumno->notas as $nota)
                                                             <td>
-                                                                {{-- <small>{{ $nota->unidad }}: </small> --}}
-                                                                
+                                                                <small>{{ $nota->unidad }} </small>
+                                                                <br>
                                                                 <strong>{{ $nota->valor }}</strong>
                                                             </td>
                                                         @endforeach
                                                     </tr>
-                                                </tbody>
-                                            @endforeach
-
+                                                @endforeach
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
-                            <input type="button" class="btn btn-primary my-2" onclick="printDiv('seleccion');" value="Imprimir" />
+                            <input type="button" class="btn btn-primary my-2" onclick="printDiv('seleccion');"
+                                value="Imprimir" />
                         </div>
                     </div>
                 </div>
