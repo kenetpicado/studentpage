@@ -29,7 +29,7 @@ class ConsultaController extends Controller
     {
         Gate::authorize('nota_mine', $pivot_id);
 
-        $notas = Nota::where('grupo_matricula_id', $pivot_id)->get(['id', 'unidad', 'valor']);
+        $notas = Nota::where('grupo_matricula_id', $pivot_id)->orderBy('unidad')->get(['id', 'unidad', 'valor']);
         return view('consulta.nota', compact('notas'));
     }
 

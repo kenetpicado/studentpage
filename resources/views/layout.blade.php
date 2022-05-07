@@ -6,24 +6,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="{{config('app.name')}}">
-    
+    <meta name="author" content="{{ config('app.name') }}">
+
     <title>{{ config('app.name') }} - @yield('title')</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    
+
     {{-- normalize --}}
     <link href="{{ asset('css/normalize.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    
+
 
     {{-- SWEETALERT --}}
     <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
+
+    <script language="Javascript">
+        function imprSelec(nombre) {
+            var ficha = document.getElementById(nombre);
+            var ventimp = window.open(' ', 'popimpr');
+            ventimp.document.write(ficha.innerHTML);
+            ventimp.document.close();
+            ventimp.print();
+            ventimp.close();
+        }
+    </script>
 </head>
 
 <body id="page-top">

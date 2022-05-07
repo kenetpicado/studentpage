@@ -28,7 +28,7 @@
                                     @foreach ($pagos as $pago)
                                         <tr>
                                             <td>{{ $pago->concepto }}</td>
-                                            <td>{{ $pago->monto }}</td>
+                                            <td>C$ {{ $pago->monto }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

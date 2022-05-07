@@ -35,21 +35,25 @@
 
                     <!-- Content Row -->
                     <div class="row">
-                        <form class="col-xl-12 col-lg-7">
-
+                        <div class="col-xl-12 col-lg-7">
                             <!-- Datos -->
-                            <div class="card">
+                            <div class="card"  id="seleccion">
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">REPORTE DE NOTAS -
                                         {{ $grupo->curso->nombre }}</h6>
                                     <div class="dropdown no-arrow">
-                                        <a href="javascript:window.print()"> Imprimir</a>
+
                                     </div>
                                 </div>
 
                                 <div class="card-body">
                                     <p>Docente: <strong>{{ $grupo->docente->nombre }}</strong></p>
                                     <p>Horario: <strong>{{ $grupo->horario }}</strong></p>
+                                    @if ($grupo->sucursal == 'CH')
+                                        <p>Sucusal: <strong>CHINANDEGA</strong></p>
+                                    @else
+                                        <p>Sucusal: <strong>MANAGUA</strong></p>
+                                    @endif
                                     <p>Fecha: <strong>{{ date('d-m-Y') }}</strong> </p>
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="" width="100%" cellspacing="0">
@@ -58,16 +62,24 @@
                                                 <th>Nombre</th>
                                                 <th>Carnet</th>
                                                 @foreach ($modulos as $modulo)
-                                                    <th>{{ $modulo->unidad }}</th>
+                                                    <th>{{$modulo->unidad}}</th>
                                                 @endforeach
                                             </thead>
                                             @foreach ($pivot as $alumno)
                                                 <tbody>
                                                     <tr>
-                                                        <td>{{ $alumno->matricula->nombre }}</td>
-                                                        <td>{{ $alumno->matricula->carnet }}</td>
+                                                        <td>
+                                                            <small>{{ $alumno->matricula->nombre }}</small>
+                                                        </td>
+                                                        <td>
+                                                            <small>{{ $alumno->matricula->carnet }}</small>
+                                                        </td>
                                                         @foreach ($alumno->notas as $nota)
-                                                            <td>{{ $nota->valor }}</td>
+                                                            <td>
+                                                                {{-- <small>{{ $nota->unidad }}: </small> --}}
+                                                                
+                                                                <strong>{{ $nota->valor }}</strong>
+                                                            </td>
                                                         @endforeach
                                                     </tr>
                                                 </tbody>
@@ -77,12 +89,23 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                            <input type="button" class="btn btn-primary my-2" onclick="printDiv('seleccion');" value="Imprimir" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function printDiv(nombreDiv) {
+            var contenido = document.getElementById(nombreDiv).innerHTML;
+            var contenidoOriginal = document.body.innerHTML;
+            document.body.innerHTML = contenido;
+            window.print();
+            document.body.innerHTML = contenidoOriginal;
+        }
+    </script>
 </body>
 
 </html>

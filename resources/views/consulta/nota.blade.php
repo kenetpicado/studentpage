@@ -20,7 +20,7 @@
                             <table class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>Módulo</th>
+                                        <th>Materia</th>
                                         <th>Nota</th>
                                     </tr>
                                 </thead>
