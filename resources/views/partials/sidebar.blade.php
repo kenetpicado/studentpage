@@ -5,7 +5,7 @@
         {{-- <div class="sidebar-brand-icon">
             <i class="fas fa-graduation-cap"></i>
         </div> --}}
-        <div class="sidebar-brand-text mx-3">{{config('app.name')}}</div>
+        <div class="sidebar-brand-text mx-3">{{ config('app.name') }}</div>
     </a>
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
@@ -20,40 +20,45 @@
     <!-- Heading -->
     <div class="sidebar-heading">Administración</div>
 
-    <!-- Nav Item - DOCENTES -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('docentes.index') }}">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Docentes</span></a>
-    </li>
+    @if (Auth::user()->rol == 'admin')
+        <!-- Nav Item - DOCENTES -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('docentes.index') }}">
+                <i class="fas fa-fw fa-user"></i>
+                <span>Docentes</span></a>
+        </li>
 
-    <!-- Nav Item - CURSOS -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('cursos.index') }}">
-            <i class="fas fa-clone"></i>
-            <span>Cursos</span></a>
-    </li>
+        <!-- Nav Item - CURSOS -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('cursos.index') }}">
+                <i class="fas fa-clone"></i>
+                <span>Cursos</span></a>
+        </li>
+        <!-- Nav Item - PROMOTORES-->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('promotores.index') }}">
+                <i class="fas fa-male"></i>
+                <span>Promotores</span></a>
+        </li>
+    @endif
 
-    <!-- Nav Item - CURSOS -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('grupos.index') }}">
-            <i class="fas fa-users"></i>
-            <span>Grupos</span></a>
-    </li>
+    @if (Auth::user()->rol == 'docente' || Auth::user()->rol == 'admin')
+        <!-- Nav Item - CURSOS -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('grupos.index') }}">
+                <i class="fas fa-users"></i>
+                <span>Grupos</span></a>
+        </li>
+    @endif
 
-    <!-- Nav Item - PROMOTORES-->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('promotores.index') }}">
-            <i class="fas fa-male"></i>
-            <span>Promotores</span></a>
-    </li>
-
-    <!-- Nav Item - MATRICULA -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('matriculas.index') }}">
-            <i class="fas fa-address-book"></i>
-            <span>Matriculas</span></a>
-    </li>
+    @if (Auth::user()->rol == 'promotor' || Auth::user()->rol == 'admin')
+        <!-- Nav Item - MATRICULA -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('matriculas.index') }}">
+                <i class="fas fa-address-book"></i>
+                <span>Matriculas</span></a>
+        </li>
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

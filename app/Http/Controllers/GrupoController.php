@@ -25,13 +25,15 @@ class GrupoController extends Controller
      */
     public function index()
     {
-        //Gate::authorize('admin');
+        Gate::authorize('admin-docente');
 
         $user = Auth::user();
 
         switch (true) {
-            case ($user->sucursal == 'all' || $user->sucursal == 'admin'):
+
+            case ($user->sucursal == 'all' && $user->rol == 'admin'):
                 $grupos = Grupo::with(['curso:id,nombre', 'docente:id,nombre'])
+                    ->withCount('grupo_matricula')
                     ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
                 break;
 
@@ -41,12 +43,15 @@ class GrupoController extends Controller
 
                 $grupos = Grupo::where('docente_id', $id)
                     ->with(['curso:id,nombre', 'docente:id,nombre'])
+                    ->withCount('grupo_matricula')
                     ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
                 break;
 
+                //Si es admin de una sucursal especifica
             default:
                 $grupos = Grupo::where('sucursal', $user->sucursal)
                     ->with(['curso:id,nombre', 'docente:id,nombre'])
+                    ->withCount('grupo_matricula')
                     ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
                 break;
         }
@@ -57,6 +62,8 @@ class GrupoController extends Controller
     //Mostrar formulario de cambio de grupo
     public function seleccionar($matricula_id, $grupo_id)
     {
+        Gate::authorize('admin');
+
         //pivotv - grupomatricula
         $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
             ->where('matricula_id', $matricula_id)
@@ -77,6 +84,8 @@ class GrupoController extends Controller
     //Actualizar nuevo grupo
     public function cambiar(InscribirRequest $request, $pivot_id)
     {
+        Gate::authorize('admin');
+
         $pivot = GrupoMatricula::find($pivot_id);
         $pivot->update($request->all());
         return redirect()->route('grupos.show', $request->oldgrupo)->with('info', 'ok');
@@ -89,6 +98,7 @@ class GrupoController extends Controller
      */
     public function create()
     {
+        Gate::authorize('admin');
         //
         $sucursal = Auth::user()->sucursal;
 
@@ -118,6 +128,8 @@ class GrupoController extends Controller
      */
     public function store(StoreGrupoRequest $request)
     {
+        Gate::authorize('admin');
+
         //Se crear sucursal del grupo en funcion de la suscursal del docente
         $request->merge([
             'sucursal' => Docente::find($request->docente_id)->sucursal,
@@ -135,6 +147,8 @@ class GrupoController extends Controller
      */
     public function show($grupo_id)
     {
+        Gate::authorize('admin-docente');
+
         $grupo = GrupoMatricula::where('grupo_id', $grupo_id)
             ->with('matricula:id,carnet,nombre')
             ->get();
@@ -150,6 +164,8 @@ class GrupoController extends Controller
      */
     public function edit($grupo_id)
     {
+        Gate::authorize('admin');
+
         //Cargar grupo con el docente
         $grupo = Grupo::with('docente:id,nombre')
             ->withCount('grupo_matricula')
@@ -172,6 +188,7 @@ class GrupoController extends Controller
      */
     public function update(UpdateGrupoRequest $request, Grupo $grupo)
     {
+        Gate::authorize('admin');
         //
         $grupo->update($request->all());
         return redirect()->route('grupos.index')->with('info', 'ok');
@@ -185,6 +202,7 @@ class GrupoController extends Controller
      */
     public function destroy(Grupo $grupo)
     {
+        Gate::authorize('admin');
         //
         $grupo->delete();
         return redirect()->route('grupos.index')->with('info', 'eliminado');

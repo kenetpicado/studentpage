@@ -26,6 +26,8 @@ class MatriculaController extends Controller
     //Form para seleccionar grupo a inscribir
     public function seleccionar($matricula_id)
     {
+        Gate::authorize('admin');
+
         $matricula = Matricula::find($matricula_id, ['id', 'sucursal']);
 
         //Cargar todos los grupos disponibles de la sucursal dada
@@ -40,6 +42,8 @@ class MatriculaController extends Controller
     //Ejecutar inscripcion
     public function inscribir(InscribirRequest $request)
     {
+        Gate::authorize('admin');
+
         GrupoMatricula::create($request->all());
 
         Matricula::find($request->matricula_id, ['id', 'inscrito'])
@@ -55,7 +59,7 @@ class MatriculaController extends Controller
      */
     public function index()
     {
-        Gate::authorize('matricula');
+        Gate::authorize('admin-promotor');
 
         $user = Auth::user();
 
@@ -105,7 +109,7 @@ class MatriculaController extends Controller
      */
     public function store(StoreMatriculaRequest $request)
     {
-        Gate::authorize('matricula');
+        Gate::authorize('admin-promotor');
 
         //Obtener usuario
         $user = $request->user();
@@ -154,6 +158,7 @@ class MatriculaController extends Controller
      */
     public function show(Matricula $matricula)
     {
+        Gate::authorize('admin-promotor');
         //
         return new VerMatricula($matricula);
     }
@@ -166,7 +171,8 @@ class MatriculaController extends Controller
      */
     public function edit(Matricula $matricula)
     {
-        Gate::authorize('matricula');
+        Gate::authorize('admin-promotor');
+
         return view('matricula.edit', compact('matricula'));
     }
 
@@ -179,7 +185,7 @@ class MatriculaController extends Controller
      */
     public function update(UpdateMatriculaRequest $request, Matricula $matricula)
     {
-        Gate::authorize('matricula');
+        Gate::authorize('admin-promotor');
 
         $matricula->update($request->all());
         return redirect()->route('matriculas.index')->with('info', 'ok');

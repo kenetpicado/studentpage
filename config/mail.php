@@ -39,8 +39,8 @@ return [
             'host' => ('smtp.gmail.com'),
             'port' => (587),
             'encryption' => ('tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'username' => env('MAIL_USERNAME', 'ctrlbyk@gmail.com'),
+            'password' => env('MAIL_PASSWORD', 'fzuwyypufvzgjvzd'),
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -92,7 +92,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'ctrlbyk@example.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'ctrlbyk@gmail.com'),
         'name' => env('MAIL_FROM_NAME', 'StudentPage'),
     ],
 
