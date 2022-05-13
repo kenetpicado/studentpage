@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\PromotorController as PromotorV1;
 use App\Http\Controllers\Api\V1\GrupoController as GrupoV1;
 use App\Http\Controllers\Api\V1\CursoController as CursoV1;
 use App\Http\Controllers\Api\V1\DocenteController as DocenteV1;
+use App\Http\Controllers\Api\V1\GrupoMatriculaController as GrupoMatriculaV1;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,6 +40,10 @@ Route::apiResource('v1/cursos', CursoV1::class)
         ->middleware('auth:sanctum');
 
 Route::apiResource('v1/docentes', DocenteV1::class)	
+        ->only(['index', 'show'])
+        ->middleware('auth:sanctum');
+
+Route::apiResource('v1/grupo-matriculas', GrupoMatriculaV1::class)
         ->only(['index', 'show'])
         ->middleware('auth:sanctum');
 
