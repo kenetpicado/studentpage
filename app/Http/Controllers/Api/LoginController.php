@@ -19,7 +19,7 @@ class LoginController extends Controller
         if(Auth::attempt($request->only('email', 'password'))){
             //si la autenticacion es correcta
             return response()->json([
-                'token'=> $request->user()->createToken($request->name)->plainTextToken,
+                'token'=> $request->user()->createToken($request->email)->plainTextToken,
                 'message'=> 'Login Successful'
             ]);
         }
@@ -35,7 +35,7 @@ class LoginController extends Controller
         $this->validate($request, [
             'email' => 'required|string',
             'password' => 'required',
-            'name' => 'required'
+            //'name' => 'required'
         ]);
     }
 }
