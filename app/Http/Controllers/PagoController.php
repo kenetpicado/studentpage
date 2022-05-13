@@ -6,6 +6,7 @@ use App\Http\Requests\StorePagoRequest;
 use App\Http\Requests\UpdatePagoRequest;
 use App\Models\GrupoMatricula;
 use App\Models\Pago;
+use Illuminate\Support\Facades\Gate;
 
 class PagoController extends Controller
 {
@@ -36,6 +37,8 @@ class PagoController extends Controller
     //Cargar vista de los pagos
     public function pagar($matricula_id, $grupo_id)
     {
+        Gate::authorize('admin');
+
         //Obtener el grupo en la tabla pivot
         $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
             ->where('matricula_id', $matricula_id)
@@ -53,6 +56,8 @@ class PagoController extends Controller
      */
     public function store(StorePagoRequest $request)
     {
+        Gate::authorize('admin');
+
         //Obtener el ultimo mes registrado
         $ultimo = Pago::where('grupo_matricula_id', $request->grupo_matricula_id)->where('tipo', '1')->get('concepto')->last();
 

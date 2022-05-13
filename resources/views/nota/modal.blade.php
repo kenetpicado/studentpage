@@ -26,7 +26,7 @@
 
                     <div class="form-group">
                         <label for="valor">Nota</label>
-                        <input type="text" class="form-control @error('valor') is-invalid @enderror" name="valor"
+                        <input type="number" class="form-control @error('valor') is-invalid @enderror" name="valor"
                             autocomplete="off" value="{{ old('valor') }}" autofocus>
 
                         @error('valor')

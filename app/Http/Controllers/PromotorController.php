@@ -10,6 +10,7 @@ use App\Http\Controllers\Generate;
 use App\Mail\CredencialesPromotor;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Gate;
 
 class PromotorController extends Controller
 {
@@ -24,6 +25,7 @@ class PromotorController extends Controller
      */
     public function index()
     {
+        Gate::authorize('admin');
         //
         $promotors = Promotor::withCount('matriculas')->get();
         return view('promotor.index', compact('promotors'));
@@ -47,6 +49,8 @@ class PromotorController extends Controller
      */
     public function store(StorePromotorRequest $request)
     {
+        Gate::authorize('admin');
+
         //Generar credenciales
         $id = Generate::id('PM-', 4);
         $pin = Generate::pin();
@@ -92,6 +96,7 @@ class PromotorController extends Controller
      */
     public function edit($promotor_id)
     {
+        Gate::authorize('admin');
         //
         $promotor = Promotor::withCount('matriculas')->find($promotor_id);
         return view('promotor.edit', compact('promotor'));
@@ -106,6 +111,8 @@ class PromotorController extends Controller
      */
     public function update(UpdatePromotorRequest $request, Promotor $promotor)
     {
+        Gate::authorize('admin');
+
         if ($request->nombre != $promotor->nombre || $request->correo != $promotor->correo) {
             //Obtener usuario
             $user = User::where('email', $promotor->carnet)->first(['id', 'name']);
@@ -128,6 +135,8 @@ class PromotorController extends Controller
      */
     public function destroy(Promotor $promotor)
     {
+        Gate::authorize('admin');
+
         //Elimino de la tabla Users
         User::where('email', $promotor->carnet)->first()->delete();
 

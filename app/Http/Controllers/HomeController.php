@@ -11,10 +11,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Show the application dashboard.
@@ -23,7 +23,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('blank');
+        switch (auth()->user()->rol) {
+            case 'alumno':
+                return redirect()->route('consulta.index');
+                break;
+            case 'docente':
+                return redirect()->route('grupos.index');
+                break;
+            case 'promotor':
+                return redirect()->route('matriculas.index');
+                break;
+            default:
+                return view('blank');
+                break;
+        }
     }
 
     public function __construct()

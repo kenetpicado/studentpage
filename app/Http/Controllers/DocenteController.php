@@ -103,6 +103,8 @@ class DocenteController extends Controller
      */
     public function show($docente_id)
     {
+        Gate::authorize('admin');
+
         $grupos = Grupo::where('docente_id', $docente_id)
             ->with(['curso:id,nombre'])
             ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id']);

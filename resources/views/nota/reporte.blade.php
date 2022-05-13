@@ -67,7 +67,8 @@
                                                 @foreach ($pivot as $alumno)
                                                     <tr>
                                                         <td style="vertical-align:middle;">
-                                                            {{ $alumno->matricula->nombre }}</td>
+                                                            <small>{{ $alumno->matricula->nombre }}</small>
+                                                        </td>
                                                         {{-- <td>
                                                             <small>{{ $alumno->matricula->carnet }}</small>
                                                         </td> --}}

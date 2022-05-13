@@ -23,7 +23,8 @@
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">MATRICULAS</h6>
                         <div class="dropdown no-arrow">
-                            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal" data-target="#agregar">
+                            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal"
+                                data-target="#agregar">
                                 Agregar<i class="fas fa-plus ml-1"></i>
                             </button>
                         </div>
@@ -49,7 +50,7 @@
                                             <td>
                                                 {{ $matricula->carnet }}
                                                 @if ($matricula->inscrito == '1')
-                                                <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
+                                                    <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
                                                 @else
                                                     <i class="fas fa-circle fa-xs"></i>
                                                 @endif
@@ -66,11 +67,15 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
+                                                        {{-- Solo el administrador puede inscribir --}}
+                                                        @if (auth()->user()->rol == 'admin')
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('matriculas.seleccionar', $matricula->id) }}">Inscribir
+                                                                a curso</a>
+                                                        @endif
                                                         <a class="dropdown-item"
-                                                            href="{{ route('matriculas.seleccionar', $matricula->id) }}">Inscribir
-                                                            a curso</a>
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('matriculas.show', $matricula) }}" target="_blank">Ver
+                                                            href="{{ route('matriculas.show', $matricula) }}"
+                                                            target="_blank">Ver
                                                             detalles</a>
                                                         <a class="dropdown-item"
                                                             href="{{ route('matriculas.edit', $matricula) }}">Editar</a>

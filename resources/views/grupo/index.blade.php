@@ -7,7 +7,7 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('index')}}">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Grupos</li>
             </ol>
         </nav>
@@ -20,11 +20,13 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">GRUPOS</h6>
-                        <div class="dropdown no-arrow">
-                            <a href="{{route('grupos.create')}}" class="btn btn-sm btn-primary ml-2">
-                                Agregar <i class="fas fa-plus ml-1"></i>
-                            </a>
-                        </div>
+                        @if (auth()->user()->rol == 'admin')
+                            <div class="dropdown no-arrow">
+                                <a href="{{ route('grupos.create') }}" class="btn btn-sm btn-primary ml-2">
+                                    Agregar <i class="fas fa-plus ml-1"></i>
+                                </a>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="card-body">
@@ -44,10 +46,16 @@
                                     @foreach ($grupos as $key => $grupo)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $grupo->curso->nombre }}</td> 
+                                            <td>{{ $grupo->curso->nombre }}
+                                                @if ($grupo->grupo_matricula_count <= 0)
+                                                    <small>(Vacio)</small>
+                                                @endif
+                                            </td>
                                             <td>{{ $grupo->docente->nombre }}</td>
                                             <td>{{ $grupo->horario }}</td>
-                                            <td>{{ $grupo->anyo }} - {{ $grupo->sucursal }}</td>
+                                            <td>{{ $grupo->anyo }} - {{ $grupo->sucursal }}
+
+                                            </td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
@@ -59,8 +67,10 @@
                                                         aria-labelledby="dropdownMenuLink">
                                                         <a href="{{ route('grupos.show', $grupo->id) }}"
                                                             class="dropdown-item">Alumnos</a>
-                                                        <a href="{{ route('grupos.edit', $grupo->id) }}"
-                                                            class="dropdown-item">Editar</a>
+                                                        @if (auth()->user()->rol == 'admin')
+                                                            <a href="{{ route('grupos.edit', $grupo->id) }}"
+                                                                class="dropdown-item">Editar</a>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </td>
