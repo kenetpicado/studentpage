@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\MatriculaController as MatriculaV1;
 use App\Http\Controllers\Api\V1\PromotorController as PromotorV1;
+use App\Http\Controllers\Api\V1\GrupoController as GrupoV1;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,6 +25,10 @@ Route::apiResource('v1/matriculas', MatriculaV1::class)
       ->middleware('auth:sanctum');
 
 Route::apiResource('v1/promotores', PromotorV1::class)
+        ->only(['index', 'show'])
+        ->middleware('auth:sanctum');
+
+Route::apiResource('v1/grupos', GrupoV1::class)
         ->only(['index', 'show'])
         ->middleware('auth:sanctum');
 
