@@ -25,4 +25,9 @@ class HomeController extends Controller
     {
         return view('blank');
     }
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 }
