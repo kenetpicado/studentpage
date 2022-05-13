@@ -49,7 +49,7 @@ Route::apiResource('v1/grupo-matriculas', GrupoMatriculaV1::class)
         ->middleware('auth:sanctum');
 
 Route::apiResource('v1/notas', NotaV1::class)
-        ->only(['index', 'show'])
+        ->only(['index', 'show', 'store'])
         ->middleware('auth:sanctum');
 
 Route::post('login', [App\Http\Controllers\Api\LoginController::class, 'login']);

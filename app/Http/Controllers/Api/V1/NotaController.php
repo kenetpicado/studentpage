@@ -29,6 +29,7 @@ class NotaController extends Controller
     public function store(Request $request)
     {
         //
+        Nota::create($request->all());
     }
 
     /**
