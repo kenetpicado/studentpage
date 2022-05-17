@@ -27,7 +27,7 @@ class MatriculaResource extends JsonResource
             'sucursal' => $this->sucursal,
             'promotor_id' => $this->promotor_id,
             'created_at' => $this->created_at,
-            'promotor' => $this->promotor->carnet,
+           // 'promotor' => $this->promotor->carnet,
             'inscrito' => $this->inscrito,
         ];
     }
