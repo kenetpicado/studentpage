@@ -14,35 +14,17 @@ class CursoController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    //Mostrar todos los cursos
     public function index()
     {
         Gate::authorize('admin');
         //
-        $cursos = Curso::all(['id', 'nombre', 'estado']);
+        $cursos = Curso::getCursos();
         return view('curso.index', compact('cursos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCursoRequest  $request
-     * @return \Illuminate\Http\Response
-     */
+    //Guardar nuevo curso
     public function store(StoreCursoRequest $request)
     {
         Gate::authorize('admin');
@@ -51,23 +33,7 @@ class CursoController extends Controller
         return back()->with('info', 'ok');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Curso $curso)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
+    //Mostrar formulario editar curso
     public function edit($curso_id)
     {
         Gate::authorize('admin');
@@ -76,13 +42,7 @@ class CursoController extends Controller
         return view('curso.edit', compact('curso'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateCursoRequest  $request
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
+    //Actualizar curso
     public function update(UpdateCursoRequest $request, Curso $curso)
     {
         Gate::authorize('admin');
@@ -91,16 +51,10 @@ class CursoController extends Controller
         return redirect()->route('cursos.index')->with('info', 'ok');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
+    //Eliminar curso
     public function destroy(Curso $curso)
     {
         Gate::authorize('admin');
-        
         //
         $curso->delete();
         return redirect()->route('cursos.index')->with('info', 'eliminado');

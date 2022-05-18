@@ -7,41 +7,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $guarded = [];
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    // protected $fillable = [
-    //     'name',
-    //     'email',
-    //     'password',
-    //     'rol',
-    //     'sucursal',
-    //     'correo',
-    // ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -49,5 +27,33 @@ class User extends Authenticatable
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = trim(strtoupper($value));
+    }
+
+    public static function deleteUser($email)
+    {
+        User::where('email', $email)->first()->delete();
+    }
+
+    public static function updateUser($email, $name)
+    {
+        User::where('email', $email)
+            ->first(['id', 'name'])
+            ->update(['name' => $name]);
+    }
+    
+    public static function createUser($name, $email, $pin, $rol, $sucursal = 'all')
+    {
+        User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make($pin),
+            'rol' => $rol,
+            'sucursal' => $sucursal
+        ]);
+    }
+
+    public static function getUserByCarnet($model, $email)
+    {
+        return $model->where('carnet', $email)->first(['id']);
     }
 }

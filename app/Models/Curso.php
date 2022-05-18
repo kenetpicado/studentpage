@@ -24,4 +24,14 @@ class Curso extends Model
     {
         return $this->hasMany(Grupo::class);
     }
+
+    public static function getCursos()
+    {
+        return Curso::all();
+    }
+    
+    public static function getCursosActivos()
+    {
+        return Curso::where('estado', '1')->get(['id', 'nombre']);
+    }
 }

@@ -15,7 +15,7 @@ class ConsultaController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         Gate::authorize('alumno');
@@ -23,8 +23,8 @@ class ConsultaController extends Controller
         $user = Matricula::where('carnet', Auth::user()->email)->first(['id', 'nombre', 'carnet']);
 
         $pivot = GrupoMatricula::where('matricula_id', $user->id)
-        ->with('grupo.curso:id,nombre', 'grupo.docente:id,nombre')
-        ->get();
+            ->with('grupo.curso:id,nombre', 'grupo.docente:id,nombre')
+            ->get();
 
         return view('consulta.index', compact('user', 'pivot'));
     }
@@ -44,11 +44,10 @@ class ConsultaController extends Controller
     public function pagos($pivot_id)
     {
         Gate::authorize('alumno');
-        
+
         Gate::authorize('nota_mine', $pivot_id);
 
         $pagos = Pago::where('grupo_matricula_id', $pivot_id)->get(['id', 'concepto', 'monto']);
         return view('consulta.pago', compact('pagos'));
     }
-
 }

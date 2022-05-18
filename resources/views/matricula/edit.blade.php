@@ -29,7 +29,7 @@
                             <div class="form-group col-6">
                                 <label for="nombre">Nombre completo</label>
                                 <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                                    autocomplete="off" value="{{ old('nombre', $matricula->nombre) }}">
+                                    autocomplete="off" autofocus value="{{ old('nombre', $matricula->nombre) }}">
 
                                 @error('nombre')
                                     <span class="invalid-feedback" role="alert">

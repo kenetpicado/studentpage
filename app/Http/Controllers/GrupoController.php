@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateGrupoRequest;
 use App\Models\Grupo;
 use App\Models\Curso;
 use App\Models\Docente;
+use App\Models\User;
 use App\Models\GrupoMatricula;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -18,11 +19,7 @@ class GrupoController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         Gate::authorize('admin-docente');
@@ -31,28 +28,17 @@ class GrupoController extends Controller
 
         switch (true) {
 
-            case ($user->sucursal == 'all' && $user->rol == 'admin'):
-                $grupos = Grupo::with(['curso:id,nombre', 'docente:id,nombre'])
-                    ->withCount('grupo_matricula')
-                    ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
+            case ($user->sucursal == 'all'):
+                $grupos = Grupo::getGrupos();
                 break;
 
-                //Si es docente solo cargar sus propios grupos
             case ($user->rol == 'docente'):
-                $id = Docente::where('carnet', $user->email)->first('id')->id;
-
-                $grupos = Grupo::where('docente_id', $id)
-                    ->with(['curso:id,nombre', 'docente:id,nombre'])
-                    ->withCount('grupo_matricula')
-                    ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
+                $docente = User::getUserByCarnet(new Docente(), $user->email);
+                $grupos = Grupo::getGrupoSDocente($docente->id);
                 break;
 
-                //Si es admin de una sucursal especifica
             default:
-                $grupos = Grupo::where('sucursal', $user->sucursal)
-                    ->with(['curso:id,nombre', 'docente:id,nombre'])
-                    ->withCount('grupo_matricula')
-                    ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
+                $grupos = Grupo::getGruposSucursal($user->sucursal);
                 break;
         }
 
@@ -71,12 +57,7 @@ class GrupoController extends Controller
             ->first();
 
         //Cargar los grupos destino de la misma sucursal y del mismo curso
-        $grupos = Grupo::where('sucursal', $pivot->grupo->sucursal) //Misma suscursal
-            ->where('curso_id', $pivot->grupo->curso_id) //mismo curso
-            ->where('anyo', date('Y')) //anyo actual
-            ->where('id', '!=', $grupo_id) //excluir id actual
-            ->with('curso:id,nombre', 'docente:id,nombre') //con relaciones
-            ->get(['id', 'horario', 'curso_id', 'docente_id']); //parametros
+        $grupos = Grupo::getGruposCurrents($pivot->grupo->sucursal);
 
         return view('grupo.cambiar', compact('pivot', 'grupos', 'grupo_id'));
     }
@@ -85,35 +66,27 @@ class GrupoController extends Controller
     public function cambiar(InscribirRequest $request, $pivot_id)
     {
         Gate::authorize('admin');
-
-        $pivot = GrupoMatricula::find($pivot_id);
-        $pivot->update($request->all());
+        GrupoMatricula::find($pivot_id)->update($request->all());
         return redirect()->route('grupos.show', $request->oldgrupo)->with('info', 'ok');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //Crear un nuevo grupo
     public function create()
     {
         Gate::authorize('admin');
         //
         $sucursal = Auth::user()->sucursal;
 
-        //Cursos deben cargarse todos mientras esten activos
-        $cursos = Curso::where('estado', '1')->get(['id', 'nombre']);
+        $cursos = Curso::getCursosActivos();
 
         switch (true) {
+
             case ($sucursal == 'all'):
-                $docentes = Docente::where('estado', '1')->get(['id', 'nombre']);
+                $docentes = Docente::getDocentesActivos();
                 break;
 
             default:
-                $docentes = Docente::where('estado', '1')
-                    ->where('sucursal', $sucursal)
-                    ->get(['id', 'nombre']);
+                $docentes = Docente::getDocentesActivosSucursal($sucursal);
                 break;
         }
 
@@ -130,7 +103,7 @@ class GrupoController extends Controller
     {
         Gate::authorize('admin');
 
-        //Se crear sucursal del grupo en funcion de la suscursal del docente
+        //Sucursal del grupo = suscursal del docente
         $request->merge([
             'sucursal' => Docente::find($request->docente_id)->sucursal,
         ]);
@@ -139,12 +112,7 @@ class GrupoController extends Controller
         return redirect()->route('grupos.index')->with('info', 'ok');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Grupo  $grupo
-     * @return \Illuminate\Http\Response
-     */
+    //Mostrar alumnos de un grupo
     public function show($grupo_id)
     {
         Gate::authorize('admin-docente');
@@ -156,12 +124,7 @@ class GrupoController extends Controller
         return view('grupo.show', compact('grupo', 'grupo_id'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Grupo  $grupo
-     * @return \Illuminate\Http\Response
-     */
+    //Editar grupo
     public function edit($grupo_id)
     {
         Gate::authorize('admin');
@@ -171,21 +134,12 @@ class GrupoController extends Controller
             ->withCount('grupo_matricula')
             ->find($grupo_id);
 
-        //Cargar todos los docentes
-        $docentes = Docente::where('estado', '1')
-            ->where('sucursal', $grupo->sucursal)
-            ->get(['id', 'nombre']);
+        $docentes = Docente::getDocentesActivosSucursal($grupo->sucursal);
 
         return view('grupo.edit', compact('grupo', 'docentes'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateGrupoRequest  $request
-     * @param  \App\Models\Grupo  $grupo
-     * @return \Illuminate\Http\Response
-     */
+    //Actualizar grupo
     public function update(UpdateGrupoRequest $request, Grupo $grupo)
     {
         Gate::authorize('admin');
@@ -194,12 +148,7 @@ class GrupoController extends Controller
         return redirect()->route('grupos.index')->with('info', 'ok');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Grupo  $grupo
-     * @return \Illuminate\Http\Response
-     */
+    //Eliminar un grupo
     public function destroy(Grupo $grupo)
     {
         Gate::authorize('admin');

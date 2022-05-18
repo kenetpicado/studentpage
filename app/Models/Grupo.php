@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Curso;
 use App\Models\Docente;
 use App\Models\GrupoMatricula;
+use Illuminate\Support\Facades\DB;
 
 class Grupo extends Model
 {
@@ -15,12 +16,43 @@ class Grupo extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    public function curso() 
+    public function obtain($q)
+    {
+        return $q->with(['curso:id,nombre', 'docente:id,nombre'])
+            ->withCount('grupo_matricula')
+            ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
+    }
+
+    public static function getGruposSucursal($sucursal)
+    {
+        return Grupo::obtain(Grupo::where('sucursal', $sucursal));
+    }
+
+    public static function getGruposCurrents($sucursal)
+    {
+        return Grupo::where('sucursal', $sucursal)
+            ->where('anyo', date('Y'))
+            ->with(['docente:id,nombre', 'curso:id,nombre'])
+            ->get(['id', 'horario', 'curso_id', 'docente_id']);
+    }
+
+    public static function getGruposDocente($docente_id)
+    {
+        return Grupo::obtain(Grupo::where('docente_id', $docente_id));
+    }
+
+    public static function getGrupos()
+    {
+        return Grupo::obtain(new Grupo());
+    }
+
+    //Relations
+    public function curso()
     {
         return $this->belongsTo(Curso::class);
     }
 
-    public function docente() 
+    public function docente()
     {
         return $this->belongsTo(Docente::class);
     }

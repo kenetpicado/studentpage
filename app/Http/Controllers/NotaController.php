@@ -15,25 +15,6 @@ class NotaController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     //Agregar nota
     public function agregar($matricula_id, $grupo_id)
@@ -71,68 +52,23 @@ class NotaController extends Controller
         return view('nota.reporte', compact('pivot', 'grupo', 'modulos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreNotaRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreNotaRequest $request)
     {
         Gate::authorize('admin-docente');
-
-        //
         Nota::create($request->all());
         return back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Nota  $nota
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Nota $nota)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Nota  $nota
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Nota $nota, $matricula_id, $grupo_id)
     {
         Gate::authorize('admin-docente');
-        //
         return view('nota.edit', compact('nota', 'grupo_id', 'matricula_id'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateNotaRequest  $request
-     * @param  \App\Models\Nota  $nota
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateNotaRequest $request, Nota $nota)
     {
         Gate::authorize('admin-docente');
-        //
         $nota->update($request->all());
         return redirect()->route('notas.agregar', [$request->matricula_id, $request->grupo_id]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Nota  $nota
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Nota $nota)
-    {
-        //
     }
 }

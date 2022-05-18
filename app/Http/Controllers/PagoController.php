@@ -14,25 +14,6 @@ class PagoController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     //Cargar vista de los pagos
     public function pagar($matricula_id, $grupo_id)
@@ -48,12 +29,6 @@ class PagoController extends Controller
         return view('pago.index', compact('pivot', 'grupo_id'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StorePagoRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StorePagoRequest $request)
     {
         Gate::authorize('admin');
