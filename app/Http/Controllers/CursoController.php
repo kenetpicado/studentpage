@@ -19,7 +19,6 @@ class CursoController extends Controller
     public function index()
     {
         Gate::authorize('admin');
-        //
         $cursos = Curso::getCursos();
         return view('curso.index', compact('cursos'));
     }
@@ -28,7 +27,6 @@ class CursoController extends Controller
     public function store(StoreCursoRequest $request)
     {
         Gate::authorize('admin');
-        //
         Curso::create($request->all());
         return back()->with('info', 'ok');
     }
@@ -37,8 +35,7 @@ class CursoController extends Controller
     public function edit($curso_id)
     {
         Gate::authorize('admin');
-        //
-        $curso = Curso::withCount('grupos')->find($curso_id,);
+        $curso = Curso::withCount('grupos')->find($curso_id);
         return view('curso.edit', compact('curso'));
     }
 
@@ -46,7 +43,6 @@ class CursoController extends Controller
     public function update(UpdateCursoRequest $request, Curso $curso)
     {
         Gate::authorize('admin');
-
         $curso->update($request->all());
         return redirect()->route('cursos.index')->with('info', 'ok');
     }
@@ -55,7 +51,6 @@ class CursoController extends Controller
     public function destroy(Curso $curso)
     {
         Gate::authorize('admin');
-        //
         $curso->delete();
         return redirect()->route('cursos.index')->with('info', 'eliminado');
     }

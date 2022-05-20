@@ -21,8 +21,7 @@ class PromotorController extends Controller
     public function index()
     {
         Gate::authorize('admin');
-        //
-        $promotors = Promotor::withCount('matriculas')->get();
+        $promotors = Promotor::getPromotores();
         return view('promotor.index', compact('promotors'));
     }
 
@@ -39,10 +38,8 @@ class PromotorController extends Controller
             'carnet' =>  $id
         ]);
 
-        //Guardar en tabla promotors
+        //Guardar
         $promotor = Promotor::create($request->all());
-
-        //Guardar cuenta de usuario
         User::createUser($request->nombre, $id, 'FFFFFF', 'promotor');
 
         //Enviar correo
@@ -54,8 +51,7 @@ class PromotorController extends Controller
     public function edit($promotor_id)
     {
         Gate::authorize('admin');
-        //
-        $promotor = Promotor::withCount('matriculas')->find($promotor_id);
+        $promotor = Promotor::getPromotor($promotor_id);
         return view('promotor.edit', compact('promotor'));
     }
 
@@ -63,14 +59,8 @@ class PromotorController extends Controller
     {
         Gate::authorize('admin');
 
-        if ($request->nombre != $promotor->nombre || $request->correo != $promotor->correo) {
-
-            //Actualizar en tabla PROMOTOR
-            $promotor->update($request->all(['nombre', 'correo']));
-
-            //Actualizar en tabla User
-            User::updateUser($promotor->carnet, $request->nombre);
-        }
+        $promotor->update($request->all());
+        User::updateUser($promotor->carnet, $request->nombre);
 
         return redirect()->route('promotores.index')->with('info', 'ok');
     }
@@ -79,11 +69,9 @@ class PromotorController extends Controller
     {
         Gate::authorize('admin');
 
-        //Elimino de la tabla Users
+        $promotor->delete();
         User::deleteUser($promotor->carnet);
 
-        //Elimino de la tabla promotor
-        $promotor->delete();
         return redirect()->route('promotores.index')->with('info', 'eliminado');
     }
 }

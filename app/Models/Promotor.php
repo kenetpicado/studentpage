@@ -10,14 +10,24 @@ class Promotor extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['carnet', 'nombre', 'correo'];
     public $timestamps = false;
-    
-    //FUNCION PARA CADENA EN MAYUSCULA
+
+    public static function getPromotores()
+    {
+        return Promotor::withCount('matriculas')->get();
+    }
+
+    public static function getPromotor($promotor_id)
+    {
+        return Promotor::withCount('matriculas')->find($promotor_id);
+    }
+
     public function setNombreAttribute($value)
     {
         $this->attributes['nombre'] = trim(strtoupper($value));
     }
+
     public function setCorreoAttribute($value)
     {
         $this->attributes['correo'] = trim(strtolower($value));

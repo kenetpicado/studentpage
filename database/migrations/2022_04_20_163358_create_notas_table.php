@@ -18,8 +18,8 @@ class CreateNotasTable extends Migration
             $table->string('unidad', 50);
             $table->float('valor');
             
-            $table->unsignedBigInteger('grupo_matricula_id');
-            $table->foreign('grupo_matricula_id')->references('id')->on('grupo_matricula');
+            $table->unsignedBigInteger('inscripcion_id');
+            $table->foreign('inscripcion_id')->references('id')->on('inscripciones');
 
             $table->timestamps();
         });

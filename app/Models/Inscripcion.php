@@ -9,17 +9,29 @@ use App\Models\Pago;
 use App\Models\Matricula;
 use App\Models\Grupo;
 
-class GrupoMatricula extends Model
+class Inscripcion extends Model
 {
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = [
-        'grupo_id',
-        'matricula_id',
-    ];
+    protected $fillable = ['grupo_id', 'matricula_id'];
 
-    protected $table = "grupo_matricula";
+    protected $table = "inscripciones";
+
+    public static function getByGrupo($grupo_id)
+    {
+        return Inscripcion::where('grupo_id', $grupo_id)
+            ->with('matricula:id,carnet,nombre')
+            ->get();
+    }
+
+    public static function loadThis($grupo_id, $matricula_id)
+    {
+        return Inscripcion::where('grupo_id', $grupo_id)
+            ->where('matricula_id', $matricula_id)
+            ->with('grupo:id,sucursal')
+            ->first();
+    }
 
     public function grupo()
     {

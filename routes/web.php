@@ -4,6 +4,8 @@ use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\Generate;
+use App\Http\Controllers\MatriculaController;
+use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\PromotorController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +17,8 @@ Route::post('cambiar/pin', [Generate::class, 'cambiar_pin'])->name('cambiar.pin'
 Route::resource('/', HomeController::class);
 Route::resource('cursos', CursoController::class);
 Route::resource('docentes', DocenteController::class);
+Route::resource('matriculas', MatriculaController::class);
+Route::resource('grupos', GrupoController::class);
 
 //Recurso para establcer la llave promotor
 Route::resource('promotores', PromotorController::class)

@@ -23,7 +23,6 @@ class DocenteController extends Controller
     public function index()
     {
         Gate::authorize('admin');
-
         $sucursal = Auth::user()->sucursal;
 
         $docentes = $sucursal == 'all' ? 
@@ -36,7 +35,6 @@ class DocenteController extends Controller
     public function store(StoreDocenteRequest $request)
     {
         Gate::authorize('admin');
-
         $sucursal = $request->user()->sucursal;
 
         if ($sucursal != 'all') {
@@ -66,18 +64,16 @@ class DocenteController extends Controller
         return redirect()->route('docentes.index')->with('info', 'ok');
     }
 
+    //Ver grupos de un docente
     public function show($docente_id)
     {
         Gate::authorize('admin');
-
         $grupos = Grupo::getGrupoByDocente($docente_id);
-
         return view('docente.show', compact('grupos'));
     }
 
     public function edit(Docente $docente)
     {
-        //
         Gate::authorize('admin');
         return view('docente.edit', compact('docente'));
     }
@@ -86,10 +82,7 @@ class DocenteController extends Controller
     {
         Gate::authorize('admin');
 
-        //Actualizar en tabla docente
         $docente->update($request->all());
-
-        //Actualizar en tabla User
         User::updateUser($docente->carnet, $request->nombre);
 
         return redirect()->route('docentes.index')->with('info', 'ok');
@@ -99,11 +92,9 @@ class DocenteController extends Controller
     {
         Gate::authorize('admin');
 
-        //Elimino de la tabla Users
-        User::deleteUser($docente->carnet);
-
-        //Elimino de la tabla promotor
         $docente->delete();
+        User::deleteUser($docente->carnet);
+        
         return redirect()->route('docentes.index')->with('info', 'eliminado');
     }
 }

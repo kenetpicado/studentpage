@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Curso;
 use App\Models\Docente;
-use App\Models\GrupoMatricula;
-use Illuminate\Support\Facades\DB;
+use App\Models\Inscripcion;
 
 class Grupo extends Model
 {
@@ -16,10 +15,17 @@ class Grupo extends Model
     protected $guarded = [];
     public $timestamps = false;
 
+    public static function loadThis($grupo_id)
+    {
+        return Grupo::with('docente:id,nombre')
+            ->withCount('inscripciones')
+            ->find($grupo_id);
+    }
+
     public function obtain($q)
     {
         return $q->with(['curso:id,nombre', 'docente:id,nombre'])
-            ->withCount('grupo_matricula')
+            ->withCount('inscripciones')
             ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
     }
 
@@ -27,6 +33,8 @@ class Grupo extends Model
     {
         return Grupo::obtain(Grupo::where('sucursal', $sucursal));
     }
+
+
 
     public static function getGruposCurrents($sucursal)
     {
@@ -57,9 +65,9 @@ class Grupo extends Model
         return $this->belongsTo(Docente::class);
     }
 
-    public function grupo_matricula()
+    public function inscripciones()
     {
-        return $this->hasMany(GrupoMatricula::class);
+        return $this->hasMany(Inscripcion::class);
     }
 
     public function setHorarioAttribute($value)

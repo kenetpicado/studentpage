@@ -49,7 +49,7 @@
                                             <td>{{ $matricula->id }}</td>
                                             <td>
                                                 {{ $matricula->carnet }}
-                                                @if ($matricula->inscrito == '1')
+                                                @if ($matricula->activo == '1')
                                                     <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
                                                 @else
                                                     <i class="fas fa-circle fa-xs"></i>
@@ -70,7 +70,7 @@
                                                         {{-- Solo el administrador puede inscribir --}}
                                                         @if (auth()->user()->rol == 'admin')
                                                             <a class="dropdown-item"
-                                                                href="{{ route('matriculas.seleccionar', $matricula->id) }}">Inscribir
+                                                                href="{{ route('inscripciones.create', $matricula->id) }}">Inscribir
                                                                 a curso</a>
                                                         @endif
                                                         <a class="dropdown-item"

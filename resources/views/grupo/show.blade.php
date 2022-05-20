@@ -57,10 +57,11 @@
                                                         aria-labelledby="dropdownMenuLink">
                                                         <a href="{{ route('notas.agregar', [$alumno->matricula->id, $grupo_id]) }}"
                                                             class="dropdown-item">Notas</a>
+
                                                         @if (auth()->user()->rol == 'admin')
                                                             <a href="{{ route('pagos.pagar', [$alumno->matricula->id, $grupo_id]) }}"
                                                                 class="dropdown-item">Pagos</a>
-                                                            <a href="{{ route('grupos.seleccionar', [$alumno->matricula->id, $grupo_id]) }}"
+                                                            <a href="{{ route('inscripciones.edit', [$alumno->matricula->id, $grupo_id]) }}"
                                                                 class="dropdown-item">Cambiar de grupo</a>
                                                         @endif
                                                     </div>

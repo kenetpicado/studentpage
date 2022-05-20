@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePagoRequest;
 use App\Http\Requests\UpdatePagoRequest;
-use App\Models\GrupoMatricula;
+use App\Models\Inscripcion;
 use App\Models\Pago;
 use Illuminate\Support\Facades\Gate;
 
@@ -21,7 +21,7 @@ class PagoController extends Controller
         Gate::authorize('admin');
 
         //Obtener el grupo en la tabla pivot
-        $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
+        $pivot = Inscripcion::where('grupo_id', $grupo_id)
             ->where('matricula_id', $matricula_id)
             ->with('pagos:id,created_at,recibo,monto,concepto,grupo_matricula_id')
             ->first(['id']);

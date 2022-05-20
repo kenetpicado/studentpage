@@ -8,10 +8,9 @@ use App\Models\Grupo;
 use App\Models\Curso;
 use App\Models\Docente;
 use App\Models\User;
-use App\Models\GrupoMatricula;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\InscribirRequest;
+use App\Models\Inscripcion;
 
 class GrupoController extends Controller
 {
@@ -20,10 +19,10 @@ class GrupoController extends Controller
         $this->middleware('auth');
     }
 
+    //Ver todos los grupos
     public function index()
     {
         Gate::authorize('admin-docente');
-
         $user = Auth::user();
 
         switch (true) {
@@ -45,60 +44,21 @@ class GrupoController extends Controller
         return view('grupo.index', compact('grupos'));
     }
 
-    //Mostrar formulario de cambio de grupo
-    public function seleccionar($matricula_id, $grupo_id)
-    {
-        Gate::authorize('admin');
-
-        //pivotv - grupomatricula
-        $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
-            ->where('matricula_id', $matricula_id)
-            ->with('grupo:id,sucursal,curso_id')
-            ->first();
-
-        //Cargar los grupos destino de la misma sucursal y del mismo curso
-        $grupos = Grupo::getGruposCurrents($pivot->grupo->sucursal);
-
-        return view('grupo.cambiar', compact('pivot', 'grupos', 'grupo_id'));
-    }
-
-    //Actualizar nuevo grupo
-    public function cambiar(InscribirRequest $request, $pivot_id)
-    {
-        Gate::authorize('admin');
-        GrupoMatricula::find($pivot_id)->update($request->all());
-        return redirect()->route('grupos.show', $request->oldgrupo)->with('info', 'ok');
-    }
-
     //Crear un nuevo grupo
     public function create()
     {
         Gate::authorize('admin');
-        //
         $sucursal = Auth::user()->sucursal;
-
         $cursos = Curso::getCursosActivos();
 
-        switch (true) {
-
-            case ($sucursal == 'all'):
-                $docentes = Docente::getDocentesActivos();
-                break;
-
-            default:
-                $docentes = Docente::getDocentesActivosSucursal($sucursal);
-                break;
-        }
+        $docentes = $sucursal == 'all' ?
+            Docente::getDocentesActivos() :
+            Docente::getDocentesActivosSucursal($sucursal);
 
         return view('grupo.create', compact('cursos', 'docentes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreGrupoRequest  $request
-     * @return \Illuminate\Http\Response
-     */
+    //Guardar docente
     public function store(StoreGrupoRequest $request)
     {
         Gate::authorize('admin');
@@ -116,11 +76,7 @@ class GrupoController extends Controller
     public function show($grupo_id)
     {
         Gate::authorize('admin-docente');
-
-        $grupo = GrupoMatricula::where('grupo_id', $grupo_id)
-            ->with('matricula:id,carnet,nombre')
-            ->get();
-
+        $grupo = Inscripcion::getByGrupo($grupo_id);
         return view('grupo.show', compact('grupo', 'grupo_id'));
     }
 
@@ -128,14 +84,8 @@ class GrupoController extends Controller
     public function edit($grupo_id)
     {
         Gate::authorize('admin');
-
-        //Cargar grupo con el docente
-        $grupo = Grupo::with('docente:id,nombre')
-            ->withCount('grupo_matricula')
-            ->find($grupo_id);
-
+        $grupo = Grupo::loadThis($grupo_id);
         $docentes = Docente::getDocentesActivosSucursal($grupo->sucursal);
-
         return view('grupo.edit', compact('grupo', 'docentes'));
     }
 
@@ -143,7 +93,6 @@ class GrupoController extends Controller
     public function update(UpdateGrupoRequest $request, Grupo $grupo)
     {
         Gate::authorize('admin');
-        //
         $grupo->update($request->all());
         return redirect()->route('grupos.index')->with('info', 'ok');
     }
@@ -152,7 +101,6 @@ class GrupoController extends Controller
     public function destroy(Grupo $grupo)
     {
         Gate::authorize('admin');
-        //
         $grupo->delete();
         return redirect()->route('grupos.index')->with('info', 'eliminado');
     }

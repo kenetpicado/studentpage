@@ -57,14 +57,14 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-lg-6">
-                                    <label>Estado</label>
-                                    <select name="estado" class="form-control">
+                                    <label>Activo</label>
+                                    <select name="activo" class="form-control">
                                         <option value="1"
-                                            {{ old('estado') == '1' || $curso->estado == '1' ? 'selected' : '' }}>
-                                            Activo</option>
+                                            {{ old('activo') == '1' || $curso->activo == '1' ? 'selected' : '' }}>
+                                            Si</option>
                                         <option value="0"
-                                            {{ old('estado') == '0' || $curso->estado == '0' ? 'selected' : '' }}>
-                                            Inactivo</option>
+                                            {{ old('activo') == '0' || $curso->activo == '0' ? 'selected' : '' }}>
+                                            No</option>
                                     </select>
                                 </div>
                             </div>

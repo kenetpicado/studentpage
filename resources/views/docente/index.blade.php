@@ -46,7 +46,7 @@
                                             <td>{{ $docente->id }}</td>
                                             <td>
                                                 {{ $docente->carnet }}
-                                                @if ($docente->estado == '1')
+                                                @if ($docente->activo == '1')
                                                     <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
                                                 @else
                                                     <i class="fas fa-circle fa-xs"></i>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GrupoMatricula;
+use App\Models\Inscripcion;
 use App\Models\Matricula;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Nota;
@@ -22,7 +22,7 @@ class ConsultaController extends Controller
         //
         $user = Matricula::where('carnet', Auth::user()->email)->first(['id', 'nombre', 'carnet']);
 
-        $pivot = GrupoMatricula::where('matricula_id', $user->id)
+        $pivot = Inscripcion::where('matricula_id', $user->id)
             ->with('grupo.curso:id,nombre', 'grupo.docente:id,nombre')
             ->get();
 

@@ -74,14 +74,14 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-lg-6">
-                                    <label>Estado</label>
-                                    <select name="estado" class="form-control">
+                                    <label>Activo</label>
+                                    <select name="activo" class="form-control">
                                         <option value="1"
-                                            {{ old('estado') == '1' || $docente->estado == '1' ? 'selected' : '' }}>
-                                            Activo</option>
+                                            {{ old('activo') == '1' || $docente->activo == '1' ? 'selected' : '' }}>
+                                            Si</option>
                                         <option value="0"
-                                            {{ old('estado') == '0' || $docente->estado == '0' ? 'selected' : '' }}>
-                                            Inactivo</option>
+                                            {{ old('activo') == '0' || $docente->activo == '0' ? 'selected' : '' }}>
+                                            No</option>
                                     </select>
                                 </div>
                             </div>

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\InscribirRequest;
 use App\Http\Requests\StoreMatriculaRequest;
 use App\Http\Requests\UpdateMatriculaRequest;
 use App\Mail\VerMatricula;
 use App\Models\Matricula;
-use App\Models\Grupo;
-use App\Models\GrupoMatricula;
 use App\Models\Promotor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -22,30 +19,6 @@ class MatriculaController extends Controller
         $this->middleware('auth');
     }
     
-    //Seleccionar grupo
-    public function seleccionar($matricula_id)
-    {
-        Gate::authorize('admin');
-
-        $matricula = Matricula::find($matricula_id, ['id', 'sucursal']);
-        $grupos = Grupo::getGruposCurrents($matricula->sucursal);
-
-        return view('matricula.inscribir', compact('matricula', 'grupos'));
-    }
-
-    //Inscribir a grupo
-    public function inscribir(InscribirRequest $request)
-    {
-        Gate::authorize('admin');
-
-        GrupoMatricula::create($request->all());
-
-        Matricula::find($request->matricula_id, ['id', 'inscrito'])
-            ->update(['inscrito' => '1']);
-
-        return redirect()->route('matriculas.index')->with('info', 'ok');
-    }
-
     public function index()
     {
         Gate::authorize('admin-promotor');

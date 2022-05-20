@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGrupoMatriculaTable extends Migration
+class CreateInscripcionesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateGrupoMatriculaTable extends Migration
      */
     public function up()
     {
-        Schema::create('grupo_matricula', function (Blueprint $table) {
+        Schema::create('inscripciones', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('grupo_id');
@@ -31,6 +31,6 @@ class CreateGrupoMatriculaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grupo_matricula');
+        Schema::dropIfExists('inscripciones');
     }
 }

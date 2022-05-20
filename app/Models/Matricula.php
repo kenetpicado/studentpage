@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Promotor;
-use App\Models\GrupoMatricula;
+use App\Models\Inscripcion;
 
 class Matricula extends Model
 {
@@ -19,15 +19,20 @@ class Matricula extends Model
         return $this->belongsTo(Promotor::class);
     }
 
-    public function grupo_matricula()
+    public function inscripciones()
     {
-        return $this->hasMany(GrupoMatricula::class);
+        return $this->hasMany(Inscripcion::class);
     }
-
+    
     public function obtain($q)
     {
         return $q->with(['promotor:id,carnet'])
-        ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'inscrito']);
+        ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'activo']);
+    }
+
+    public static function putActive($matricula_id)
+    {
+        Matricula::find($matricula_id, ['id', 'activo'])->update(['activo' => '1']);
     }
 
     public static function getMatriculasSucursal($sucursal)

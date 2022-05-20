@@ -39,6 +39,7 @@
                                         <th>Docente</th>
                                         <th>Horario</th>
                                         <th>Año - Sucursal</th>
+                                        <th>Alumnos</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -46,16 +47,11 @@
                                     @foreach ($grupos as $key => $grupo)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $grupo->curso->nombre }}
-                                                @if ($grupo->grupo_matricula_count <= 0)
-                                                    <small>(Vacio)</small>
-                                                @endif
-                                            </td>
+                                            <td>{{ $grupo->curso->nombre }} </td>
                                             <td>{{ $grupo->docente->nombre }}</td>
                                             <td>{{ $grupo->horario }}</td>
-                                            <td>{{ $grupo->anyo }} - {{ $grupo->sucursal }}
-
-                                            </td>
+                                            <td>{{ $grupo->anyo }} - {{ $grupo->sucursal }}</td>
+                                            <td>{{ $grupo->inscripciones_count }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"

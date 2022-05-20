@@ -10,7 +10,7 @@ class Docente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['carnet', 'nombre', 'correo', 'estado', 'sucursal'];
+    protected $fillable = ['carnet', 'nombre', 'correo', 'activo', 'sucursal'];
     public $timestamps = false;
 
     public function setNombreAttribute($value)
@@ -23,7 +23,6 @@ class Docente extends Model
         $this->attributes['correo'] = trim(strtolower($value));
     }
 
-    //Relacion 1:n a grupos
     public function grupos()
     {
         return $this->hasMany(Grupo::class);
@@ -41,12 +40,12 @@ class Docente extends Model
 
     public static function getDocentesActivos()
     {
-        return Docente::where('estado', '1')->get(['id', 'nombre']);
+        return Docente::where('activo', '1')->get(['id', 'nombre']);
     }
 
     public static function getDocentesActivosSucursal($sucursal)
     {
-        return Docente::where('estado', '1')
+        return Docente::where('activo', '1')
             ->where('sucursal', $sucursal)
             ->get(['id', 'nombre']);
     }

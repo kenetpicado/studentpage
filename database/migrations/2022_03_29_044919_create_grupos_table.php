@@ -19,6 +19,7 @@ class CreateGruposTable extends Migration
             $table->string('horario', 20);
             $table->year('anyo')->default(date('Y'));
             $table->string('sucursal', 5);
+            $table->boolean('activo')->default(true);
 
             $table->unsignedBigInteger('curso_id');
             $table->foreign('curso_id')

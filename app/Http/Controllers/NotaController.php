@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateNotaRequest;
 use App\Models\Grupo;
 use App\Models\Nota;
 use App\Models\GrupoMatricula;
+use App\Models\Inscripcion;
 use Illuminate\Support\Facades\Gate;
 
 class NotaController extends Controller
@@ -22,7 +23,7 @@ class NotaController extends Controller
         Gate::authorize('admin-docente');
 
         //Obtener el grupo en la tabla pivot
-        $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
+        $pivot = Inscripcion::where('grupo_id', $grupo_id)
             ->where('matricula_id', $matricula_id)
             ->with('notas:id,created_at,unidad,valor,grupo_matricula_id')
             ->first();
@@ -38,7 +39,7 @@ class NotaController extends Controller
             ->with(['curso:id,nombre', 'docente:id,nombre'])
             ->first(['id', 'horario', 'sucursal', 'docente_id', 'curso_id']);
 
-        $pivot = GrupoMatricula::where('grupo_id', $grupo_id)
+        $pivot = Inscripcion::where('grupo_id', $grupo_id)
             ->with([
                 'notas' => function ($query) {
                     $query->select('id', 'unidad', 'valor', 'grupo_matricula_id')->orderBy('unidad');

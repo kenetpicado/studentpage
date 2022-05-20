@@ -44,7 +44,7 @@
                                             <td>{{ $curso->id }}</td>
                                             <td>{{ $curso->nombre }}</td>
                                             <td>
-                                                @if ($curso->estado == '1')
+                                                @if ($curso->activo == '1')
                                                     <span class="badge badge-pill badge-success">Activo</span>
                                                 @else
                                                     <span class="badge badge-pill badge-danger">Inactivo</span>
