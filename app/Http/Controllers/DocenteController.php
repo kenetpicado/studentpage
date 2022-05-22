@@ -68,7 +68,7 @@ class DocenteController extends Controller
     public function show($docente_id)
     {
         Gate::authorize('admin');
-        $grupos = Grupo::getGrupoByDocente($docente_id);
+        $grupos = Grupo::getGruposDocente($docente_id);
         return view('docente.show', compact('grupos'));
     }
 

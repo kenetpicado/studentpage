@@ -4,13 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\GrupoMatricula;
 
 class Pago extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+
+    public static function lastMonth($inscripcion_id)
+    {
+        return Pago::where('inscripcion_id', $inscripcion_id)
+            ->where('tipo', '1')
+            ->get('concepto')
+            ->last();
+    }
 
     public function setConceptoAttribute($value)
     {

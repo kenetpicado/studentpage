@@ -6,7 +6,6 @@ use App\Http\Requests\StoreNotaRequest;
 use App\Http\Requests\UpdateNotaRequest;
 use App\Models\Grupo;
 use App\Models\Nota;
-use App\Models\GrupoMatricula;
 use App\Models\Inscripcion;
 use Illuminate\Support\Facades\Gate;
 
@@ -21,36 +20,18 @@ class NotaController extends Controller
     public function agregar($matricula_id, $grupo_id)
     {
         Gate::authorize('admin-docente');
-
-        //Obtener el grupo en la tabla pivot
-        $pivot = Inscripcion::where('grupo_id', $grupo_id)
-            ->where('matricula_id', $matricula_id)
-            ->with('notas:id,created_at,unidad,valor,grupo_matricula_id')
-            ->first();
-
-        return view('nota.index', compact('pivot', 'grupo_id'));
+        $inscripcion = Inscripcion::loadWithNotas($grupo_id, $matricula_id);
+        return view('nota.index', compact('inscripcion', 'grupo_id'));
     }
 
     public function reporte($grupo_id)
     {
         Gate::authorize('admin-docente');
+        $grupo = Grupo::loadForReport($grupo_id);
+        $inscripciones = Inscripcion::loadForReport($grupo_id);
+        $modulos = $inscripciones->first()->notas;
 
-        $grupo = Grupo::where('id', $grupo_id)
-            ->with(['curso:id,nombre', 'docente:id,nombre'])
-            ->first(['id', 'horario', 'sucursal', 'docente_id', 'curso_id']);
-
-        $pivot = Inscripcion::where('grupo_id', $grupo_id)
-            ->with([
-                'notas' => function ($query) {
-                    $query->select('id', 'unidad', 'valor', 'grupo_matricula_id')->orderBy('unidad');
-                }
-            ])
-            ->with('matricula:id,nombre,carnet')
-            ->get();
-
-        $modulos = $pivot->first()->notas;
-
-        return view('nota.reporte', compact('pivot', 'grupo', 'modulos'));
+        return view('nota.reporte', compact('inscripciones', 'grupo', 'modulos'));
     }
 
     public function store(StoreNotaRequest $request)

@@ -36,7 +36,7 @@ class InscripcionController extends Controller
     {
         Gate::authorize('admin');
 
-        $inscripcion = Inscripcion::loadThis($grupo_id, $matricula_id);
+        $inscripcion = Inscripcion::loadWithGrupo($grupo_id, $matricula_id);
         $grupos = Grupo::getGruposCurrents($inscripcion->grupo->sucursal);
 
         return view('inscripcion.edit', compact('inscripcion', 'grupos'));

@@ -25,12 +25,40 @@ class Inscripcion extends Model
             ->get();
     }
 
-    public static function loadThis($grupo_id, $matricula_id)
+    public static function loadWithGrupo($grupo_id, $matricula_id)
     {
         return Inscripcion::where('grupo_id', $grupo_id)
             ->where('matricula_id', $matricula_id)
             ->with('grupo:id,sucursal')
             ->first();
+    }
+
+    public static function loadWithNotas($grupo_id, $matricula_id)
+    {
+        return Inscripcion::where('grupo_id', $grupo_id)
+            ->where('matricula_id', $matricula_id)
+            ->with('notas')
+            ->first();
+    }
+
+    public static function loadWithPagos($grupo_id, $matricula_id)
+    {
+        return Inscripcion::where('grupo_id', $grupo_id)
+            ->where('matricula_id', $matricula_id)
+            ->with('pagos')
+            ->first();
+    }
+
+    public static function loadForReport($grupo_id)
+    {
+        return Inscripcion::where('grupo_id', $grupo_id)
+            ->with([
+                'notas' => function ($query) {
+                    $query->select('id', 'unidad', 'valor', 'inscripcion_id')->orderBy('unidad');
+                }
+            ])
+            ->with('matricula:id,nombre,carnet')
+            ->get();
     }
 
     public function grupo()
