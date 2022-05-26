@@ -15,6 +15,13 @@ class Grupo extends Model
     protected $guarded = [];
     public $timestamps = false;
 
+    public static function getToReport($grupo_id)
+    {
+        return Grupo::where('id', $grupo_id)
+            ->with(['curso:id,nombre', 'docente:id,nombre'])
+            ->first(['id', 'horario', 'sucursal', 'docente_id', 'curso_id']);
+    }
+
     public static function loadThis($grupo_id)
     {
         return Grupo::with('docente:id,nombre')
@@ -33,8 +40,6 @@ class Grupo extends Model
     {
         return Grupo::obtain(Grupo::where('sucursal', $sucursal));
     }
-
-
 
     public static function getGruposCurrents($sucursal)
     {

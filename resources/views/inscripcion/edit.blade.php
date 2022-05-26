@@ -34,7 +34,8 @@
                                     <select name="grupo_id" class="form-control @error('grupo_id') is-invalid @enderror">
                                         <option selected disabled value="">Seleccionar</option>
                                         @foreach ($grupos as $grupo)
-                                            <option value="{{ $grupo->id }}">
+                                            <option value="{{ $grupo->id }}"
+                                                {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
                                                 {{ $grupo->curso->nombre }} /
                                                 {{ $grupo->horario }} /
                                                 {{ $grupo->docente->nombre }}

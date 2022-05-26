@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 class Generate extends Controller
 {
-
-    //Funcion para generar un PIN de 6 digitos
+    //Generar un PIN de 6 digitos
     public static function pin()
     {
         $comb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -33,7 +32,7 @@ class Generate extends Controller
         return redirect()->route($request->tipo . '.index')->with('info', 'ok');
     }
 
-    //Funcion para generar un ID
+    //Funcion para generar un ID segun sucursal
     public static function id($location, $cant)
     {
         return $location . Generate::specific_number($cant);

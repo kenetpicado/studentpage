@@ -4,7 +4,9 @@ use App\Http\Controllers\PagoController;
 use Illuminate\Support\Facades\Route;
 
 //Realizar un pago
-Route::get('pagos/{matricula}/{grupo}/pagar', [PagoController::class, 'pagar'])
-    ->name('pagos.pagar');
+Route::get('pagos/{matricula}/{grupo}/crear', [PagoController::class, 'create'])
+    ->name('pagos.create');
 
-Route::resource('pagos', PagoController::class);
+//Guardar nota
+Route::post('pagos', [PagoController::class, 'store'])
+    ->name('pagos.store');

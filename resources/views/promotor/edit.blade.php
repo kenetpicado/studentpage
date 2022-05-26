@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="{{ route('promotores.update', $promotor) }}" method="POST">
+                        <form action="{{ route('promotores.update', $promotor->id) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="row">

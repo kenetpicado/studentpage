@@ -60,18 +60,19 @@
 
                                             <thead>
                                                 <th>Nombre</th>
-                                                {{-- <th>Carnet</th> --}}
-                                                <th colspan="{{ count($modulos) }}" class="center-babe">Materias</th>
+                                                <th>Carnet</th>
+                                                <th colspan="{{ count($inscripciones->first()->notas) }}" class="center-babe">Materias
+                                                </th>
                                             </thead>
                                             <tbody>
-                                                @foreach ($pivot as $alumno)
+                                                @foreach ($inscripciones as $alumno)
                                                     <tr>
                                                         <td style="vertical-align:middle;">
                                                             <small>{{ $alumno->matricula->nombre }}</small>
                                                         </td>
-                                                        {{-- <td>
+                                                        <td style="vertical-align:middle;">
                                                             <small>{{ $alumno->matricula->carnet }}</small>
-                                                        </td> --}}
+                                                        </td>
                                                         @foreach ($alumno->notas as $nota)
                                                             <td>
                                                                 <small>{{ $nota->unidad }} </small>

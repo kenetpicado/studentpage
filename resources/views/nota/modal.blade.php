@@ -35,9 +35,9 @@
                             </span>
                         @enderror
                     </div>
-   
+
                 </div>
-                <input type="hidden" name="inscripcion_id" value="{{$pivot->id}}">
+                <input type="hidden" name="inscripcion_id" value="{{ $inscripcion->id }}">
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Guardar</button>

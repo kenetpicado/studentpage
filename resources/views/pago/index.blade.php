@@ -43,7 +43,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($pivot->pagos as $key => $pago)
+                                    @foreach ($inscripcion->pagos as $key => $pago)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $pago->created_at }}</td>

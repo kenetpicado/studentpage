@@ -29,16 +29,21 @@ class User extends Authenticatable
         $this->attributes['name'] = trim(strtoupper($value));
     }
 
-    public static function deleteUser($email)
+    public static function deleteUser($model, $id)
     {
-        User::where('email', $email)->first()->delete();
+        $user = $model->find($id);
+        User::where('email', $user->carnet)->first()->delete();
+        $user->delete();
     }
 
-    public static function updateUser($email, $name)
+    public static function updateUser($model, $id, $request)
     {
-        User::where('email', $email)
+        $user = $model->find($id);
+        $user->update($request->all());
+
+        User::where('email', $user->carnet)
             ->first(['id', 'name'])
-            ->update(['name' => $name]);
+            ->update(['name' => $user->nombre]);
     }
     
     public static function createUser($name, $email, $pin, $rol, $sucursal = 'all')

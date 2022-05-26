@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\GrupoMatricula;
+use App\Models\Inscripcion;
 use App\Models\Matricula;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -48,10 +48,10 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         //SOLO NOTA DEL ALUMNO AL QUE LE PERTENECE
-        Gate::define('nota_mine', function ($user, $pivot_id) {
+        Gate::define('nota_mine', function ($user, $inscripcion_id) {
             $matricula = Matricula::where('carnet', $user->email)->first(['id']);
-            $pivot = GrupoMatricula::find($pivot_id);
-            return $matricula->id === $pivot->matricula_id;
+            $inscripcion = Inscripcion::find($inscripcion_id);
+            return $matricula->id === $inscripcion->matricula_id;
         });
     }
 }

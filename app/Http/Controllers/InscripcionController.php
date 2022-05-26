@@ -14,10 +14,8 @@ class InscripcionController extends Controller
     public function create($matricula_id)
     {
         Gate::authorize('admin');
-
-        $matricula = Matricula::find($matricula_id, ['id', 'sucursal']);
+        $matricula = Matricula::find($matricula_id, ['id', 'nombre', 'sucursal']);
         $grupos = Grupo::getGruposCurrents($matricula->sucursal);
-
         return view('inscripcion.create', compact('matricula', 'grupos'));
     }
 
@@ -25,28 +23,25 @@ class InscripcionController extends Controller
     public function store(InscribirRequest $request)
     {
         Gate::authorize('admin');
-
         Inscripcion::create($request->all());
         Matricula::putActive($request->matricula_id);
-
         return redirect()->route('matriculas.index')->with('info', 'ok');
     }
 
+    //Cambiar de grupo
     public function edit($matricula_id, $grupo_id)
     {
         Gate::authorize('admin');
-
-        $inscripcion = Inscripcion::loadThis($grupo_id, $matricula_id);
+        $inscripcion = Inscripcion::loadThisWith($grupo_id, $matricula_id,'grupo:id,sucursal');
         $grupos = Grupo::getGruposCurrents($inscripcion->grupo->sucursal);
-
         return view('inscripcion.edit', compact('inscripcion', 'grupos'));
     }
 
-    //Actualizar nuevo grupo
-    public function update(InscribirRequest $request, $pivot_id)
+    //Actualizar grupo
+    public function update(InscribirRequest $request, $inscripcion_id)
     {
         Gate::authorize('admin');
-        Inscripcion::find($pivot_id)->update($request->all());
+        Inscripcion::find($inscripcion_id)->update($request->all());
         return redirect()->route('grupos.show', $request->oldview)->with('info', 'ok');
     }
 }

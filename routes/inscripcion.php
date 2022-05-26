@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\InscripcionController;
 use Illuminate\Support\Facades\Route;
 

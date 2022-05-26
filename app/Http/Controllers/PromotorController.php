@@ -18,6 +18,7 @@ class PromotorController extends Controller
         $this->middleware('auth');
     }
 
+    //Ver todos los promotores
     public function index()
     {
         Gate::authorize('admin');
@@ -25,6 +26,7 @@ class PromotorController extends Controller
         return view('promotor.index', compact('promotors'));
     }
 
+    //Guardar nuevo promotor
     public function store(StorePromotorRequest $request)
     {
         Gate::authorize('admin');
@@ -48,6 +50,7 @@ class PromotorController extends Controller
         return redirect()->route('promotores.index')->with('info', 'ok');
     }
 
+    //Editar promotor
     public function edit($promotor_id)
     {
         Gate::authorize('admin');
@@ -55,23 +58,19 @@ class PromotorController extends Controller
         return view('promotor.edit', compact('promotor'));
     }
 
-    public function update(UpdatePromotorRequest $request, Promotor $promotor)
+    //Actualizar promotor
+    public function update(UpdatePromotorRequest $request, $promotor_id)
     {
         Gate::authorize('admin');
-
-        $promotor->update($request->all());
-        User::updateUser($promotor->carnet, $request->nombre);
-
+        User::updateUser(new Promotor(), $promotor_id, $request);
         return redirect()->route('promotores.index')->with('info', 'ok');
     }
 
-    public function destroy(Promotor $promotor)
+    //Eliminar promotor
+    public function destroy($promotor_id)
     {
         Gate::authorize('admin');
-
-        $promotor->delete();
-        User::deleteUser($promotor->carnet);
-
+        User::deleteUser(new Promotor(), $promotor_id);
         return redirect()->route('promotores.index')->with('info', 'eliminado');
     }
 }

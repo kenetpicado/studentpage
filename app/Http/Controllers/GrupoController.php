@@ -26,21 +26,19 @@ class GrupoController extends Controller
         $user = Auth::user();
 
         switch (true) {
-
             case ($user->sucursal == 'all'):
                 $grupos = Grupo::getGrupos();
                 break;
 
             case ($user->rol == 'docente'):
                 $docente = User::getUserByCarnet(new Docente(), $user->email);
-                $grupos = Grupo::getGrupoSDocente($docente->id);
+                $grupos = Grupo::getGruposDocente($docente->id);
                 break;
 
             default:
                 $grupos = Grupo::getGruposSucursal($user->sucursal);
                 break;
         }
-
         return view('grupo.index', compact('grupos'));
     }
 

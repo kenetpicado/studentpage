@@ -19,13 +19,13 @@ class MatriculaController extends Controller
         $this->middleware('auth');
     }
     
+    //Ver todas las matriculas
     public function index()
     {
         Gate::authorize('admin-promotor');
         $user = Auth::user();
 
         switch (true) {
-
             case ($user->rol == 'promotor'):
                 $promotor = User::getUserByCarnet(new Promotor(), $user->email);
                 $matriculas = Matricula::getMatriculasPromotor($promotor->id);
@@ -39,10 +39,10 @@ class MatriculaController extends Controller
                 $matriculas = Matricula::getMatriculas();
                 break;
         }
-
         return view('matricula.index', compact('matriculas', 'user'));
     }
 
+    //Guardar nueva matricula
     public function store(StoreMatriculaRequest $request)
     {
         Gate::authorize('admin-promotor');
@@ -72,26 +72,25 @@ class MatriculaController extends Controller
 
         //Guardar datos
         Matricula::create($request->all());
-
-        //Guardar cuenta de usuario
         User::createUser($request->nombre, $carnet, $pin, 'alumno', $request->sucursal);
-
-        //MOSTRAR VISTA
         return back();
     }
 
+    //Ver datos de una matricula
     public function show(Matricula $matricula)
     {
         Gate::authorize('admin-promotor');
         return new VerMatricula($matricula);
     }
 
+    //Editar una matricula
     public function edit(Matricula $matricula)
     {
         Gate::authorize('admin-promotor');
         return view('matricula.edit', compact('matricula'));
     }
 
+    //Actualizar matricula
     public function update(UpdateMatriculaRequest $request, Matricula $matricula)
     {
         Gate::authorize('admin-promotor');

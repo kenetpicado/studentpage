@@ -21,20 +21,8 @@
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
-
     {{-- SWEETALERT --}}
     <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
-
-    <script language="Javascript">
-        function imprSelec(nombre) {
-            var ficha = document.getElementById(nombre);
-            var ventimp = window.open(' ', 'popimpr');
-            ventimp.document.write(ficha.innerHTML);
-            ventimp.document.close();
-            ventimp.print();
-            ventimp.close();
-        }
-    </script>
 </head>
 
 <body id="page-top">

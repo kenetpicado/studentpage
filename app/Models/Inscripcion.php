@@ -18,6 +18,18 @@ class Inscripcion extends Model
 
     protected $table = "inscripciones";
 
+    public static function getToReport($grupo_id)
+    {
+        return Inscripcion::where('grupo_id', $grupo_id)
+            ->with([
+                'notas' => function ($query) {
+                    $query->select('id', 'unidad', 'valor', 'inscripcion_id')->orderBy('unidad');
+                }
+            ])
+            ->with('matricula:id,nombre,carnet')
+            ->get();
+    }
+
     public static function getByGrupo($grupo_id)
     {
         return Inscripcion::where('grupo_id', $grupo_id)
@@ -25,11 +37,11 @@ class Inscripcion extends Model
             ->get();
     }
 
-    public static function loadThis($grupo_id, $matricula_id)
+    public static function loadThisWith($grupo_id, $matricula_id, $with)
     {
         return Inscripcion::where('grupo_id', $grupo_id)
             ->where('matricula_id', $matricula_id)
-            ->with('grupo:id,sucursal')
+            ->with($with)
             ->first();
     }
 

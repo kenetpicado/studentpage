@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePagoRequest;
-use App\Http\Requests\UpdatePagoRequest;
 use App\Models\Inscripcion;
 use App\Models\Pago;
 use Illuminate\Support\Facades\Gate;
@@ -16,35 +15,26 @@ class PagoController extends Controller
     }
 
     //Cargar vista de los pagos
-    public function pagar($matricula_id, $grupo_id)
+    public function create($matricula_id, $grupo_id)
     {
         Gate::authorize('admin');
-
-        //Obtener el grupo en la tabla pivot
-        $pivot = Inscripcion::where('grupo_id', $grupo_id)
-            ->where('matricula_id', $matricula_id)
-            ->with('pagos:id,created_at,recibo,monto,concepto,grupo_matricula_id')
-            ->first(['id']);
-
-        return view('pago.index', compact('pivot', 'grupo_id'));
+        $inscripcion = Inscripcion::loadThisWith($grupo_id, $matricula_id, 'pagos');
+        return view('pago.index', compact('inscripcion', 'grupo_id'));
     }
 
+    //Guardar pago
     public function store(StorePagoRequest $request)
     {
         Gate::authorize('admin');
 
-        //Obtener el ultimo mes registrado
-        $ultimo = Pago::where('grupo_matricula_id', $request->grupo_matricula_id)->where('tipo', '1')->get('concepto')->last();
-
-        //SI es mensualidad
         if ($request->tipo == '1') {
+            $ultimo = Pago::lastMonth($request->inscripcion_id);
             if ($ultimo == null) {
-                $meses = array("ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE");
-                $mes = $meses[date('n') - 1];
+                $mes = $this->current_month();
             } else {
                 $mes = $this->generar_mes($ultimo->concepto);
             }
-            //Agregar al request
+
             $request->merge(['concepto' => $mes]);
         }
 
@@ -52,50 +42,10 @@ class PagoController extends Controller
         return back();
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pago  $pago
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Pago $pago)
+    public function current_month()
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pago  $pago
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Pago $pago)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatePagoRequest  $request
-     * @param  \App\Models\Pago  $pago
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdatePagoRequest $request, Pago $pago)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pago  $pago
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Pago $pago)
-    {
-        //
+        $meses = array("ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE");
+        return $meses[date('n') - 1];
     }
 
     public function generar_mes($value)

@@ -23,7 +23,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">ALUMNOS</h6>
                         @if (count($grupo) > 0)
                             <div class="dropdown no-arrow">
-                                <a href="{{ route('notas.reporte', $grupo_id) }}" class="btn btn-sm btn-primary ml-2"
+                                <a href="{{ route('notas.show', $grupo_id) }}" class="btn btn-sm btn-primary ml-2"
                                     target="_blank">Reporte de notas</a>
                             </div>
                         @endif
@@ -55,11 +55,11 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <a href="{{ route('notas.agregar', [$alumno->matricula->id, $grupo_id]) }}"
+                                                        <a href="{{ route('notas.create', [$alumno->matricula->id, $grupo_id]) }}"
                                                             class="dropdown-item">Notas</a>
 
                                                         @if (auth()->user()->rol == 'admin')
-                                                            <a href="{{ route('pagos.pagar', [$alumno->matricula->id, $grupo_id]) }}"
+                                                            <a href="{{ route('pagos.create', [$alumno->matricula->id, $grupo_id]) }}"
                                                                 class="dropdown-item">Pagos</a>
                                                             <a href="{{ route('inscripciones.edit', [$alumno->matricula->id, $grupo_id]) }}"
                                                                 class="dropdown-item">Cambiar de grupo</a>

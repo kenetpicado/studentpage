@@ -10,14 +10,14 @@ class Nota extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['unidad', 'valor', 'grupo_matricula_id'];
+    protected $fillable = ['unidad', 'valor', 'inscripcion_id'];
+    public $timestamps = false;
 
     public function grupo_matricula()
     {
         return $this->belongsTo(GrupoMatricula::class);
     }
 
-    //
     public function getCreatedAtAttribute($value)
     {
         return date('d-m-Y', strtotime($value));

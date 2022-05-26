@@ -68,33 +68,30 @@ class DocenteController extends Controller
     public function show($docente_id)
     {
         Gate::authorize('admin');
-        $grupos = Grupo::getGrupoByDocente($docente_id);
+        $grupos = Grupo::getGruposDocente($docente_id);
         return view('docente.show', compact('grupos'));
     }
 
+    //Formulario para editar un docente
     public function edit(Docente $docente)
     {
         Gate::authorize('admin');
         return view('docente.edit', compact('docente'));
     }
 
-    public function update(UpdateDocenteRequest $request, Docente $docente)
+    //Actualizar un docente
+    public function update(UpdateDocenteRequest $request, $docente_id)
     {
         Gate::authorize('admin');
-
-        $docente->update($request->all());
-        User::updateUser($docente->carnet, $request->nombre);
-
+        User::updateUser(new Docente(), $docente_id, $request);
         return redirect()->route('docentes.index')->with('info', 'ok');
     }
 
-    public function destroy(Docente $docente)
+    //Eliminar un docente
+    public function destroy($docente_id)
     {
         Gate::authorize('admin');
-
-        $docente->delete();
-        User::deleteUser($docente->carnet);
-        
+        User::deleteUser(new Docente(), $docente_id);
         return redirect()->route('docentes.index')->with('info', 'eliminado');
     }
 }

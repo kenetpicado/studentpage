@@ -14,13 +14,12 @@ use Illuminate\Support\Facades\Auth;
 //Restablecer pin
 Route::post('cambiar/pin', [Generate::class, 'cambiar_pin'])->name('cambiar.pin');
 
+//Recursos
 Route::resource('/', HomeController::class);
 Route::resource('cursos', CursoController::class);
 Route::resource('docentes', DocenteController::class);
 Route::resource('matriculas', MatriculaController::class);
 Route::resource('grupos', GrupoController::class);
-
-//Recurso para establcer la llave promotor
 Route::resource('promotores', PromotorController::class)
     ->parameters(['promotores' => 'promotor']);
 

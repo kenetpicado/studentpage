@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('grupos.show', $grupo_id) }}">Alumnos</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('notas.agregar', [$matricula_id, $grupo_id]) }}">Notas</a>
+                <li class="breadcrumb-item"><a href="{{ route('notas.create', [$matricula_id, $grupo_id]) }}">Notas</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">Editar</li>
             </ol>
@@ -23,7 +23,7 @@
                 <!-- Datos-->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR NOTA}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">EDITAR NOTA</h6>
                     </div>
 
                     <div class="card-body">
