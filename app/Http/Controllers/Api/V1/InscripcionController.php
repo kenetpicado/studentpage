@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\GrupoMatriculaResource;
-use App\Models\GrupoMatricula;
+use App\Http\Resources\V1\InscripcionResource;
+use App\Models\Inscripcion;
 use Illuminate\Http\Request;
 
-class GrupoMatriculaController extends Controller
+class InscripcionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class GrupoMatriculaController extends Controller
     public function index()
     {
         //
-        return GrupoMatriculaResource::collection(GrupoMatricula::latest()->paginate());
+        return InscripcionResource::collection(Inscripcion::all());
     }
 
     /**
@@ -37,10 +37,10 @@ class GrupoMatriculaController extends Controller
      * @param  \App\Models\GrupoMatricula  $grupoMatricula
      * @return \Illuminate\Http\Response
      */
-    public function show(GrupoMatricula $grupoMatricula)
+    public function show(Inscripcion $inscripcion)
     {
         //
-        return new GrupoMatriculaResource($grupoMatricula);
+        return new InscripcionResource($inscripcion);
     }
 
     /**
@@ -50,7 +50,7 @@ class GrupoMatriculaController extends Controller
      * @param  \App\Models\GrupoMatricula  $grupoMatricula
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, GrupoMatricula $grupoMatricula)
+    public function update(Request $request, Inscripcion $inscripcion)
     {
         //
     }
@@ -61,7 +61,7 @@ class GrupoMatriculaController extends Controller
      * @param  \App\Models\GrupoMatricula  $grupoMatricula
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GrupoMatricula $grupoMatricula)
+    public function destroy(Inscripcion $inscripcion)
     {
         //
     }

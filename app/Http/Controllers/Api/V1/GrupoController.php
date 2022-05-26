@@ -17,7 +17,7 @@ class GrupoController extends Controller
     public function index()
     {
         //
-        return GrupoResource::collection(Grupo::latest()->paginate());
+        return GrupoResource::collection(Grupo::all());
     }
 
     /**

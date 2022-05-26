@@ -17,7 +17,7 @@ class DocenteController extends Controller
     public function index()
     {
         //
-        return DocenteResource::collection(Docente::latest()->paginate());
+        return DocenteResource::collection(Docente::all());
     }
 
     /**

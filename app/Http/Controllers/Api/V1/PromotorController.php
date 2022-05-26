@@ -17,7 +17,7 @@ class PromotorController extends Controller
     public function index()
     {
         //
-        return PromotorResource::collection(Promotor::latest()->paginate());
+        return PromotorResource::collection(Promotor::all());
     }
 
     /**

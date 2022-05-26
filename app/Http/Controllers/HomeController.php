@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Curso;
+use App\Models\Docente;
+use App\Models\Grupo;
+use App\Models\Matricula;
+use App\Models\Promotor;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,7 +28,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        switch (auth()->user()->rol) {
+        $user = auth()->user();
+
+        switch ($user->rol) {
             case 'alumno':
                 return redirect()->route('consulta.index');
                 break;
@@ -34,7 +41,30 @@ class HomeController extends Controller
                 return redirect()->route('matriculas.index');
                 break;
             default:
-                return view('blank');
+
+                $info = ([
+                    'docentes' =>  $this->countActive(new Docente(), $user->sucursal),
+                    'cursos' => Curso::where('activo', '1')->count(),
+                    'promotores' => Promotor::all()->count(),
+                    'grupos' => $this->countActive(new Grupo(), $user->sucursal),
+                    'matriculas' => $this->countActive(new Matricula(), $user->sucursal),
+                ]);
+
+                return view('index', compact('info'));
+                break;
+        }
+    }
+
+    public static function countActive($model, $sucursal)
+    {
+        switch ($sucursal) {
+            case 'all':
+                return $model->where('activo', '1')->count();
+                break;
+            default:
+                return $model->where('sucursal', $sucursal)
+                    ->where('activo', '1')
+                    ->count();
                 break;
         }
     }

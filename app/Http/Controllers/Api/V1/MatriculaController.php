@@ -17,7 +17,7 @@ class MatriculaController extends Controller
     public function index()
     {
         //
-        return MatriculaResource::collection(Matricula::latest()->paginate());
+        return MatriculaResource::collection(Matricula::all());
     }
 
     /**
