@@ -15,13 +15,13 @@
 
         <!-- Content Row -->
         <div class="row">
-            <form class="col-xl-12 col-lg-7">
+            <div class="col-xl-12 col-lg-7">
 
                 <!-- Datos -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">ALUMNOS</h6>
-                        @if (count($grupo) > 0)
+                        @if (count($alumnos) > 0)
                             <div class="dropdown no-arrow">
                                 <a href="{{ route('notas.show', $grupo_id) }}" class="btn btn-sm btn-primary ml-2"
                                     target="_blank">Reporte de notas</a>
@@ -41,7 +41,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($grupo as $alumno)
+                                    @foreach ($alumnos as $alumno)
                                         <tr>
                                             <td>{{ $alumno->matricula->id }}</td>
                                             <td>{{ $alumno->matricula->carnet }}</td>
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
         <!-- Content Row -->
     </div>

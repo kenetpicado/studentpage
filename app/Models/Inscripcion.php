@@ -45,6 +45,34 @@ class Inscripcion extends Model
             ->first();
     }
 
+    public static function loadWithNotas($grupo_id, $matricula_id)
+    {
+        return Inscripcion::where('grupo_id', $grupo_id)
+            ->where('matricula_id', $matricula_id)
+            ->with('notas')
+            ->first();
+    }
+
+    public static function loadWithPagos($grupo_id, $matricula_id)
+    {
+        return Inscripcion::where('grupo_id', $grupo_id)
+            ->where('matricula_id', $matricula_id)
+            ->with('pagos')
+            ->first();
+    }
+
+    public static function loadForReport($grupo_id)
+    {
+        return Inscripcion::where('grupo_id', $grupo_id)
+            ->with([
+                'notas' => function ($query) {
+                    $query->select('id', 'unidad', 'valor', 'inscripcion_id')->orderBy('unidad');
+                }
+            ])
+            ->with('matricula:id,nombre,carnet')
+            ->get();
+    }
+
     public function grupo()
     {
         return $this->belongsTo(Grupo::class);

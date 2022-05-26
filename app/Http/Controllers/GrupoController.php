@@ -74,8 +74,8 @@ class GrupoController extends Controller
     public function show($grupo_id)
     {
         Gate::authorize('admin-docente');
-        $grupo = Inscripcion::getByGrupo($grupo_id);
-        return view('grupo.show', compact('grupo', 'grupo_id'));
+        $alumnos = Inscripcion::getByGrupo($grupo_id);
+        return view('grupo.show', compact('alumnos', 'grupo_id'));
     }
 
     //Editar grupo

@@ -29,6 +29,13 @@ class Grupo extends Model
             ->find($grupo_id);
     }
 
+    public static function loadForReport($grupo_id)
+    {
+        return Grupo::where('id', $grupo_id)
+            ->with(['curso:id,nombre', 'docente:id,nombre'])
+            ->first(['id', 'horario', 'sucursal', 'docente_id', 'curso_id']);
+    }
+
     public function obtain($q)
     {
         return $q->with(['curso:id,nombre', 'docente:id,nombre'])
