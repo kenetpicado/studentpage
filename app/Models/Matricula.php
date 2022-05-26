@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Promotor;
 use App\Models\Inscripcion;
+use Illuminate\Support\Facades\Auth;
 
 class Matricula extends Model
 {
-    use HasFactory;
-
     protected $guarded = [];
 
     //Relacion 1:1 inversa a promotor
@@ -23,11 +21,17 @@ class Matricula extends Model
     {
         return $this->hasMany(Inscripcion::class);
     }
-    
+
+    public static function getCurrent()
+    {
+        return Matricula::where('carnet', Auth::user()->email)
+            ->first(['id', 'nombre', 'carnet']);
+    }
+
     public function obtain($q)
     {
         return $q->with(['promotor:id,carnet'])
-        ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'activo']);
+            ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'activo']);
     }
 
     public static function putActive($matricula_id)

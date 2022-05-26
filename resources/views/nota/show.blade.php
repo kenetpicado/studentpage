@@ -68,7 +68,7 @@
                                                 @foreach ($inscripciones as $alumno)
                                                     <tr>
                                                         <td style="vertical-align:middle;">
-                                                            <small>{{ $inscripcion->matricula->nombre }}</small>
+                                                            <small>{{ $alumno->matricula->nombre }}</small>
                                                         </td>
                                                         <td style="vertical-align:middle;">
                                                             <small>{{ $alumno->matricula->carnet }}</small>

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\GrupoMatricula;
+use App\Models\Inscripcion;
 
 class Nota extends Model
 {
@@ -13,19 +13,20 @@ class Nota extends Model
     protected $fillable = ['unidad', 'valor', 'inscripcion_id'];
     public $timestamps = false;
 
-    public function grupo_matricula()
+    public static function loadThis($inscripcion_id)
     {
-        return $this->belongsTo(GrupoMatricula::class);
+        return Nota::where('inscripcion_id', $inscripcion_id)
+            ->orderBy('unidad')
+            ->get(['id', 'unidad', 'valor']);
     }
 
-    public function getCreatedAtAttribute($value)
+    public function inscripcion()
     {
-        return date('d-m-Y', strtotime($value));
+        return $this->belongsTo(Inscripcion::class);
     }
 
     public function setUnidadAttribute($value)
     {
         $this->attributes['unidad'] = trim(strtoupper($value));
     }
-
 }

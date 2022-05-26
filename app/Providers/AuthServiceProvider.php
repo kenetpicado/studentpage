@@ -42,16 +42,16 @@ class AuthServiceProvider extends ServiceProvider
             return $user->rol == 'admin';
         });
 
-        //Solo administradores
+        //Solo alumno
         Gate::define('alumno', function ($user) {
             return $user->rol == 'alumno';
         });
 
         //SOLO NOTA DEL ALUMNO AL QUE LE PERTENECE
-        Gate::define('nota_mine', function ($user, $inscripcion_id) {
+        Gate::define('alumno-nota', function ($user, $inscripcion_id) {
             $matricula = Matricula::where('carnet', $user->email)->first(['id']);
             $inscripcion = Inscripcion::find($inscripcion_id);
-            return $matricula->id === $inscripcion->matricula_id;
+            return $user->rol == 'alumno' && $matricula->id === $inscripcion->matricula_id;
         });
     }
 }

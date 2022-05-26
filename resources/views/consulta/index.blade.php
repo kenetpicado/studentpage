@@ -17,17 +17,17 @@
 
                     <div class="card-body">
                         <div class="ml-2">
-                            <p>Nombre: <strong>{{ $user->nombre }}</strong></p>
-                            <p>Carnet: <strong>{{ $user->carnet }}</strong></p>
+                            <p>Nombre: <strong>{{ $matricula->nombre }}</strong></p>
+                            <p>Carnet: <strong>{{ $matricula->carnet }}</strong></p>
                         </div>
 
-                        @if (count($pivot) == 0)
+                        @if (count($inscripcion) == 0)
                             <div class="alert alert-danger" role="alert">
                                 No hay cursos
                             </div>
                         @else
                             <div class="row">
-                                @foreach ($pivot as $gm)
+                                @foreach ($inscripcion as $gm)
                                     <div class="col-lg-6">
                                         <div class="card">
                                             <div class="card-body">

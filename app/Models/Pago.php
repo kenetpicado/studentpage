@@ -19,6 +19,12 @@ class Pago extends Model
             ->last();
     }
 
+    public static function loadThis($inscripcion_id)
+    {
+        return Pago::where('inscripcion_id', $inscripcion_id)
+            ->get(['id', 'concepto', 'monto']);
+    }
+
     public function setConceptoAttribute($value)
     {
         $this->attributes['concepto'] = trim(strtoupper($value));

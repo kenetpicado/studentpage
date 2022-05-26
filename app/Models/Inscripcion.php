@@ -13,9 +13,7 @@ class Inscripcion extends Model
 {
     use HasFactory;
     public $timestamps = false;
-
     protected $fillable = ['grupo_id', 'matricula_id'];
-
     protected $table = "inscripciones";
 
     public static function getToReport($grupo_id)
@@ -27,6 +25,13 @@ class Inscripcion extends Model
                 }
             ])
             ->with('matricula:id,nombre,carnet')
+            ->get();
+    }
+
+    public static function getThisMatricula($matricula_id)
+    {
+        return Inscripcion::where('matricula_id', $matricula_id)
+            ->with('grupo.curso:id,nombre', 'grupo.docente:id,nombre')
             ->get();
     }
 
@@ -43,34 +48,6 @@ class Inscripcion extends Model
             ->where('matricula_id', $matricula_id)
             ->with($with)
             ->first();
-    }
-
-    public static function loadWithNotas($grupo_id, $matricula_id)
-    {
-        return Inscripcion::where('grupo_id', $grupo_id)
-            ->where('matricula_id', $matricula_id)
-            ->with('notas')
-            ->first();
-    }
-
-    public static function loadWithPagos($grupo_id, $matricula_id)
-    {
-        return Inscripcion::where('grupo_id', $grupo_id)
-            ->where('matricula_id', $matricula_id)
-            ->with('pagos')
-            ->first();
-    }
-
-    public static function loadForReport($grupo_id)
-    {
-        return Inscripcion::where('grupo_id', $grupo_id)
-            ->with([
-                'notas' => function ($query) {
-                    $query->select('id', 'unidad', 'valor', 'inscripcion_id')->orderBy('unidad');
-                }
-            ])
-            ->with('matricula:id,nombre,carnet')
-            ->get();
     }
 
     public function grupo()
