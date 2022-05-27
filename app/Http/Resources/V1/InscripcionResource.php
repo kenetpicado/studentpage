@@ -19,6 +19,10 @@ class InscripcionResource extends JsonResource
             'id' => $this->id,
             'grupo_id' => $this->grupo_id,
             'matricula_id' => $this->matricula_id,
+            'docente' => $this->grupo->docente->carnet,
+            'horario' => $this->grupo->horario,
+            'curso' => $this->grupo->curso->nombre,
+            'carnet_est' => $this->matricula->carnet,
         ];
     }
 }

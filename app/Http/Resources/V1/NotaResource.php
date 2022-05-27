@@ -19,7 +19,11 @@ class NotaResource extends JsonResource
             'id' => $this->id,
             'unidad' => $this->unidad,
             'valor' => $this->valor,
-            'grupo_matricula_id' => $this->grupo_matricula_id,
+            'inscripcion_id' => $this->inscripcion_id,
+            'docente' => $this->inscripcion->grupo->docente->carnet,
+            'horario' => $this->inscripcion->grupo->horario,
+            'curso' => $this->inscripcion->grupo->curso->nombre,
+            'carnet_est' => $this->inscripcion->matricula->carnet,
             'created_at' => $this->created_at,
         ];
     }

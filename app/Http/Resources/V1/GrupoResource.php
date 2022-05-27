@@ -19,10 +19,13 @@ class GrupoResource extends JsonResource
             'id' => $this->id,
             'notificacion' => $this->notificacion,
             'horario' => $this->horario,
+            'anyo' => $this->anyo,
             'sucursal' => $this->sucursal,
+            'activo' => $this->activo,
             'curso_id' => $this->curso_id,
             'docente_id' => $this->docente_id,
-              
+            'curso' => $this->curso->nombre,
+            'docente' => $this->docente->carnet,
             'created_at' => $this->created_at,
        ];
     }
