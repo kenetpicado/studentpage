@@ -14,8 +14,8 @@
                     @csrf
                     <div class="form-group">
                         <label for="nombre">Nombre del docente</label>
-                        <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                            autocomplete="off" value="{{ old('nombre') }}">
+                        <input type="text" maxlength="45" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
+                            autocomplete="off" value="{{ old('nombre') }}" required>
                         @error('nombre')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -24,8 +24,8 @@
                     </div>
                     <div class="form-group">
                         <label for="correo">Correo</label>
-                        <input type="email" class="form-control @error('correo') is-invalid @enderror" name="correo"
-                            autocomplete="off" value="{{ old('correo') }}">
+                        <input type="email" maxlength="45" class="form-control @error('correo') is-invalid @enderror" name="correo"
+                            autocomplete="off" value="{{ old('correo') }}" required>
 
                         @error('correo')
                             <span class="invalid-feedback" role="alert">
@@ -36,7 +36,7 @@
                     @if (Auth::user()->sucursal == 'all')
                         <div class="form-group">
                             <label for="sucursal">Sucursal</label>
-                            <select name="sucursal" class="form-control @error('sucursal') is-invalid @enderror">
+                            <select name="sucursal" class="form-control @error('sucursal') is-invalid @enderror" required>
                                 <option selected disabled value="">Seleccionar</option>
                                 <option value="CH" {{ old('sucursal') == 'CH' ? 'selected' : '' }}>CHINANDEGA</option>
                                 <option value="MG" {{ old('sucursal') == 'MG' ? 'selected' : '' }}>MANAGUA</option>

@@ -29,7 +29,7 @@ class Generate extends Controller
         //Enviar correo con nuevo pin
         //Mail::to($request->correo)->send(new Restablecimiento($request->carnet, $pin));
 
-        return redirect()->route($request->tipo . '.index')->with('info', 'ok');
+        return redirect()->route($request->tipo . '.index');
     }
 
     //Funcion para generar un ID segun sucursal

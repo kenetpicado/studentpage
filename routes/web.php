@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 //Restablecer pin
 Route::post('cambiar/pin', [Generate::class, 'cambiar_pin'])->name('cambiar.pin');
+Route::get('grupos/{grupo}/status', [GrupoController::class, 'status'])->name('grupos.status');
+Route::get('grupos/closed', [GrupoController::class, 'showclosed'])->name('grupos.closed');
 
 //Recursos
 Route::resource('/', HomeController::class);
@@ -22,6 +24,8 @@ Route::resource('matriculas', MatriculaController::class);
 Route::resource('grupos', GrupoController::class);
 Route::resource('promotores', PromotorController::class)
     ->parameters(['promotores' => 'promotor']);
+
+    
 
 //Login
 Auth::routes(['register' => false]);

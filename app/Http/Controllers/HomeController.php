@@ -41,13 +41,24 @@ class HomeController extends Controller
                 return redirect()->route('matriculas.index');
                 break;
             default:
+            $matriculas = new Matricula();
+            $docentes = new Docente();
+            $grupos = new Grupo();
 
                 $info = ([
-                    'docentes' =>  $this->countActive(new Docente(), $user->sucursal),
+                    'docentes' =>  $this->countActive($docentes, $user->sucursal),
+                    'docentes_all' => $docentes->count(),
+
                     'cursos' => Curso::where('activo', '1')->count(),
                     'promotores' => Promotor::all()->count(),
-                    'grupos' => $this->countActive(new Grupo(), $user->sucursal),
-                    'matriculas' => $this->countActive(new Matricula(), $user->sucursal),
+
+                    'grupos' => $this->countActive($grupos, $user->sucursal),
+                    'grupos_anyo' => $this->currentActive($grupos, $user->sucursal),
+                    'grupos_all' => $grupos->count(),
+
+                    'matriculas' => $this->countActive($matriculas, $user->sucursal),
+                    'matriculas_anyo' => $this->currentActive($matriculas, $user->sucursal),
+                    'matriculas_all' => $matriculas->count(),
                 ]);
 
                 return view('index', compact('info'));
@@ -63,6 +74,23 @@ class HomeController extends Controller
                 break;
             default:
                 return $model->where('sucursal', $sucursal)
+                    ->where('activo', '1')
+                    ->count();
+                break;
+        }
+    }
+
+    public static function currentActive($model, $sucursal)
+    {
+        switch ($sucursal) {
+            case 'all':
+                return $model->where('anyo', date('Y'))
+                    ->where('activo', '1')
+                    ->count();
+                break;
+            default:
+                return $model->where('sucursal', $sucursal)
+                    ->where('anyo', date('Y'))
                     ->where('activo', '1')
                     ->count();
                 break;

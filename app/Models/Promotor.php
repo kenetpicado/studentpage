@@ -25,7 +25,7 @@ class Promotor extends Model
 
     public function setNombreAttribute($value)
     {
-        $this->attributes['nombre'] = trim(strtoupper($value));
+        $this->attributes['nombre'] = trim(ucwords(strtolower($value)));
     }
 
     public function setCorreoAttribute($value)

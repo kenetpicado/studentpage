@@ -16,8 +16,7 @@
                         <div class="form-group col-6">
                             <label for="nombre">Nombre completo</label>
                             <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                                autocomplete="off" value="{{ old('nombre') }}">
-
+                                autocomplete="off" value="{{ old('nombre') }}" pattern="[a-zA-Z]*" required>
                             @error('nombre')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -27,7 +26,7 @@
                         <div class="form-group col-6">
                             <label for="fecha_nac">Fecha de nacimiento</label>
                             <input type="date" class="form-control @error('fecha_nac') is-invalid @enderror"
-                                name="fecha_nac" value="{{ old('fecha_nac', '2000-01-01') }}">
+                                name="fecha_nac" value="{{ old('fecha_nac') }}" required>
 
                             @error('fecha_nac')
                                 <span class="invalid-feedback" role="alert">
@@ -41,7 +40,7 @@
                     <div class="row">
                         <div class="form-group col-6">
                             <label for="cedula">Cédula</label>
-                            <input type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula"
+                            <input maxlength="16" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula"
                                 autocomplete="off" value="{{ old('cedula') }}">
 
                             @error('cedula')
@@ -54,7 +53,7 @@
                         <div class="form-group col-6">
                             <label for="grado">Último grado aprobado</label>
                             <input type="text" class="form-control @error('grado') is-invalid @enderror" name="grado"
-                                autocomplete="off" value="{{ old('grado') }}">
+                                autocomplete="off" value="{{ old('grado') }}" required>
 
                             @error('grado')
                                 <span class="invalid-feedback" role="alert">
@@ -101,7 +100,8 @@
                         @if ($user->sucursal == 'all')
                             <div class="form-group col-6">
                                 <label for="sucursal">Sucursal</label>
-                                <select name="sucursal" class="form-control @error('sucursal') is-invalid @enderror">
+                                <select name="sucursal" class="form-control @error('sucursal') is-invalid @enderror"
+                                    required>
                                     <option selected disabled value="">Seleccionar</option>
                                     <option value="CH" {{ old('sucursal') == 'CH' ? 'selected' : '' }}>CHINANDEGA
                                     </option>

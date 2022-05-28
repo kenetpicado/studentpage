@@ -32,7 +32,7 @@ class CreateMatriculasTable extends Migration
                 ->references('id')
                 ->on('promotors');
 
-            $table->timestamps();
+            $table->date('created_at')->default(date('Y-m-d'));
         });
     }
 

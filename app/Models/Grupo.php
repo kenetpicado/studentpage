@@ -28,35 +28,37 @@ class Grupo extends Model
             ->withCount('inscripciones')
             ->find($grupo_id);
     }
-    
-    public function obtain($q)
+
+    public function obtain($q, $status)
     {
-        return $q->with(['curso:id,nombre', 'docente:id,nombre'])
+        return $q->where('activo', $status)
+            ->with(['curso:id,nombre', 'docente:id,nombre'])
             ->withCount('inscripciones')
             ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
     }
 
-    public static function getGruposSucursal($sucursal)
+    public static function getGruposSucursal($sucursal, $status)
     {
-        return Grupo::obtain(Grupo::where('sucursal', $sucursal));
+        return Grupo::obtain(Grupo::where('sucursal', $sucursal), $status);
     }
 
     public static function getGruposCurrents($sucursal)
     {
         return Grupo::where('sucursal', $sucursal)
+            ->where('activo', '1')
             ->where('anyo', date('Y'))
             ->with(['docente:id,nombre', 'curso:id,nombre'])
             ->get(['id', 'horario', 'curso_id', 'docente_id']);
     }
 
-    public static function getGruposDocente($docente_id)
+    public static function getGruposDocente($docente_id, $status)
     {
-        return Grupo::obtain(Grupo::where('docente_id', $docente_id));
+        return Grupo::obtain(Grupo::where('docente_id', $docente_id), $status);
     }
 
-    public static function getGrupos()
+    public static function getGrupos($status)
     {
-        return Grupo::obtain(new Grupo());
+        return Grupo::obtain(new Grupo(), $status);
     }
 
     //Relations
@@ -77,6 +79,6 @@ class Grupo extends Model
 
     public function setHorarioAttribute($value)
     {
-        $this->attributes['horario'] = trim(strtoupper($value));
+        $this->attributes['horario'] = trim(ucwords(strtolower($value)));
     }
 }

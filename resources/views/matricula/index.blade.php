@@ -39,7 +39,7 @@
                                         <th>Carnet</th>
                                         <th>Nombre</th>
                                         <th>Promotor</th>
-                                        <th>Fecha</th>
+                                        <th>Fecha registro</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -72,11 +72,13 @@
                                                             <a class="dropdown-item"
                                                                 href="{{ route('inscripciones.create', $matricula->id) }}">Inscribir
                                                                 a curso</a>
+
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('matriculas.show', $matricula) }}"
+                                                                target="_blank">Ver
+                                                                detalles</a>
                                                         @endif
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('matriculas.show', $matricula) }}"
-                                                            target="_blank">Ver
-                                                            detalles</a>
+
                                                         <a class="dropdown-item"
                                                             href="{{ route('matriculas.edit', $matricula) }}">Editar</a>
 
