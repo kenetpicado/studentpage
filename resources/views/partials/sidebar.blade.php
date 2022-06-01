@@ -16,7 +16,7 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
     <!-- Heading -->
-    <div class="sidebar-heading">Administración</div>
+    <div class="sidebar-heading">Admin</div>
 
     @if (Auth::user()->rol == 'admin')
         <!-- Nav Item - DOCENTES -->
