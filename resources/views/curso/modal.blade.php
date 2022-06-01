@@ -4,7 +4,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">AGREGAR UN NUEVO CURSO</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Agregar</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     @csrf
                     <div class="form-group">
-                        <label for="nombre">Nombre del curso</label>
+                        <label for="nombre">Nombre</label>
                         <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
                             autocomplete="off" value="{{ old('nombre') }}">
 

@@ -23,7 +23,7 @@
                 <!-- Datos-->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR NOTA</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Editar</h6>
                     </div>
 
                     <div class="card-body">
@@ -32,23 +32,37 @@
                             @method('PUT')
                             <div class="row">
                                 <div class="form-group col-lg-6">
-                                    <label for="unidad">Materia</label>
-                                    <input type="text" class="form-control @error('unidad') is-invalid @enderror"
-                                        name="unidad" autocomplete="off" value="{{ old('unidad', $nota->unidad) }}"
-                                        autofocus>
+                                    <label>Número de materia</label>
+                                    <input type="number" class="form-control @error('num') is-invalid @enderror" name="num"
+                                        autocomplete="off" value="{{ old('num', $nota->num) }}">
 
-                                    @error('unidad')
+                                    @error('num')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
                             </div>
-                            
+
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="materia">Materia</label>
+                                    <input type="text" class="form-control @error('materia') is-invalid @enderror"
+                                        name="materia" autocomplete="off" value="{{ old('materia', $nota->materia) }}"
+                                        autofocus>
+
+                                    @error('materia')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label for="valor">Nota</label>
-                                    <input type="text" class="form-control @error('valor') is-invalid @enderror"
+                                    <input type="number" class="form-control @error('valor') is-invalid @enderror"
                                         name="valor" autocomplete="off" value="{{ old('valor', $nota->valor) }}"
                                         autofocus>
 
@@ -61,7 +75,7 @@
                             </div>
                             <input type="hidden" name="matricula_id" value="{{ $matricula_id }}">
                             <input type="hidden" name="grupo_id" value="{{ $grupo_id }}">
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
                         </form>
                     </div>
                 </div>

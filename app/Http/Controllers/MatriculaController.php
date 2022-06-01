@@ -93,10 +93,10 @@ class MatriculaController extends Controller
     }
 
     //Actualizar matricula
-    public function update(UpdateMatriculaRequest $request, Matricula $matricula)
+    public function update(UpdateMatriculaRequest $request, $matricula_id)
     {
         Gate::authorize('admin-promotor');
-        $matricula->update($request->all());
-        return redirect()->route('matriculas.index')->with('info', 'ok');
+        User::updateUser(new Matricula(), $matricula_id, $request);
+        return redirect()->route('matriculas.index')->with('info', config('app.update'));
     }
 }

@@ -10,14 +10,14 @@ class Nota extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['unidad', 'valor', 'inscripcion_id'];
+    protected $fillable = ['num', 'materia', 'valor', 'inscripcion_id'];
     public $timestamps = false;
 
     public static function loadThis($inscripcion_id)
     {
         return Nota::where('inscripcion_id', $inscripcion_id)
-            ->orderBy('unidad')
-            ->get(['id', 'unidad', 'valor']);
+            ->orderBy('num')
+            ->get(['id', 'num', 'materia', 'valor']);
     }
 
     public function inscripcion()
@@ -25,8 +25,8 @@ class Nota extends Model
         return $this->belongsTo(Inscripcion::class);
     }
 
-    public function setUnidadAttribute($value)
+    public function setMateriaAttribute($value)
     {
-        $this->attributes['unidad'] = trim(strtoupper($value));
+        $this->attributes['materia'] = trim(ucwords(strtolower($value)));
     }
 }

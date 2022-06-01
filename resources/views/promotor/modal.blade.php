@@ -4,7 +4,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">AGREGAR UN NUEVO PROMOTOR</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Agregar</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     @csrf
                     <div class="form-group">
-                        <label for="nombre">Nombre del promotor</label>
+                        <label for="nombre">Nombre</label>
                         <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
                             autocomplete="off" value="{{ old('nombre') }}">
                         @error('nombre')
@@ -50,7 +50,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">ELIMINAR</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -60,6 +60,7 @@
                 @method('DELETE')
                 <div class="modal-body">
                     <p>
+                        ¿Está seguro que desea eliminar este registro? 
                         Esta acción no se puede deshacer.
                     </p>
                 </div>
@@ -90,16 +91,14 @@
                 <input type="hidden" name="tipo" value="promotores">
                 <div class="modal-body">
                     <p>
-                        Esta acción enviará al correo del promotor el nuevo PIN generado.
-                    </p>
-                    <p>
-                        Este recurso solo debería usarse en caso que el usuario haya perdido sus credenciales 
+                        Esta acción enviará al correo del promotor el nuevo PIN generado, 
+                        solo debería usarse en caso que el usuario haya perdido sus credenciales
                         y solicite un restablecimiento.
                     </p>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger">Restablecer</button>
+                    <button type="submit" class="btn btn-primary">Restablecer</button>
                 </div>
             </form>
         </div>

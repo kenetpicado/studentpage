@@ -4,7 +4,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">AGREGAR NOTA</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Agregar</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,11 +13,11 @@
                 <div class="modal-body">
                     @csrf
                     <div class="form-group">
-                        <label for="unidad">Materia</label>
-                        <input type="text" class="form-control @error('unidad') is-invalid @enderror" name="unidad"
-                            autocomplete="off" value="{{ old('unidad') }}" autofocus placeholder="ej. 1-INTRODUCCION">
+                        <label>Número de materia</label>
+                        <input type="number" class="form-control @error('num') is-invalid @enderror" name="num"
+                            autocomplete="off" value="{{ old('num') }}">
 
-                        @error('unidad')
+                        @error('num')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -25,9 +25,21 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="valor">Nota</label>
+                        <label for="materia">Materia</label>
+                        <input type="text" class="form-control @error('materia') is-invalid @enderror" name="materia"
+                            autocomplete="off" value="{{ old('materia') }}">
+
+                        @error('materia')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nota</label>
                         <input type="number" class="form-control @error('valor') is-invalid @enderror" name="valor"
-                            autocomplete="off" value="{{ old('valor') }}" autofocus>
+                            autocomplete="off" value="{{ old('valor') }}">
 
                         @error('valor')
                             <span class="invalid-feedback" role="alert">

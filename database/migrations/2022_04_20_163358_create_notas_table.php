@@ -15,7 +15,8 @@ class CreateNotasTable extends Migration
     {
         Schema::create('notas', function (Blueprint $table) {
             $table->id();
-            $table->string('unidad', 50);
+            $table->integer('num');
+            $table->string('materia', 50);
             $table->float('valor');
             
             $table->unsignedBigInteger('inscripcion_id');

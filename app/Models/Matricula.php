@@ -26,7 +26,7 @@ class Matricula extends Model
     public static function getCurrent()
     {
         return Matricula::where('carnet', Auth::user()->email)
-            ->first(['id', 'nombre', 'carnet']);
+            ->first(['id', 'nombre', 'carnet', 'fecha_nac']);
     }
 
     public function obtain($q)

@@ -84,7 +84,7 @@ class DocenteController extends Controller
     {
         Gate::authorize('admin');
         User::updateUser(new Docente(), $docente_id, $request);
-        return redirect()->route('docentes.index')->with('info', 'ok');
+        return redirect()->route('docentes.index')->with('info', config('app.update'));
     }
 
     //Eliminar un docente
@@ -92,6 +92,6 @@ class DocenteController extends Controller
     {
         Gate::authorize('admin');
         User::deleteUser(new Docente(), $docente_id);
-        return redirect()->route('docentes.index')->with('info', 'eliminado');
+        return redirect()->route('docentes.index')->with('deleted', config('app.deleted'));
     }
 }

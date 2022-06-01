@@ -24,19 +24,12 @@ class ConsultaController extends Controller
         return view('consulta.index', compact('matricula', 'inscripcion'));
     }
 
-    //Ver notas del propio alumno
-    public function notas($inscripcion_id)
+    //Ver detalles de un curso
+    public function show($inscripcion_id)
     {
         Gate::authorize('alumno-nota', $inscripcion_id);
         $notas = Nota::loadThis($inscripcion_id);
-        return view('consulta.nota', compact('notas'));
-    }
-
-    //Ver pagos del propio alumno
-    public function pagos($inscripcion_id)
-    {
-        Gate::authorize('alumno-nota', $inscripcion_id);
         $pagos = Pago::loadThis($inscripcion_id);
-        return view('consulta.pago', compact('pagos'));
+        return view('consulta.show', compact('notas', 'pagos'));
     }
 }

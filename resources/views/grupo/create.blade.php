@@ -9,7 +9,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('index')}}">Inicio</a></li>
                 <li class="breadcrumb-item"><a href="{{route('grupos.index')}}">Grupos</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Crear</li>
+                <li class="breadcrumb-item active" aria-current="page">Agregar</li>
             </ol>
         </nav>
 
@@ -21,7 +21,7 @@
                 <div class="card shadow mb-4">
 
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">CREAR GRUPO</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Agregar</h6>
                     </div>
 
                     <div class="card-body">

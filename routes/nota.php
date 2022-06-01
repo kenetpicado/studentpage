@@ -4,7 +4,7 @@ use App\Http\Controllers\NotaController;
 use Illuminate\Support\Facades\Route;
 
 //Agregar nota
-Route::get('notas/{matricula}/{grupo}/crear', [NotaController::class, 'create'])
+Route::get('notas/{matricula}/{grupo}', [NotaController::class, 'create'])
     ->name('notas.create');
 
 //Guardar nota

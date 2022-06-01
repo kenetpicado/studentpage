@@ -20,7 +20,7 @@
                 <!-- Datos -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">GRUPOS TERMINADOS</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Grupos terminados</h6>
                     </div>
 
                     <div class="card-body">
@@ -29,11 +29,8 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Curso</th>
-                                        <th>Docente</th>
-                                        <th>Horario</th>
-                                        <th>Año</th>
-                                        <th></th>
+                                        <th>Detalles</th>
+                                        <th>Alumnos</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -41,10 +38,13 @@
                                     @foreach ($grupos as $key => $grupo)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $grupo->curso->nombre }} </td>
-                                            <td>{{ $grupo->docente->nombre }}</td>
-                                            <td>{{ $grupo->horario }}</td>
-                                            <td>{{ $grupo->anyo }}</td>
+                                            <td>
+                                                {{ $grupo->curso->nombre }} -
+                                                {{ $grupo->docente->nombre }} -
+                                                {{ $grupo->horario }} -
+                                                {{ $grupo->anyo }}
+                                                
+                                            </td>
                                             <td>
                                                 <a href="{{ route('grupos.show', $grupo->id) }}">
                                                     Ver {{ $grupo->inscripciones_count }} alumnos

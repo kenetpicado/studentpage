@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">AGREGAR NUEVA MATRICULA</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Agregar</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -85,7 +85,7 @@
                     <div class="row">
                         @if ($user->rol == 'admin')
                             <div class="form-group col-6">
-                                <label>Carnet (Opcional)</label>
+                                <label>Carnet - (Opcional)</label>
                                 <input type="text" class="form-control @error('carnet') is-invalid @enderror"
                                     name="carnet" autocomplete="off" value="{{ old('carnet') }}">
 

@@ -47,16 +47,13 @@ class HomeController extends Controller
 
                 $info = ([
                     'docentes' =>  $this->countActive($docentes, $user->sucursal),
-                    'docentes_all' => $docentes->count(),
 
                     'cursos' => Curso::where('activo', '1')->count(),
                     'promotores' => Promotor::all()->count(),
 
-                    'grupos' => $this->countActive($grupos, $user->sucursal),
                     'grupos_anyo' => $this->currentActive($grupos, $user->sucursal),
                     'grupos_all' => $grupos->count(),
 
-                    'matriculas' => $this->countActive($matriculas, $user->sucursal),
                     'matriculas_anyo' => $this->currentActive($matriculas, $user->sucursal),
                     'matriculas_all' => $matriculas->count(),
                 ]);

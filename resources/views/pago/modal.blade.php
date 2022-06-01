@@ -4,7 +4,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">PAGAR</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Agregar</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="monto">Monto a pagar (C$)</label>
+                        <label for="monto">Monto (C$)</label>
                         <input type="number" class="form-control @error('monto') is-invalid @enderror" name="monto"
                             autocomplete="off" value="{{ old('monto') }}">
 

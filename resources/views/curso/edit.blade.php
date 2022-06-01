@@ -20,7 +20,7 @@
                 <!-- Datos-->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR CURSO</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Editar</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -44,7 +44,7 @@
 
                             <div class="row">
                                 <div class="form-group col-lg-6">
-                                    <label for="nombre">Cambiar nombre del curso</label>
+                                    <label for="nombre">Nombre del curso</label>
                                     <input type="text" class="form-control @error('nombre') is-invalid @enderror"
                                         name="nombre" autocomplete="off" value="{{ old('nombre', $curso->nombre) }}">
 
@@ -69,7 +69,7 @@
                                 </div>
                             </div>
                             <input type="hidden" name="curso_id" value="{{$curso->id}}">
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
                         </form>
                     </div>
                 </div>

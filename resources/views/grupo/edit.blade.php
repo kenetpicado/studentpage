@@ -21,7 +21,7 @@
                 <!-- Datos del alumno -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR GRUPO</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Editar</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -71,7 +71,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
                     </div>
                 </div>
             </form>
@@ -84,7 +84,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">ELIMINAR GRUPO</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -94,6 +94,7 @@
                         @method('DELETE')
                         <div class="modal-body">
                             <p>
+                                ¿Está seguro que desea eliminar este registro? 
                                 Esta acción no se puede deshacer.
                             </p>
                         </div>
@@ -112,7 +113,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">CERRAR GRUPO</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Cerrar grupo</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -126,7 +127,7 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-danger">Cerrar grupo</button>
+                            <button type="submit" class="btn btn-primary">Cerrar grupo</button>
                         </div>
                     </form>
                 </div>

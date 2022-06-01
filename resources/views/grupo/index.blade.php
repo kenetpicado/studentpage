@@ -19,7 +19,7 @@
                 <!-- Datos -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">GRUPOS ACTIVOS</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Grupos</h6>
                         @if (auth()->user()->rol == 'admin')
                             <div class="dropdown no-arrow">
                                 <a href="{{ route('grupos.create') }}" class="btn btn-sm btn-primary ml-2">
@@ -30,10 +30,12 @@
                     </div>
 
                     <div class="card-body">
-                        <div class="alert alert-primary" role="alert">
-                            Para ver los grupos terminados haga
-                            <a href="{{ route('grupos.closed') }}">click aqui</a>
-                        </div>
+                        @if (auth()->user()->rol == 'admin')
+                            <div class="alert alert-primary" role="alert">
+                                Para ver los grupos finalizados haga
+                                <a href="{{ route('grupos.closed') }}">click aqui</a>
+                            </div>
+                        @endif
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -79,7 +81,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

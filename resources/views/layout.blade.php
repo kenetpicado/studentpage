@@ -96,12 +96,12 @@
         </script>
     @endif
 
-    @if (session('info') == 'eliminado')
+    @if (session('deleted'))
         <script>
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: 'Se han eliminado los datos',
+                title: "<?php echo session('info'); ?>",
                 showConfirmButton: false,
                 timer: 1000
             })
