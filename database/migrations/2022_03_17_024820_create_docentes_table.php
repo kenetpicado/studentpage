@@ -17,7 +17,7 @@ class CreateDocentesTable extends Migration
             $table->id();
             $table->string('carnet', 7)->unique();
             $table->string('nombre', 45);
-            $table->string('correo')->unique();
+            $table->string('correo', 45)->unique();
             $table->boolean('activo')->default(true);
             $table->string('sucursal', 5);
         });

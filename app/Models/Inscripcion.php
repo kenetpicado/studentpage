@@ -20,7 +20,7 @@ class Inscripcion extends Model
         return Inscripcion::where('grupo_id', $grupo_id)
             ->with([
                 'notas' => function ($query) {
-                    $query->select('id', 'unidad', 'valor', 'inscripcion_id')->orderBy('unidad');
+                    $query->select('id', 'num', 'materia', 'valor', 'inscripcion_id')->orderBy('num');
                 }
             ])
             ->with('matricula:id,nombre,carnet')

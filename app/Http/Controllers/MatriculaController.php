@@ -10,6 +10,7 @@ use App\Models\Promotor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
+use Carbon\Carbon;
 
 class MatriculaController extends Controller
 {
@@ -68,6 +69,7 @@ class MatriculaController extends Controller
             'carnet' =>  $carnet,
             'pin' => $pin,
             'promotor_id' => $id,
+            'created_at' => Carbon::now()->format('Y-m-d'),
         ]);
 
         //Guardar datos
@@ -79,7 +81,7 @@ class MatriculaController extends Controller
     //Ver datos de una matricula
     public function show(Matricula $matricula)
     {
-        Gate::authorize('admin-promotor');
+        Gate::authorize('admin');
         return new VerMatricula($matricula);
     }
 
@@ -91,10 +93,10 @@ class MatriculaController extends Controller
     }
 
     //Actualizar matricula
-    public function update(UpdateMatriculaRequest $request, Matricula $matricula)
+    public function update(UpdateMatriculaRequest $request, $matricula_id)
     {
         Gate::authorize('admin-promotor');
-        $matricula->update($request->all());
-        return redirect()->route('matriculas.index')->with('info', 'ok');
+        User::updateUser(new Matricula(), $matricula_id, $request);
+        return redirect()->route('matriculas.index')->with('info', config('app.update'));
     }
 }

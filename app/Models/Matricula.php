@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class Matricula extends Model
 {
     protected $guarded = [];
+    public $timestamps = false;
 
     //Relacion 1:1 inversa a promotor
     public function promotor()
@@ -25,7 +26,7 @@ class Matricula extends Model
     public static function getCurrent()
     {
         return Matricula::where('carnet', Auth::user()->email)
-            ->first(['id', 'nombre', 'carnet']);
+            ->first(['id', 'nombre', 'carnet', 'fecha_nac']);
     }
 
     public function obtain($q)
@@ -57,7 +58,7 @@ class Matricula extends Model
     //FUNCION PARA CADENA EN MAYUSCULA
     public function setNombreAttribute($value)
     {
-        $this->attributes['nombre'] = trim(strtoupper($value));
+        $this->attributes['nombre'] = trim(ucwords(strtolower($value)));
     }
 
     public function setCedulaAttribute($value)
@@ -67,21 +68,16 @@ class Matricula extends Model
 
     public function setTutorAttribute($value)
     {
-        $this->attributes['tutor'] = trim(strtoupper($value));
+        $this->attributes['tutor'] = trim(ucwords(strtolower($value)));
     }
 
     public function setGradoAttribute($value)
     {
-        $this->attributes['grado'] = trim(strtoupper($value));
+        $this->attributes['grado'] = trim(ucwords(strtolower($value)));
     }
 
     public function setCarnetAttribute($value)
     {
         $this->attributes['carnet'] = trim(strtoupper($value));
-    }
-
-    public function getCreatedAtAttribute($value)
-    {
-        return date('Y-m-d', strtotime($value));
     }
 }

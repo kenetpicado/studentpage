@@ -26,7 +26,7 @@ class User extends Authenticatable
 
     public function setNameAttribute($value)
     {
-        $this->attributes['name'] = trim(strtoupper($value));
+        $this->attributes['name'] = trim(ucwords(strtolower($value)));
     }
 
     public static function deleteUser($model, $id)

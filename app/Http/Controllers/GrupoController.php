@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Inscripcion;
+use GuzzleHttp\Psr7\Request;
 
 class GrupoController extends Controller
 {
@@ -27,19 +28,37 @@ class GrupoController extends Controller
 
         switch (true) {
             case ($user->sucursal == 'all'):
-                $grupos = Grupo::getGrupos();
+                $grupos = Grupo::getGrupos('1');
                 break;
 
             case ($user->rol == 'docente'):
                 $docente = User::getUserByCarnet(new Docente(), $user->email);
-                $grupos = Grupo::getGruposDocente($docente->id);
+                $grupos = Grupo::getGruposDocente($docente->id, '1');
                 break;
 
             default:
-                $grupos = Grupo::getGruposSucursal($user->sucursal);
+                $grupos = Grupo::getGruposSucursal($user->sucursal, '1');
                 break;
         }
         return view('grupo.index', compact('grupos'));
+    }
+
+    //Ver grupos terminados
+    public function showClosed()
+    {
+        Gate::authorize('admin');
+        $user = Auth::user();
+
+        switch (true) {
+            case ($user->sucursal == 'all'):
+                $grupos = Grupo::getGrupos('0');
+                break;
+            default:
+                $grupos = Grupo::getGruposSucursal($user->sucursal, '0');
+                break;
+        }
+
+        return view('grupo.closed', compact('grupos'));
     }
 
     //Crear un nuevo grupo
@@ -67,7 +86,7 @@ class GrupoController extends Controller
         ]);
 
         Grupo::create($request->all());
-        return redirect()->route('grupos.index')->with('info', 'ok');
+        return redirect()->route('grupos.index')->with('info', 'Grupo creado con éxito');
     }
 
     //Mostrar alumnos de un grupo
@@ -93,6 +112,23 @@ class GrupoController extends Controller
         Gate::authorize('admin');
         $grupo->update($request->all());
         return redirect()->route('grupos.index')->with('info', 'ok');
+    }
+
+    //Cambiar estado del grupo
+    public function status($grupo_id)
+    {
+        Gate::authorize('admin');
+        $grupo = Grupo::find($grupo_id, ['id', 'activo']);
+
+        if ($grupo->activo == '1') {
+            $grupo->update(['activo' => '0']);
+            $msj = 'Grupo terminado';
+        } else {
+            $grupo->update(['activo' => '1']);
+            $msj = 'Grupo reactivado';
+        }
+
+        return redirect()->route('grupos.index')->with('info', $msj);
     }
 
     //Eliminar un grupo

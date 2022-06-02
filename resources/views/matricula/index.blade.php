@@ -21,7 +21,7 @@
                 <!-- Datos -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">MATRICULAS</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Matriculas</h6>
                         <div class="dropdown no-arrow">
                             <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal"
                                 data-target="#agregar">
@@ -39,7 +39,7 @@
                                         <th>Carnet</th>
                                         <th>Nombre</th>
                                         <th>Promotor</th>
-                                        <th>Fecha</th>
+                                        <th>Fecha registro</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -72,11 +72,13 @@
                                                             <a class="dropdown-item"
                                                                 href="{{ route('inscripciones.create', $matricula->id) }}">Inscribir
                                                                 a curso</a>
+
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('matriculas.show', $matricula) }}"
+                                                                target="_blank">Ver
+                                                                detalles</a>
                                                         @endif
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('matriculas.show', $matricula) }}"
-                                                            target="_blank">Ver
-                                                            detalles</a>
+
                                                         <a class="dropdown-item"
                                                             href="{{ route('matriculas.edit', $matricula) }}">Editar</a>
 

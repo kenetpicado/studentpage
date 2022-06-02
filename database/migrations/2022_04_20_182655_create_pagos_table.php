@@ -23,7 +23,7 @@ class CreatePagosTable extends Migration
             $table->unsignedBigInteger('inscripcion_id');
             $table->foreign('inscripcion_id')->references('id')->on('inscripciones');
             
-            $table->timestamps();
+            $table->date('created_at')->default(date('Y-m-d'));
         });
     }
 

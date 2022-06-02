@@ -21,7 +21,7 @@
                 <div class="card shadow mb-4">
 
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">INSCRIBIR: {{$matricula->nombre}}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">{{$matricula->nombre}}</h6>
                     </div>
 
                     <div class="card-body">
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                             <input type="hidden" name="matricula_id" value="{{ $matricula->id }}">
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-primary">Inscribir</button>
                         </form>
                     </div>
                 </div>

@@ -21,7 +21,7 @@
                 <!-- Datos de los pagos -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">NOTAS</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Notas</h6>
                         <div class="dropdown no-arrow">
                             <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal"
                                 data-target="#agregar">
@@ -43,10 +43,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($inscripcion->notas as $key => $nota)
+                                    @foreach ($inscripcion->notas as $nota)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $nota->unidad }}</td>
+                                            <td>{{ $nota->num }}</td>
+                                            <td>{{ $nota->materia }}</td>
                                             <td>{{ $nota->valor }}</td>
                                             <td>{{ $nota->created_at }}</td>
                                             <td>

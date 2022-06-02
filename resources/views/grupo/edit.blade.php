@@ -21,7 +21,7 @@
                 <!-- Datos del alumno -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">EDITAR GRUPO</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Editar</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -29,18 +29,18 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                 aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                        data-target="#cerrar">Cerrar grupo</a>
+
                                 @if ($grupo->grupo_matricula_count == 0)
                                     <a class="dropdown-item" href="#" data-toggle="modal"
                                         data-target="#eliminar">Eliminar</a>
-                                @else
-                                    <div class="dropdown-header">No hay opciones</div>
                                 @endif
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
-
                         <div class="row">
                             <div class="form-group col-lg-6">
                                 <label for="docente_id">Seleccionar docente</label>
@@ -71,7 +71,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
                     </div>
                 </div>
             </form>
@@ -84,7 +84,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">ELIMINAR GRUPO</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -94,12 +94,40 @@
                         @method('DELETE')
                         <div class="modal-body">
                             <p>
+                                ¿Está seguro que desea eliminar este registro? 
                                 Esta acción no se puede deshacer.
                             </p>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cerrar-->
+        <div class="modal fade" id="cerrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cerrar grupo</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('grupos.status', $grupo->id) }}" method="GET">
+                        @csrf
+                        {{-- @method('PUT') --}}
+                        <div class="modal-body">
+                            Esta opción establece el grupo como "terminado", de modo que solo debería ejecutarse cuando
+                            el grupo haya culminado su plan de estudio y no existan más operaciones a realizar.
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Cerrar grupo</button>
                         </div>
                     </form>
                 </div>

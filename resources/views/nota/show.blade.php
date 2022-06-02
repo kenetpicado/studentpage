@@ -39,7 +39,7 @@
                             <!-- Datos -->
                             <div class="card" id="seleccion">
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">REPORTE DE NOTAS -
+                                    <h6 class="m-0 font-weight-bold text-primary">Reporte de Notas -
                                         {{ $grupo->curso->nombre }}</h6>
                                     <div class="dropdown no-arrow">
 
@@ -50,9 +50,9 @@
                                     <p>Docente: <strong>{{ $grupo->docente->nombre }}</strong></p>
                                     <p>Horario: <strong>{{ $grupo->horario }}</strong></p>
                                     @if ($grupo->sucursal == 'CH')
-                                        <p>Sucusal: <strong>CHINANDEGA</strong></p>
+                                        <p>Sucusal: <strong>Chinandega</strong></p>
                                     @else
-                                        <p>Sucusal: <strong>MANAGUA</strong></p>
+                                        <p>Sucusal: <strong>Managua</strong></p>
                                     @endif
                                     <p>Fecha: <strong>{{ date('d-m-Y') }}</strong> </p>
                                     <div class="table-responsive">
@@ -61,21 +61,22 @@
                                             <thead>
                                                 <th>Nombre</th>
                                                 <th>Carnet</th>
-                                                <th colspan="{{ count($inscripciones->first()->notas) }}" class="center-babe">Materias
+                                                <th colspan="{{ count($inscripciones->first()->notas) }}"
+                                                    class="center-babe">Materias
                                                 </th>
                                             </thead>
                                             <tbody>
                                                 @foreach ($inscripciones as $alumno)
                                                     <tr>
                                                         <td style="vertical-align:middle;">
-                                                            <small>{{ $alumno->matricula->nombre }}</small>
+                                                            {{ $alumno->matricula->nombre }}
                                                         </td>
                                                         <td style="vertical-align:middle;">
-                                                            <small>{{ $alumno->matricula->carnet }}</small>
+                                                            {{ $alumno->matricula->carnet }}
                                                         </td>
                                                         @foreach ($alumno->notas as $nota)
                                                             <td>
-                                                                <small>{{ $nota->unidad }} </small>
+                                                                <small>{{ $nota->materia }} </small>
                                                                 <br>
                                                                 <strong>{{ $nota->valor }}</strong>
                                                             </td>

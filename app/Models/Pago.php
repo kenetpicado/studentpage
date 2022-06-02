@@ -10,6 +10,7 @@ class Pago extends Model
     use HasFactory;
 
     protected $guarded = [];
+    public $timestamps = false;
 
     public static function lastMonth($inscripcion_id)
     {
@@ -22,16 +23,11 @@ class Pago extends Model
     public static function loadThis($inscripcion_id)
     {
         return Pago::where('inscripcion_id', $inscripcion_id)
-            ->get(['id', 'concepto', 'monto']);
+            ->get(['id', 'concepto', 'monto', 'created_at']);
     }
 
     public function setConceptoAttribute($value)
     {
         $this->attributes['concepto'] = trim(strtoupper($value));
-    }
-
-    public function getCreatedAtAttribute($value)
-    {
-        return date('d-m-Y', strtotime($value));
     }
 }
