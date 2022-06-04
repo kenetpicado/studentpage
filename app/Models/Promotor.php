@@ -15,7 +15,7 @@ class Promotor extends Model
 
     public static function getPromotores()
     {
-        return Promotor::withCount('matriculas')->get();
+        return Promotor::all();
     }
 
     public static function getPromotor($promotor_id)

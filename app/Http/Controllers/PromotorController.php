@@ -8,6 +8,8 @@ use App\Models\Promotor;
 use App\Models\User;
 use App\Http\Controllers\Generate;
 use App\Mail\CredencialesPromotor;
+use App\Models\Matricula;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Gate;
 
@@ -47,7 +49,14 @@ class PromotorController extends Controller
         //Enviar correo
         //Mail::to($request->correo)->send(new CredencialesPromotor($promotor, $pin));
 
-        return redirect()->route('promotores.index')->with('info', 'ok');
+        return redirect()->route('promotores.index')->with('info', config('app.add'));
+    }
+
+    //Ver matriculas de un promotor
+    public function show($promotor_id)
+    {
+        $matriculas = Matricula::getMatriculasPromotor($promotor_id);
+        return view('promotor.show', compact('matriculas'));
     }
 
     //Editar promotor
@@ -63,7 +72,7 @@ class PromotorController extends Controller
     {
         Gate::authorize('admin');
         User::updateUser(new Promotor(), $promotor_id, $request);
-        return redirect()->route('promotores.index')->with('info', 'ok');
+        return redirect()->route('promotores.index')->with('info', config('app.update'));
     }
 
     //Eliminar promotor

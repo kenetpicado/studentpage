@@ -37,7 +37,6 @@
                                         <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
-                                        <th>Matriculas</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -48,7 +47,6 @@
                                             <td>{{ $promotor->carnet }}</td>
                                             <td>{{ $promotor->nombre }}</td>
                                             <td>{{ $promotor->correo }}</td>
-                                            <td>{{ $promotor->matriculas_count }}</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
@@ -58,6 +56,8 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
+                                                        <a href="{{ route('promotores.show', $promotor->id) }}"
+                                                            class="dropdown-item">Ver matriculas</a>
                                                         <a href="{{ route('promotores.edit', $promotor->id) }}"
                                                             class="dropdown-item">Editar</a>
                                                     </div>

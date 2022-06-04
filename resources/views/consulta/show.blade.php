@@ -9,7 +9,7 @@
 
             <!-- Area Chart -->
             <div class="col-lg-7">
-                <div class="card shadow mb-4">
+                <div class="card shadow-sm mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary text-uppercase">Notas</h6>
@@ -50,7 +50,7 @@
         <div class="row justify-content-center">
             <!-- Pie Chart -->
             <div class="col-lg-7">
-                <div class="card shadow mb-4">
+                <div class="card shadow-sm mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary text-uppercase">Pagos</h6>
@@ -70,7 +70,7 @@
                                     <tbody>
                                         @foreach ($pagos as $pago)
                                             <tr>
-                                                <td>{{$pago->created_at}}</td>
+                                                <td>{{ $pago->created_at }}</td>
                                                 <td>{{ $pago->concepto }}</td>
                                                 <td>C$ {{ $pago->monto }}</td>
                                             </tr>
@@ -87,6 +87,11 @@
                 </div>
             </div>
         </div>
-        <a href="{{ route('consulta.index') }}" class="btn btn-primary">Regresar</a>
+        <div class="row justify-content-center">
+            <div class="col-lg-7 mb-4">
+                <a href="{{ route('consulta.index') }}" class="btn btn-primary">Regresar</a>
+            </div>
+        </div>
+
     </div>
 @endsection('content')

@@ -18,18 +18,15 @@ Route::get('grupos/terminados', [GrupoController::class, 'showclosed'])->name('g
 
 //Recursos
 Route::resource('/', HomeController::class);
-Route::resource('cursos', CursoController::class);
+Route::resource('cursos', CursoController::class)->except(['show']);
 Route::resource('docentes', DocenteController::class);
 Route::resource('matriculas', MatriculaController::class);
 Route::resource('grupos', GrupoController::class);
 Route::resource('promotores', PromotorController::class)
     ->parameters(['promotores' => 'promotor']);
 
-    
+Route::resource('consulta', ConsultaController::class)
+    ->only(['index', 'show']);
 
 //Login
 Auth::routes(['register' => false]);
-
-//Rutas alumnos - Ver grupos
-Route::get('consulta', [ConsultaController::class, 'index'])->name('consulta.index');
-Route::get('consulta/{id}', [ConsultaController::class, 'show'])->name('consulta.show');
