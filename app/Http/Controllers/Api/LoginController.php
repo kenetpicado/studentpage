@@ -19,12 +19,19 @@ class LoginController extends Controller
         if(Auth::attempt($request->only('email', 'password'))){
             //si la autenticacion es correcta
             return response()->json([
+                'status' => '1',
                 'token'=> $request->user()->createToken($request->email)->plainTextToken,
-                'message'=> 'Login Successful'
+                'message'=> 'Login Successful',
+                'email'=> $request->user()->email,
+                'name'=> $request->user()->name,
+                'rol' => $request->user()->rol,
+                'sucursal' => $request->user()->sucursal,
+
             ]);
         }
 
         return response()->json([
+            'status' => '0',
             'message'=> 'Login Unsuccessful'
         ], 401);	
         
