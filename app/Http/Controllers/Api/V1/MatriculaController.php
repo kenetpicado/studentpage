@@ -19,10 +19,11 @@ class MatriculaController extends Controller
      */
     public function index()
     {
+        
         //
         //return MatriculaResource::collection(Matricula::all());
 
-
+        
         //$matricula = Matricula::where('promotor_id', Auth::user()->email)->get();
         //return MatriculaResource::collection($matricula);
 
