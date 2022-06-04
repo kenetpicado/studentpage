@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\MatriculaResource;
 use App\Models\Matricula;
+use App\Models\Promotor;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MatriculaController extends Controller
 {
@@ -17,7 +20,12 @@ class MatriculaController extends Controller
     public function index()
     {
         //
-        return MatriculaResource::collection(Matricula::all());
+        //return MatriculaResource::collection(Matricula::all());
+
+
+        //$matricula = Matricula::where('promotor_id', Auth::user()->email)->get();
+        //return MatriculaResource::collection($matricula);
+
     }
 
     /**

@@ -22,6 +22,7 @@ class LoginController extends Controller
                 'status' => '1',
                 'token'=> $request->user()->createToken($request->email)->plainTextToken,
                 'message'=> 'Login Successful',
+                'email'=> $request->user()->email,
                 'name'=> $request->user()->name,
                 'rol' => $request->user()->rol,
                 'sucursal' => $request->user()->sucursal,
