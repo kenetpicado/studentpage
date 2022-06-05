@@ -4,7 +4,7 @@ use App\Http\Controllers\InscripcionController;
 use Illuminate\Support\Facades\Route;
 
 //Inscribir a un curso
-Route::get('inscripciones/{matricula}/crear', [InscripcionController::class, 'create'])
+Route::get('inscripciones/{matricula}/{type}', [InscripcionController::class, 'create'])
     ->name('inscripciones.create');
 
 Route::post('inscripciones', [InscripcionController::class, 'store'])

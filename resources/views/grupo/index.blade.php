@@ -20,22 +20,23 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Grupos</h6>
+
                         @if (auth()->user()->rol == 'admin')
-                            <div class="dropdown no-arrow">
-                                <a href="{{ route('grupos.create') }}" class="btn btn-sm btn-primary ml-2">
-                                    Agregar <i class="fas fa-plus ml-1"></i>
-                                </a>
+                            <div class="dropdown m-0">
+                                <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Acciones
+                                </button>
+                                <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+                                    <a href="{{ route('grupos.create') }}" class="dropdown-item">Crear grupo</a>
+                                    <a href="{{ route('grupos.closed') }}" class="dropdown-item">Grupos terminados</a>
+                                </div>
                             </div>
                         @endif
+
                     </div>
 
                     <div class="card-body">
-                        @if (auth()->user()->rol == 'admin')
-                            <div class="alert alert-primary" role="alert">
-                                Para ver los grupos finalizados haga
-                                <a href="{{ route('grupos.closed') }}">click aqui</a>
-                            </div>
-                        @endif
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>

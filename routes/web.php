@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Auth;
 //Restablecer pin
 Route::post('cambiar/pin', [Generate::class, 'cambiar_pin'])->name('cambiar.pin');
 Route::get('grupos/{grupo}/status', [GrupoController::class, 'status'])->name('grupos.status');
-Route::get('grupos/terminados', [GrupoController::class, 'showclosed'])->name('grupos.closed');
+Route::get('grupos/terminados', [GrupoController::class, 'showClosed'])->name('grupos.closed');
+Route::get('grupos/terminados/{id}', [GrupoController::class, 'showThisClosed'])->name('grupos.thisClosed');
 
 //Recursos
 Route::resource('/', HomeController::class);

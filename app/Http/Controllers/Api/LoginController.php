@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
@@ -16,14 +15,16 @@ class LoginController extends Controller
         //validamos los datos del formulario
         $this->validateLogin($request);
 
-        if(Auth::attempt($request->only('email', 'password'))){
+        if (Auth::attempt($request->only('email', 'password'))) {
+
+            auth()->login($request->user());
             //si la autenticacion es correcta
             return response()->json([
                 'status' => '1',
-                'token'=> $request->user()->createToken($request->email)->plainTextToken,
-                'message'=> 'Login Successful',
-                'email'=> $request->user()->email,
-                'name'=> $request->user()->name,
+                'token' => $request->user()->createToken($request->email)->plainTextToken,
+                'message' => 'Login Successful',
+                'email' => $request->user()->email,
+                'name' => $request->user()->name,
                 'rol' => $request->user()->rol,
                 'sucursal' => $request->user()->sucursal,
 
@@ -32,9 +33,8 @@ class LoginController extends Controller
 
         return response()->json([
             'status' => '0',
-            'message'=> 'Login Unsuccessful'
-        ], 401);	
-        
+            'message' => 'Login Unsuccessful'
+        ], 401);
     }
 
     public function validateLogin(Request $request)
@@ -42,7 +42,15 @@ class LoginController extends Controller
         $this->validate($request, [
             'email' => 'required|string',
             'password' => 'required',
-            //'name' => 'required'
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        
+        return response()->json([
+            'message' => 'Logout',
         ]);
     }
 }

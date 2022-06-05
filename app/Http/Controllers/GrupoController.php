@@ -58,7 +58,7 @@ class GrupoController extends Controller
                 break;
         }
 
-        return view('grupo.closed', compact('grupos'));
+        return view('terminado.index', compact('grupos'));
     }
 
     //Crear un nuevo grupo
@@ -75,7 +75,7 @@ class GrupoController extends Controller
         return view('grupo.create', compact('cursos', 'docentes'));
     }
 
-    //Guardar docente
+    //Guardar grupo
     public function store(StoreGrupoRequest $request)
     {
         Gate::authorize('admin');
@@ -95,6 +95,14 @@ class GrupoController extends Controller
         Gate::authorize('admin-docente');
         $alumnos = Inscripcion::getByGrupo($grupo_id);
         return view('grupo.show', compact('alumnos', 'grupo_id'));
+    }
+
+    //Ver alumnos de un grupo terminado
+    public function showThisClosed($grupo_id)
+    {
+        Gate::authorize('admin');
+        $alumnos = Inscripcion::getByGrupo($grupo_id);
+        return view('terminado.show', compact('alumnos', 'grupo_id'));
     }
 
     //Editar grupo
@@ -127,7 +135,6 @@ class GrupoController extends Controller
             $grupo->update(['activo' => '1']);
             $msj = 'Grupo reactivado';
         }
-
         return redirect()->route('grupos.index')->with('info', $msj);
     }
 

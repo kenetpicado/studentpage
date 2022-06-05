@@ -48,9 +48,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($alumnos as $alumno)
+                                    @foreach ($alumnos as $key => $alumno)
                                         <tr>
-                                            <td>{{ $alumno->matricula->id }}</td>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $alumno->matricula->carnet }}</td>
                                             <td>{{ $alumno->matricula->nombre }}</td>
                                             <td>

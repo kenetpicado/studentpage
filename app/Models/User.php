@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -60,5 +61,12 @@ class User extends Authenticatable
     public static function getUserByCarnet($model, $email)
     {
         return $model->where('carnet', $email)->first(['id']);
+    }
+
+    public static function loggedId($model)
+    {
+        $user = auth()->user();
+        $object = $model->where('carnet', $user->email)->first(['id']);
+        return $object->id;
     }
 }

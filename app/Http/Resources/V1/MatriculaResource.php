@@ -18,16 +18,8 @@ class MatriculaResource extends JsonResource
         return[
             'id' => $this->id,
             'nombre' => $this->nombre,
-            'cedula' => $this->cedula,
-            'fecha_nac' => $this->fecha_nac,
-            'tel' => $this->tel,
-            'tutor' => $this->tutor,
-            'grado' => $this->grado,
             'carnet' => $this->carnet,
-            'sucursal' => $this->sucursal,
-            'promotor_id' => $this->promotor_id,
             'activo' => $this->activo,
-            'carnet_pm' => $this->promotor->carnet,
             'created_at' => $this->created_at,
         ];
     }

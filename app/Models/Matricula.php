@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\V1\MatriculaResource;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Promotor;
 use App\Models\Inscripcion;
@@ -53,6 +54,12 @@ class Matricula extends Model
     public static function getMatriculas()
     {
         return Matricula::obtain(Matricula::matriculasWith());
+    }
+
+    public static function apiPromotor($promotor_id)
+    {
+        return Matricula::where('promotor_id', $promotor_id)
+            ->get(['id', 'nombre', 'carnet', 'activo', 'created_at']);
     }
 
     //FUNCION PARA CADENA EN MAYUSCULA

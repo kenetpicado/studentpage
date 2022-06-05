@@ -13,6 +13,11 @@ class Promotor extends Model
     protected $fillable = ['carnet', 'nombre', 'correo'];
     public $timestamps = false;
 
+    public static function loadThis($promotor_id)
+    {
+        return Promotor::find($promotor_id, ['id', 'nombre']);
+    }
+
     public static function getPromotores()
     {
         return Promotor::all();

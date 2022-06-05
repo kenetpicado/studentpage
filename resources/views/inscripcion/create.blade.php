@@ -8,7 +8,12 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('matriculas.index') }}">Matriculas</a></li>
+                @if ($type == 'global')
+                    <li class="breadcrumb-item"><a href="{{ route('matriculas.index') }}">Matrículas</a></li>
+                @else
+                    <li class="breadcrumb-item"><a href="{{ route('promotores.index') }}">Promotores</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('promotores.show', $type) }}">Matrículas</a></li>
+                @endif
                 <li class="breadcrumb-item active" aria-current="page">Inscribir</li>
             </ol>
         </nav>
@@ -21,13 +26,12 @@
                 <div class="card shadow mb-4">
 
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">{{$matricula->nombre}}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">{{ $matricula->nombre }} - Inscribir</h6>
                     </div>
 
                     <div class="card-body">
                         <form action="{{ route('inscripciones.store') }}" method="POST">
                             @csrf
-
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label>Selecionar grupo</label>
@@ -50,6 +54,7 @@
                                     @enderror
                                 </div>
                             </div>
+                            <input type="hidden" name="from" value="{{ $type }}">
                             <input type="hidden" name="matricula_id" value="{{ $matricula->id }}">
                             <button type="submit" class="btn btn-primary">Inscribir</button>
                         </form>

@@ -21,12 +21,12 @@ use App\Http\Controllers\Api\V1\NotaController as NotaV1;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+        return $request->user();
 });
 
 Route::apiResource('v1/matriculas', MatriculaV1::class)
-      ->only(['index', 'show', 'destroy', 'store'])
-      ->middleware('auth:sanctum');
+        ->only(['index', 'show', 'destroy', 'store'])
+        ->middleware('auth:sanctum');
 
 Route::apiResource('v1/promotores', PromotorV1::class)
         ->only(['index', 'show'])
@@ -40,7 +40,7 @@ Route::apiResource('v1/cursos', CursoV1::class)
         ->only(['index', 'show'])
         ->middleware('auth:sanctum');
 
-Route::apiResource('v1/docentes', DocenteV1::class)	
+Route::apiResource('v1/docentes', DocenteV1::class)
         ->only(['index', 'show'])
         ->middleware('auth:sanctum');
 
@@ -53,3 +53,7 @@ Route::apiResource('v1/notas', NotaV1::class)
         ->middleware('auth:sanctum');
 
 Route::post('login', [App\Http\Controllers\Api\LoginController::class, 'login']);
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+        Route::post('logout', [App\Http\Controllers\Api\LoginController::class, 'logout']);
+});

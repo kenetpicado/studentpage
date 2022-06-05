@@ -20,7 +20,7 @@
                 <!-- Datos-->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">CAMBIAR GRUPO</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Cambiar grupo</h6>
                     </div>
 
                     <div class="card-body">
@@ -52,7 +52,7 @@
                             </div>
                             <input type="hidden" name="matricula_id" value="{{ $inscripcion->matricula_id }}">
                             <input type="hidden" name="oldview" value="{{ $inscripcion->grupo_id }}">
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-primary">Cambiar</button>
                         </form>
                     </div>
                 </div>

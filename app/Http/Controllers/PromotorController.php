@@ -55,8 +55,9 @@ class PromotorController extends Controller
     //Ver matriculas de un promotor
     public function show($promotor_id)
     {
+        $promotor = Promotor::loadThis($promotor_id);
         $matriculas = Matricula::getMatriculasPromotor($promotor_id);
-        return view('promotor.show', compact('matriculas'));
+        return view('promotor.show', compact('matriculas', 'promotor'));
     }
 
     //Editar promotor

@@ -48,12 +48,12 @@
                                         <tr>
                                             <td>{{ $matricula->id }}</td>
                                             <td>
-                                                {{ $matricula->carnet }}
                                                 @if ($matricula->activo == '1')
                                                     <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
                                                 @else
                                                     <i class="fas fa-circle fa-xs"></i>
                                                 @endif
+                                                {{ $matricula->carnet }}
                                             </td>
                                             <td>{{ $matricula->nombre }}</td>
                                             <td>{{ $matricula->promotor->carnet ?? '' }}</td>
@@ -70,7 +70,7 @@
                                                         {{-- Solo el administrador puede inscribir --}}
                                                         @if (auth()->user()->rol == 'admin')
                                                             <a class="dropdown-item"
-                                                                href="{{ route('inscripciones.create', $matricula->id) }}">Inscribir
+                                                                href="{{ route('inscripciones.create', [$matricula->id, 'global']) }}">Inscribir
                                                                 a curso</a>
 
                                                             <a class="dropdown-item"

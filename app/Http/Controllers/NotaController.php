@@ -55,4 +55,10 @@ class NotaController extends Controller
         $inscripciones = Inscripcion::getToReport($grupo_id);
         return view('nota.show', compact('inscripciones', 'grupo'));
     }
+
+    public function showCertified($matricula_id, $grupo_id)
+    {
+        
+        return view('nota.certified');
+    }
 }
