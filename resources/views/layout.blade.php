@@ -101,7 +101,7 @@
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: "<?php echo session('info'); ?>",
+                title: "<?php echo session('deleted'); ?>",
                 showConfirmButton: false,
                 timer: 1000
             })

@@ -12,7 +12,7 @@ class Inscripcion extends Model
 {
     public $timestamps = false;
     protected $fillable = ['grupo_id', 'matricula_id'];
-    
+
     protected $table = "inscripciones";
 
     public static function getToReport($grupo_id)
@@ -46,6 +46,13 @@ class Inscripcion extends Model
         return Inscripcion::where('grupo_id', $grupo_id)
             ->where('matricula_id', $matricula_id)
             ->with($with)
+            ->first();
+    }
+
+    public static function loadThis($grupo_id, $matricula_id)
+    {
+        return Inscripcion::where('grupo_id', $grupo_id)
+            ->where('matricula_id', $matricula_id)
             ->first();
     }
 

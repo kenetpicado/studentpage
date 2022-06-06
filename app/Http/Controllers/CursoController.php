@@ -28,7 +28,7 @@ class CursoController extends Controller
     {
         Gate::authorize('admin');
         Curso::create($request->all());
-        return back()->with('info', 'ok');
+        return back()->with('info', config('app.add'));
     }
 
     //Mostrar formulario editar curso
@@ -44,7 +44,7 @@ class CursoController extends Controller
     {
         Gate::authorize('admin');
         $curso->update($request->all());
-        return redirect()->route('cursos.index')->with('info', 'ok');
+        return redirect()->route('cursos.index')->with('info', config('app.update'));
     }
 
     //Eliminar curso
@@ -52,6 +52,6 @@ class CursoController extends Controller
     {
         Gate::authorize('admin');
         $curso->delete();
-        return redirect()->route('cursos.index')->with('info', 'eliminado');
+        return redirect()->route('cursos.index')->with('deleted', config('app.deleted'));
     }
 }

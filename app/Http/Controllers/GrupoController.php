@@ -86,7 +86,7 @@ class GrupoController extends Controller
         ]);
 
         Grupo::create($request->all());
-        return redirect()->route('grupos.index')->with('info', 'Grupo creado con éxito');
+        return redirect()->route('grupos.index')->with('info', config('app.add'));
     }
 
     //Mostrar alumnos de un grupo
@@ -119,7 +119,7 @@ class GrupoController extends Controller
     {
         Gate::authorize('admin');
         $grupo->update($request->all());
-        return redirect()->route('grupos.index')->with('info', 'ok');
+        return redirect()->route('grupos.index')->with('info', config('app.update'));
     }
 
     //Cambiar estado del grupo
@@ -143,6 +143,6 @@ class GrupoController extends Controller
     {
         Gate::authorize('admin');
         $grupo->delete();
-        return redirect()->route('grupos.index')->with('info', 'eliminado');
+        return redirect()->route('grupos.index')->with('deleted', config('app.deleted'));
     }
 }

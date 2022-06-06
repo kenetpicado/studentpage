@@ -9,7 +9,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('grupos.thisClosed', $grupo_id) }}">Terminados</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('grupos.closed') }}">Terminados</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Alumnos</li>
             </ol>
         </nav>
@@ -26,7 +26,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>#</th>

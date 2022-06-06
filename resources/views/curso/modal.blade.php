@@ -39,7 +39,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">ELIMINAR CURSO</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -49,6 +49,7 @@
                 @method('DELETE')
                 <div class="modal-body">
                     <p>
+                        ¿Está seguro que desea eliminar este registro? 
                         Esta acción no se puede deshacer.
                     </p>
                 </div>

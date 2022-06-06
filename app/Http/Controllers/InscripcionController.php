@@ -28,9 +28,9 @@ class InscripcionController extends Controller
         Matricula::putActive($request->matricula_id);
 
         if ($request->from == 'global')
-            return redirect()->route('matriculas.index')->with('info', config('app.add'));
+            return redirect()->route('matriculas.index')->with('info', 'Inscrito correctamente!');
         else
-            return redirect()->route('promotores.show', $request->from)->with('info', config('app.add'));
+            return redirect()->route('promotores.show', $request->from)->with('info', 'Inscrito correctamente!');
     }
 
     //Cambiar de grupo
@@ -47,6 +47,6 @@ class InscripcionController extends Controller
     {
         Gate::authorize('admin');
         Inscripcion::find($inscripcion_id)->update($request->all());
-        return redirect()->route('grupos.show', $request->oldview)->with('info', 'ok');
+        return redirect()->route('grupos.show', $request->oldview)->with('info', config('app.update'));
     }
 }

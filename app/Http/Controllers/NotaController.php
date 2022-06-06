@@ -56,9 +56,12 @@ class NotaController extends Controller
         return view('nota.show', compact('inscripciones', 'grupo'));
     }
 
+    //Ver certificado de notas
     public function showCertified($matricula_id, $grupo_id)
     {
-        
-        return view('nota.certified');
+        Gate::authorize('admin');
+        $inscripcion = Inscripcion::loadThis($grupo_id, $matricula_id);
+        $notas = Nota::loadThis($inscripcion->id);
+        return view('nota.certified', compact('notas', 'grupo_id'));
     }
 }

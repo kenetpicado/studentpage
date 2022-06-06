@@ -75,7 +75,7 @@ class MatriculaController extends Controller
         //Guardar datos
         Matricula::create($request->all());
         User::createUser($request->nombre, $carnet, $pin, 'alumno', $request->sucursal);
-        return back();
+        return back()->with('info', config('app.add'));
     }
 
     //Ver datos de una matricula

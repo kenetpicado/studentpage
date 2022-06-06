@@ -30,7 +30,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -45,12 +45,12 @@
                                         <tr>
                                             <td>{{ $docente->id }}</td>
                                             <td>
-                                                {{ $docente->carnet }}
                                                 @if ($docente->activo == '1')
                                                     <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
                                                 @else
                                                     <i class="fas fa-circle fa-xs"></i>
                                                 @endif
+                                                {{ $docente->carnet }}
                                             </td>
                                             <td>{{ $docente->nombre }}</td>
                                             <td>{{ $docente->correo }}</td>

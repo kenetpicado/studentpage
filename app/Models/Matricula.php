@@ -53,7 +53,7 @@ class Matricula extends Model
 
     public static function getMatriculas()
     {
-        return Matricula::obtain(Matricula::matriculasWith());
+        return Matricula::obtain(new Matricula());
     }
 
     public static function apiPromotor($promotor_id)

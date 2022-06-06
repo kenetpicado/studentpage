@@ -81,6 +81,6 @@ class PromotorController extends Controller
     {
         Gate::authorize('admin');
         User::deleteUser(new Promotor(), $promotor_id);
-        return redirect()->route('promotores.index')->with('info', 'eliminado');
+        return redirect()->route('promotores.index')->with('deleted', config('app.deleted'));
     }
 }
