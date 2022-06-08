@@ -28,7 +28,7 @@ class LoginController extends Controller
                 'rol' => $request->user()->rol,
                 'sucursal' => $request->user()->sucursal,
 
-            ]);
+            ], 200);
         }
 
         return response()->json([
@@ -51,6 +51,6 @@ class LoginController extends Controller
         
         return response()->json([
             'message' => 'Logout',
-        ]);
+        ], 200);
     }
 }

@@ -46,7 +46,7 @@ class User extends Authenticatable
             ->first(['id', 'name'])
             ->update(['name' => $user->nombre]);
     }
-    
+
     public static function createUser($name, $email, $pin, $rol, $sucursal = 'all')
     {
         User::create([
@@ -66,6 +66,10 @@ class User extends Authenticatable
     public static function loggedId($model)
     {
         $user = auth()->user();
+
+        if ($user->rol != 'promotor')
+            return 'admin';
+
         $object = $model->where('carnet', $user->email)->first(['id']);
         return $object->id;
     }

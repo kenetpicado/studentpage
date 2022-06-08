@@ -72,8 +72,13 @@ class MatriculaController extends Controller
             'created_at' => Carbon::now()->format('Y-m-d'),
         ]);
 
+        $request->validate([
+            'carnet' => 'unique:matriculas'
+        ]);
+
         //Guardar datos
         Matricula::create($request->all());
+
         User::createUser($request->nombre, $carnet, $pin, 'alumno', $request->sucursal);
         return back()->with('info', config('app.add'));
     }

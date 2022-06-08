@@ -2,13 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\MatriculaController as MatriculaV1;
-use App\Http\Controllers\Api\V1\PromotorController as PromotorV1;
-use App\Http\Controllers\Api\V1\GrupoController as GrupoV1;
-use App\Http\Controllers\Api\V1\CursoController as CursoV1;
-use App\Http\Controllers\Api\V1\DocenteController as DocenteV1;
-use App\Http\Controllers\Api\V1\InscripcionController as InscripcionV1;
-use App\Http\Controllers\Api\V1\NotaController as NotaV1;
+use App\Http\Controllers\Api\MatriculaController;
+use App\Http\Controllers\Api\LoginController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,40 +15,16 @@ use App\Http\Controllers\Api\V1\NotaController as NotaV1;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-        return $request->user();
-});
-
-Route::apiResource('v1/matriculas', MatriculaV1::class)
-        ->only(['index', 'show', 'destroy', 'store'])
-        ->middleware('auth:sanctum');
-
-Route::apiResource('v1/promotores', PromotorV1::class)
-        ->only(['index', 'show'])
-        ->middleware('auth:sanctum');
-
-Route::apiResource('v1/grupos', GrupoV1::class)
-        ->only(['index', 'show'])
-        ->middleware('auth:sanctum');
-
-Route::apiResource('v1/cursos', CursoV1::class)
-        ->only(['index', 'show'])
-        ->middleware('auth:sanctum');
-
-Route::apiResource('v1/docentes', DocenteV1::class)
-        ->only(['index', 'show'])
-        ->middleware('auth:sanctum');
-
-Route::apiResource('v1/inscripciones', InscripcionV1::class)
-        ->only(['index', 'show'])
-        ->middleware('auth:sanctum');
-
-Route::apiResource('v1/notas', NotaV1::class)
-        ->only(['index', 'show', 'store'])
-        ->middleware('auth:sanctum');
-
-Route::post('login', [App\Http\Controllers\Api\LoginController::class, 'login']);
+Route::post('login', [LoginController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-        Route::post('logout', [App\Http\Controllers\Api\LoginController::class, 'logout']);
+
+        Route::post('logout', [LoginController::class, 'logout']);
+
+        Route::apiResource('v1/matriculas', MatriculaController::class)
+                ->only(['index', 'show', 'store']);
+
+        Route::get('/user', function (Request $request) {
+                return $request->user();});
+
 });

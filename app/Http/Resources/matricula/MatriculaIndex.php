@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\V1;
+namespace App\Http\Resources\matricula;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class InscripcionResource extends JsonResource
+class MatriculaIndex extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +17,8 @@ class InscripcionResource extends JsonResource
         //return parent::toArray($request);
         return[
             'id' => $this->id,
-            'grupo_id' => $this->grupo_id,
-            'matricula_id' => $this->matricula_id,
-            'docente' => $this->grupo->docente->carnet,
-            'horario' => $this->grupo->horario,
-            'curso' => $this->grupo->curso->nombre,
-            'carnet_est' => $this->matricula->carnet,
+            'nombre' => $this->nombre,
+            'carnet' => $this->carnet,
         ];
     }
 }
