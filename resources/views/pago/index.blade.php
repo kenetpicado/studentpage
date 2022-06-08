@@ -35,7 +35,6 @@
                             <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th></th>
                                         <th>Fecha</th>
                                         <th>Recibo</th>
                                         <th>Monto C$</th>
@@ -43,9 +42,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($inscripcion->pagos as $key => $pago)
+                                    @foreach ($inscripcion->pagos as $pago)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $pago->created_at }}</td>
                                             <td>{{ $pago->recibo }}</td>
                                             <td>{{ $pago->monto }}</td>
@@ -56,12 +54,10 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
             </form>
         </div>
         <!-- Content Row -->
-
     </div>
 @endsection('content')
 

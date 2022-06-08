@@ -1,5 +1,5 @@
 <!-- Matricula Modal -->
-<div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="matriculaModalCreate"
+<div class="modal fade" id="agregar" tabindex="1" role="dialog" aria-labelledby="matriculaModalCreate"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -16,7 +16,7 @@
                         <div class="form-group col-6">
                             <label for="nombre">Nombre completo</label>
                             <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                                autocomplete="off" value="{{ old('nombre') }}" required>
+                                autocomplete="off" value="{{ old('nombre') }}" required autofocus>
                             @error('nombre')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

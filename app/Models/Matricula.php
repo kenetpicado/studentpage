@@ -23,6 +23,11 @@ class Matricula extends Model
         return $this->hasMany(Inscripcion::class);
     }
 
+    public static function edit($matricula_id)
+    {
+        return Matricula::find($matricula_id, ['id', 'nombre', 'cedula', 'fecha_nac', 'grado', 'tutor', 'tel']);
+    }
+
     public static function getCurrent()
     {
         return Matricula::where('carnet', Auth::user()->email)
@@ -32,12 +37,9 @@ class Matricula extends Model
     public function obtain($q)
     {
         return $q->with(['promotor:id,carnet'])
-            ->get(['id', 'carnet', 'nombre', 'created_at', 'promotor_id', 'activo']);
-    }
-
-    public static function putActive($matricula_id)
-    {
-        Matricula::find($matricula_id, ['id', 'activo'])->update(['activo' => '1']);
+            ->orderBy('id', 'desc')
+            ->withCount('inscripciones')
+            ->get();
     }
 
     public static function getMatriculasSucursal($sucursal)
@@ -45,9 +47,19 @@ class Matricula extends Model
         return Matricula::obtain(Matricula::where('sucursal', $sucursal));
     }
 
+    //Desde Matricula Index
     public static function getMatriculasPromotor($promotor_id)
     {
         return Matricula::obtain(Matricula::where('promotor_id', $promotor_id)->where('anyo', date('Y')));
+    }
+
+    //Desde promotor Show
+    public static function toPromotorShow($promotor_id)
+    {
+        return Matricula::where('promotor_id', $promotor_id)
+            ->orderBy('id', 'desc')
+            ->withCount('inscripciones')
+            ->get();
     }
 
     public static function getMatriculas()

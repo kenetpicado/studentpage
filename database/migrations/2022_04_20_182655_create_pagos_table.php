@@ -21,8 +21,11 @@ class CreatePagosTable extends Migration
             $table->enum('tipo', ['1', '0'])->default('1');
 
             $table->unsignedBigInteger('inscripcion_id');
-            $table->foreign('inscripcion_id')->references('id')->on('inscripciones');
-            
+            $table->foreign('inscripcion_id')
+                ->references('id')
+                ->on('inscripciones')
+                ->onDelete('cascade');
+
             $table->date('created_at')->default(date('Y-m-d'));
         });
     }

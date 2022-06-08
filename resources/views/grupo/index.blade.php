@@ -41,42 +41,36 @@
                             <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Curso</th>
                                         <th>Docente</th>
                                         <th>Horario</th>
                                         <th>Año</th>
                                         <th>Alumnos</th>
-                                        <th></th>
+                                        @if (auth()->user()->rol == 'admin')
+                                            <th>Editar</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($grupos as $key => $grupo)
+                                    @foreach ($grupos as $grupo)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $grupo->curso->nombre }} </td>
                                             <td>{{ $grupo->docente->nombre }}</td>
                                             <td>{{ $grupo->horario }}</td>
                                             <td>{{ $grupo->anyo }}</td>
-                                            <td>{{ $grupo->inscripciones_count }}</td>
                                             <td>
-                                                <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
-                                                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="fas fa-cog"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                        aria-labelledby="dropdownMenuLink">
-                                                        <a href="{{ route('grupos.show', $grupo->id) }}"
-                                                            class="dropdown-item">Alumnos</a>
-                                                        @if (auth()->user()->rol == 'admin')
-                                                            <a href="{{ route('grupos.edit', $grupo->id) }}"
-                                                                class="dropdown-item">Editar</a>
-                                                        @endif
-                                                    </div>
-                                                </div>
+                                                <a href="{{ route('grupos.show', $grupo->id) }}"
+                                                    class="btn btn-sm btn-outline-primary btn-lg btn-block">
+                                                    Ver {{ $grupo->inscripciones_count }}
+                                                </a>
                                             </td>
+
+                                            @if (auth()->user()->rol == 'admin')
+                                                <td>
+                                                    <a href="{{ route('grupos.edit', $grupo->id) }}"
+                                                        class="btn btn-sm btn-primary">Editar</a>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

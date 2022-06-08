@@ -21,7 +21,7 @@
                 <!-- Datos del alumno -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Editar</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Editar grupo</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -44,7 +44,7 @@
                         <div class="row">
                             <div class="form-group col-lg-6">
                                 <label for="docente_id">Seleccionar docente</label>
-                                <select name="docente_id" class="form-control @error('docente_id') is-invalid @enderror">
+                                <select name="docente_id" class="form-control @error('docente_id') is-invalid @enderror" autofocus>
                                     <option selected disabled value="">Seleccionar</option>
                                     @foreach ($docentes as $docente)
                                         <option value="{{ $docente->id }}"

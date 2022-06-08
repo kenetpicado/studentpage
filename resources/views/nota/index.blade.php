@@ -35,23 +35,22 @@
                             <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th>Número</th>
                                         <th>Materia</th>
                                         <th>Nota</th>
-                                        <th>Fecha</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($inscripcion->notas as $nota)
+                                    @foreach ($notas as $nota)
                                         <tr>
                                             <td>{{ $nota->num }}</td>
                                             <td>{{ $nota->materia }}</td>
                                             <td>{{ $nota->valor }}</td>
-                                            <td>{{ $nota->created_at }}</td>
                                             <td>
-                                                <a href="{{ route('notas.editar', [$nota->id, $inscripcion->matricula_id, $grupo_id]) }}">
-                                                    <i class="fas fa-edit"></i>
+                                                <a href="{{ route('notas.editar', [$nota->id, $inscripcion->matricula_id, $grupo_id]) }}"
+                                                    class="btn btn-sm btn-primary">
+                                                    Editar</i>
                                                 </a>
                                             </td>
                                         </tr>

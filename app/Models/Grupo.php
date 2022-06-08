@@ -34,6 +34,7 @@ class Grupo extends Model
         return $q->where('activo', $status)
             ->with(['curso:id,nombre', 'docente:id,nombre'])
             ->withCount('inscripciones')
+            ->orderBy('id', 'desc')
             ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
     }
 
@@ -79,6 +80,6 @@ class Grupo extends Model
 
     public function setHorarioAttribute($value)
     {
-        $this->attributes['horario'] = trim(ucwords(strtolower($value)));
+        $this->attributes['horario'] = trim(strtolower($value));
     }
 }

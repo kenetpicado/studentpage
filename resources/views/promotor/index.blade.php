@@ -33,7 +33,6 @@
                             <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
@@ -41,9 +40,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($promotors as $key => $promotor)
+                                    @foreach ($promotors as $promotor)
                                         <tr>
-                                            <td>{{ $key + 1}}</td>
                                             <td>{{ $promotor->carnet }}</td>
                                             <td>{{ $promotor->nombre }}</td>
                                             <td>{{ $promotor->correo }}</td>

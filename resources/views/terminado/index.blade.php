@@ -28,20 +28,21 @@
                             <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Curso</th>
                                         <th>Docente</th>
                                         <th>Horario</th>
                                         <th>Año</th>
                                         <th>Alumnos</th>
-                                        <th></th>
+                                        <th>Opción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($grupos as $key => $grupo)
+                                    @foreach ($grupos as $grupo)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $grupo->curso->nombre }}</td>
+                                            <td>
+                                                <i class="fas fa-exclamation-circle" style="color:tomato"></i>
+                                                {{ $grupo->curso->nombre }}
+                                            </td>
                                             <td>{{ $grupo->docente->nombre }}</td>
                                             <td>{{ $grupo->horario }}</td>
                                             <td>{{ $grupo->anyo }}</td>

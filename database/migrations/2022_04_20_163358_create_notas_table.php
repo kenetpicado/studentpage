@@ -18,9 +18,12 @@ class CreateNotasTable extends Migration
             $table->integer('num');
             $table->string('materia', 50);
             $table->float('valor');
-            
+
             $table->unsignedBigInteger('inscripcion_id');
-            $table->foreign('inscripcion_id')->references('id')->on('inscripciones');
+            $table->foreign('inscripcion_id')
+                ->references('id')
+                ->on('inscripciones')
+                ->onDelete('cascade');
 
             $table->date('created_at')->default(date('Y-m-d'));
         });

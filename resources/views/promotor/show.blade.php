@@ -20,7 +20,7 @@
                 <!-- Datos -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">{{$promotor->nombre}} - Matrículas</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">{{ $promotor->nombre }} - Matrículas</h6>
                     </div>
 
                     <div class="card-body ">
@@ -28,27 +28,26 @@
                             <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Carnet</th>
                                         <th>Nombre</th>
                                         <th>Fecha registro</th>
+                                        <th>Estado</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($matriculas as $key => $matricula)
+                                    @foreach ($matriculas as $matricula)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>
-                                                @if ($matricula->activo == '1')
-                                                    <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
-                                                @else
-                                                    <i class="fas fa-circle fa-xs"></i>
-                                                @endif
-                                                {{ $matricula->carnet }}
-                                            </td>
+                                            <td>{{ $matricula->carnet }}</td>
                                             <td>{{ $matricula->nombre }}</td>
                                             <td>{{ $matricula->created_at }}</td>
+                                            <td>
+                                                @if ($matricula->inscripciones_count > 0)
+                                                    Inscrito <i class="fas fa-check-circle" style="color:limegreen"></i>
+                                                @else
+                                                    Pendiente <i class="fas fa-exclamation-circle" style="color:tomato"></i>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"

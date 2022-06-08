@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateNotaRequest;
 use App\Models\Grupo;
 use App\Models\Nota;
 use App\Models\Inscripcion;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 
 class NotaController extends Controller
@@ -20,16 +21,22 @@ class NotaController extends Controller
     public function create($matricula_id, $grupo_id)
     {
         Gate::authorize('admin-docente');
-        $inscripcion = Inscripcion::loadThisWith($grupo_id, $matricula_id, 'notas');
-        return view('nota.index', compact('inscripcion', 'grupo_id'));
+        $inscripcion = Inscripcion::loadThis($grupo_id, $matricula_id);
+        $notas = Nota::loadThis($inscripcion->id);
+        return view('nota.index', compact('inscripcion', 'notas', 'grupo_id'));
     }
 
     //Guardar nota
     public function store(StoreNotaRequest $request)
     {
         Gate::authorize('admin-docente');
+
+        $request->merge([
+            'created_at' => Carbon::now()->format('Y-m-d')
+        ]);
+
         Nota::create($request->all());
-        return back();
+        return back()->with('info', config('app.add'));
     }
 
     //Editar nota
@@ -44,7 +51,9 @@ class NotaController extends Controller
     {
         Gate::authorize('admin-docente');
         $nota->update($request->all());
-        return redirect()->route('notas.create', [$request->matricula_id, $request->grupo_id]);
+        return redirect()
+            ->route('notas.create', [$request->matricula_id, $request->grupo_id])
+            ->with('info', config('app.update'));
     }
 
     //Ver reporte de notas

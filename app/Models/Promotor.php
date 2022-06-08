@@ -18,9 +18,10 @@ class Promotor extends Model
         return Promotor::find($promotor_id, ['id', 'nombre']);
     }
 
+    //Obtener todos los promotores
     public static function getPromotores()
     {
-        return Promotor::all();
+        return Promotor::orderBy('id', 'desc')->get();
     }
 
     public static function getPromotor($promotor_id)

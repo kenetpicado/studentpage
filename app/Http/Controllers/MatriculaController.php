@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMatriculaRequest;
 use App\Http\Requests\UpdateMatriculaRequest;
 use App\Mail\VerMatricula;
+use App\Models\Grupo;
+use App\Models\Inscripcion;
 use App\Models\Matricula;
 use App\Models\Promotor;
 use Illuminate\Support\Facades\Auth;
@@ -91,9 +93,10 @@ class MatriculaController extends Controller
     }
 
     //Editar una matricula
-    public function edit(Matricula $matricula)
+    public function edit($matricula_id)
     {
         Gate::authorize('admin-promotor');
+        $matricula = Matricula::edit($matricula_id);
         return view('matricula.edit', compact('matricula'));
     }
 
@@ -103,5 +106,13 @@ class MatriculaController extends Controller
         Gate::authorize('admin-promotor');
         User::updateUser(new Matricula(), $matricula_id, $request);
         return redirect()->route('matriculas.index')->with('info', config('app.update'));
+    }
+
+    //Eliminar matricula
+    public function destroy($matricula_id)
+    {
+        Gate::authorize('admin');
+        User::deleteUser(new Matricula(), $matricula_id);
+        return redirect()->route('matriculas.index')->with('deleted', config('app.deleted'));
     }
 }

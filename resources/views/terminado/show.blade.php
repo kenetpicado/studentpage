@@ -29,16 +29,14 @@
                             <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Carnet</th>
                                         <th>Nombre</th>
                                         <th>Notas</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($alumnos as $key => $alumno)
+                                    @foreach ($alumnos as $alumno)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $alumno->matricula->carnet }}</td>
                                             <td>{{ $alumno->matricula->nombre }}</td>
                                             <td><a href="{{ route('notas.certified', [$alumno->matricula->id, $grupo_id]) }}">Ver

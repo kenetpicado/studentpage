@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Inscripcion;
+use Carbon\Carbon;
 use GuzzleHttp\Psr7\Request;
 
 class GrupoController extends Controller
@@ -83,13 +84,14 @@ class GrupoController extends Controller
         //Sucursal del grupo = suscursal del docente
         $request->merge([
             'sucursal' => Docente::find($request->docente_id)->sucursal,
+            'anyo' => Carbon::now()->format('Y'),
         ]);
 
         Grupo::create($request->all());
         return redirect()->route('grupos.index')->with('info', config('app.add'));
     }
 
-    //Mostrar alumnos de un grupo
+    //Mostrar alumnos de un grupo terminado
     public function show($grupo_id)
     {
         Gate::authorize('admin-docente');

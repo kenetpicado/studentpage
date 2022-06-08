@@ -7,12 +7,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('inscripciones/{matricula}/{type}', [InscripcionController::class, 'create'])
     ->name('inscripciones.create');
 
-Route::post('inscripciones', [InscripcionController::class, 'store'])
-    ->name('inscripciones.store');
-
 //Cambiar de grupo
 Route::get('inscripciones/{matricula}/{grupo}/editar', [InscripcionController::class, 'edit'])
     ->name('inscripciones.edit');
 
-Route::put('inscripciones/{inscripcion}', [InscripcionController::class, 'update'])
-    ->name('inscripciones.update');
+Route::resource('inscripciones', InscripcionController::class)
+    ->parameters(['inscripciones' => 'inscripcion'])
+    ->only(['store', 'update', 'destroy']);

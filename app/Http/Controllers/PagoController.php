@@ -6,6 +6,7 @@ use App\Http\Requests\StorePagoRequest;
 use App\Models\Inscripcion;
 use App\Models\Pago;
 use Illuminate\Support\Facades\Gate;
+use Carbon\Carbon;
 
 class PagoController extends Controller
 {
@@ -37,6 +38,10 @@ class PagoController extends Controller
 
             $request->merge(['concepto' => $mes]);
         }
+
+        $request->merge([
+            'created_at' => Carbon::now()->format('Y-m-d')
+        ]);
 
         Pago::create($request->all());
         return back();

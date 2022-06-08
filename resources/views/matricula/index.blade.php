@@ -35,29 +35,28 @@
                             <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Carnet</th>
                                         <th>Nombre</th>
                                         <th>Promotor</th>
                                         <th>Fecha registro</th>
+                                        <th>Estado</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($matriculas as $matricula)
                                         <tr>
-                                            <td>{{ $matricula->id }}</td>
-                                            <td>
-                                                @if ($matricula->activo == '1')
-                                                    <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
-                                                @else
-                                                    <i class="fas fa-circle fa-xs"></i>
-                                                @endif
-                                                {{ $matricula->carnet }}
-                                            </td>
+                                            <td>{{ $matricula->carnet }}</td>
                                             <td>{{ $matricula->nombre }}</td>
                                             <td>{{ $matricula->promotor->carnet ?? '' }}</td>
                                             <td>{{ $matricula->created_at }}</td>
+                                            <td>
+                                                @if ($matricula->inscripciones_count > 0)
+                                                    Inscrito <i class="fas fa-check-circle" style="color:limegreen"></i>
+                                                @else
+                                                    Pendiente <i class="fas fa-exclamation-circle" style="color:tomato"></i>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
@@ -80,7 +79,7 @@
                                                         @endif
 
                                                         <a class="dropdown-item"
-                                                            href="{{ route('matriculas.edit', $matricula) }}">Editar</a>
+                                                            href="{{ route('matriculas.edit', $matricula->id) }}">Editar</a>
 
                                                     </div>
                                                 </div>

@@ -33,27 +33,26 @@
                             <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
+                                        <th>Estado</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($docentes as $docente)
                                         <tr>
-                                            <td>{{ $docente->id }}</td>
                                             <td>
-                                                @if ($docente->activo == '1')
-                                                    <i class="fas fa-circle fa-xs" style="color:limegreen"></i>
-                                                @else
-                                                    <i class="fas fa-circle fa-xs"></i>
-                                                @endif
                                                 {{ $docente->carnet }}
                                             </td>
                                             <td>{{ $docente->nombre }}</td>
                                             <td>{{ $docente->correo }}</td>
+                                            <td>
+                                                @if ($docente->activo == '1')
+                                                    Activo <i class="fas fa-check-circle" style="color:limegreen"></i>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"

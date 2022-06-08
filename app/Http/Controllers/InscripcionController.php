@@ -6,6 +6,7 @@ use App\Models\Matricula;
 use App\Models\Grupo;
 use App\Http\Requests\InscribirRequest;
 use App\Models\Inscripcion;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,7 +26,6 @@ class InscripcionController extends Controller
     {
         Gate::authorize('admin');
         Inscripcion::create($request->all());
-        Matricula::putActive($request->matricula_id);
 
         if ($request->from == 'global')
             return redirect()->route('matriculas.index')->with('info', 'Inscrito correctamente!');
@@ -48,5 +48,12 @@ class InscripcionController extends Controller
         Gate::authorize('admin');
         Inscripcion::find($inscripcion_id)->update($request->all());
         return redirect()->route('grupos.show', $request->oldview)->with('info', config('app.update'));
+    }
+
+    public function destroy(Request $request, Inscripcion $inscripcion)
+    {
+        Gate::authorize('admin');
+        $inscripcion->delete();
+        return redirect()->route('grupos.show', $request->grupo)->with('deleted', config('app.deleted'));
     }
 }

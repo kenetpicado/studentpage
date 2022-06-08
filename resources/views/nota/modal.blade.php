@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     @csrf
                     <div class="form-group">
-                        <label>Número de materia</label>
+                        <label>Número de materia (Unidad)</label>
                         <input type="number" class="form-control @error('num') is-invalid @enderror" name="num"
                             autocomplete="off" value="{{ old('num') }}">
 

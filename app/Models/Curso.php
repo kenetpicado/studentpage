@@ -25,9 +25,10 @@ class Curso extends Model
 
     public static function getCursos()
     {
-        return Curso::all();
+        return Curso::orderBy('id', 'desc')
+            ->get();;
     }
-    
+
     public static function getCursosActivos()
     {
         return Curso::where('activo', '1')->get(['id', 'nombre']);

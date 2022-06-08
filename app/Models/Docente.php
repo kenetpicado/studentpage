@@ -30,12 +30,14 @@ class Docente extends Model
 
     public static function getDocentes()
     {
-        return Docente::all();
+        return Docente::orderBy('id', 'desc')->get();
     }
 
     public static function getDocentesSucursal($sucursal)
     {
-        return Docente::where('sucursal', $sucursal)->get();
+        return Docente::where('sucursal', $sucursal)
+            ->orderBy('id', 'desc')
+            ->get();
     }
 
     public static function getDocentesActivos()
