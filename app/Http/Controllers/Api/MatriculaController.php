@@ -34,7 +34,11 @@ class MatriculaController extends Controller
             $matricula = Matricula::where('promotor_id', $promotor)
                 ->get(['id', 'nombre', 'carnet']);
 
-            return response()->json($matricula, 200);
+            return response()->json([
+                'status' => '1',
+                'message' => 'success',
+                'matriculas' => $matricula
+            ], 200);
         }
     }
 
@@ -100,7 +104,7 @@ class MatriculaController extends Controller
 
         return response()->json([
             'status' => '1',
-            'message' => 'Saved',
+            'message' => 'success',
         ], 200);
     }
 
@@ -149,8 +153,8 @@ class MatriculaController extends Controller
     public function destroy(Matricula $matricula)
     {
         if ($matricula->delete()) {
-            return response()->json(['message' => 'Matricula eliminada correctamente'], 204);
+            return response()->json(['message' => 'Matricula eliminada correctamente'], 200);
         }
-        return response()->json(['message' => 'Error al eliminar la matricula'], 404);
+        return response()->json(['message' => 'Error al eliminar la matricula'], 500);
     }
 }
