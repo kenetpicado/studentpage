@@ -117,7 +117,11 @@ class MatriculaController extends Controller
     public function show(Matricula $matricula)
     {
         //
-        return response()->json($matricula, 200);
+        return response()->json([
+            'status' => '1',
+            'message' => 'success',
+            'matricula' => $matricula
+        ], 200);
     }
 
     /**

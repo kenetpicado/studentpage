@@ -37,7 +37,7 @@
                                     <tr>
                                         <th>Carnet</th>
                                         <th>Nombre</th>
-                                        <th>Promotor</th>
+                                        <th>Registro por</th>
                                         <th>Fecha registro</th>
                                         <th>Estado</th>
                                         <th></th>
@@ -73,7 +73,7 @@
                                                                 a curso</a>
 
                                                             <a class="dropdown-item"
-                                                                href="{{ route('matriculas.show', $matricula) }}"
+                                                                href="{{ route('matriculas.show', $matricula->id) }}"
                                                                 target="_blank">Ver
                                                                 detalles</a>
                                                         @endif

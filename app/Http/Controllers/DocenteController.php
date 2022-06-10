@@ -44,7 +44,7 @@ class DocenteController extends Controller
         }
 
         //Generar credenciales
-        $id = Generate::id($request->sucursal . '-', 4);
+        $id = Generate::id($request->sucursal, 4);
         $pin = Generate::pin();
 
         //Agregar credenciales en claro

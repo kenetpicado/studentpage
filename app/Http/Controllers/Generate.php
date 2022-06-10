@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Mail\Restablecimiento;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -35,17 +36,13 @@ class Generate extends Controller
     //Funcion para generar un ID segun sucursal
     public static function id($location, $cant)
     {
-        return $location . Generate::specific_number($cant);
+        return $location . '-' . Generate::specific_number($cant);
     }
 
     public static function idEstudiante($location, $fecha)
     {
-        //1998-05-26
-        //260598
-        $dia = $fecha[8] . $fecha[9];
-        $mes = $fecha[5] . $fecha[6];
-        $anyo = $fecha[2] . $fecha[3];
-        return $location . "-" . $dia . $mes . $anyo . "-" . Generate::specific_number(3);
+        $date = Carbon::create($fecha)->format('dmy');
+        return $location . "-" . $date . "-" . Generate::specific_number(3);
     }
 
     //Funcion para devolver una secuencia de numeros

@@ -34,7 +34,7 @@ class PromotorController extends Controller
         Gate::authorize('admin');
 
         //Generar credenciales
-        $id = Generate::id('PM-', 4);
+        $id = Generate::id('PM', 4);
         $pin = Generate::pin();
 
         //Agregar credenciales en claro
