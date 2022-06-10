@@ -41,7 +41,7 @@ class Matricula extends Model
     public static function obtain($q)
     {
         return $q->with(['promotor:id,carnet'])
-            ->withCount('inscripciones')
+            ->with('inscripciones')
             ->orderBy('id', 'desc')
             ->get(['id', 'nombre', 'carnet', 'created_at', 'promotor_id']);
     }
@@ -61,7 +61,7 @@ class Matricula extends Model
     public static function toPromotorShow($promotor_id)
     {
         return Matricula::where('promotor_id', $promotor_id)
-            ->withCount('inscripciones')
+            ->with('inscripciones')
             ->orderBy('id', 'desc')
             ->get(['id', 'nombre', 'carnet', 'created_at', 'promotor_id']);
     }

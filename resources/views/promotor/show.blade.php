@@ -42,27 +42,16 @@
                                             <td>{{ $matricula->nombre }}</td>
                                             <td>{{ $matricula->created_at }}</td>
                                             <td>
-                                                @if ($matricula->inscripciones_count > 0)
+                                                @if (count($matricula->inscripciones) > 0)
                                                     Inscrito <i class="fas fa-check-circle" style="color:limegreen"></i>
                                                 @else
                                                     Pendiente <i class="fas fa-exclamation-circle" style="color:tomato"></i>
                                                 @endif
                                             </td>
                                             <td>
-                                                <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
-                                                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="fas fa-cog"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                        aria-labelledby="dropdownMenuLink">
-
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('inscripciones.create', [$matricula->id, $matricula->promotor_id]) }}">Inscribir
-                                                            a curso</a>
-                                                    </div>
-                                                </div>
+                                                <a class="btn btn-primary btn-sm"
+                                                    href="{{ route('inscripciones.create', [$matricula->id, $matricula->promotor_id]) }}">Inscribir
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

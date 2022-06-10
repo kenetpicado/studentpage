@@ -51,7 +51,7 @@
                                             <td>{{ $matricula->promotor->carnet ?? '' }}</td>
                                             <td>{{ $matricula->created_at }}</td>
                                             <td>
-                                                @if ($matricula->inscripciones_count > 0)
+                                                @if (count($matricula->inscripciones) > 0)
                                                     Inscrito <i class="fas fa-check-circle" style="color:limegreen"></i>
                                                 @else
                                                     Pendiente <i class="fas fa-exclamation-circle" style="color:tomato"></i>
@@ -70,12 +70,11 @@
                                                         @if (auth()->user()->rol == 'admin')
                                                             <a class="dropdown-item"
                                                                 href="{{ route('inscripciones.create', [$matricula->id, 'global']) }}">Inscribir
-                                                                a curso</a>
+                                                            </a>
 
                                                             <a class="dropdown-item"
                                                                 href="{{ route('matriculas.show', $matricula->id) }}"
-                                                                target="_blank">Ver
-                                                                detalles</a>
+                                                                target="_blank">Detalles</a>
                                                         @endif
 
                                                         <a class="dropdown-item"
