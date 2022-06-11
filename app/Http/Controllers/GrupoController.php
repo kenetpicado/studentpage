@@ -91,7 +91,7 @@ class GrupoController extends Controller
         return redirect()->route('grupos.index')->with('info', config('app.add'));
     }
 
-    //Mostrar alumnos de un grupo terminado
+    //Mostrar alumnos de un grupo
     public function show($grupo_id)
     {
         Gate::authorize('admin-docente');

@@ -37,7 +37,7 @@
                                         <option selected disabled value="">Seleccionar</option>
                                         @foreach ($grupos as $grupo)
                                             <option value="{{ $grupo->id }}"
-                                                {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
+                                                {{ old('grupo_id') == $grupo->id || $grupo->id == $inscripcion->grupo->id ? 'selected' : '' }}>
                                                 {{ $grupo->curso->nombre }} /
                                                 {{ $grupo->horario }} /
                                                 {{ $grupo->docente->nombre }}

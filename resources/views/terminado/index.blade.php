@@ -48,7 +48,7 @@
                                             <td>{{ $grupo->anyo }}</td>
                                             <td>
                                                 <a href="{{ route('grupos.thisClosed', $grupo->id) }}">
-                                                    Ver ({{ $grupo->inscripciones_count }})
+                                                    Ver ({{ count($grupo->inscripciones) }})
                                                 </a>
                                             </td>
                                             <td>

@@ -37,6 +37,7 @@ class User extends Authenticatable
         $user->delete();
     }
 
+    //Actualizar usuario
     public static function updateUser($model, $id, $request)
     {
         $user = $model->find($id);
@@ -47,6 +48,7 @@ class User extends Authenticatable
             ->update(['name' => $user->nombre]);
     }
 
+    //Crear un nuevo usuario
     public static function createUser($name, $email, $pin, $rol, $sucursal = 'all')
     {
         User::create([

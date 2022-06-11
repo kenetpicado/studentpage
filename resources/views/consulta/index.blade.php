@@ -13,7 +13,6 @@
 
         <p>Nombre: <strong>{{ $matricula->nombre }}</strong></p>
         <p>Carnet: <strong>{{ $matricula->carnet }}</strong></p>
-        <p>Fecha de nacimiento: <strong>{{ $matricula->fecha_nac }}</strong></p>
         <hr>
 
         <!-- Page Heading -->

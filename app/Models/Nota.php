@@ -13,13 +13,13 @@ class Nota extends Model
     protected $fillable = ['num', 'materia', 'valor', 'inscripcion_id', 'created_at'];
     public $timestamps = false;
 
+    //Cargar Notas de 1 Inscripcion
     public static function loadThis($inscripcion_id)
     {
-        return Nota::where('inscripcion_id', $inscripcion_id)
-            ->orderBy('num')
-            ->get(['id', 'num', 'materia', 'valor']);
+        return Nota::where('inscripcion_id', $inscripcion_id)->orderBy('num')->get();
     }
 
+    // RELACIONES
     public function inscripcion()
     {
         return $this->belongsTo(Inscripcion::class);

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Matricula;
+use Illuminate\Support\Facades\DB;
 
 class Promotor extends Model
 {
@@ -12,22 +13,6 @@ class Promotor extends Model
 
     protected $fillable = ['carnet', 'nombre', 'correo'];
     public $timestamps = false;
-
-    public static function loadThis($promotor_id)
-    {
-        return Promotor::find($promotor_id, ['id', 'nombre']);
-    }
-
-    //Obtener todos los promotores
-    public static function getPromotores()
-    {
-        return Promotor::orderBy('id', 'desc')->get();
-    }
-
-    public static function getPromotor($promotor_id)
-    {
-        return Promotor::withCount('matriculas')->find($promotor_id);
-    }
 
     public function setNombreAttribute($value)
     {
@@ -39,8 +24,21 @@ class Promotor extends Model
         $this->attributes['correo'] = trim(strtolower($value));
     }
 
+    //Releacion 1:n a Matriculas
     public function matriculas()
     {
         return $this->hasMany(Matricula::class);
+    }
+
+    //Obtener todos los Promotores
+    public static function getPromotores()
+    {
+        return Promotor::orderBy('nombre', 'asc')->get();
+    }
+
+    //Obtener 1 Promotor
+    public static function loadThis($promotor_id)
+    {
+        return Promotor::find($promotor_id);
     }
 }

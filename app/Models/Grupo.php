@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Curso;
 use App\Models\Docente;
 use App\Models\Inscripcion;
+use Carbon\Carbon;
 
 class Grupo extends Model
 {
@@ -17,62 +18,144 @@ class Grupo extends Model
 
     public static function getToReport($grupo_id)
     {
-        return Grupo::where('id', $grupo_id)
-            ->with(['curso:id,nombre', 'docente:id,nombre'])
-            ->first(['id', 'horario', 'sucursal', 'docente_id', 'curso_id']);
+        return Grupo::where('id', $grupo_id)->withData()->first();
     }
 
+    //Cargar 1 Grupo para editar
     public static function loadThis($grupo_id)
     {
-        return Grupo::with('docente:id,nombre')
-            ->withCount('inscripciones')
-            ->find($grupo_id);
+        return Grupo::withDocente()->withInsc()->find($grupo_id);
     }
 
-    public function obtain($q, $status)
+    //Grupos para Inscripcion - create
+    public static function getForInsc($s)
     {
-        return $q->where('activo', $status)
-            ->with(['curso:id,nombre', 'docente:id,nombre'])
-            ->withCount('inscripciones')
-            ->orderBy('id', 'desc')
-            ->get(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
+        return Grupo::sucursal($s)
+            ->status('1')
+            ->thisYear()
+            ->withData()
+            ->orderDesc()
+            ->attrInsc()
+            ->get();
     }
 
-    public static function getGruposSucursal($sucursal, $status)
+    //Grupos para Inscripcion - edit
+    public static function getEditInsc($s, $id)
     {
-        return Grupo::obtain(Grupo::where('sucursal', $sucursal), $status);
+        return Grupo::sucursal($s)
+            ->status('1')
+            ->typeCurso($id)
+            ->withData()
+            ->orderDesc()
+            ->attrInsc()
+            ->get();
     }
 
-    public static function getGruposCurrents($sucursal)
+    //Grupos de 1 Sucursal
+    public static function getGruposSucursal($suc, $s)
     {
-        return Grupo::where('sucursal', $sucursal)
-            ->where('activo', '1')
-            ->where('anyo', date('Y'))
-            ->with(['docente:id,nombre', 'curso:id,nombre'])
-            ->get(['id', 'horario', 'curso_id', 'docente_id']);
+        return Grupo::sucursal($suc)
+            ->status($s)
+            ->withData()
+            ->withInsc()
+            ->orderDesc()
+            ->attributes()
+            ->get();
     }
 
-    public static function getGruposDocente($docente_id, $status)
+    //Grupos de 1 Docente
+    public static function getGruposDocente($id, $s)
     {
-        return Grupo::obtain(Grupo::where('docente_id', $docente_id), $status);
+        return Grupo::docenteId($id)
+            ->status($s)
+            ->withData()
+            ->withInsc()
+            ->orderDesc()
+            ->attributes()
+            ->get();
     }
 
-    public static function getGrupos($status)
+    //Obtener Grupos
+    public static function getGrupos($s)
     {
-        return Grupo::obtain(new Grupo(), $status);
+        return Grupo::status($s)
+            ->withData()
+            ->withInsc()
+            ->orderDesc()
+            ->attributes()
+            ->get();
     }
 
-    //Relations
+    /* SCOPES */
+    public function scopeStatus($q, $s)
+    {
+        return $q->where('activo', $s);
+    }
+
+    public function scopeThisYear($q)
+    {
+        return $q->where('anyo', Carbon::now()->format('Y'));
+    }
+
+    public function scopeDocenteId($q, $id)
+    {
+        return $q->where('docente_id', $id);
+    }
+
+    public function scopeSucursal($q, $s)
+    {
+        return $q->where('sucursal', $s);
+    }
+
+    public function scopeTypeCurso($q, $c)
+    {
+        return $q->where('curso_id', $c);
+    }
+
+    public function scopeWithData($q)
+    {
+        return $q->with('curso:id,nombre')->with('docente:id,nombre');
+    }
+
+    public function scopeWithDocente($q)
+    {
+        return $q->with('docente:id,nombre');
+    }
+
+    public function scopeWithInsc($q)
+    {
+        return $q->with('inscripciones');
+    }
+
+    public function scopeAttributes($q)
+    {
+        return $q->select(['id', 'horario', 'sucursal', 'anyo', 'curso_id', 'docente_id']);
+    }
+
+    public function scopeAttrInsc($q)
+    {
+        return $q->select(['id', 'horario', 'curso_id', 'docente_id']);
+    }
+
+    public function scopeOrderDesc($q)
+    {
+        return $q->orderBy('id', 'desc');
+    }
+    /* SCOPES */
+
+    //Relacion n:1 a Curso
     public function curso()
     {
         return $this->belongsTo(Curso::class);
     }
 
+    //Relacion n:1 a Docente
     public function docente()
     {
         return $this->belongsTo(Docente::class);
     }
 
+    //Relacion 1:n a Inscripciones
     public function inscripciones()
     {
         return $this->hasMany(Inscripcion::class);

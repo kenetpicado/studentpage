@@ -32,7 +32,7 @@
                                 <a class="dropdown-item" href="#" data-toggle="modal"
                                         data-target="#cerrar">Cerrar grupo</a>
 
-                                @if ($grupo->grupo_matricula_count == 0)
+                                @if (count($grupo->inscripciones) == 0)
                                     <a class="dropdown-item" href="#" data-toggle="modal"
                                         data-target="#eliminar">Eliminar</a>
                                 @endif
@@ -41,6 +41,7 @@
                     </div>
 
                     <div class="card-body">
+                        
                         <div class="row">
                             <div class="form-group col-lg-6">
                                 <label for="docente_id">Seleccionar docente</label>
@@ -48,7 +49,7 @@
                                     <option selected disabled value="">Seleccionar</option>
                                     @foreach ($docentes as $docente)
                                         <option value="{{ $docente->id }}"
-                                            {{ old('docente_id') == $docente->id || $docente->id == $grupo->docente->id ? 'selected' : '' }}>
+                                            {{ old('docente_id') == $docente->id || $grupo->docente_id == $docente->id ? 'selected' : '' }}>
                                             {{ $docente->nombre }}</option>
                                     @endforeach
                                 </select>

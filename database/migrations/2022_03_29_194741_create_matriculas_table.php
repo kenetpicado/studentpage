@@ -24,12 +24,13 @@ class CreateMatriculasTable extends Migration
             $table->string('carnet', 15)->unique();
             $table->string('pin', 6);
             $table->string('sucursal', 5);
-            $table->year('anyo')->default(date('Y'));
+            $table->integer('reg')->default(0);
 
             $table->unsignedBigInteger('promotor_id')->nullable();
             $table->foreign('promotor_id')
                 ->references('id')
-                ->on('promotors');
+                ->on('promotors')
+                ->onDelete('set null');
 
             $table->date('created_at')->default(date('Y-m-d'));
         });

@@ -25,8 +25,7 @@ class MatriculaFactory extends Factory
             'carnet' => $this->faker->unique()->bothify('0004-######-###'),
             'pin' => $this->faker->bothify('#?#?#?'),
             'sucursal' => $this->faker->randomElement(['CH', 'MG']),
-            'anyo' => '2022',
-            'promotor_id' => Promotor::all()->random()->id,
+            'promotor_id' => $this->faker->boolean() ? '1' : Promotor::all()->random()->id,
             'created_at' => $this->faker->date('Y-m-d'),
         ];
     }

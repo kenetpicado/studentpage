@@ -42,7 +42,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($inscripcion->pagos as $pago)
+                                    @foreach ($pagos as $pago)
                                         <tr>
                                             <td>{{ $pago->created_at }}</td>
                                             <td>{{ $pago->recibo }}</td>

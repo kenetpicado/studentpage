@@ -20,7 +20,7 @@ class ConsultaController extends Controller
     {
         Gate::authorize('alumno');
         $matricula = Matricula::getCurrent();
-        $inscripcion = Inscripcion::getThisMatricula($matricula->id);
+        $inscripcion = Inscripcion::getByMatricula($matricula->id);
         return view('consulta.index', compact('matricula', 'inscripcion'));
     }
 

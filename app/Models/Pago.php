@@ -12,18 +12,25 @@ class Pago extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    public static function lastMonth($inscripcion_id)
+    //Obtener ultimo mes pagado
+    public static function lastMonth($id)
     {
-        return Pago::where('inscripcion_id', $inscripcion_id)
+        return Pago::inscripcion($id)
             ->where('tipo', '1')
             ->get('concepto')
             ->last();
     }
 
-    public static function loadThis($inscripcion_id)
+    //Cargar Pagos de 1 Inscripcion
+    public static function loadThis($id)
     {
-        return Pago::where('inscripcion_id', $inscripcion_id)
-            ->get(['id', 'concepto', 'monto', 'created_at']);
+        return Pago::inscripcion($id)->get();
+    }
+
+    /* SCOPES */
+    public function scopeInscripcion($q, $id)
+    {
+        return $q->where('inscripcion_id', $id);
     }
 
     public function setConceptoAttribute($value)

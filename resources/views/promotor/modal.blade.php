@@ -60,8 +60,11 @@
                 @method('DELETE')
                 <div class="modal-body">
                     <p>
-                        ¿Está seguro que desea eliminar este registro? 
+                        ¿Está seguro que desea eliminar este registro?
                         Esta acción no se puede deshacer.
+                    </p>
+                    <p>
+                        Nota: Se conserva todas las matrículas que haya realizado este Promotor.
                     </p>
                 </div>
                 <div class="modal-footer">
@@ -86,13 +89,13 @@
             </div>
             <form action="{{ route('cambiar.pin') }}" method="POST">
                 @csrf
-                <input type="hidden" name="carnet" value="{{$promotor->carnet ?? ''}}">
-                <input type="hidden" name="correo" value="{{$promotor->correo ?? ''}}">
+                <input type="hidden" name="carnet" value="{{ $promotor->carnet ?? '' }}">
+                <input type="hidden" name="correo" value="{{ $promotor->correo ?? '' }}">
                 <input type="hidden" name="tipo" value="promotores">
                 <div class="modal-body">
                     <p>
-                        Esta acción enviará al correo del promotor el nuevo PIN generado, 
-                        solo debería usarse en caso que el usuario haya perdido sus credenciales
+                        Esta acción enviará un correo al Promotor con el nuevo PIN generado.
+                        Esto solo debería usarse en caso que el usuario haya perdido sus credenciales
                         y solicite un restablecimiento.
                     </p>
                 </div>

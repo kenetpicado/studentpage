@@ -21,7 +21,7 @@ class NotaController extends Controller
     public function create($matricula_id, $grupo_id)
     {
         Gate::authorize('admin-docente');
-        $inscripcion = Inscripcion::loadThis($grupo_id, $matricula_id);
+        $inscripcion = Inscripcion::loadThis($matricula_id, $grupo_id);
         $notas = Nota::loadThis($inscripcion->id);
         return view('nota.index', compact('inscripcion', 'notas', 'grupo_id'));
     }
@@ -69,7 +69,7 @@ class NotaController extends Controller
     public function showCertified($matricula_id, $grupo_id)
     {
         Gate::authorize('admin');
-        $inscripcion = Inscripcion::loadThis($grupo_id, $matricula_id);
+        $inscripcion = Inscripcion::loadThis($matricula_id, $grupo_id);
         $notas = Nota::loadThis($inscripcion->id);
         return view('nota.certified', compact('notas', 'grupo_id'));
     }

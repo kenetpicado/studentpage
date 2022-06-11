@@ -57,11 +57,11 @@
                                             <td>{{ $grupo->curso->nombre }} </td>
                                             <td>{{ $grupo->docente->nombre }}</td>
                                             <td>{{ $grupo->horario }}</td>
-                                            <td>{{ $grupo->anyo }}</td>
+                                            <td>{{ $grupo->anyo }} {{ $grupo->sucursal }}</td>
                                             <td>
                                                 <a href="{{ route('grupos.show', $grupo->id) }}"
                                                     class="btn btn-sm btn-outline-primary btn-lg btn-block">
-                                                    Ver {{ $grupo->inscripciones_count }}
+                                                    Ver {{ count($grupo->inscripciones) }}
                                                 </a>
                                             </td>
 

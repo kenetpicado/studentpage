@@ -106,8 +106,8 @@
                 <input type="hidden" name="tipo" value="docentes">
                 <div class="modal-body">
                     <p>
-                        Esta acción enviará al correo del docente el nuevo PIN generado, 
-                        solo debería usarse en caso que el usuario haya perdido sus credenciales
+                        Esta acción enviará un correo al Docente con el nuevo PIN generado.
+                        Esto solo debería usarse en caso que el usuario haya perdido sus credenciales
                         y solicite un restablecimiento.
                     </p>
                 </div>

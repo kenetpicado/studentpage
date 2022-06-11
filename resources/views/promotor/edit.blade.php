@@ -30,10 +30,7 @@
                                 aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" href="#" data-toggle="modal"
                                     data-target="#restablecer">Restablecer PIN</a>
-                                @if ($promotor->matriculas_count == 0)
-                                    <a class="dropdown-item" href="#" data-toggle="modal"
-                                        data-target="#eliminar">Eliminar</a>
-                                @endif
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#eliminar">Eliminar</a>
                             </div>
                         </div>
                     </div>
@@ -46,7 +43,8 @@
                                 <div class="form-group col-lg-6">
                                     <label for="nombre">Nombre</label>
                                     <input type="text" class="form-control @error('nombre') is-invalid @enderror"
-                                        name="nombre" autocomplete="off" value="{{ old('nombre', $promotor->nombre) }}" autofocus>
+                                        name="nombre" autocomplete="off" value="{{ old('nombre', $promotor->nombre) }}"
+                                        autofocus>
 
                                     @error('nombre')
                                         <span class="invalid-feedback" role="alert">

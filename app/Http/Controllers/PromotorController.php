@@ -64,7 +64,7 @@ class PromotorController extends Controller
     public function edit($promotor_id)
     {
         Gate::authorize('admin');
-        $promotor = Promotor::getPromotor($promotor_id);
+        $promotor = Promotor::loadThis($promotor_id);
         return view('promotor.edit', compact('promotor'));
     }
 

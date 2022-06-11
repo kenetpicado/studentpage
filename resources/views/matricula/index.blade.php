@@ -48,7 +48,7 @@
                                         <tr>
                                             <td>{{ $matricula->carnet }}</td>
                                             <td>{{ $matricula->nombre }}</td>
-                                            <td>{{ $matricula->promotor->carnet ?? '' }}</td>
+                                            <td>{{ $matricula->promotor->carnet ?? ''}}</td>
                                             <td>{{ $matricula->created_at }}</td>
                                             <td>
                                                 @if (count($matricula->inscripciones) > 0)

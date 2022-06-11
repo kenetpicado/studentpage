@@ -19,8 +19,9 @@ class PagoController extends Controller
     public function create($matricula_id, $grupo_id)
     {
         Gate::authorize('admin');
-        $inscripcion = Inscripcion::loadThisWith($grupo_id, $matricula_id, 'pagos');
-        return view('pago.index', compact('inscripcion', 'grupo_id'));
+        $inscripcion = Inscripcion::loadThis($matricula_id, $grupo_id);
+        $pagos = Pago::loadThis($inscripcion->id);
+        return view('pago.index', compact('inscripcion', 'pagos', 'grupo_id'));
     }
 
     //Guardar pago

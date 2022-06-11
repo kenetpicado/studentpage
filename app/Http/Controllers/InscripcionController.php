@@ -17,7 +17,7 @@ class InscripcionController extends Controller
     {
         Gate::authorize('admin');
         $matricula = Matricula::find($matricula_id, ['id', 'nombre', 'sucursal']);
-        $grupos = Grupo::getGruposCurrents($matricula->sucursal);
+        $grupos = Grupo::getForInsc($matricula->sucursal);
         return view('inscripcion.create', compact('matricula', 'grupos', 'type'));
     }
 
@@ -37,8 +37,8 @@ class InscripcionController extends Controller
     public function edit($matricula_id, $grupo_id)
     {
         Gate::authorize('admin');
-        $inscripcion = Inscripcion::loadThisWith($grupo_id, $matricula_id, 'grupo:id,sucursal');
-        $grupos = Grupo::getGruposCurrents($inscripcion->grupo->sucursal);
+        $inscripcion = Inscripcion::loadWithGrupo($matricula_id, $grupo_id);
+        $grupos = Grupo::getEditInsc($inscripcion->grupo->sucursal, $inscripcion->grupo->curso_id);
         return view('inscripcion.edit', compact('inscripcion', 'grupos'));
     }
 

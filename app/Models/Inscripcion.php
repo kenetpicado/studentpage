@@ -21,19 +21,14 @@ class Inscripcion extends Model
     public static function getToReport($grupo_id)
     {
         return Inscripcion::where('grupo_id', $grupo_id)
-            ->with([
-                'notas' => function ($query) {
-                    $query->select('id', 'num', 'materia', 'valor', 'inscripcion_id')->orderBy('num');
-                }
-            ])
-            ->with('matricula:id,nombre,carnet')
+            ->with(['notas', 'matricula:id,nombre,carnet'])
             ->get();
     }
 
-    public static function getThisMatricula($matricula_id)
+    public static function getByMatricula($matricula_id)
     {
         return Inscripcion::where('matricula_id', $matricula_id)
-            ->with('grupo.curso:id,nombre', 'grupo.docente:id,nombre')
+            ->with(['grupo:id,curso_id,docente_id', 'grupo.curso:id,nombre', 'grupo.docente:id,nombre'])
             ->get();
     }
 
@@ -44,21 +39,27 @@ class Inscripcion extends Model
             ->get();
     }
 
-    public static function loadThisWith($grupo_id, $matricula_id, $with)
+    //Cargar 1 Grupo With
+    public static function loadWithGrupo($m, $g)
     {
-        return Inscripcion::where('grupo_id', $grupo_id)
-            ->where('matricula_id', $matricula_id)
-            ->with($with)
+        return Inscripcion::getThis($m, $g)
+            ->with('grupo:id,sucursal,curso_id')
             ->first();
     }
 
-    public static function loadThis($grupo_id, $matricula_id)
+    //Cargar 1 Grupo para notas y pagos
+    public static function loadThis($m, $g)
     {
-        return Inscripcion::where('grupo_id', $grupo_id)
-            ->where('matricula_id', $matricula_id)
-            ->first();
+        return Inscripcion::getThis($m, $g)->first();
     }
 
+    /* SCOPES */
+    public function scopeGetThis($q, $m, $g)
+    {
+        return $q->where('matricula_id', $m)->where('grupo_id', $g);
+    }
+
+    // RELACIONES
     public function grupo()
     {
         return $this->belongsTo(Grupo::class);
@@ -71,7 +72,7 @@ class Inscripcion extends Model
 
     public function notas()
     {
-        return $this->hasMany(Nota::class);
+        return $this->hasMany(Nota::class)->orderBy('num');
     }
 
     public function pagos()

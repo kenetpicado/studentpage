@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Promotor;
 use App\Models\Inscripcion;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class Matricula extends Model
 {
@@ -16,60 +15,88 @@ class Matricula extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    //Relacion 1:1 inversa a promotor
-    public function promotor()
-    {
-        return $this->belongsTo(Promotor::class);
-    }
-
-    public function inscripciones()
-    {
-        return $this->hasMany(Inscripcion::class);
-    }
-
+    //Cargar 1 matricula para editar
     public static function edit($matricula_id)
     {
-        return Matricula::find($matricula_id, ['id', 'nombre', 'cedula', 'fecha_nac', 'grado', 'tutor', 'tel']);
+        return Matricula::withInscripcion()
+            ->find($matricula_id, ['id', 'nombre', 'cedula', 'fecha_nac', 'grado', 'tutor', 'tel']);
     }
 
+    //Matricula del Alumno logged
     public static function getCurrent()
     {
-        return Matricula::where('carnet', Auth::user()->email)
-            ->first(['id', 'nombre', 'carnet', 'fecha_nac']);
+        return Matricula::byCarnet()->first(['id', 'nombre', 'carnet']);
     }
 
-    public static function obtain($q)
-    {
-        return $q->with(['promotor:id,carnet'])
-            ->with('inscripciones')
-            ->orderBy('id', 'desc')
-            ->get(['id', 'nombre', 'carnet', 'created_at', 'promotor_id']);
-    }
-
+    //Todas las Matriculas de sucursal
     public static function getMatriculasSucursal($sucursal)
     {
-        return Matricula::obtain(Matricula::where('sucursal', $sucursal));
+        return Matricula::sucursal($sucursal)
+            ->withPromotor()
+            ->withInscripcion()
+            ->attributes()
+            ->get();
     }
 
     //Desde Matricula Index
     public static function getMatriculasPromotor($promotor_id)
     {
-        return Matricula::obtain(Matricula::where('promotor_id', $promotor_id)->where('anyo', date('Y')));
+        return Matricula::promotorId($promotor_id)
+            ->withPromotor()
+            ->withInscripcion()
+            ->attributes()
+            ->get();
     }
 
-    //Desde promotor Show
-    public static function toPromotorShow($promotor_id)
-    {
-        return Matricula::where('promotor_id', $promotor_id)
-            ->with('inscripciones')
-            ->orderBy('id', 'desc')
-            ->get(['id', 'nombre', 'carnet', 'created_at', 'promotor_id']);
-    }
-
+    //Obtener todas las Matriculas
     public static function getMatriculas()
     {
-        return Matricula::obtain(new Matricula());
+        return Matricula::withPromotor()
+            ->withInscripcion()
+            ->attributes()
+            ->get();
     }
+
+    //Desde Promotor Show
+    public static function toPromotorShow($promotor_id)
+    {
+        return Matricula::promotorId($promotor_id)
+            ->withInscripcion()
+            ->attributes()
+            ->get();
+    }
+
+    /* SCOPES */
+    public function scopePromotorId($q, $p)
+    {
+        return $q->where('promotor_id', $p);
+    }
+
+    public function scopeSucursal($q, $s)
+    {
+        return $q->where('sucursal', $s);
+    }
+
+    public function scopeWithPromotor($q)
+    {
+        return $q->with('promotor:id,carnet');
+    }
+
+    public function scopeWithInscripcion($q)
+    {
+        return $q->with('inscripciones');
+    }
+
+    public function scopeAttributes($q)
+    {
+        return $q->select(['id', 'nombre', 'carnet', 'created_at', 'promotor_id']);
+    }
+
+    public function scopeByCarnet($q)
+    {
+        return $q->where('carnet', Auth::user()->email);
+    }
+    /* SCOPES */
 
     //FUNCION PARA CADENA EN MAYUSCULA
     public function setNombreAttribute($value)
@@ -100,5 +127,17 @@ class Matricula extends Model
     public function setPinAttribute($value)
     {
         $this->attributes['pin'] = trim(strtoupper($value));
+    }
+
+    //Relacion 1:1 inversa a promotor
+    public function promotor()
+    {
+        return $this->belongsTo(Promotor::class);
+    }
+
+    //Relacion 1:n inversa a promotor
+    public function inscripciones()
+    {
+        return $this->hasMany(Inscripcion::class);
     }
 }
