@@ -19,7 +19,7 @@
             <form class="col-xl-12 col-lg-7">
 
                 <!-- Datos -->
-                <div class="card shadow mb-4">
+                <div class="card mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Matriculas</h6>
                         <div class="dropdown no-arrow">

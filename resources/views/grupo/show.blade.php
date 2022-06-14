@@ -18,7 +18,7 @@
             <div class="col-xl-12 col-lg-7">
 
                 <!-- Datos -->
-                <div class="card shadow mb-4">
+                <div class="card mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Alumnos</h6>
 
@@ -58,16 +58,16 @@
                                             <td>{{ $alumno->matricula->nombre }}</td>
                                             <td>
                                                 <a href="{{ route('notas.create', [$alumno->matricula->id, $grupo_id]) }}"
-                                                    class="btn btn-sm btn-outline-primary">Notas</a>
+                                                    class="btn btn-sm btn-primary">Notas</a>
                                             </td>
                                             @if (auth()->user()->rol == 'admin')
                                                 <td>
                                                     <a href="{{ route('pagos.create', [$alumno->matricula->id, $grupo_id]) }}"
-                                                        class="btn btn-sm btn-outline-success">Pagos</a>
+                                                        class="btn btn-sm btn-secondary">Pagos</a>
                                                 </td>
                                                 <td>
                                                     <a href="{{ route('inscripciones.edit', [$alumno->matricula->id, $grupo_id]) }}"
-                                                        class="btn btn-sm btn-primary">Editar</a>
+                                                        class="btn btn-sm btn-outline-primary">Editar</a>
                                                 </td>
                                             @endif
                                         </tr>

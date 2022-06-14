@@ -17,7 +17,7 @@
             <div class="col-xl-12 col-lg-7">
 
                 <!-- Datos -->
-                <div class="card shadow mb-4">
+                <div class="card mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Grupos</h6>
 
@@ -57,10 +57,10 @@
                                             <td>{{ $grupo->curso->nombre }} </td>
                                             <td>{{ $grupo->docente->nombre }}</td>
                                             <td>{{ $grupo->horario }}</td>
-                                            <td>{{ $grupo->anyo }} {{ $grupo->sucursal }}</td>
+                                            <td>{{ $grupo->anyo }}</td>
                                             <td>
                                                 <a href="{{ route('grupos.show', $grupo->id) }}"
-                                                    class="btn btn-sm btn-outline-primary btn-lg btn-block">
+                                                    class="btn btn-sm btn-primary btn-lg btn-block">
                                                     Ver {{ count($grupo->inscripciones) }}
                                                 </a>
                                             </td>
@@ -68,7 +68,7 @@
                                             @if (auth()->user()->rol == 'admin')
                                                 <td>
                                                     <a href="{{ route('grupos.edit', $grupo->id) }}"
-                                                        class="btn btn-sm btn-primary">Editar</a>
+                                                        class="btn btn-sm btn-outline-primary">Editar</a>
                                                 </td>
                                             @endif
                                         </tr>

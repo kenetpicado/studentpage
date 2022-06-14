@@ -21,8 +21,9 @@ class Inscripcion extends Model
     public static function getToReport($grupo_id)
     {
         return Inscripcion::where('grupo_id', $grupo_id)
-            ->with(['notas', 'matricula:id,nombre,carnet'])
-            ->get();
+            ->with(['matricula:id,nombre,carnet', 'notas'])
+            ->get()
+            ->sortBy('matricula.nombre');
     }
 
     public static function getByMatricula($matricula_id)
@@ -36,7 +37,8 @@ class Inscripcion extends Model
     {
         return Inscripcion::where('grupo_id', $grupo_id)
             ->with('matricula:id,carnet,nombre')
-            ->get();
+            ->get()
+            ->sortBy('matricula.nombre');
     }
 
     //Cargar 1 Grupo With

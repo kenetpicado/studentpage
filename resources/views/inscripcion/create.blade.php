@@ -23,15 +23,18 @@
             <div class="col-xl-12 col-lg-7">
 
                 <!-- Datos-->
-                <div class="card shadow mb-4">
+                <div class="card mb-4">
 
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">{{ $matricula->nombre }} - Inscribir</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Inscribir</h6>
                     </div>
 
                     <div class="card-body">
                         <form action="{{ route('inscripciones.store') }}" method="POST">
                             @csrf
+                            <p>
+                                {{ $matricula->nombre }}:
+                            </p>
                             <div class="row">
                                 <div class="form-group col-lg-6">
                                     <label>Selecionar grupo</label>
@@ -41,7 +44,7 @@
                                             <option value="{{ $grupo->id }}"
                                                 {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
                                                 {{ $grupo->curso->nombre }} -
-                                                {{ $grupo->docente->nombre }} - 
+                                                {{ $grupo->docente->nombre }} -
                                                 {{ $grupo->horario }}
                                             </option>
                                         @endforeach
@@ -56,6 +59,13 @@
                             </div>
                             <input type="hidden" name="from" value="{{ $type }}">
                             <input type="hidden" name="matricula_id" value="{{ $matricula->id }}">
+                            <div class="row">
+                                <div class="col-lg-6 text-primary">
+                                    <p>
+                                        Asegúrese que el grupo seleccionado sea el correcto.
+                                    </p>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-primary">Inscribir</button>
                         </form>
                     </div>

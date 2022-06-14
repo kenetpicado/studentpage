@@ -17,7 +17,7 @@
             <div class="col-xl-12 col-lg-7">
 
                 <!-- Datos -->
-                <div class="card shadow mb-4">
+                <div class="card mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Docentes</h6>
                         <div class="dropdown no-arrow">
@@ -37,7 +37,8 @@
                                         <th>Nombre</th>
                                         <th>Correo</th>
                                         <th>Estado</th>
-                                        <th></th>
+                                        <th>Grupos</th>
+                                        <th>Editar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,21 +55,12 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
-                                                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="fas fa-cog"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                        aria-labelledby="dropdownMenuLink">
-
-                                                        <a href="{{ route('docentes.show', $docente->id) }}"
-                                                            class="dropdown-item">Ver grupos</a>
-                                                        <a href="{{ route('docentes.edit', $docente->id) }}"
-                                                            class="dropdown-item">Editar</a>
-                                                    </div>
-                                                </div>
+                                                <a href="{{ route('docentes.show', $docente->id) }}"
+                                                    class="btn btn-primary btn-sm">Grupos</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('docentes.edit', $docente->id) }}"
+                                                    class="btn btn-outline-primary btn-sm">Editar</a>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -59,8 +59,8 @@
                                         <table class="table table-bordered table-sm" width="100%" cellspacing="0">
 
                                             <thead>
-                                                <th>Nombre</th>
                                                 <th>Carnet</th>
+                                                <th>Nombre</th>
                                                 <th colspan="{{ count($inscripciones->first()->notas) }}"
                                                     class="center-babe">Materias
                                                 </th>
@@ -69,14 +69,14 @@
                                                 @foreach ($inscripciones as $alumno)
                                                     <tr>
                                                         <td style="vertical-align:middle;">
-                                                            {{ $alumno->matricula->nombre }}
+                                                            {{ $alumno->matricula->carnet }}
                                                         </td>
                                                         <td style="vertical-align:middle;">
-                                                            {{ $alumno->matricula->carnet }}
+                                                            {{ $alumno->matricula->nombre }}
                                                         </td>
                                                         @foreach ($alumno->notas as $nota)
                                                             <td>
-                                                                <small>{{ $nota->materia }} </small>
+                                                                <small>{{ $nota->num }}-{{ $nota->materia }} </small>
                                                                 <br>
                                                                 <strong>{{ $nota->valor }}</strong>
                                                             </td>

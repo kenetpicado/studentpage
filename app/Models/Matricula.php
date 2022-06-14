@@ -60,10 +60,14 @@ class Matricula extends Model
     //Desde Promotor Show
     public static function toPromotorShow($promotor_id)
     {
-        return Matricula::promotorId($promotor_id)
-            ->withInscripcion()
-            ->attributes()
-            ->get();
+        $sucursal = auth()->user()->sucursal;
+        $matriculas = Matricula::promotorId($promotor_id);
+
+        if ($sucursal == 'all') {
+            return $matriculas->withInscripcion()->attributes()->get();
+        } else {
+            return $matriculas->sucursal($sucursal)->withInscripcion()->attributes()->get();
+        }
     }
 
     /* SCOPES */
@@ -89,7 +93,8 @@ class Matricula extends Model
 
     public function scopeAttributes($q)
     {
-        return $q->select(['id', 'nombre', 'carnet', 'created_at', 'promotor_id']);
+        return $q->select(['id', 'nombre', 'carnet', 'created_at', 'promotor_id'])
+            ->orderBy('id', 'desc');
     }
 
     public function scopeByCarnet($q)
@@ -127,6 +132,11 @@ class Matricula extends Model
     public function setPinAttribute($value)
     {
         $this->attributes['pin'] = trim(strtoupper($value));
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date('d F y', strtotime($value));
     }
 
     //Relacion 1:1 inversa a promotor

@@ -8,6 +8,8 @@
     <meta name="description" content="">
     <meta name="author" content="{{ config('app.name') }}">
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/SP.png') }}">
+
     <title>{{ config('app.name') }} - @yield('title')</title>
 
     <!-- Custom fonts for this template-->
