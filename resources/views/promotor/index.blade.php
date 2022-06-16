@@ -18,15 +18,12 @@
 
                 <!-- Datos  -->
                 <div class="card mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Promotores</h6>
-                        <div class="dropdown no-arrow">
-                            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal"
-                                data-target="#agregar">
-                                Agregar<i class="fas fa-plus ml-1"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <x-header-1 modelo='Promotores'></x-header-1>
+
+                    <x-modal-add ruta='promotores.store' title='Promotor'>
+                        <x-input-form label="nombre"></x-input-form>
+                        <x-input-form label="correo"></x-input-form>
+                    </x-modal-add>
 
                     <div class="card-body">
                         <div class="table-responsive">
@@ -65,10 +62,6 @@
         </div>
     </div>
 @endsection('content')
-
-@section('agregarModal')
-    @include('promotor.modal')
-@endsection
 
 @section('re-open')
     @if ($errors->any())

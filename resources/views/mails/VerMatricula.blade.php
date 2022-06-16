@@ -13,7 +13,7 @@
 |||
 |Nombre completo|<strong>{{$matricula->nombre}}</strong>|
 |Fecha de nacimiento|{{$matricula->fecha_nac}}|
-|Teléfono|{{$matricula->tel}}|
+|Celular|{{$matricula->celular}}|
 |Cédula|{{$matricula->cedula}}|
 |Tutor|{{$matricula->tutor}}|
 |Fecha de matricula|{{$matricula->created_at}}|

@@ -25,8 +25,8 @@ class DocenteController extends Controller
         Gate::authorize('admin');
         $sucursal = Auth::user()->sucursal;
 
-        $docentes = $sucursal == 'all' ? 
-        Docente::getDocentes() : Docente::getDocentesSucursal($sucursal);
+        $docentes = $sucursal == 'all' ?
+            Docente::getDocentes() : Docente::getDocentesSucursal($sucursal);
 
         return view('docente.index', compact('docentes'));
     }
@@ -83,6 +83,10 @@ class DocenteController extends Controller
     public function update(UpdateDocenteRequest $request, $docente_id)
     {
         Gate::authorize('admin');
+
+        if ($request->activo == null)
+            $request->merge(['activo' => '0']);
+
         User::updateUser(new Docente(), $docente_id, $request);
         return redirect()->route('docentes.index')->with('info', config('app.update'));
     }

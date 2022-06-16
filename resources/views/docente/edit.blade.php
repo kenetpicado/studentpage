@@ -17,85 +17,27 @@
         <div class="row">
             <div class="col-xl-12 col-lg-7">
 
-                <!-- Datos-->
                 <div class="card mb-4">
+                    <x-header-2 text='Editar'>
+                        <x-dp-item modal='restablecer' text="Restablecer PIN"></x-dp-item>
 
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Editar</h6>
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#" data-toggle="modal"
-                                    data-target="#restablecer">Restablecer PIN</a>
-                                @if (count($docente->grupos) == 0)
-                                    <a class="dropdown-item" href="#" data-toggle="modal"
-                                        data-target="#eliminar">Eliminar</a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
+                        @if (count($docente->grupos) == 0)
+                            <x-dp-item modal='eliminar' text="Eliminar"></x-dp-item>
+                        @endif
+                    </x-header-2>
 
-                    <div class="card-body">
-                        <form action="{{ route('docentes.update', $docente->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
+                    {{-- MODAL DELETE --}}
+                    <x-modal-delete ruta='docentes.destroy' :id="$docente->id" title="Docente"></x-modal-delete>
 
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <label for="nombre">Nombre</label>
-                                    <input type="text" maxlength="45"
-                                        class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                                        autocomplete="off" value="{{ old('nombre', $docente->nombre) }}" required>
-
-                                    @error('nombre')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <label for="correo">Correo</label>
-                                    <input type="email" maxlength="45"
-                                        class="form-control @error('correo') is-invalid @enderror" name="correo"
-                                        autocomplete="off" value="{{ old('correo', $docente->correo) }}" required>
-
-                                    @error('correo')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <label>Activo</label>
-                                    <select name="activo" class="form-control" required>
-                                        <option value="1"
-                                            {{ old('activo') == '1' || $docente->activo == '1' ? 'selected' : '' }}>
-                                            Si</option>
-                                        <option value="0"
-                                            {{ old('activo') == '0' || $docente->activo == '0' ? 'selected' : '' }}>
-                                            No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <input type="hidden" name="docente_id" value="{{ $docente->id }}">
-                            <button type="submit" class="btn btn-primary">Actualizar</button>
-                        </form>
-                    </div>
+                    {{-- FORM EDIT --}}
+                    <x-edit-form ruta='docentes.update' :id="$docente->id">
+                        <x-input-edit label="nombre" :val="$docente->nombre"></x-input-edit>
+                        <x-input-edit label="correo" :val="$docente->correo" type="email"></x-input-edit>
+                        <x-check-activo :val="$docente->activo"></x-check-activo>
+                        <input type="hidden" name="docente_id" value="{{ $docente->id }}">
+                    </x-edit-form>
                 </div>
             </div>
         </div>
-        <!-- Content Row -->
     </div>
-@endsection('content')
-
-@section('agregarModal')
-    @include('docente.modal')
 @endsection

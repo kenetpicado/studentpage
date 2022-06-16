@@ -30,7 +30,7 @@ class StoreMatriculaRequest extends FormRequest
             'nombre' => 'required|max:45',
             'cedula' => 'nullable|alpha_dash|min:16|max:16',
             'fecha_nac' => 'required|date',
-            'tel' => 'nullable|min:8|max:8',
+            'celular' => 'nullable|numeric|digits:8',
             'grado' => 'required|max:45',
             'sucursal' => [Rule::requiredIf($this->user()->sucursal == 'all')]
         ];

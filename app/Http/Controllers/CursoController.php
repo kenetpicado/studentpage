@@ -43,6 +43,10 @@ class CursoController extends Controller
     public function update(UpdateCursoRequest $request, Curso $curso)
     {
         Gate::authorize('admin');
+        
+        if ($request->activo == null)
+            $request->merge(['activo' => '0']);
+
         $curso->update($request->all());
         return redirect()->route('cursos.index')->with('info', config('app.update'));
     }

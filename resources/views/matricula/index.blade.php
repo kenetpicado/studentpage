@@ -12,94 +12,96 @@
             </ol>
         </nav>
 
-        @include('matricula.modal')
-
         <!-- Content Row -->
         <div class="row">
-            <form class="col-xl-12 col-lg-7">
+            <div class="col-xl-12 col-lg-7">
 
                 <!-- Datos -->
                 <div class="card mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Matriculas</h6>
-                        <div class="dropdown no-arrow">
-                            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal"
-                                data-target="#agregar">
-                                Agregar<i class="fas fa-plus ml-1"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <x-header-1 modelo='Matriculas'></x-header-1>
 
-                    <div class="card-body ">
-                        <div class="table-responsive">
-                            <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Carnet</th>
-                                        <th>Nombre</th>
-                                        <th>Registro por</th>
-                                        <th>Fecha registro</th>
-                                        <th>Estado</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($matriculas as $matricula)
-                                        <tr>
-                                            <td>{{ $matricula->carnet }}</td>
-                                            <td>{{ $matricula->nombre }}</td>
-                                            <td>{{ $matricula->promotor->carnet ?? ''}}</td>
-                                            <td>{{ $matricula->created_at }}</td>
-                                            <td>
-                                                @if (count($matricula->inscripciones) > 0)
-                                                    Inscrito <i class="fas fa-check-circle" style="color:limegreen"></i>
-                                                @else
-                                                    Pendiente <i class="fas fa-exclamation-circle" style="color:tomato"></i>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
-                                                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="fas fa-cog"></i>
+                    <x-modal-add ruta='matriculas.store' title='Matrícula' lg='modal-lg'>
+                        <div class="row">
+                            <x-input-form label="nombre" class="col-lg-6"></x-input-form>
+                            <x-input-form label="fecha_nac" text="Fecha de nacimiento" class="col-lg-6" type='date'>
+                            </x-input-form>
+                        </div>
+
+                        <div class="row">
+                            <x-input-form label="cedula" text="Cédula" class="col-lg-6"></x-input-form>
+                            <x-input-form label="grado" text="Último grado aprobado" class="col-lg-6"></x-input-form>
+                        </div>
+
+                        <div class="row">
+                            <x-input-form label="tutor" class="col-lg-6"></x-input-form>
+                            <x-input-form label="celular" class="col-lg-6"></x-input-form>
+                        </div>
+
+                        <div class="row">
+                            @if ($user->rol == 'admin')
+                                <x-input-form label="carnet" text="Carnet - (Opcional)" class="col-lg-6">
+                                </x-input-form>
+                            @endif
+
+                            @if ($user->sucursal == 'all')
+                                <x-sucursal-form class="col-lg-6"></x-sucursal-form>
+                            @endif
+                        </div>
+
+                    </x-modal-add>
+
+                    <x-table-head>
+                        <x-slot name="title">
+                            <th>Carnet</th>
+                            <th>Nombre</th>
+                            <th>Registro por</th>
+                            <th>Fecha registro</th>
+                            <th>Estado</th>
+                            <th>Mas</th>
+                        </x-slot>
+                        <tbody>
+                            @foreach ($matriculas as $matricula)
+                                <tr>
+                                    <td>{{ $matricula->carnet }}</td>
+                                    <td>{{ $matricula->nombre }}</td>
+                                    <td>{{ $matricula->promotor->carnet ?? '' }}</td>
+                                    <td>{{ $matricula->created_at }}</td>
+                                    <td>
+                                        <x-status :val="count($matricula->inscripciones)" y="Inscrito" n="Pendiente"></x-status>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
+                                                id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <i class="fas fa-cog"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                aria-labelledby="dropdownMenuLink">
+                                                {{-- Solo el administrador puede inscribir --}}
+                                                @if (auth()->user()->rol == 'admin')
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('inscripciones.create', [$matricula->id, 'global']) }}">Inscribir
                                                     </a>
-                                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                        aria-labelledby="dropdownMenuLink">
-                                                        {{-- Solo el administrador puede inscribir --}}
-                                                        @if (auth()->user()->rol == 'admin')
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('inscripciones.create', [$matricula->id, 'global']) }}">Inscribir
-                                                            </a>
 
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('matriculas.show', $matricula->id) }}"
-                                                                target="_blank">Detalles</a>
-                                                        @endif
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('matriculas.show', $matricula->id) }}"
+                                                        target="_blank">Detalles</a>
+                                                @endif
 
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('matriculas.edit', $matricula->id) }}">Editar</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('matriculas.edit', $matricula->id) }}">Editar</a>
 
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </x-table-head>
                 </div>
-            </form>
+            </div>
         </div>
-        <!-- Content Row -->
     </div>
-@endsection('content')
-
-@section('re-open')
-    @if ($errors->any())
-        <script>
-            $('#agregar').modal('show')
-        </script>
-    @endif
 @endsection
+<x-open-modal></x-open-modal>

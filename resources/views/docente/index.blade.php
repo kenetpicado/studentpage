@@ -16,73 +16,53 @@
         <div class="row">
             <div class="col-xl-12 col-lg-7">
 
-                <!-- Datos -->
                 <div class="card mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Docentes</h6>
-                        <div class="dropdown no-arrow">
-                            <button type="button" class="btn btn-sm btn-primary ml-2" data-toggle="modal"
-                                data-target="#agregar">
-                                Agregar<i class="fas fa-plus ml-1"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <x-header-1 modelo='Docente'></x-header-1>
 
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nombre</th>
-                                        <th>Correo</th>
-                                        <th>Estado</th>
-                                        <th>Grupos</th>
-                                        <th>Editar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($docentes as $docente)
-                                        <tr>
-                                            <td>
-                                                {{ $docente->carnet }}
-                                            </td>
-                                            <td>{{ $docente->nombre }}</td>
-                                            <td>{{ $docente->correo }}</td>
-                                            <td>
-                                                @if ($docente->activo == '1')
-                                                    Activo <i class="fas fa-check-circle" style="color:limegreen"></i>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('docentes.show', $docente->id) }}"
-                                                    class="btn btn-primary btn-sm">Grupos</a>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('docentes.edit', $docente->id) }}"
-                                                    class="btn btn-outline-primary btn-sm">Editar</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    {{-- FORM STORE --}}
+                    <x-modal-add ruta='docentes.store' title='Docente'>
+                        <x-input-form label="nombre"></x-input-form>
+                        <x-input-form label="correo"></x-input-form>
+
+                        @if (Auth::user()->sucursal == 'all')
+                            <x-sucursal-form></x-sucursal-form>
+                        @endif
+                    </x-modal-add>
+
+                    {{-- INDEX --}}
+                    <x-table-head>
+                        <x-slot name="title">
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Estado</th>
+                            <th>Grupos</th>
+                            <th>Editar</th>
+                        </x-slot>
+                        <tbody>
+                            @foreach ($docentes as $docente)
+                                <tr>
+                                    <td>{{ $docente->carnet }}</td>
+                                    <td>{{ $docente->nombre }}</td>
+                                    <td>{{ $docente->correo }}</td>
+                                    <td>
+                                        <x-status :val="$docente->activo"></x-status>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('docentes.show', $docente->id) }}"
+                                            class="btn btn-primary btn-sm">Grupos</a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('docentes.edit', $docente->id) }}"
+                                            class="btn btn-outline-primary btn-sm">Editar</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </x-table-head>
                 </div>
             </div>
         </div>
-        <!-- Content Row -->
     </div>
-@endsection('content')
-
-@section('agregarModal')
-    @include('docente.modal')
 @endsection
-
-@section('re-open')
-    @if ($errors->any())
-        <script>
-            $('#agregar').modal('show')
-        </script>
-    @endif
-@endsection
+<x-open-modal></x-open-modal>

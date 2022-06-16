@@ -18,10 +18,10 @@
 
 
     <title>{{ config('app.name') }} - Login</title>
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.css" rel="stylesheet">
 </head>
 
-<body class="bg-light">
+<body class="bg-primary">
 
     <div class="container ">
 
@@ -30,7 +30,7 @@
 
             <div class="col-lg-6">
 
-                <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card o-hidden border-0 shadow-lg my-5" style="border-radius: 40px">
                     <div class="card-body p-0">
                         <div class="p-5">
                             <div class="text-center">

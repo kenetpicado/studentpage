@@ -17,59 +17,26 @@
         <div class="row">
             <div class="col-xl-12 col-lg-7">
 
-                <!-- Datos-->
                 <div class="card mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Editar</h6>
+                    <x-header-2 text='Editar'>
                         @if ($curso->grupos_count == 0)
-                            <a class="btn btn-sm btn-primary" href="#" data-toggle="modal" data-target="#eliminar">
-                                <i class="fas fa-trash"></i>
-                            </a>
+                            <x-dp-item modal='eliminar' text="Eliminar"></x-dp-item>
+                        @else
+                            <div class="dropdown-header">No hay opciones</div>
                         @endif
-                    </div>
+                    </x-header-2>
 
-                    <div class="card-body">
-                        <form action="{{ route('cursos.update', $curso) }}" method="POST">
-                            @csrf
-                            @method('PUT')
+                    {{-- MODAL DELETE --}}
+                    <x-modal-delete ruta='cursos.destroy' :id="$curso->id" title="Curso"></x-modal-delete>
 
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <label for="nombre">Nombre del curso</label>
-                                    <input type="text" class="form-control @error('nombre') is-invalid @enderror"
-                                        name="nombre" autocomplete="off" value="{{ old('nombre', $curso->nombre) }}">
-
-                                    @error('nombre')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <label>Activo</label>
-                                    <select name="activo" class="form-control">
-                                        <option value="1"
-                                            {{ old('activo') == '1' || $curso->activo == '1' ? 'selected' : '' }}>
-                                            Si</option>
-                                        <option value="0"
-                                            {{ old('activo') == '0' || $curso->activo == '0' ? 'selected' : '' }}>
-                                            No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <input type="hidden" name="curso_id" value="{{ $curso->id }}">
-                            <button type="submit" class="btn btn-primary">Actualizar</button>
-                        </form>
-                    </div>
+                    {{-- FORM EDIT --}}
+                    <x-edit-form ruta='cursos.update' :id="$curso->id">
+                        <x-input-edit label="nombre" :val="$curso->nombre"></x-input-edit>
+                        <x-check-activo :val="$curso->activo"></x-check-activo>
+                        <input type="hidden" name="curso_id" value="{{ $curso->id }}">
+                    </x-edit-form>
                 </div>
             </div>
         </div>
-        <!-- Content Row -->
     </div>
-@endsection('content')
-
-@section('agregarModal')
-    @include('curso.modal')
 @endsection

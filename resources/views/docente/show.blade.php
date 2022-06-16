@@ -17,40 +17,29 @@
         <div class="row">
             <form class="col-xl-12 col-lg-7">
 
-                <!-- Datos -->
                 <div class="card mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Grupos</h6>
-                    </div>
+                    <x-header-0 text='Grupos'></x-header-0>
 
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Curso</th>
-                                        <th>Horario</th>
-                                        <th>Sucursal</th>
-                                        <th>Año</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($grupos as $grupo)
-                                        <tr>
-                                            <td>{{ $grupo->curso->nombre }}</td>
-                                            <td>{{ $grupo->horario }}</td>
-                                            <td>{{ $grupo->sucursal }}</td>
-                                            <td>{{ $grupo->anyo }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <x-table-head>
+                        <x-slot name="title">
+                            <th>Curso</th>
+                            <th>Horario</th>
+                            <th>Sucursal</th>
+                            <th>Año</th>
+                        </x-slot>
+                        <tbody>
+                            @foreach ($grupos as $grupo)
+                                <tr>
+                                    <td>{{ $grupo->curso->nombre }}</td>
+                                    <td>{{ $grupo->horario }}</td>
+                                    <td>{{ $grupo->sucursal }}</td>
+                                    <td>{{ $grupo->anyo }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </x-table-head>
                 </div>
             </form>
         </div>
-        <!-- Content Row -->
     </div>
-@endsection('content')
+@endsection

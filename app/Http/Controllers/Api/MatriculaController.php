@@ -34,11 +34,7 @@ class MatriculaController extends Controller
             $matricula = Matricula::where('promotor_id', $promotor)
                 ->get(['id', 'nombre', 'carnet']);
 
-            return response()->json([
-                'status' => '1',
-                'message' => 'success',
-                'matriculas' => $matricula
-            ], 200);
+            return response()->json($matricula, 200);
         }
     }
 
@@ -64,7 +60,7 @@ class MatriculaController extends Controller
             'nombre' => 'required|max:45',
             'cedula' => 'nullable|alpha_dash|min:16|max:16',
             'fecha_nac' => 'required|date',
-            'tel' => 'nullable|min:8|max:8',
+            'celular' => 'nullable|numeric|digits:8',
             'grado' => 'required|max:45',
             'sucursal' => 'required|in:CH,MG'
         ], [], [
@@ -117,11 +113,7 @@ class MatriculaController extends Controller
     public function show(Matricula $matricula)
     {
         //
-        return response()->json([
-            'status' => '1',
-            'message' => 'success',
-            'matricula' => $matricula
-        ], 200);
+        return response()->json($matricula, 200);
     }
 
     /**

@@ -18,7 +18,7 @@ class CreateMatriculasTable extends Migration
             $table->string('nombre', 45);
             $table->string('cedula', 16)->nullable();
             $table->date('fecha_nac');
-            $table->string('tel', 8)->nullable();
+            $table->string('celular', 8)->nullable();
             $table->string('tutor', 45)->nullable();
             $table->string('grado', 45);
             $table->string('carnet', 15)->unique();
