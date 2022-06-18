@@ -41,7 +41,7 @@ class Matricula extends Model
     //Desde Matricula Index
     public static function getMatriculasPromotor($promotor_id)
     {
-        return Matricula::promotorId($promotor_id)
+        return Matricula::wherePromotor($promotor_id)
             ->withPromotor()
             ->withInscripcion()
             ->attributes()
@@ -60,18 +60,21 @@ class Matricula extends Model
     //Desde Promotor Show
     public static function toPromotorShow($promotor_id)
     {
-        $sucursal = auth()->user()->sucursal;
-        $matriculas = Matricula::promotorId($promotor_id);
+        if (auth()->user()->sucursal == 'all')
+            return Matricula::wherePromotor($promotor_id)
+                ->withInscripcion()
+                ->attributes()
+                ->get();
 
-        if ($sucursal == 'all') {
-            return $matriculas->withInscripcion()->attributes()->get();
-        } else {
-            return $matriculas->sucursal($sucursal)->withInscripcion()->attributes()->get();
-        }
+        return Matricula::wherePromotor($promotor_id)
+            ->sucursal(auth()->user()->sucursal)
+            ->withInscripcion()
+            ->attributes()
+            ->get();
     }
 
     /* SCOPES */
-    public function scopePromotorId($q, $p)
+    public function scopeWherePromotor($q, $p)
     {
         return $q->where('promotor_id', $p);
     }

@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Grupo;
-use Illuminate\Support\Facades\DB;
 
 class Docente extends Model
 {
@@ -43,9 +42,12 @@ class Docente extends Model
     }
 
     //Obtener Docentes activos de una sucursal
-    public static function getDocentesActivosSucursal($sucursal)
+    public static function getDocentesActivosSucursal()
     {
-        return Docente::sucursal($sucursal)->activo()->orderAsc()->get(['id', 'nombre']);
+        return Docente::sucursal(auth()->user()->sucursal)
+            ->activo()
+            ->orderAsc()
+            ->get(['id', 'nombre']);
     }
 
     //Obtener Docentes activos

@@ -24,7 +24,7 @@
                         <x-input-form label="nombre"></x-input-form>
                         <x-input-form label="correo"></x-input-form>
 
-                        @if (Auth::user()->sucursal == 'all')
+                        @if (auth()->user()->sucursal == 'all')
                             <x-sucursal-form></x-sucursal-form>
                         @endif
                     </x-modal-add>

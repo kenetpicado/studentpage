@@ -78,7 +78,7 @@ class MatriculaController extends Controller
         //Obtener promotor
         $id = Promotor::where('carnet', $user->email)->first(['id'])->id;
 
-        $carnet = Generate::idEstudiante($request->sucursal . '04', $request->fecha_nac);
+        $carnet = Generate::idEstudiante($request->sucursal, $request->fecha_nac);
         $pin = Generate::pin();
 
         //Agregar campos que faltan

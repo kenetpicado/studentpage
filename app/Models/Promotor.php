@@ -35,10 +35,4 @@ class Promotor extends Model
     {
         return Promotor::orderBy('nombre', 'asc')->get();
     }
-
-    //Obtener 1 Promotor
-    public static function loadThis($promotor_id)
-    {
-        return Promotor::find($promotor_id);
-    }
 }

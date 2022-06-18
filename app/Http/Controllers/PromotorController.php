@@ -9,21 +9,13 @@ use App\Models\User;
 use App\Http\Controllers\Generate;
 use App\Mail\CredencialesPromotor;
 use App\Models\Matricula;
-use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Gate;
 
 class PromotorController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     //Ver todos los promotores
     public function index()
     {
-        Gate::authorize('admin');
         $promotors = Promotor::getPromotores();
         return view('promotor.index', compact('promotors'));
     }
@@ -31,16 +23,12 @@ class PromotorController extends Controller
     //Guardar nuevo promotor
     public function store(StorePromotorRequest $request)
     {
-        Gate::authorize('admin');
-
         //Generar credenciales
         $id = Generate::id('PM', 4);
         $pin = Generate::pin();
 
         //Agregar credenciales en claro
-        $request->merge([
-            'carnet' =>  $id
-        ]);
+        $request->merge(['carnet' =>  $id]);
 
         //Guardar
         $promotor = Promotor::create($request->all());
@@ -49,29 +37,26 @@ class PromotorController extends Controller
         //Enviar correo
         //Mail::to($request->correo)->send(new CredencialesPromotor($promotor, $pin));
 
-        return redirect()->route('promotores.index')->with('info', config('app.add'));
+        return back()->with('info', config('app.add'));
     }
 
     //Ver matriculas de un promotor
     public function show($promotor_id)
     {
-        $promotor = Promotor::loadThis($promotor_id);
         $matriculas = Matricula::toPromotorShow($promotor_id);
-        return view('promotor.show', compact('matriculas', 'promotor'));
+        return view('promotor.show', compact('matriculas'));
     }
 
     //Editar promotor
     public function edit($promotor_id)
     {
-        Gate::authorize('admin');
-        $promotor = Promotor::loadThis($promotor_id);
+        $promotor = Promotor::find($promotor_id);
         return view('promotor.edit', compact('promotor'));
     }
 
     //Actualizar promotor
     public function update(UpdatePromotorRequest $request, $promotor_id)
     {
-        Gate::authorize('admin');
         User::updateUser(new Promotor(), $promotor_id, $request);
         return redirect()->route('promotores.index')->with('info', config('app.update'));
     }
@@ -79,7 +64,6 @@ class PromotorController extends Controller
     //Eliminar promotor
     public function destroy($promotor_id)
     {
-        Gate::authorize('admin');
         User::deleteUser(new Promotor(), $promotor_id);
         return redirect()->route('promotores.index')->with('deleted', config('app.deleted'));
     }

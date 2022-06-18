@@ -42,7 +42,7 @@ class Generate extends Controller
     public static function idEstudiante($location, $fecha)
     {
         $date = Carbon::create($fecha)->format('dmy');
-        return $location . "-" . $date . "-" . Generate::specific_number(3);
+        return $location . "04-" . $date . "-" . Generate::specific_number(3);
     }
 
     //Funcion para devolver una secuencia de numeros

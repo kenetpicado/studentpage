@@ -12,35 +12,30 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Inscripcion;
 use Carbon\Carbon;
-use GuzzleHttp\Psr7\Request;
 
 class GrupoController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     //Ver todos los grupos
     public function index()
     {
         Gate::authorize('admin-docente');
-        $user = Auth::user();
 
         switch (true) {
-            case ($user->sucursal == 'all'):
-                $grupos = Grupo::getGrupos('1');
+
+            case (auth()->user()->sucursal == 'all'):
+                $grupos = Grupo::getGrupos();
                 break;
 
-            case ($user->rol == 'docente'):
-                $docente = User::getUserByCarnet(new Docente(), $user->email);
-                $grupos = Grupo::getGruposDocente($docente->id, '1');
+            case (auth()->user()->rol == 'docente'):
+                $docente = User::getUserByCarnet(new Docente());
+                $grupos = Grupo::getGruposDocente($docente->id);
                 break;
 
             default:
-                $grupos = Grupo::getGruposSucursal($user->sucursal, '1');
+                $grupos = Grupo::getGruposSucursal();
                 break;
         }
+
         return view('grupo.index', compact('grupos'));
     }
 
@@ -48,14 +43,13 @@ class GrupoController extends Controller
     public function showClosed()
     {
         Gate::authorize('admin');
-        $user = Auth::user();
 
         switch (true) {
-            case ($user->sucursal == 'all'):
+            case (auth()->user()->sucursal == 'all'):
                 $grupos = Grupo::getGrupos('0');
                 break;
             default:
-                $grupos = Grupo::getGruposSucursal($user->sucursal, '0');
+                $grupos = Grupo::getGruposSucursal('0');
                 break;
         }
 
@@ -66,12 +60,12 @@ class GrupoController extends Controller
     public function create()
     {
         Gate::authorize('admin');
-        $sucursal = Auth::user()->sucursal;
+
         $cursos = Curso::getCursosActivos();
 
-        $docentes = $sucursal == 'all' ?
-            Docente::getDocentesActivos() :
-            Docente::getDocentesActivosSucursal($sucursal);
+        $docentes = auth()->user()->sucursal == 'all'
+            ? Docente::getDocentesActivos()
+            : Docente::getDocentesActivosSucursal();
 
         return view('grupo.create', compact('cursos', 'docentes'));
     }
@@ -112,7 +106,7 @@ class GrupoController extends Controller
     {
         Gate::authorize('admin');
         $grupo = Grupo::loadThis($grupo_id);
-        $docentes = Docente::getDocentesActivosSucursal($grupo->sucursal);
+        $docentes = Docente::getDocentesActivosSucursal();
         return view('grupo.edit', compact('grupo', 'docentes'));
     }
 

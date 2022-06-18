@@ -60,9 +60,9 @@ class User extends Authenticatable
         ]);
     }
 
-    public static function getUserByCarnet($model, $email)
+    public static function getUserByCarnet($model)
     {
-        return $model->where('carnet', $email)->first(['id']);
+        return $model->where('carnet', auth()->user()->email)->first(['id']);
     }
 
     public static function loggedId($model)

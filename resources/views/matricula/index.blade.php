@@ -38,12 +38,12 @@
                         </div>
 
                         <div class="row">
-                            @if ($user->rol == 'admin')
+                            @if (auth()->user()->rol == 'admin')
                                 <x-input-form label="carnet" text="Carnet - (Opcional)" class="col-lg-6">
                                 </x-input-form>
                             @endif
 
-                            @if ($user->sucursal == 'all')
+                            @if (auth()->user()->sucursal == 'all')
                                 <x-sucursal-form class="col-lg-6"></x-sucursal-form>
                             @endif
                         </div>

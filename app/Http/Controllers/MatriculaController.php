@@ -5,32 +5,23 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMatriculaRequest;
 use App\Http\Requests\UpdateMatriculaRequest;
 use App\Mail\VerMatricula;
-use App\Models\Grupo;
-use App\Models\Inscripcion;
 use App\Models\Matricula;
 use App\Models\Promotor;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
-use Carbon\Carbon;
 
 class MatriculaController extends Controller
 {
-    
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     //Ver todas las matriculas
     public function index()
     {
         Gate::authorize('admin-promotor');
-        $user = Auth::user();
+        $user = auth()->user();
 
         switch (true) {
+
             case ($user->rol == 'promotor'):
-                $promotor = User::getUserByCarnet(new Promotor(), $user->email);
+                $promotor = User::getUserByCarnet(new Promotor());
                 $matriculas = Matricula::getMatriculasPromotor($promotor->id);
                 break;
 
@@ -42,7 +33,8 @@ class MatriculaController extends Controller
                 $matriculas = Matricula::getMatriculas();
                 break;
         }
-        return view('matricula.index', compact('matriculas', 'user'));
+
+        return view('matricula.index', compact('matriculas'));
     }
 
     //Guardar nueva matricula
@@ -54,16 +46,18 @@ class MatriculaController extends Controller
         $user = $request->user();
 
         //Si es admin de sucursal especifica
-        if ($user->sucursal != 'all') {
-            $request->merge([
-                'sucursal' =>  $user->sucursal,
-            ]);
-        }
+        if ($user->sucursal != 'all')
+            $request->merge(['sucursal' =>  $user->sucursal,]);
 
         //Si matricula un admin id promotor es null
-        $id = $user->rol == 'admin' ? null : Promotor::where('carnet', $user->email)->first(['id'])->id;
+        $id = $user->rol == 'admin'
+            ? null
+            : Promotor::where('carnet', $user->email)->first(['id'])->id;
 
-        $carnet = $request->carnet != '' ? $request->carnet : Generate::idEstudiante($request->sucursal . '04', $request->fecha_nac);
+        $carnet = $request->carnet != ''
+            ? $request->carnet
+            : Generate::idEstudiante($request->sucursal, $request->fecha_nac);
+
         $pin = Generate::pin();
 
         //Agregar campos que faltan
@@ -71,12 +65,11 @@ class MatriculaController extends Controller
             'carnet' =>  $carnet,
             'pin' => $pin,
             'promotor_id' => $id,
-            'created_at' => Carbon::now()->format('Y-m-d'),
+            'created_at' => now()->format('Y-m-d'),
         ]);
 
-        $request->validate([
-            'carnet' => 'unique:matriculas'
-        ]);
+        //Verificar Carnet Unico
+        $request->validate(['carnet' => 'unique:matriculas']);
 
         //Guardar datos
         Matricula::create($request->all());

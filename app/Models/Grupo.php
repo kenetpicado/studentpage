@@ -52,9 +52,9 @@ class Grupo extends Model
     }
 
     //Grupos de 1 Sucursal
-    public static function getGruposSucursal($suc, $s)
+    public static function getGruposSucursal($s = '1')
     {
-        return Grupo::sucursal($suc)
+        return Grupo::sucursal(auth()->user()->sucursal)
             ->status($s)
             ->withData()
             ->withInsc()
@@ -64,7 +64,7 @@ class Grupo extends Model
     }
 
     //Grupos de 1 Docente
-    public static function getGruposDocente($id, $s)
+    public static function getGruposDocente($id, $s = '1')
     {
         return Grupo::docenteId($id)
             ->status($s)
@@ -76,7 +76,7 @@ class Grupo extends Model
     }
 
     //Obtener Grupos
-    public static function getGrupos($s)
+    public static function getGrupos($s = '1')
     {
         return Grupo::status($s)
             ->withData()

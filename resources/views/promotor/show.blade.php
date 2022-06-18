@@ -15,54 +15,40 @@
 
         <!-- Content Row -->
         <div class="row">
-            <form class="col-xl-12 col-lg-7">
+            <div class="col-xl-12 col-lg-7">
 
-                <!-- Datos -->
                 <div class="card mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Matrículas: {{ $promotor->nombre }}</h6>
-                    </div>
+                    <x-header-0 text='Matrículas'></x-header-0>
 
-                    <div class="card-body">
-
-                        <div class="table-responsive">
-                            <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Carnet</th>
-                                        <th>Nombre</th>
-                                        <th>Fecha registro</th>
-                                        <th>Estado</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($matriculas as $matricula)
-                                        <tr>
-                                            <td>{{ $matricula->carnet }}</td>
-                                            <td>{{ $matricula->nombre }}</td>
-                                            <td>{{ $matricula->created_at }}</td>
-                                            <td>
-                                                @if (count($matricula->inscripciones) > 0)
-                                                    Inscrito <i class="fas fa-check-circle" style="color:limegreen"></i>
-                                                @else
-                                                    Pendiente <i class="fas fa-exclamation-circle" style="color:tomato"></i>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-primary btn-sm"
-                                                    href="{{ route('inscripciones.create', [$matricula->id, $matricula->promotor_id]) }}">Inscribir
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    {{-- INDEX --}}
+                    <x-table-head>
+                        <x-slot name="title">
+                            <th>Carnet</th>
+                            <th>Nombre</th>
+                            <th>Fecha registro</th>
+                            <th>Estado</th>
+                            <th></th>
+                        </x-slot>
+                        <tbody>
+                            @foreach ($matriculas as $matricula)
+                                <tr>
+                                    <td>{{ $matricula->carnet }}</td>
+                                    <td>{{ $matricula->nombre }}</td>
+                                    <td>{{ $matricula->created_at }}</td>
+                                    <td>
+                                        <x-status :val="count($matricula->inscripciones)"></x-status>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm"
+                                            href="{{ route('inscripciones.create', [$matricula->id, $matricula->promotor_id]) }}">Inscribir
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </x-table-head>
                 </div>
-            </form>
+            </div>
         </div>
-        <!-- Content Row -->
     </div>
-@endsection('content')
+@endsection
