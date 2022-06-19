@@ -25,36 +25,36 @@
 
     {{-- SWEETALERT --}}
     <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
+
+    <!-- LOADER -->
+    <link href="{{ asset('css/loader.css') }}" rel="stylesheet">
 </head>
 
 <body id="page-top">
-    <!-- Page Wrapper -->
+    
     <div id="wrapper">
 
-        {{-- SIDEBAR --}}
         @include('partials.sidebar')
-
-        <!-- Content Wrapper -->
+        
         <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
             <div id="content">
 
-                {{-- TOPBAR --}}
                 @include('partials.topbar')
-
-                {{-- CONTENIDO --}}
                 @yield('content')
 
             </div>
-            <!-- End of Main Content -->
 
-            {{-- FOOTER --}}
             @include('partials.footer')
         </div>
-        <!-- End of Content Wrapper -->
     </div>
-    <!-- End of Page Wrapper -->
+
+    <div id="preloader">
+        <div class="sk-three-bounce">
+            <div class="sk-child sk-bounce1"></div>
+            <div class="sk-child sk-bounce2"></div>
+            <div class="sk-child sk-bounce3"></div>
+        </div>
+    </div>
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">

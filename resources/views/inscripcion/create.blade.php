@@ -18,60 +18,49 @@
             </ol>
         </nav>
 
-        <!-- Content Row -->
         <div class="row">
             <div class="col-xl-12 col-lg-7">
 
-                <!-- Datos-->
                 <div class="card mb-4">
+                    <x-header-0 text="Inscribir: "> {{ $matricula->nombre }}</x-header-0>
 
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Inscribir</h6>
-                    </div>
+                    {{-- FORM STORE --}}
+                    <x-create-form ruta='inscripciones.store'>
 
-                    <div class="card-body">
-                        <form action="{{ route('inscripciones.store') }}" method="POST">
-                            @csrf
-                            <p>
-                                {{ $matricula->nombre }}:
-                            </p>
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <label>Selecionar grupo</label>
-                                    <select name="grupo_id" class="form-control @error('grupo_id') is-invalid @enderror">
-                                        <option selected disabled value="">Seleccionar</option>
-                                        @foreach ($grupos as $grupo)
-                                            <option value="{{ $grupo->id }}"
-                                                {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
-                                                {{ $grupo->curso->nombre }} -
-                                                {{ $grupo->docente->nombre }} -
-                                                {{ $grupo->horario }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label>Selecionar grupo</label>
+                                <select name="grupo_id" class="form-control @error('grupo_id') is-invalid @enderror">
+                                    <option selected disabled value="">Seleccionar</option>
+                                    @foreach ($grupos as $grupo)
+                                        <option value="{{ $grupo->id }}"
+                                            {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
+                                            {{ $grupo->curso->nombre }} -
+                                            {{ $grupo->docente->nombre }} -
+                                            {{ $grupo->horario }}
+                                        </option>
+                                    @endforeach
+                                </select>
 
-                                    @error('grupo_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                                @error('grupo_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
-                            <input type="hidden" name="from" value="{{ $type }}">
-                            <input type="hidden" name="matricula_id" value="{{ $matricula->id }}">
-                            <div class="row">
-                                <div class="col-lg-6 text-primary">
-                                    <p>
-                                        Asegúrese que el grupo seleccionado sea el correcto.
-                                    </p>
-                                </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 text-primary small">
+                                Asegúrese de seleccionar el grupo correcto.
                             </div>
-                            <button type="submit" class="btn btn-primary">Inscribir</button>
-                        </form>
-                    </div>
+                        </div>
+
+                        <input type="hidden" name="from" value="{{ $type }}">
+                        <input type="hidden" name="matricula_id" value="{{ $matricula->id }}">
+                    </x-create-form>
                 </div>
             </div>
         </div>
-        <!-- Content Row -->
     </div>
-@endsection('content')
+@endsection

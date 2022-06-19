@@ -14,13 +14,17 @@ use Illuminate\Support\Facades\Auth;
 // Autenticado y administradores
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('cursos', CursoController::class)->except(['show']);
+
     Route::resource('docentes', DocenteController::class);
+    
     Route::resource('promotores', PromotorController::class)->parameters(['promotores' => 'promotor']);
+
+    Route::put('status/grupos/{grupo}', [GrupoController::class, 'status'])->name('grupos.status');
 });
 
 //Restablecer pin
 Route::post('cambiar/pin', [Generate::class, 'cambiar_pin'])->name('cambiar.pin');
-Route::get('grupos/{grupo}/status', [GrupoController::class, 'status'])->name('grupos.status');
+
 Route::get('grupos/terminados', [GrupoController::class, 'showClosed'])->name('grupos.closed');
 Route::get('grupos/terminados/{id}', [GrupoController::class, 'showThisClosed'])->name('grupos.thisClosed');
 

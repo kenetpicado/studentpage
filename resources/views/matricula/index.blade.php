@@ -12,11 +12,9 @@
             </ol>
         </nav>
 
-        <!-- Content Row -->
         <div class="row">
             <div class="col-xl-12 col-lg-7">
 
-                <!-- Datos -->
                 <div class="card mb-4">
                     <x-header-1 modelo='Matriculas'></x-header-1>
 
@@ -91,7 +89,6 @@
 
                                                 <a class="dropdown-item"
                                                     href="{{ route('matriculas.edit', $matricula->id) }}">Editar</a>
-
                                             </div>
                                         </div>
                                     </td>

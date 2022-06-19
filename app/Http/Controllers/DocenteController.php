@@ -9,7 +9,6 @@ use App\Models\Docente;
 use App\Models\User;
 use App\Models\Grupo;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Gate;
 
 class DocenteController extends Controller
 {
@@ -18,7 +17,7 @@ class DocenteController extends Controller
     {
         $docentes = auth()->user()->sucursal == 'all'
             ? Docente::getDocentes()
-            : Docente::getDocentesSucursal(auth()->user()->sucursal);
+            : Docente::getDocentesSucursal();
 
         return view('docente.index', compact('docentes'));
     }
@@ -34,9 +33,7 @@ class DocenteController extends Controller
         $pin = Generate::pin();
 
         //Agregar credenciales en claro
-        $request->merge([
-            'carnet' =>  $id,
-        ]);
+        $request->merge(['carnet' =>  $id]);
 
         //Guardar en la base de datos
         $docente = Docente::create($request->all());
@@ -53,7 +50,7 @@ class DocenteController extends Controller
     //Ver grupos de un docente
     public function show($docente_id)
     {
-        $grupos = Grupo::getGruposDocente($docente_id, '1');
+        $grupos = Grupo::getGruposDocente($docente_id);
         return view('docente.show', compact('grupos'));
     }
 

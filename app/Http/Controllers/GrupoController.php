@@ -8,10 +8,8 @@ use App\Models\Grupo;
 use App\Models\Curso;
 use App\Models\Docente;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Inscripcion;
-use Carbon\Carbon;
 
 class GrupoController extends Controller
 {
@@ -65,7 +63,7 @@ class GrupoController extends Controller
 
         $docentes = auth()->user()->sucursal == 'all'
             ? Docente::getDocentesActivos()
-            : Docente::getDocentesActivosSucursal();
+            : Docente::getDocentesActivosSucursal(auth()->user()->sucursal);
 
         return view('grupo.create', compact('cursos', 'docentes'));
     }
@@ -78,7 +76,7 @@ class GrupoController extends Controller
         //Sucursal del grupo = suscursal del docente
         $request->merge([
             'sucursal' => Docente::find($request->docente_id)->sucursal,
-            'anyo' => Carbon::now()->format('Y'),
+            'anyo' => now()->format('Y'),
         ]);
 
         Grupo::create($request->all());
@@ -106,7 +104,7 @@ class GrupoController extends Controller
     {
         Gate::authorize('admin');
         $grupo = Grupo::loadThis($grupo_id);
-        $docentes = Docente::getDocentesActivosSucursal();
+        $docentes = Docente::getDocentesActivosSucursal($grupo->sucursal);
         return view('grupo.edit', compact('grupo', 'docentes'));
     }
 
@@ -124,14 +122,10 @@ class GrupoController extends Controller
         Gate::authorize('admin');
         $grupo = Grupo::find($grupo_id, ['id', 'activo']);
 
-        if ($grupo->activo == '1') {
-            $grupo->update(['activo' => '0']);
-            $msj = 'Grupo terminado';
-        } else {
-            $grupo->update(['activo' => '1']);
-            $msj = 'Grupo reactivado';
-        }
-        return redirect()->route('grupos.index')->with('info', $msj);
+        $activo = $grupo->activo == '1' ? '0' : '1';
+        $grupo->update(['activo' => $activo]);
+
+        return redirect()->route('grupos.index')->with('info', config('app.update'));
     }
 
     //Eliminar un grupo

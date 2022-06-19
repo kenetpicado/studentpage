@@ -52,7 +52,11 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="{{ route('grupos.status', $grupo->id) }}">Reactivar</a>
+                                                <form action="{{ route('grupos.status', $grupo->id) }}" method="post">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="btn btn-outline-primary btn-sm">Reactivar</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach

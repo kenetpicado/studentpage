@@ -36,15 +36,15 @@ class Docente extends Model
     }
 
     //Obtener Docentes de un sucursal
-    public static function getDocentesSucursal($sucursal)
+    public static function getDocentesSucursal()
     {
-        return Docente::sucursal($sucursal)->orderAsc()->get();
+        return Docente::sucursal(auth()->user()->sucursal)->orderAsc()->get();
     }
 
     //Obtener Docentes activos de una sucursal
-    public static function getDocentesActivosSucursal()
+    public static function getDocentesActivosSucursal($sucursal)
     {
-        return Docente::sucursal(auth()->user()->sucursal)
+        return Docente::sucursal($sucursal)
             ->activo()
             ->orderAsc()
             ->get(['id', 'nombre']);

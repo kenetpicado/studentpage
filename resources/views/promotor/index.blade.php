@@ -18,6 +18,7 @@
                 <div class="card mb-4">
                     <x-header-1 modelo='Promotores'></x-header-1>
 
+                    {{-- FORM STORE --}}
                     <x-modal-add ruta='promotores.store' title='Promotor'>
                         <x-input-form label="nombre"></x-input-form>
                         <x-input-form label="correo"></x-input-form>

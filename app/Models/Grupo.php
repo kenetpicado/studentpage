@@ -18,7 +18,7 @@ class Grupo extends Model
 
     public static function getToReport($grupo_id)
     {
-        return Grupo::where('id', $grupo_id)->withData()->first();
+        return Grupo::where('id', $grupo_id)->withCursoDocente()->first();
     }
 
     //Cargar 1 Grupo para editar
@@ -28,35 +28,35 @@ class Grupo extends Model
     }
 
     //Grupos para Inscripcion - create
-    public static function getForInsc($s)
+    public static function getForInsc($sucursal)
     {
-        return Grupo::sucursal($s)
+        return Grupo::sucursal($sucursal)
             ->status('1')
             ->thisYear()
-            ->withData()
+            ->withCursoDocente()
             ->orderDesc()
             ->attrInsc()
             ->get();
     }
 
     //Grupos para Inscripcion - edit
-    public static function getEditInsc($s, $id)
+    public static function getEditInsc($sucursal, $id)
     {
-        return Grupo::sucursal($s)
+        return Grupo::sucursal($sucursal)
             ->status('1')
             ->typeCurso($id)
-            ->withData()
+            ->withCursoDocente()
             ->orderDesc()
             ->attrInsc()
             ->get();
     }
 
     //Grupos de 1 Sucursal
-    public static function getGruposSucursal($s = '1')
+    public static function getGruposSucursal($activo = '1')
     {
         return Grupo::sucursal(auth()->user()->sucursal)
-            ->status($s)
-            ->withData()
+            ->status($activo)
+            ->withCursoDocente()
             ->withInsc()
             ->orderDesc()
             ->attributes()
@@ -64,11 +64,11 @@ class Grupo extends Model
     }
 
     //Grupos de 1 Docente
-    public static function getGruposDocente($id, $s = '1')
+    public static function getGruposDocente($id, $activo = '1')
     {
         return Grupo::docenteId($id)
-            ->status($s)
-            ->withData()
+            ->status($activo)
+            ->withCursoDocente()
             ->withInsc()
             ->orderDesc()
             ->attributes()
@@ -76,10 +76,10 @@ class Grupo extends Model
     }
 
     //Obtener Grupos
-    public static function getGrupos($s = '1')
+    public static function getGrupos($activo = '1')
     {
-        return Grupo::status($s)
-            ->withData()
+        return Grupo::status($activo)
+            ->withCursoDocente()
             ->withInsc()
             ->orderDesc()
             ->attributes()
@@ -87,9 +87,9 @@ class Grupo extends Model
     }
 
     /* SCOPES */
-    public function scopeStatus($q, $s)
+    public function scopeStatus($q, $activo)
     {
-        return $q->where('activo', $s);
+        return $q->where('activo', $activo);
     }
 
     public function scopeThisYear($q)
@@ -102,17 +102,17 @@ class Grupo extends Model
         return $q->where('docente_id', $id);
     }
 
-    public function scopeSucursal($q, $s)
+    public function scopeSucursal($q, $sucursal)
     {
-        return $q->where('sucursal', $s);
+        return $q->where('sucursal', $sucursal);
     }
 
-    public function scopeTypeCurso($q, $c)
+    public function scopeTypeCurso($q, $id)
     {
-        return $q->where('curso_id', $c);
+        return $q->where('curso_id', $id);
     }
 
-    public function scopeWithData($q)
+    public function scopewithCursoDocente($q)
     {
         return $q->with('curso:id,nombre')->with('docente:id,nombre');
     }

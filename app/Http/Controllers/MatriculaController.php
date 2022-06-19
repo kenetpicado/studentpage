@@ -16,17 +16,16 @@ class MatriculaController extends Controller
     public function index()
     {
         Gate::authorize('admin-promotor');
-        $user = auth()->user();
 
         switch (true) {
 
-            case ($user->rol == 'promotor'):
+            case (auth()->user()->rol == 'promotor'):
                 $promotor = User::getUserByCarnet(new Promotor());
                 $matriculas = Matricula::getMatriculasPromotor($promotor->id);
                 break;
 
-            case ($user->rol == 'admin' && $user->sucursal != 'all'):
-                $matriculas = Matricula::getMatriculasSucursal($user->sucursal);
+            case (auth()->user()->rol == 'admin' && auth()->user()->sucursal != 'all'):
+                $matriculas = Matricula::getMatriculasSucursal();
                 break;
 
             default:

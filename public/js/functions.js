@@ -1,22 +1,8 @@
 
-//CONFIRMACION PARA ELIMINAR DATO
-$('.eliminar').submit(function (e) {
-  e.preventDefault();
-  Swal.fire({
-    title: 'Elminar elemento',
-    text: 'Esta acción no se puede deshacer.',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    cancelButtonText: 'Cancelar',
-    confirmButtonText: 'Eliminar'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.submit();
-    }
-  })
-})
+jQuery(window).on("load", function() {
+  $('#preloader').fadeOut(500);
+  $('#wrapper').addClass('show');
+});
 
 tipo.addEventListener("change", function () {
   if (tipo.value == "1") {

@@ -29,9 +29,9 @@ class Matricula extends Model
     }
 
     //Todas las Matriculas de sucursal
-    public static function getMatriculasSucursal($sucursal)
+    public static function getMatriculasSucursal()
     {
-        return Matricula::sucursal($sucursal)
+        return Matricula::sucursal(auth()->user()->sucursal)
             ->withPromotor()
             ->withInscripcion()
             ->attributes()
@@ -102,7 +102,7 @@ class Matricula extends Model
 
     public function scopeByCarnet($q)
     {
-        return $q->where('carnet', Auth::user()->email);
+        return $q->where('carnet', auth()->user()->email);
     }
     /* SCOPES */
 
@@ -139,7 +139,7 @@ class Matricula extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return date('d F y', strtotime($value));
+        return date('d-m-Y', strtotime($value));
     }
 
     //Relacion 1:1 inversa a promotor
