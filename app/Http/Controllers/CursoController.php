@@ -24,9 +24,8 @@ class CursoController extends Controller
     }
 
     //Mostrar formulario editar curso
-    public function edit($curso_id)
+    public function edit(Curso $curso)
     {
-        $curso = Curso::withCount('grupos')->find($curso_id);
         return view('curso.edit', compact('curso'));
     }
 
@@ -43,6 +42,9 @@ class CursoController extends Controller
     //Eliminar curso
     public function destroy(Curso $curso)
     {
+        if ($curso->grupos()->count() > 0)
+            return redirect()->route('cursos.edit', $curso->id)->with('message', config('app.undeleted'));
+
         $curso->delete();
         return redirect()->route('cursos.index')->with('deleted', config('app.deleted'));
     }

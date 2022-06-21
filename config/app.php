@@ -18,6 +18,7 @@ return [
     'add' => 'Agregado con éxito',
     'update' => 'Actualizado con éxito',
     'deleted' => 'Registro eliminado',
+    'undeleted' => 'No es posible eliminar este registro',
     /*
     |--------------------------------------------------------------------------
     | Application Environment

@@ -10,78 +10,33 @@
                 <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('grupos.show', $inscripcion->grupo_id) }}">Alumnos</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Cambiar</li>
+                <li class="breadcrumb-item active" aria-current="page">Editar</li>
             </ol>
         </nav>
-        <!-- Content Row -->
+
         <div class="row">
             <div class="col-xl-12 col-lg-7">
 
-                <!-- Datos-->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Cambiar Grupo</h6>
-                    </div>
+                <div class="card mb-4">
+                    <x-header-2 text="Editar">
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#eliminar">Eliminar
+                            inscripción</a>
+                    </x-header-2>
 
-                    <div class="card-body">
-                        <form action="{{ route('inscripciones.update', $inscripcion->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <p>
-                                        Mover estudiante del grupo actual seleccionado. También se moverán todos los
-                                        registros de Notas y Pagos del alumno en este grupo.
-                                    </p>
-                                    <select name="grupo_id" class="form-control @error('grupo_id') is-invalid @enderror">
-                                        <option selected disabled value="">Seleccionar</option>
-                                        @foreach ($grupos as $grupo)
-                                            <option value="{{ $grupo->id }}"
-                                                {{ old('grupo_id') == $grupo->id || $grupo->id == $inscripcion->grupo->id ? 'selected' : '' }}>
-                                                {{ $grupo->curso->nombre }} /
-                                                {{ $grupo->horario }} /
-                                                {{ $grupo->docente->nombre }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                    {{-- MODAL DELETE --}}
+                    <x-modal-delete ruta='inscripciones.destroy' :id="$inscripcion->id" title="Inscripción">
+                        <input type="hidden" name="grupo" value="{{ $inscripcion->grupo_id }}">
+                    </x-modal-delete>
 
-                                    @error('grupo_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <input type="hidden" name="matricula_id" value="{{ $inscripcion->matricula_id }}">
-                            <input type="hidden" name="oldview" value="{{ $inscripcion->grupo_id }}">
-                            <button type="submit" class="btn btn-primary">Cambiar</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Eliminar Inscripción</h6>
-                    </div>
+                    {{-- FORM UPDATE --}}
+                    <x-edit-form ruta='inscripciones.update' :id="$inscripcion->id" btn="Mover">
+                        <x-grupos :grupos="$grupos" :old="$inscripcion->grupo->id" text="Mover a"></x-grupos>
 
-                    <div class="card-body">
-                        <form action="{{ route('inscripciones.destroy', $inscripcion->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <p>Eliminar estudiante del grupo actual seleccionado. Debe tener en cuenta que esta
-                                        opción eliminará todos los registros de Notas y Pagos del alumno en este grupo.
-                                    </p>
-                                </div>
-                            </div>
-                            <input type="hidden" name="grupo" value="{{$inscripcion->grupo_id}}">
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
-                    </div>
+                        <input type="hidden" name="matricula_id" value="{{ $inscripcion->matricula_id }}">
+                        <input type="hidden" name="oldview" value="{{ $inscripcion->grupo_id }}">
+                    </x-edit-form>
                 </div>
             </div>
         </div>
-        <!-- Content Row -->
     </div>
-@endsection('content')
+@endsection

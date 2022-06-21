@@ -18,8 +18,7 @@ class Matricula extends Model
     //Cargar 1 matricula para editar
     public static function edit($matricula_id)
     {
-        return Matricula::withInscripcion()
-            ->find($matricula_id, ['id', 'nombre', 'cedula', 'fecha_nac', 'grado', 'tutor', 'celular']);
+        return Matricula::find($matricula_id, ['id', 'nombre', 'cedula', 'fecha_nac', 'grado', 'tutor', 'celular']);
     }
 
     //Matricula del Alumno logged

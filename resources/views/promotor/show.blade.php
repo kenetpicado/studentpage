@@ -36,7 +36,7 @@
                                     <td>{{ $matricula->nombre }}</td>
                                     <td>{{ $matricula->created_at }}</td>
                                     <td>
-                                        <x-status :val="count($matricula->inscripciones)"></x-status>
+                                        <x-status :val="count($matricula->inscripciones)" y="Inscrito" n="Pendiente"></x-status>
                                     </td>
                                     <td>
                                         <a class="btn btn-primary btn-sm"

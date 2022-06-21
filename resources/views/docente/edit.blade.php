@@ -13,6 +13,8 @@
             </ol>
         </nav>
 
+        <x-message></x-message>
+
         <!-- Content Row -->
         <div class="row">
             <div class="col-xl-12 col-lg-7">
@@ -20,14 +22,14 @@
                 <div class="card mb-4">
                     <x-header-2 text='Editar'>
                         <x-dp-item modal='restablecer' text="Restablecer PIN"></x-dp-item>
-
-                        @if (count($docente->grupos) == 0)
-                            <x-dp-item modal='eliminar' text="Eliminar"></x-dp-item>
-                        @endif
+                        <x-dp-item modal='eliminar' text="Eliminar"></x-dp-item>
                     </x-header-2>
 
                     {{-- MODAL DELETE --}}
                     <x-modal-delete ruta='docentes.destroy' :id="$docente->id" title="Docente"></x-modal-delete>
+
+                    {{-- MODAL PIN --}}
+                    <x-modal-pin :person="$docente" tipo="docentes"></x-modal-pin>
 
                     {{-- FORM EDIT --}}
                     <x-edit-form ruta='docentes.update' :id="$docente->id">

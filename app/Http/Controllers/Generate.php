@@ -30,15 +30,16 @@ class Generate extends Controller
         //Enviar correo con nuevo pin
         //Mail::to($request->correo)->send(new Restablecimiento($request->carnet, $pin));
 
-        return redirect()->route($request->tipo . '.index');
+        return redirect()->route($request->tipo . '.index')->with('info', config('app.update'));
     }
 
-    //Funcion para generar un ID segun sucursal
+    //ID Promotor / Docente
     public static function id($location, $cant)
     {
         return $location . '-' . Generate::specific_number($cant);
     }
 
+    //Generar ID estudiante
     public static function idEstudiante($location, $fecha)
     {
         $date = Carbon::create($fecha)->format('dmy');

@@ -71,9 +71,13 @@ class DocenteController extends Controller
     }
 
     //Eliminar un docente
-    public function destroy($docente_id)
+    public function destroy(Docente $docente)
     {
-        User::deleteUser(new Docente(), $docente_id);
+        if ($docente->grupos()->count() > 0)
+            return redirect()->route('docentes.edit', $docente->id)->with('message', config('app.undeleted'));
+
+        User::where('email', $docente->carnet)->first()->delete();
+        $docente->delete();
         return redirect()->route('docentes.index')->with('deleted', config('app.deleted'));
     }
 }

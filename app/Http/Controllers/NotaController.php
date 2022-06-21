@@ -12,18 +12,12 @@ use Illuminate\Support\Facades\Gate;
 
 class NotaController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     //Ver notas
-    public function create($matricula_id, $grupo_id)
+    public function index($inscripcion_id)
     {
         Gate::authorize('admin-docente');
-        $inscripcion = Inscripcion::loadThis($matricula_id, $grupo_id);
-        $notas = Nota::loadThis($inscripcion->id);
-        return view('nota.index', compact('inscripcion', 'notas', 'grupo_id'));
+        $inscripcion = Inscripcion::withNotas($inscripcion_id);
+        return view('nota.index', compact('inscripcion'));
     }
 
     //Guardar nota
@@ -40,10 +34,11 @@ class NotaController extends Controller
     }
 
     //Editar nota
-    public function edit(Nota $nota, $matricula_id, $grupo_id)
+    public function edit(Nota $nota)
     {
         Gate::authorize('admin-docente');
-        return view('nota.edit', compact('nota', 'grupo_id', 'matricula_id'));
+        $nota->load('inscripcion');
+        return view('nota.edit', compact('nota'));
     }
 
     //Actualizar nota
@@ -51,13 +46,12 @@ class NotaController extends Controller
     {
         Gate::authorize('admin-docente');
         $nota->update($request->all());
-        return redirect()
-            ->route('notas.create', [$request->matricula_id, $request->grupo_id])
-            ->with('info', config('app.update'));
+
+        return redirect()->route('notas.index', $nota->inscripcion_id)->with('info', config('app.update'));
     }
 
     //Ver reporte de notas
-    public function show($grupo_id)
+    public function reporte($grupo_id)
     {
         Gate::authorize('admin-docente');
         $grupo = Grupo::getToReport($grupo_id);
@@ -66,7 +60,7 @@ class NotaController extends Controller
     }
 
     //Ver certificado de notas
-    public function showCertified($matricula_id, $grupo_id)
+    public function showCertified($grupo_id, $matricula_id)
     {
         Gate::authorize('admin');
         $inscripcion = Inscripcion::loadThis($matricula_id, $grupo_id);

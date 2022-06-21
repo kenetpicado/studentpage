@@ -40,8 +40,6 @@ class GrupoController extends Controller
     //Ver grupos terminados
     public function showClosed()
     {
-        Gate::authorize('admin');
-
         switch (true) {
             case (auth()->user()->sucursal == 'all'):
                 $grupos = Grupo::getGrupos('0');
@@ -87,14 +85,13 @@ class GrupoController extends Controller
     public function show($grupo_id)
     {
         Gate::authorize('admin-docente');
-        $alumnos = Inscripcion::getByGrupo($grupo_id);
-        return view('grupo.show', compact('alumnos', 'grupo_id'));
+        $inscripciones = Inscripcion::getByGrupo($grupo_id);
+        return view('grupo.show', compact('inscripciones', 'grupo_id'));
     }
 
     //Ver alumnos de un grupo terminado
     public function showThisClosed($grupo_id)
     {
-        Gate::authorize('admin');
         $alumnos = Inscripcion::getByGrupo($grupo_id);
         return view('terminado.show', compact('alumnos', 'grupo_id'));
     }
@@ -132,6 +129,10 @@ class GrupoController extends Controller
     public function destroy(Grupo $grupo)
     {
         Gate::authorize('admin');
+
+        if ($grupo->inscripciones()->count() > 0)
+            return redirect()->route('grupos.edit', $grupo->id)->with('message', config('app.undeleted'));
+
         $grupo->delete();
         return redirect()->route('grupos.index')->with('deleted', config('app.deleted'));
     }

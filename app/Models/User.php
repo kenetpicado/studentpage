@@ -30,13 +30,6 @@ class User extends Authenticatable
         $this->attributes['name'] = trim(ucwords(strtolower($value)));
     }
 
-    public static function deleteUser($model, $id)
-    {
-        $user = $model->find($id);
-        User::where('email', $user->carnet)->first()->delete();
-        $user->delete();
-    }
-
     //Actualizar usuario
     public static function updateUser($model, $id, $request)
     {

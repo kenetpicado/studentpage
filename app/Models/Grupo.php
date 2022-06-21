@@ -24,7 +24,7 @@ class Grupo extends Model
     //Cargar 1 Grupo para editar
     public static function loadThis($grupo_id)
     {
-        return Grupo::withDocente()->withInsc()->find($grupo_id);
+        return Grupo::withDocente()->find($grupo_id);
     }
 
     //Grupos para Inscripcion - create

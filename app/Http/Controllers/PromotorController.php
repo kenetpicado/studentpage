@@ -62,9 +62,10 @@ class PromotorController extends Controller
     }
 
     //Eliminar promotor
-    public function destroy($promotor_id)
+    public function destroy(Promotor $promotor)
     {
-        User::deleteUser(new Promotor(), $promotor_id);
+        User::where('email', $promotor->carnet)->first()->delete();
+        $promotor->delete();
         return redirect()->route('promotores.index')->with('deleted', config('app.deleted'));
     }
 }

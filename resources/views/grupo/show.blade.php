@@ -18,11 +18,12 @@
 
                 <div class="card mb-4">
                     <x-header-2 text="Alumnos">
-                        @if (count($alumnos) > 0)
-                            <a href="{{ route('notas.show', $grupo_id) }}" class="dropdown-item" target="_blank">Reporte
-                                de notas</a>
+                        @if (count($inscripciones))
+                            <a href="{{ route('notas.reporte', $inscripciones->first()->grupo_id) }}"
+                                class="dropdown-item" target="_blank">
+                                Reporte de notas</a>
                         @else
-                            <div class="dropdown-header">no hay opciones</div>
+                            <div class="dropdown-header">No hay opciones</div>
                         @endif
                     </x-header-2>
 
@@ -38,21 +39,21 @@
                             @endif
                         </x-slot>
                         <tbody>
-                            @foreach ($alumnos as $alumno)
+                            @foreach ($inscripciones as $inscripcion)
                                 <tr>
-                                    <td>{{ $alumno->matricula->carnet }}</td>
-                                    <td>{{ $alumno->matricula->nombre }}</td>
+                                    <td>{{ $inscripcion->matricula->carnet }}</td>
+                                    <td>{{ $inscripcion->matricula->nombre }}</td>
                                     <td>
-                                        <a href="{{ route('notas.create', [$alumno->matricula->id, $grupo_id]) }}"
+                                        <a href="{{ route('notas.index', $inscripcion->id) }}"
                                             class="btn btn-sm btn-primary">Notas</a>
                                     </td>
                                     @if (auth()->user()->rol == 'admin')
                                         <td>
-                                            <a href="{{ route('pagos.create', [$alumno->matricula->id, $grupo_id]) }}"
+                                            <a href="{{ route('pagos.index', $inscripcion->id) }}"
                                                 class="btn btn-sm btn-secondary">Pagos</a>
                                         </td>
                                         <td>
-                                            <a href="{{ route('inscripciones.edit', [$alumno->matricula->id, $grupo_id]) }}"
+                                            <a href="{{ route('inscripciones.edit', $inscripcion->id) }}"
                                                 class="btn btn-sm btn-outline-primary">Editar</a>
                                         </td>
                                     @endif

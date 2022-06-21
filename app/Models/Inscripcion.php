@@ -18,6 +18,16 @@ class Inscripcion extends Model
 
     protected $table = "inscripciones";
 
+    public static function withPagos($inscripcion_id)
+    {
+        return Inscripcion::where('id', $inscripcion_id)->with('pagos')->first();
+    }
+
+    public static function withNotas($inscripcion_id)
+    {
+        return Inscripcion::where('id', $inscripcion_id)->with('notas')->first();
+    }
+
     public static function getToReport($grupo_id)
     {
         return Inscripcion::where('grupo_id', $grupo_id)
@@ -42,23 +52,23 @@ class Inscripcion extends Model
     }
 
     //Cargar 1 Grupo With
-    public static function loadWithGrupo($m, $g)
+    public static function loadWithGrupo($inscripcion_id)
     {
-        return Inscripcion::getThis($m, $g)
+        return Inscripcion::where('id', $inscripcion_id)
             ->with('grupo:id,sucursal,curso_id')
             ->first();
     }
 
     //Cargar 1 Grupo para notas y pagos
-    public static function loadThis($m, $g)
+    public static function loadThis($matricula_id, $grupo_id)
     {
-        return Inscripcion::getThis($m, $g)->first();
+        return Inscripcion::getThis($matricula_id, $grupo_id)->first();
     }
 
     /* SCOPES */
-    public function scopeGetThis($q, $m, $g)
+    public function scopeGetThis($q, $matricula_id, $grupo_id)
     {
-        return $q->where('matricula_id', $m)->where('grupo_id', $g);
+        return $q->where('matricula_id', $matricula_id)->where('grupo_id', $grupo_id);
     }
 
     // RELACIONES

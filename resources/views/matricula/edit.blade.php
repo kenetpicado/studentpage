@@ -13,16 +13,14 @@
             </ol>
         </nav>
 
+        <x-message></x-message>
+
         <div class="row">
             <div class="col-xl-12 col-lg-7">
 
                 <div class="card mb-4">
                     <x-header-2 text="Editar">
-                        @if (count($matricula->inscripciones) < 1)
-                            <x-dp-item modal='eliminar' text="Eliminar"></x-dp-item>
-                        @else
-                            <div class="dropdown-header">No hay opciones</div>
-                        @endif
+                        <x-dp-item modal='eliminar' text="Eliminar"></x-dp-item>
                     </x-header-2>
 
                     {{-- MODAL DELETE --}}

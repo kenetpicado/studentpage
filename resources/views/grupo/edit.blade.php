@@ -13,15 +13,15 @@
             </ol>
         </nav>
 
+        <x-message></x-message>
+
         <div class="row">
-            <form class="col-xl-12 col-lg-7">
+            <div class="col-xl-12 col-lg-7">
 
                 <div class="card mb-4">
                     <x-header-2 text="Editar grupo">
                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#cerrar">Cerrar grupo</a>
-                        @if (count($grupo->inscripciones) == 0)
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#eliminar">Eliminar</a>
-                        @endif
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#eliminar">Eliminar</a>
                     </x-header-2>
 
                      {{-- MODAL DELETE --}}
@@ -35,7 +35,7 @@
                         <x-input-edit label="horario" :val="$grupo->horario"></x-input-edit>
                     </x-edit-form>
                 </div>
-            </form>
+            </div>
         </div>
 
         <!-- MODAL CERRAR GRUPO -->

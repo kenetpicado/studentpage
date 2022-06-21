@@ -17,56 +17,43 @@
         <div class="row">
             <div class="col-xl-12 col-lg-7">
 
-                <!-- Datos -->
                 <div class="card mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Terminados</h6>
-                    </div>
+                    <x-header-0 text="Terminados"></x-header-0>
 
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-borderless" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Curso</th>
-                                        <th>Docente</th>
-                                        <th>Horario</th>
-                                        <th>Año</th>
-                                        <th>Alumnos</th>
-                                        <th>Opción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($grupos as $grupo)
-                                        <tr>
-                                            <td>
-                                                <i class="fas fa-exclamation-circle" style="color:tomato"></i>
-                                                {{ $grupo->curso->nombre }}
-                                            </td>
-                                            <td>{{ $grupo->docente->nombre }}</td>
-                                            <td>{{ $grupo->horario }}</td>
-                                            <td>{{ $grupo->anyo }}</td>
-                                            <td>
-                                                <a href="{{ route('grupos.thisClosed', $grupo->id) }}">
-                                                    Ver ({{ count($grupo->inscripciones) }})
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <form action="{{ route('grupos.status', $grupo->id) }}" method="post">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit" class="btn btn-outline-primary btn-sm">Reactivar</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <x-table-head>
+                        <x-slot name="title">
+                            <th>Curso</th>
+                            <th>Docente</th>
+                            <th>Horario</th>
+                            <th>Año</th>
+                            <th>Alumnos</th>
+                            <th>Opción</th>
+                        </x-slot>
+                        <tbody>
+                            @foreach ($grupos as $grupo)
+                                <tr>
+                                    <td>{{ $grupo->curso->nombre }}</td>
+                                    <td>{{ $grupo->docente->nombre }}</td>
+                                    <td>{{ $grupo->horario }}</td>
+                                    <td>{{ $grupo->anyo }}</td>
+                                    <td>
+                                        <a href="{{ route('grupos.thisClosed', $grupo->id) }}">
+                                            Ver {{ count($grupo->inscripciones) }} alumnos
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('grupos.status', $grupo->id) }}" method="post">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit" class="btn btn-outline-primary btn-sm">Reactivar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </x-table-head>
                 </div>
             </div>
         </div>
-        <!-- Content Row -->
     </div>
-@endsection('content')
+@endsection

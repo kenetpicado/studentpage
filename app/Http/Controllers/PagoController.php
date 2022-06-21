@@ -5,30 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePagoRequest;
 use App\Models\Inscripcion;
 use App\Models\Pago;
-use Illuminate\Support\Facades\Gate;
 use Carbon\Carbon;
 
 class PagoController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     //Cargar vista de los pagos
-    public function create($matricula_id, $grupo_id)
+    public function index($inscripcion_id)
     {
-        Gate::authorize('admin');
-        $inscripcion = Inscripcion::loadThis($matricula_id, $grupo_id);
-        $pagos = Pago::loadThis($inscripcion->id);
-        return view('pago.index', compact('inscripcion', 'pagos', 'grupo_id'));
+        $inscripcion = Inscripcion::withPagos($inscripcion_id);
+        return view('pago.index', compact('inscripcion'));
     }
 
     //Guardar pago
     public function store(StorePagoRequest $request)
     {
-        Gate::authorize('admin');
-
         if ($request->tipo == '1') {
             $ultimo = Pago::lastMonth($request->inscripcion_id);
             if ($ultimo == null) {

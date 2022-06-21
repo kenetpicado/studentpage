@@ -47,7 +47,7 @@
                             @endforeach
                         </tbody>
                     </x-table-head>
-                    
+
                 </div>
             </div>
         </div>

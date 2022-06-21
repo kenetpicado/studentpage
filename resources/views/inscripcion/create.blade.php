@@ -25,37 +25,8 @@
                     <x-header-0 text="Inscribir: "> {{ $matricula->nombre }}</x-header-0>
 
                     {{-- FORM STORE --}}
-                    <x-create-form ruta='inscripciones.store'>
-
-                        <div class="row">
-                            <div class="form-group col-lg-6">
-                                <label>Selecionar grupo</label>
-                                <select name="grupo_id" class="form-control @error('grupo_id') is-invalid @enderror">
-                                    <option selected disabled value="">Seleccionar</option>
-                                    @foreach ($grupos as $grupo)
-                                        <option value="{{ $grupo->id }}"
-                                            {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
-                                            {{ $grupo->curso->nombre }} -
-                                            {{ $grupo->docente->nombre }} -
-                                            {{ $grupo->horario }}
-                                        </option>
-                                    @endforeach
-                                </select>
-
-                                @error('grupo_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-6 text-primary small">
-                                Asegúrese de seleccionar el grupo correcto.
-                            </div>
-                        </div>
-
+                    <x-create-form ruta='inscripciones.store' btn="Inscribir">
+                        <x-grupos :grupos="$grupos"></x-grupos>
                         <input type="hidden" name="from" value="{{ $type }}">
                         <input type="hidden" name="matricula_id" value="{{ $matricula->id }}">
                     </x-create-form>

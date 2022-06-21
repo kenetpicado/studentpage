@@ -33,6 +33,6 @@ class Promotor extends Model
     //Obtener todos los Promotores
     public static function getPromotores()
     {
-        return Promotor::orderBy('nombre', 'asc')->get();
+        return Promotor::orderBy('nombre')->get();
     }
 }

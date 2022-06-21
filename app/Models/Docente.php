@@ -59,12 +59,12 @@ class Docente extends Model
     /* SCOPES */
     public function scopeOrderAsc($q)
     {
-        return $q->orderBy('nombre', 'asc');
+        return $q->orderBy('nombre');
     }
 
-    public function scopeSucursal($q, $s)
+    public function scopeSucursal($q, $sucursal)
     {
-        return $q->where('sucursal', $s);
+        return $q->where('sucursal', $sucursal);
     }
 
     public function scopeAcTivo($q)

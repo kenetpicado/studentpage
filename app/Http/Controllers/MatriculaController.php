@@ -101,10 +101,15 @@ class MatriculaController extends Controller
     }
 
     //Eliminar matricula
-    public function destroy($matricula_id)
+    public function destroy(Matricula $matricula)
     {
         Gate::authorize('admin');
-        User::deleteUser(new Matricula(), $matricula_id);
+
+        if ($matricula->inscripciones()->count() > 0)
+            return redirect()->route('matriculas.edit', $matricula->id)->with('message', config('app.undeleted'));
+
+        User::where('email', $matricula->carnet)->first()->delete();
+        $matricula->delete();
         return redirect()->route('matriculas.index')->with('deleted', config('app.deleted'));
     }
 }

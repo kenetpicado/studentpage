@@ -25,6 +25,9 @@
                     {{-- MODAL DELETE --}}
                     <x-modal-delete ruta='promotores.destroy' :id="$promotor->id" title="Promotor"></x-modal-delete>
 
+                    {{-- MODAL PIN --}}
+                    <x-modal-pin :person="$promotor" tipo="promotores"></x-modal-pin>
+
                     {{-- FORM EDIT --}}
                     <x-edit-form ruta='promotores.update' :id="$promotor->id">
                         <x-input-edit label="nombre" :val="$promotor->nombre"></x-input-edit>
