@@ -24,8 +24,6 @@ class CreateNotasTable extends Migration
                 ->references('id')
                 ->on('inscripciones')
                 ->onDelete('cascade');
-
-            $table->date('created_at')->default(date('Y-m-d'));
         });
     }
 

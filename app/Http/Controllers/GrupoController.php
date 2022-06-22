@@ -25,8 +25,7 @@ class GrupoController extends Controller
                 break;
 
             case (auth()->user()->rol == 'docente'):
-                $docente = User::getUserByCarnet(new Docente());
-                $grupos = Grupo::getGruposDocente($docente->id);
+                $grupos = Grupo::getGruposDocente(auth()->user()->sub_id);
                 break;
 
             default:
@@ -35,21 +34,6 @@ class GrupoController extends Controller
         }
 
         return view('grupo.index', compact('grupos'));
-    }
-
-    //Ver grupos terminados
-    public function showClosed()
-    {
-        switch (true) {
-            case (auth()->user()->sucursal == 'all'):
-                $grupos = Grupo::getGrupos('0');
-                break;
-            default:
-                $grupos = Grupo::getGruposSucursal('0');
-                break;
-        }
-
-        return view('terminado.index', compact('grupos'));
     }
 
     //Crear un nuevo grupo
@@ -89,18 +73,11 @@ class GrupoController extends Controller
         return view('grupo.show', compact('inscripciones', 'grupo_id'));
     }
 
-    //Ver alumnos de un grupo terminado
-    public function showThisClosed($grupo_id)
-    {
-        $alumnos = Inscripcion::getByGrupo($grupo_id);
-        return view('terminado.show', compact('alumnos', 'grupo_id'));
-    }
-
     //Editar grupo
-    public function edit($grupo_id)
+    public function edit(Grupo $grupo)
     {
         Gate::authorize('admin');
-        $grupo = Grupo::loadThis($grupo_id);
+        $grupo->load('docente:id,nombre');
         $docentes = Docente::getDocentesActivosSucursal($grupo->sucursal);
         return view('grupo.edit', compact('grupo', 'docentes'));
     }
@@ -110,18 +87,6 @@ class GrupoController extends Controller
     {
         Gate::authorize('admin');
         $grupo->update($request->all());
-        return redirect()->route('grupos.index')->with('info', config('app.update'));
-    }
-
-    //Cambiar estado del grupo
-    public function status($grupo_id)
-    {
-        Gate::authorize('admin');
-        $grupo = Grupo::find($grupo_id, ['id', 'activo']);
-
-        $activo = $grupo->activo == '1' ? '0' : '1';
-        $grupo->update(['activo' => $activo]);
-
         return redirect()->route('grupos.index')->with('info', config('app.update'));
     }
 
@@ -135,5 +100,39 @@ class GrupoController extends Controller
 
         $grupo->delete();
         return redirect()->route('grupos.index')->with('deleted', config('app.deleted'));
+    }
+
+    //Ver grupos terminados
+    public function showClosed()
+    {
+        switch (true) {
+            case (auth()->user()->sucursal == 'all'):
+                $grupos = Grupo::getGrupos('0');
+                break;
+            default:
+                $grupos = Grupo::getGruposSucursal('0');
+                break;
+        }
+
+        return view('terminado.index', compact('grupos'));
+    }
+
+    //Ver alumnos de un grupo terminado
+    public function showThisClosed($grupo_id)
+    {
+        $inscripciones = Inscripcion::getByGrupo($grupo_id);
+        return view('terminado.show', compact('inscripciones', 'grupo_id'));
+    }
+
+    //Cambiar estado del grupo
+    public function status($grupo_id)
+    {
+        Gate::authorize('admin');
+        $grupo = Grupo::find($grupo_id, ['id', 'activo']);
+
+        $activo = $grupo->activo == '1' ? '0' : '1';
+        $grupo->update(['activo' => $activo]);
+
+        return redirect()->route('grupos.index')->with('info', config('app.update'));
     }
 }

@@ -21,30 +21,11 @@ class Grupo extends Model
         return Grupo::where('id', $grupo_id)->withCursoDocente()->first();
     }
 
-    //Cargar 1 Grupo para editar
-    public static function loadThis($grupo_id)
-    {
-        return Grupo::withDocente()->find($grupo_id);
-    }
-
     //Grupos para Inscripcion - create
-    public static function getForInsc($sucursal)
+    public static function getForInscripciones($sucursal)
     {
         return Grupo::sucursal($sucursal)
             ->status('1')
-            ->thisYear()
-            ->withCursoDocente()
-            ->orderDesc()
-            ->attrInsc()
-            ->get();
-    }
-
-    //Grupos para Inscripcion - edit
-    public static function getEditInsc($sucursal, $id)
-    {
-        return Grupo::sucursal($sucursal)
-            ->status('1')
-            ->typeCurso($id)
             ->withCursoDocente()
             ->orderDesc()
             ->attrInsc()
@@ -90,11 +71,6 @@ class Grupo extends Model
     public function scopeStatus($q, $activo)
     {
         return $q->where('activo', $activo);
-    }
-
-    public function scopeThisYear($q)
-    {
-        return $q->where('anyo', Carbon::now()->format('Y'));
     }
 
     public function scopeDocenteId($q, $id)

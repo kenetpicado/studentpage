@@ -10,12 +10,12 @@ use App\Http\Controllers\PromotorController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotaController;
+use App\Http\Controllers\InscripcionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 // Autenticado y administradores
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::resource('/', HomeController::class);
 
     Route::resource('cursos', CursoController::class)->except(['show']);
 
@@ -34,9 +34,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('pagos/{inscripcion}', [PagoController::class, 'index'])->name('pagos.index');
     Route::post('pagos', [PagoController::class, 'store'])->name('pagos.store');
 
-    Route::get('notas/{inscripcion}', [NotaController::class, 'index'])->name('notas.index');
-    Route::resource('notas', NotaController::class)->only(['store', 'edit', 'update']);
-    Route::get('reporte/notas/{grupo}', [NotaController::class, 'reporte'])->name('notas.reporte');
+    Route::get('alumno/notas/{inscripcion}', [NotaController::class, 'index'])->name('notas.index');
+    Route::get('certificado/notas/{inscripcion}', [NotaController::class, 'showCertified'])->name('notas.certified');
+    Route::resource('notas', NotaController::class)->except(['index', 'create']);
 
     Route::resource('inscripciones', InscripcionController::class)
         ->parameters(['inscripciones' => 'inscripcion'])
@@ -52,3 +52,6 @@ Route::resource('consulta', ConsultaController::class)->only(['index', 'show']);
 
 //Login
 Auth::routes(['register' => false]);
+
+//Home
+Route::resource('/', HomeController::class)->middleware(['auth']);

@@ -19,7 +19,7 @@
                 <div class="card mb-4">
                     <x-header-2 text="Alumnos">
                         @if (count($inscripciones))
-                            <a href="{{ route('notas.reporte', $inscripciones->first()->grupo_id) }}"
+                            <a href="{{ route('notas.show', $inscripciones->first()->grupo_id) }}"
                                 class="dropdown-item" target="_blank">
                                 Reporte de notas</a>
                         @else

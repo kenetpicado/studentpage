@@ -31,31 +31,23 @@ class User extends Authenticatable
     }
 
     //Actualizar usuario
-    public static function updateUser($model, $id, $request)
+    public static function updateUser($user)
     {
-        $user = $model->find($id);
-        $user->update($request->all());
-
         User::where('email', $user->carnet)
             ->first(['id', 'name'])
             ->update(['name' => $user->nombre]);
     }
 
     //Crear un nuevo usuario
-    public static function createUser($name, $email, $pin, $rol, $sucursal = 'all')
+    public static function createUser($request, $sub_id, $pin, $rol)
     {
         User::create([
-            'name' => $name,
-            'email' => $email,
+            'name' => $request->nombre,
+            'email' => $request->id,
             'password' => Hash::make($pin),
             'rol' => $rol,
-            'sucursal' => $sucursal
+            'sucursal' => $request->sucursal,
         ]);
-    }
-
-    public static function getUserByCarnet($model)
-    {
-        return $model->where('carnet', auth()->user()->email)->first(['id']);
     }
 
     public static function loggedId($model)

@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Grupo')
+@section('title', 'Grupo terminado')
 
 @section('content')
     <div class="container-fluid">
@@ -27,11 +27,11 @@
                             <th>Notas</th>
                         </x-slot>
                         <tbody>
-                            @foreach ($alumnos as $alumno)
+                            @foreach ($inscripciones as $inscripcion)
                                 <tr>
-                                    <td>{{ $alumno->matricula->carnet }}</td>
-                                    <td>{{ $alumno->matricula->nombre }}</td>
-                                    <td><a href="{{ route('notas.certified', [$alumno->matricula->id, $grupo_id]) }}">Ver
+                                    <td>{{ $inscripcion->matricula->carnet }}</td>
+                                    <td>{{ $inscripcion->matricula->nombre }}</td>
+                                    <td><a href="{{ route('notas.certified', $inscripcion->id) }}" class="btn btn-primary btn-sm">Ver
                                             certicado</a></td>
                                 </tr>
                             @endforeach

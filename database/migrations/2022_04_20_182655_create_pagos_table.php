@@ -16,7 +16,7 @@ class CreatePagosTable extends Migration
         Schema::create('pagos', function (Blueprint $table) {
             $table->id();
             $table->float('monto');
-            $table->string('recibo', 10);
+            $table->string('recibo', 20);
             $table->string('concepto', 50);
             $table->enum('tipo', ['1', '0'])->default('1');
 
@@ -26,7 +26,7 @@ class CreatePagosTable extends Migration
                 ->on('inscripciones')
                 ->onDelete('cascade');
 
-            $table->date('created_at')->default(date('Y-m-d'));
+            $table->date('created_at')->default(now()->format('Y-m-d'));
         });
     }
 

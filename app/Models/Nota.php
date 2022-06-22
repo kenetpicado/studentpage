@@ -10,7 +10,7 @@ class Nota extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['num', 'materia', 'valor', 'inscripcion_id', 'created_at'];
+    protected $fillable = ['num', 'materia', 'valor', 'inscripcion_id'];
     public $timestamps = false;
 
     //Cargar Notas de 1 Inscripcion

@@ -32,7 +32,15 @@ class PromotorController extends Controller
 
         //Guardar
         $promotor = Promotor::create($request->all());
-        User::createUser($request->nombre, $id, 'FFFFFF', 'promotor');
+
+        //Guardar cuenta de usuario
+        User::create([
+            'name' => $request->nombre,
+            'email' => $id,
+            'password' => bcrypt('FFFFFF'),
+            'rol' => 'promotor',
+            'sub_id' => $promotor->id,
+        ]);
 
         //Enviar correo
         //Mail::to($request->correo)->send(new CredencialesPromotor($promotor, $pin));
@@ -48,16 +56,16 @@ class PromotorController extends Controller
     }
 
     //Editar promotor
-    public function edit($promotor_id)
+    public function edit(Promotor $promotor)
     {
-        $promotor = Promotor::find($promotor_id);
         return view('promotor.edit', compact('promotor'));
     }
 
     //Actualizar promotor
-    public function update(UpdatePromotorRequest $request, $promotor_id)
+    public function update(UpdatePromotorRequest $request, Promotor $promotor)
     {
-        User::updateUser(new Promotor(), $promotor_id, $request);
+        $promotor->update($request->all());
+        User::updateUser($promotor);
         return redirect()->route('promotores.index')->with('info', config('app.update'));
     }
 

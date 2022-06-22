@@ -14,7 +14,7 @@ class InscripcionController extends Controller
     public function create($matricula_id, $type)
     {
         $matricula = Matricula::find($matricula_id, ['id', 'nombre', 'sucursal']);
-        $grupos = Grupo::getForInsc($matricula->sucursal);
+        $grupos = Grupo::getForInscripciones($matricula->sucursal);
         return view('inscripcion.create', compact('matricula', 'grupos', 'type'));
     }
 
@@ -30,20 +30,21 @@ class InscripcionController extends Controller
     }
 
     //Cambiar de grupo
-    public function edit($inscripcion_id)
+    public function edit(Inscripcion $inscripcion)
     {
-        $inscripcion = Inscripcion::loadWithGrupo($inscripcion_id);
-        $grupos = Grupo::getEditInsc($inscripcion->grupo->sucursal, $inscripcion->grupo->curso_id);
+        $inscripcion->load('grupo:id,sucursal');
+        $grupos = Grupo::getForInscripciones($inscripcion->grupo->sucursal);
         return view('inscripcion.edit', compact('inscripcion', 'grupos'));
     }
 
     //Actualizar grupo
-    public function update(InscribirRequest $request, $inscripcion_id)
+    public function update(InscribirRequest $request, Inscripcion $inscripcion)
     {
-        Inscripcion::find($inscripcion_id)->update($request->all());
+        $inscripcion->update($request->all());
         return redirect()->route('grupos.show', $request->oldview)->with('info', config('app.update'));
     }
 
+    //Eliminar una inscripcion
     public function destroy(Request $request, Inscripcion $inscripcion)
     {
         $inscripcion->delete();

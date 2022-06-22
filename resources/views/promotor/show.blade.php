@@ -27,7 +27,7 @@
                             <th>Nombre</th>
                             <th>Fecha registro</th>
                             <th>Estado</th>
-                            <th></th>
+                            <th>Inscribir</th>
                         </x-slot>
                         <tbody>
                             @foreach ($matriculas as $matricula)

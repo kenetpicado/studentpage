@@ -10,9 +10,9 @@ use Carbon\Carbon;
 class PagoController extends Controller
 {
     //Cargar vista de los pagos
-    public function index($inscripcion_id)
+    public function index(Inscripcion $inscripcion)
     {
-        $inscripcion = Inscripcion::withPagos($inscripcion_id);
+        $inscripcion->load('pagos');
         return view('pago.index', compact('inscripcion'));
     }
 

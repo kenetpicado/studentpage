@@ -7,16 +7,16 @@ use App\Http\Requests\UpdateNotaRequest;
 use App\Models\Grupo;
 use App\Models\Nota;
 use App\Models\Inscripcion;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class NotaController extends Controller
 {
     //Ver notas
-    public function index($inscripcion_id)
+    public function index(Inscripcion $inscripcion)
     {
         Gate::authorize('admin-docente');
-        $inscripcion = Inscripcion::withNotas($inscripcion_id);
+        $inscripcion->load('notas');
         return view('nota.index', compact('inscripcion'));
     }
 
@@ -24,11 +24,6 @@ class NotaController extends Controller
     public function store(StoreNotaRequest $request)
     {
         Gate::authorize('admin-docente');
-
-        $request->merge([
-            'created_at' => Carbon::now()->format('Y-m-d')
-        ]);
-
         Nota::create($request->all());
         return back()->with('info', config('app.add'));
     }
@@ -46,12 +41,18 @@ class NotaController extends Controller
     {
         Gate::authorize('admin-docente');
         $nota->update($request->all());
-
         return redirect()->route('notas.index', $nota->inscripcion_id)->with('info', config('app.update'));
     }
 
+    //Eliminar una nota
+    public function destroy(Request $request, Nota $nota)
+    {
+        $nota->delete();
+        return redirect()->route('notas.index', $request->inscripcion)->with('deleted', config('app.deleted'));
+    }
+
     //Ver reporte de notas
-    public function reporte($grupo_id)
+    public function show($grupo_id)
     {
         Gate::authorize('admin-docente');
         $grupo = Grupo::getToReport($grupo_id);
@@ -60,11 +61,12 @@ class NotaController extends Controller
     }
 
     //Ver certificado de notas
-    public function showCertified($grupo_id, $matricula_id)
+    public function showCertified(Inscripcion $inscripcion)
     {
         Gate::authorize('admin');
-        $inscripcion = Inscripcion::loadThis($matricula_id, $grupo_id);
-        $notas = Nota::loadThis($inscripcion->id);
-        return view('nota.certified', compact('notas', 'grupo_id'));
+        $inscripcion->load('notas');
+        return view('nota.certified', compact('inscripcion'));
     }
+
+
 }

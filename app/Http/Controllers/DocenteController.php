@@ -39,7 +39,14 @@ class DocenteController extends Controller
         $docente = Docente::create($request->all());
 
         //Guardar cuenta de usuario
-        User::createUser($request->nombre, $id, 'FFFFFF', 'docente', $request->sucursal);
+        User::create([
+            'name' => $request->nombre,
+            'email' => $id,
+            'password' => bcrypt('FFFFFF'),
+            'rol' => 'docente',
+            'sucursal' => $request->sucursal,
+            'sub_id' => $docente->id,
+        ]);
 
         //Enviar correo
         //Mail::to($request->correo)->send(new CredencialesDocente($docente, $pin));
@@ -61,12 +68,13 @@ class DocenteController extends Controller
     }
 
     //Actualizar un docente
-    public function update(UpdateDocenteRequest $request, $docente_id)
+    public function update(UpdateDocenteRequest $request, Docente $docente)
     {
         if ($request->activo == null)
             $request->merge(['activo' => '0']);
 
-        User::updateUser(new Docente(), $docente_id, $request);
+        $docente->update($request->all());
+        User::updateUser($docente);
         return redirect()->route('docentes.index')->with('info', config('app.update'));
     }
 

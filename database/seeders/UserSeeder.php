@@ -47,6 +47,7 @@ class UserSeeder extends Seeder
             'email' => 'PM-0000',
             'password' => Hash::make('FFFFFF'),
             'rol' => 'promotor',
+            'sub_id' => '1'
         ]);
     }
 }

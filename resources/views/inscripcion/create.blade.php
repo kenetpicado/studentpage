@@ -22,7 +22,7 @@
             <div class="col-xl-12 col-lg-7">
 
                 <div class="card mb-4">
-                    <x-header-0 text="Inscribir: "> {{ $matricula->nombre }}</x-header-0>
+                    <x-header-0 :text="$matricula->nombre"></x-header-0>
 
                     {{-- FORM STORE --}}
                     <x-create-form ruta='inscripciones.store' btn="Inscribir">

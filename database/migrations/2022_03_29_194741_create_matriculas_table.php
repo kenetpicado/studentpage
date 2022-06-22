@@ -32,7 +32,7 @@ class CreateMatriculasTable extends Migration
                 ->on('promotors')
                 ->onDelete('set null');
 
-            $table->date('created_at')->default(date('Y-m-d'));
+            $table->date('created_at')->default(now()->format('Y-m-d'));
         });
     }
 

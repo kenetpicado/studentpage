@@ -30,16 +30,17 @@
 
                     <x-table-head>
                         <x-slot name="title">
-                            <th>Número de materia</th>
-                            <th>Nombre de materia</th>
+                            <th>Materia</th>
                             <th>Nota</th>
                             <th>Editar</th>
                         </x-slot>
                         <tbody>
                             @foreach ($inscripcion->notas as $nota)
                                 <tr>
-                                    <td>{{ $nota->num }}</td>
-                                    <td>{{ $nota->materia }}</td>
+                                    <td>
+                                        {{ $nota->num }} -
+                                        {{ $nota->materia }}
+                                    </td>
                                     <td>{{ $nota->valor }}</td>
                                     <td>
                                         <a href="{{ route('notas.edit', $nota->id) }}" class="btn btn-sm btn-primary">
