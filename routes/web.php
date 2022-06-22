@@ -28,26 +28,32 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('grupos/terminados', [GrupoController::class, 'showClosed'])->name('grupos.closed');
     Route::get('grupos/terminados/{id}', [GrupoController::class, 'showThisClosed'])->name('grupos.thisClosed');
 
-    //Restablecer pin
     Route::post('cambiar/pin', [Generate::class, 'cambiar_pin'])->name('cambiar.pin');
 
-    Route::get('pagos/{inscripcion}', [PagoController::class, 'index'])->name('pagos.index');
-    Route::post('pagos', [PagoController::class, 'store'])->name('pagos.store');
+    Route::get('alumno/pagos/{inscripcion}', [PagoController::class, 'index'])->name('pagos.index');
+    Route::resource('pagos', PagoController::class)->except(['index']);
 
-    Route::get('alumno/notas/{inscripcion}', [NotaController::class, 'index'])->name('notas.index');
     Route::get('certificado/notas/{inscripcion}', [NotaController::class, 'showCertified'])->name('notas.certified');
-    Route::resource('notas', NotaController::class)->except(['index', 'create']);
 
-    Route::resource('inscripciones', InscripcionController::class)
-        ->parameters(['inscripciones' => 'inscripcion'])
-        ->except(['create']);
+    Route::resource('inscripciones', InscripcionController::class)->parameters(['inscripciones' => 'inscripcion'])->except(['create']);
 
     Route::get('inscribir/{matricula}/{type}', [InscripcionController::class, 'create'])->name('inscripciones.create');
+
+    Route::resource('grupos', GrupoController::class)->except(['index', 'show']);
+});
+
+// Autenticado, administradores y docente
+Route::middleware(['auth', 'admin-docente'])->group(function () {
+
+    Route::resource('notas', NotaController::class)->except(['index', 'create']);
+
+    Route::get('alumno/notas/{inscripcion}', [NotaController::class, 'index'])->name('notas.index');
+    
+    Route::resource('grupos', GrupoController::class)->only(['index', 'show']);
 });
 
 //Recursos
 Route::resource('matriculas', MatriculaController::class)->middleware(['auth']);
-Route::resource('grupos', GrupoController::class)->middleware(['auth']);
 Route::resource('consulta', ConsultaController::class)->only(['index', 'show']);
 
 //Login

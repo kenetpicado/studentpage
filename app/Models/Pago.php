@@ -9,37 +9,34 @@ class Pago extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'monto',
+        'recibo',
+        'concepto',
+        'inscripcion_id',
+        'created_at',
+    ];
+    
     public $timestamps = false;
-
-    //Obtener ultimo mes pagado
-    public static function lastMonth($id)
-    {
-        return Pago::inscripcion($id)
-            ->where('tipo', '1')
-            ->get('concepto')
-            ->last();
-    }
 
     //Cargar Pagos de 1 Inscripcion
     public static function loadThis($id)
     {
-        return Pago::inscripcion($id)->get();
-    }
-
-    /* SCOPES */
-    public function scopeInscripcion($q, $id)
-    {
-        return $q->where('inscripcion_id', $id);
+        return Pago::where('inscripcion_id', $id)->get();
     }
 
     public function setConceptoAttribute($value)
     {
-        $this->attributes['concepto'] = trim(strtoupper($value));
+        $this->attributes['concepto'] = trim(ucfirst(strtolower($value)));
     }
 
     public function getCreatedAtAttribute($value)
     {
         return date('d-m-Y', strtotime($value));
+    }
+    
+    public function inscripcion()
+    {
+        return $this->belongsTo(Inscripcion::class);
     }
 }

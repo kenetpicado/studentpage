@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Editar nota')
+@section('title', 'Editar pago')
 
 @section('content')
     <div class="container-fluid">
@@ -9,9 +9,9 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('grupos.show', $nota->inscripcion->grupo_id) }}">Alumnos</a>
+                <li class="breadcrumb-item"><a href="{{ route('grupos.show', $pago->inscripcion->grupo_id) }}">Alumnos</a>
                 </li>
-                <li class="breadcrumb-item"><a href="{{ route('notas.index', $nota->inscripcion_id) }}">Notas</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('pagos.index', $pago->inscripcion_id) }}">Pagos</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Editar</li>
             </ol>
         </nav>
@@ -25,16 +25,15 @@
                     </x-header-2>
 
                     {{-- MODAL DELETE --}}
-                    <x-modal-delete ruta='notas.destroy' :id="$nota->id" title="Nota">
-                        <input type="hidden" name="inscripcion" value="{{ $nota->inscripcion_id }}">
+                    <x-modal-delete ruta='pagos.destroy' :id="$pago->id" title="Pago">
+                        <input type="hidden" name="inscripcion" value="{{ $pago->inscripcion_id }}">
                     </x-modal-delete>
 
                     {{-- FORM UPDATE --}}
-                    <x-edit-form ruta='notas.update' :id="$nota->id">
-                        <x-input-edit label="num" :val="$nota->num" text="Número de materia (Unidad)" type="number">
-                        </x-input-edit>
-                        <x-input-edit label="materia" :val="$nota->materia"></x-input-edit>
-                        <x-input-edit label="valor" :val="$nota->valor" text="Nota"></x-input-edit>
+                    <x-edit-form ruta='pagos.update' :id="$pago->id">
+                        <x-input-edit label="concepto" :val="$pago->concepto"></x-input-edit>
+                        <x-input-edit label="recibo" :val="$pago->recibo"></x-input-edit>
+                        <x-input-edit label="monto" :val="$pago->monto"></x-input-edit>
                     </x-edit-form>
                 </div>
             </div>

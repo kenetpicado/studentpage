@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Mail\Restablecimiento;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class Generate extends Controller
@@ -25,7 +24,7 @@ class Generate extends Controller
         $user = User::where('email', $request->carnet)->first(['id', 'password']);
         $pin =  $this->pin();
 
-        $user->update(['password' => Hash::make('FFFFFF')]);
+        $user->update(['password' => bcrypt('FFFFFF')]);
 
         //Enviar correo con nuevo pin
         //Mail::to($request->correo)->send(new Restablecimiento($request->carnet, $pin));

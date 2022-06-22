@@ -19,7 +19,6 @@ class Nota extends Model
         return Nota::where('inscripcion_id', $inscripcion_id)->orderBy('num')->get();
     }
 
-    // RELACIONES
     public function inscripcion()
     {
         return $this->belongsTo(Inscripcion::class);

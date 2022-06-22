@@ -127,7 +127,6 @@ class GrupoController extends Controller
     //Cambiar estado del grupo
     public function status($grupo_id)
     {
-        Gate::authorize('admin');
         $grupo = Grupo::find($grupo_id, ['id', 'activo']);
 
         $activo = $grupo->activo == '1' ? '0' : '1';

@@ -27,11 +27,13 @@ class StoreNotaRequest extends FormRequest
         return [
             //
             'num' => [
-                'required', 'numeric', 'min:1', 'max:20',
-                Rule::unique('notas')->where(function ($q) {
-                    return $q->where('inscripcion_id', $this->inscripcion_id);
-                })
+                'required',
+                'numeric',
+                'min:1',
+                'max:20',
+                Rule::unique('notas')->where('inscripcion_id', $this->inscripcion_id)
             ],
+
             'materia' => ['required', 'max:50'],
             'valor' => 'required|numeric|min:0|max:100',
         ];

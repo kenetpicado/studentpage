@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->
     <li class="nav-item active">
-        <a class="nav-link" href="/">
+        <a class="nav-link text-center" href="/">
             <span>{{ config('app.name') }}</span></a>
     </li>
 

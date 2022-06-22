@@ -44,7 +44,7 @@
                                     <td>{{ $nota->valor }}</td>
                                     <td>
                                         <a href="{{ route('notas.edit', $nota->id) }}" class="btn btn-sm btn-primary">
-                                            Editar</i>
+                                            Editar
                                         </a>
                                     </td>
                                 </tr>

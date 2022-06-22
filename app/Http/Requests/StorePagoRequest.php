@@ -26,9 +26,9 @@ class StorePagoRequest extends FormRequest
     {
         return [
             //
-            'concepto' => [Rule::requiredIf($this->tipo == '0'), 'max:50'],
+            'concepto' => 'required|max:50',
             'monto' => 'required|numeric|gt:0',
-            'recibo' => 'required',
+            'recibo' => 'required|max:50',
         ];
     }
 }

@@ -18,7 +18,6 @@ class CreatePagosTable extends Migration
             $table->float('monto');
             $table->string('recibo', 20);
             $table->string('concepto', 50);
-            $table->enum('tipo', ['1', '0'])->default('1');
 
             $table->unsignedBigInteger('inscripcion_id');
             $table->foreign('inscripcion_id')

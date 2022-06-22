@@ -9,7 +9,6 @@ use App\Models\Promotor;
 use App\Http\Resources\matricula\MatriculaIndex;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Generate;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class MatriculaController extends Controller
@@ -22,7 +21,7 @@ class MatriculaController extends Controller
     public function index()
     {
         //
-        $promotor = User::loggedId(new Promotor());
+        $promotor = User::loggedId();
 
         if ($promotor == 'admin') {
             return response()->json([
@@ -68,15 +67,8 @@ class MatriculaController extends Controller
             'tel' => 'telefono',
         ]);
 
-        if ($validator->fails()) {
+        if ($validator->fails())
             return $validator->errors();
-        }
-
-        //Obtener usuario
-        $user = auth()->user();
-
-        //Obtener promotor
-        $id = Promotor::where('carnet', $user->email)->first(['id'])->id;
 
         $carnet = Generate::idEstudiante($request->sucursal, $request->fecha_nac);
         $pin = Generate::pin();
@@ -85,8 +77,8 @@ class MatriculaController extends Controller
         $request->merge([
             'carnet' =>  $carnet,
             'pin' => $pin,
-            'promotor_id' => $id,
-            'created_at' => Carbon::now()->format('Y-m-d'),
+            'promotor_id' => auth()->user()->sub_id,
+            'created_at' => now()->format('Y-m-d'),
         ]);
 
         $request->validate([
@@ -94,9 +86,17 @@ class MatriculaController extends Controller
         ]);
 
         //Guardar datos
-        Matricula::create($request->all());
+        $matricula = Matricula::create($request->all());
 
-        User::createUser($request->nombre, $carnet, $pin, 'alumno', $request->sucursal);
+        //Crear cuenta de usuario
+        User::create([
+            'name' => $request->nombre,
+            'email' => $carnet,
+            'password' => bcrypt('FFFFFF'),
+            'rol' => 'alumno',
+            'sucursal' => $request->sucursal,
+            'sub_id' => $matricula->id,
+        ]);
 
         return response()->json([
             'status' => '1',

@@ -40,34 +40,28 @@ class MatriculaController extends Controller
     {
         Gate::authorize('admin-promotor');
 
-        //Obtener usuario
-        $user = auth()->user();
-
         //Si es admin de sucursal especifica
-        if ($user->sucursal != 'all')
-            $request->merge(['sucursal' =>  $user->sucursal,]);
+        if (auth()->user()->sucursal != 'all')
+            $request->merge(['sucursal' =>  auth()->user()->sucursal]);
 
-        //Si matricula un admin id promotor es null
-        $promotor_id = $user->rol == 'admin'
-            ? null
-            : $user->sub_id;
+        if ($request->carnet == '') {
+            
+            $request->merge([
+                'carnet' =>  Generate::idEstudiante($request->sucursal, $request->fecha_nac)
+            ]);
 
-        $carnet = $request->carnet != ''
-            ? $request->carnet
-            : Generate::idEstudiante($request->sucursal, $request->fecha_nac);
+            //Verificar Carnet Unico
+            $request->validate(['carnet' => 'unique:matriculas']);
+        }
 
         $pin = Generate::pin();
 
         //Agregar campos que faltan
         $request->merge([
-            'carnet' =>  $carnet,
             'pin' => $pin,
-            'promotor_id' => $promotor_id,
+            'promotor_id' => auth()->user()->sub_id,
             'created_at' => now()->format('Y-m-d'),
         ]);
-
-        //Verificar Carnet Unico
-        $request->validate(['carnet' => 'unique:matriculas']);
 
         //Guardar datos
         $matricula = Matricula::create($request->all());
@@ -75,7 +69,7 @@ class MatriculaController extends Controller
         //Crear cuenta de usuario
         User::create([
             'name' => $request->nombre,
-            'email' => $carnet,
+            'email' => $request->carnet,
             'password' => bcrypt('FFFFFF'),
             'rol' => 'alumno',
             'sucursal' => $request->sucursal,
