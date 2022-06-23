@@ -51,7 +51,7 @@ class DocenteController extends Controller
         //Enviar correo
         //Mail::to($request->correo)->send(new CredencialesDocente($docente, $pin));
 
-        return back()->with('info', config('app.add'));
+        return back()->with('success', 'Guardado');
     }
 
     //Ver grupos de un docente
@@ -75,17 +75,17 @@ class DocenteController extends Controller
 
         $docente->update($request->all());
         User::updateUser($docente);
-        return redirect()->route('docentes.index')->with('info', config('app.update'));
+        return redirect()->route('docentes.index')->with('success', 'Actualizado');
     }
 
     //Eliminar un docente
     public function destroy(Docente $docente)
     {
         if ($docente->grupos()->count() > 0)
-            return redirect()->route('docentes.edit', $docente->id)->with('message', config('app.undeleted'));
+            return redirect()->route('docentes.edit', $docente->id)->with('error', 'No es posible eliminar');
 
         User::where('email', $docente->carnet)->first()->delete();
         $docente->delete();
-        return redirect()->route('docentes.index')->with('deleted', config('app.deleted'));
+        return redirect()->route('docentes.index')->with('success', 'Eliminado');
     }
 }

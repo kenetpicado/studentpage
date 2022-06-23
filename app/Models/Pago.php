@@ -19,12 +19,6 @@ class Pago extends Model
     
     public $timestamps = false;
 
-    //Cargar Pagos de 1 Inscripcion
-    public static function loadThis($id)
-    {
-        return Pago::where('inscripcion_id', $id)->get();
-    }
-
     public function setConceptoAttribute($value)
     {
         $this->attributes['concepto'] = trim(ucfirst(strtolower($value)));

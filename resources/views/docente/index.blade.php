@@ -12,6 +12,8 @@
             </ol>
         </nav>
 
+        <x-message></x-message>
+
         <!-- Content Row -->
         <div class="row">
             <div class="col-xl-12 col-lg-7">

@@ -6,50 +6,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="{{config('app.name')}}">
-    
+    <meta name="author" content="{{ config('app.name') }}">
+
     <title>{{ config('app.name') }} - @yield('title')</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    
+
     {{-- normalize --}}
     <link href="{{ asset('css/normalize.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
 </head>
 
-<body id="page-top">
+<body class="bg-light">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+    @include('partials.topbar')
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+    <div class="container ">
 
-            <!-- Main Content -->
-            <div id="content">
+        <div class="row justify-content-center">
 
-                {{-- TOPBAR --}}
-                @include('partials.topbar')
+            <div class="col-lg-10">
+                <div class="card o-hidden border-0 my-5" style="border-radius: 0px">
+                    <div class="card-body p-0">
+                        <div class="p-5">
 
-                {{-- CONTENIDO --}}
-                @yield('content')
-
+                            @yield('content')
+                            
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- End of Main Content -->
-
-            {{-- FOOTER --}}
-            {{-- @include('partials.footer') --}}
         </div>
-        <!-- End of Content Wrapper -->
-
     </div>
-    <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
@@ -64,5 +57,4 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 </body>
-
 </html>

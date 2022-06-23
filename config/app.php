@@ -15,6 +15,7 @@ return [
 
     'name' => ('StudentPage'),
     'centro' => ('Instituto Tecnológico Megabyte Service'),
+
     'add' => 'Agregado con éxito',
     'update' => 'Actualizado con éxito',
     'deleted' => 'Registro eliminado',

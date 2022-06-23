@@ -11,6 +11,8 @@
                 <li class="breadcrumb-item active" aria-current="page">Cursos</li>
             </ol>
         </nav>
+        
+        <x-message></x-message>
 
         <!-- Content Row -->
         <div class="row">

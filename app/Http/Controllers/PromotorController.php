@@ -45,7 +45,7 @@ class PromotorController extends Controller
         //Enviar correo
         //Mail::to($request->correo)->send(new CredencialesPromotor($promotor, $pin));
 
-        return back()->with('info', config('app.add'));
+        return back()->with('success', 'Guardado');
     }
 
     //Ver matriculas de un promotor
@@ -66,7 +66,7 @@ class PromotorController extends Controller
     {
         $promotor->update($request->all());
         User::updateUser($promotor);
-        return redirect()->route('promotores.index')->with('info', config('app.update'));
+        return redirect()->route('promotores.index')->with('success', 'Actualizado');
     }
 
     //Eliminar promotor
@@ -74,6 +74,6 @@ class PromotorController extends Controller
     {
         User::where('email', $promotor->carnet)->first()->delete();
         $promotor->delete();
-        return redirect()->route('promotores.index')->with('deleted', config('app.deleted'));
+        return redirect()->route('promotores.index')->with('success', 'Eliminado');
     }
 }

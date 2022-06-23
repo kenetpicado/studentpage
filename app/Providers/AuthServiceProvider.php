@@ -27,31 +27,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //Solo promores y administradores
-        Gate::define('admin-promotor', function ($user) {
-            return $user->rol == 'promotor' || $user->rol == 'admin';
-        });
-
-        //Solo docentes y administradores
-        Gate::define('admin-docente', function ($user) {
-            return $user->rol == 'docente' || $user->rol == 'admin';
-        });
-
-        //Solo administradores
-        Gate::define('admin', function ($user) {
-            return $user->rol == 'admin';
-        });
-
-        //Solo alumno
-        Gate::define('alumno', function ($user) {
-            return $user->rol == 'alumno';
-        });
-
-        //SOLO NOTA DEL ALUMNO AL QUE LE PERTENECE
-        Gate::define('alumno-nota', function ($user, $inscripcion_id) {
-            $matricula = Matricula::where('carnet', $user->email)->first(['id']);
-            $inscripcion = Inscripcion::find($inscripcion_id);
-            return $user->rol == 'alumno' && $matricula->id === $inscripcion->matricula_id;
+        Gate::define('propietario', function ($user, $inscripcion) {
+            return $user->sub_id == $inscripcion->matricula_id;
         });
     }
 }

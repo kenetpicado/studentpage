@@ -24,9 +24,9 @@ class InscripcionController extends Controller
         Inscripcion::create($request->all());
 
         if ($request->from == 'global')
-            return redirect()->route('matriculas.index')->with('info', 'Inscrito correctamente!');
+            return redirect()->route('matriculas.index')->with('success', 'Inscrito');
 
-        return redirect()->route('promotores.show', $request->from)->with('info', 'Inscrito correctamente!');
+        return redirect()->route('promotores.show', $request->from)->with('success', 'Inscrito');
     }
 
     //Cambiar de grupo
@@ -41,13 +41,13 @@ class InscripcionController extends Controller
     public function update(InscribirRequest $request, Inscripcion $inscripcion)
     {
         $inscripcion->update($request->all());
-        return redirect()->route('grupos.show', $request->oldview)->with('info', config('app.update'));
+        return redirect()->route('grupos.show', $request->oldview)->with('success', 'Actualizado');
     }
 
     //Eliminar una inscripcion
     public function destroy(Request $request, Inscripcion $inscripcion)
     {
         $inscripcion->delete();
-        return redirect()->route('grupos.show', $request->grupo)->with('deleted', config('app.deleted'));
+        return redirect()->route('grupos.show', $request->grupo)->with('success', 'Eliminado');
     }
 }

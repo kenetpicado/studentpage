@@ -26,10 +26,14 @@ class Inscripcion extends Model
             ->sortBy('matricula.nombre');
     }
 
-    public static function getByMatricula($matricula_id)
+    public static function getByMatricula()
     {
-        return Inscripcion::where('matricula_id', $matricula_id)
-            ->with(['grupo:id,curso_id,docente_id', 'grupo.curso:id,nombre', 'grupo.docente:id,nombre'])
+        return Inscripcion::where('matricula_id', auth()->user()->sub_id)
+            ->with([
+                'grupo:id,curso_id,docente_id,anyo,horario',
+                'grupo.curso:id,nombre',
+                'grupo.docente:id,nombre'
+            ])
             ->get();
     }
 

@@ -23,9 +23,6 @@
     <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
-    {{-- SWEETALERT --}}
-    <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
-
     <!-- LOADER -->
     <link href="{{ asset('css/loader.css') }}" rel="stylesheet">
 </head>
@@ -78,37 +75,10 @@
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
 
-    {{-- sweetalert2 --}}
-    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
-
     {{-- funciones extras --}}
     <script src="{{ asset('js/functions.js') }}"></script>
 
     @yield('re-open')
-
-    @if (session('info'))
-        <script>
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: "<?php echo session('info'); ?>",
-                showConfirmButton: false,
-                timer: 1000
-            })
-        </script>
-    @endif
-
-    @if (session('deleted'))
-        <script>
-            Swal.fire({
-                position: 'center',
-                icon: 'error',
-                title: "<?php echo session('deleted'); ?>",
-                showConfirmButton: false,
-                timer: 1000
-            })
-        </script>
-    @endif
 </body>
 
 </html>

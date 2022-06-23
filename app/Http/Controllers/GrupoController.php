@@ -16,8 +16,6 @@ class GrupoController extends Controller
     //Ver todos los grupos
     public function index()
     {
-        Gate::authorize('admin-docente');
-
         switch (true) {
 
             case (auth()->user()->sucursal == 'all'):
@@ -39,8 +37,6 @@ class GrupoController extends Controller
     //Crear un nuevo grupo
     public function create()
     {
-        Gate::authorize('admin');
-
         $cursos = Curso::getCursosActivos();
 
         $docentes = auth()->user()->sucursal == 'all'
@@ -53,8 +49,6 @@ class GrupoController extends Controller
     //Guardar grupo
     public function store(StoreGrupoRequest $request)
     {
-        Gate::authorize('admin');
-
         //Sucursal del grupo = suscursal del docente
         $request->merge([
             'sucursal' => Docente::find($request->docente_id)->sucursal,
@@ -62,13 +56,12 @@ class GrupoController extends Controller
         ]);
 
         Grupo::create($request->all());
-        return redirect()->route('grupos.index')->with('info', config('app.add'));
+        return redirect()->route('grupos.index')->with('success', 'Guardado');
     }
 
     //Mostrar alumnos de un grupo
     public function show($grupo_id)
     {
-        Gate::authorize('admin-docente');
         $inscripciones = Inscripcion::getByGrupo($grupo_id);
         return view('grupo.show', compact('inscripciones', 'grupo_id'));
     }
@@ -76,7 +69,6 @@ class GrupoController extends Controller
     //Editar grupo
     public function edit(Grupo $grupo)
     {
-        Gate::authorize('admin');
         $grupo->load('docente:id,nombre');
         $docentes = Docente::getDocentesActivosSucursal($grupo->sucursal);
         return view('grupo.edit', compact('grupo', 'docentes'));
@@ -85,21 +77,18 @@ class GrupoController extends Controller
     //Actualizar grupo
     public function update(UpdateGrupoRequest $request, Grupo $grupo)
     {
-        Gate::authorize('admin');
         $grupo->update($request->all());
-        return redirect()->route('grupos.index')->with('info', config('app.update'));
+        return redirect()->route('grupos.index')->with('success', 'Actualizado');
     }
 
     //Eliminar un grupo
     public function destroy(Grupo $grupo)
     {
-        Gate::authorize('admin');
-
         if ($grupo->inscripciones()->count() > 0)
-            return redirect()->route('grupos.edit', $grupo->id)->with('message', config('app.undeleted'));
+            return redirect()->route('grupos.edit', $grupo->id)->with('error', 'No es posible eliminar');
 
         $grupo->delete();
-        return redirect()->route('grupos.index')->with('deleted', config('app.deleted'));
+        return redirect()->route('grupos.index')->with('success', 'Eliminado');
     }
 
     //Ver grupos terminados

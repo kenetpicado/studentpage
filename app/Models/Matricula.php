@@ -15,17 +15,10 @@ class Matricula extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    //Matricula del Alumno logged
-    public static function getCurrent()
-    {
-        return Matricula::byCarnet()->first(['id', 'nombre', 'carnet']);
-    }
-
     //Todas las Matriculas de sucursal
     public static function getMatriculasSucursal()
     {
         return Matricula::sucursal(auth()->user()->sucursal)
-            ->withPromotor()
             ->withInscripcion()
             ->attributes()
             ->get();
@@ -35,7 +28,6 @@ class Matricula extends Model
     public static function getMatriculasPromotor($promotor_id)
     {
         return Matricula::wherePromotor($promotor_id)
-            ->withPromotor()
             ->withInscripcion()
             ->attributes()
             ->get();
@@ -44,8 +36,7 @@ class Matricula extends Model
     //Obtener todas las Matriculas
     public static function getMatriculas()
     {
-        return Matricula::withPromotor()
-            ->withInscripcion()
+        return Matricula::withInscripcion()
             ->attributes()
             ->get();
     }
@@ -75,11 +66,6 @@ class Matricula extends Model
     public function scopeSucursal($q, $s)
     {
         return $q->where('sucursal', $s);
-    }
-
-    public function scopeWithPromotor($q)
-    {
-        return $q->with('promotor:id,carnet');
     }
 
     public function scopeWithInscripcion($q)

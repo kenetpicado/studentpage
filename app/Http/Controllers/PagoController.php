@@ -21,7 +21,7 @@ class PagoController extends Controller
     {
         $request->merge(['created_at' => now()->format('Y-m-d')]);
         Pago::create($request->all());
-        return back()->with('info', config('app.add'));
+        return back()->with('success', 'Guardado');
     }
 
     public function edit(Pago $pago)
@@ -33,12 +33,12 @@ class PagoController extends Controller
     public function update(StorePagoRequest $request, Pago $pago)
     {
         $pago->update($request->all());
-        return redirect()->route('pagos.index', $pago->inscripcion_id)->with('info', config('app.update'));
+        return redirect()->route('pagos.index', $pago->inscripcion_id)->with('success', 'Actualizado');
     }
 
     public function destroy(Request $request, Pago $pago)
     {
         $pago->delete();
-        return redirect()->route('pagos.index', $request->inscripcion)->with('deleted', config('app.deleted'));
+        return redirect()->route('pagos.index', $request->inscripcion)->with('success', 'Eliminado');
     }
 }

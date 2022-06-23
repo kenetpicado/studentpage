@@ -13,8 +13,7 @@
             </ol>
         </nav>
 
-        <x-message></x-message>
-        
+        <x-error></x-error>
         <!-- Content Row -->
         <div class="row">
             <div class="col-xl-12 col-lg-7">

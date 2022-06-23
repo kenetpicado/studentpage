@@ -17,44 +17,71 @@ use Illuminate\Support\Facades\Auth;
 // Autenticado y administradores
 Route::middleware(['auth', 'admin'])->group(function () {
 
-    Route::resource('cursos', CursoController::class)->except(['show']);
+    Route::resource('cursos', CursoController::class)
+        ->except(['create', 'show']);
 
-    Route::resource('docentes', DocenteController::class);
+    Route::resource('docentes', DocenteController::class)
+        ->except(['create']);
 
-    Route::resource('promotores', PromotorController::class)->parameters(['promotores' => 'promotor']);
+    Route::resource('promotores', PromotorController::class)
+        ->parameters(['promotores' => 'promotor']);
 
-    Route::put('status/grupos/{grupo}', [GrupoController::class, 'status'])->name('grupos.status');
+    Route::put('status/grupos/{grupo}', [GrupoController::class, 'status'])
+        ->name('grupos.status');
 
-    Route::get('grupos/terminados', [GrupoController::class, 'showClosed'])->name('grupos.closed');
-    Route::get('grupos/terminados/{id}', [GrupoController::class, 'showThisClosed'])->name('grupos.thisClosed');
+    Route::get('grupos/terminados', [GrupoController::class, 'showClosed'])
+        ->name('grupos.closed');
+    Route::get('grupos/terminados/{id}', [GrupoController::class, 'showThisClosed'])
+        ->name('grupos.thisClosed');
 
-    Route::post('cambiar/pin', [Generate::class, 'cambiar_pin'])->name('cambiar.pin');
+    Route::post('cambiar/pin', [Generate::class, 'cambiar_pin'])
+        ->name('cambiar.pin');
 
-    Route::get('alumno/pagos/{inscripcion}', [PagoController::class, 'index'])->name('pagos.index');
-    Route::resource('pagos', PagoController::class)->except(['index']);
+    Route::get('alumno/pagos/{inscripcion}', [PagoController::class, 'index'])
+        ->name('pagos.index');
+    Route::resource('pagos', PagoController::class)
+        ->except(['index']);
 
-    Route::get('certificado/notas/{inscripcion}', [NotaController::class, 'showCertified'])->name('notas.certified');
+    Route::get('certificado/notas/{inscripcion}', [NotaController::class, 'showCertified'])
+        ->name('notas.certified');
 
-    Route::resource('inscripciones', InscripcionController::class)->parameters(['inscripciones' => 'inscripcion'])->except(['create']);
+    Route::resource('inscripciones', InscripcionController::class)
+        ->parameters(['inscripciones' => 'inscripcion'])
+        ->except(['create']);
 
-    Route::get('inscribir/{matricula}/{type}', [InscripcionController::class, 'create'])->name('inscripciones.create');
+    Route::get('inscribir/{matricula}/{type}', [InscripcionController::class, 'create'])
+        ->name('inscripciones.create');
 
-    Route::resource('grupos', GrupoController::class)->except(['index', 'show']);
+    Route::resource('grupos', GrupoController::class)
+        ->except(['index', 'show']);
+
+    Route::resource('matriculas', MatriculaController::class)
+        ->only(['show', 'destroy']);
 });
 
-// Autenticado, administradores y docente
+// Autenticado, Administradores y Docente
 Route::middleware(['auth', 'admin-docente'])->group(function () {
 
-    Route::resource('notas', NotaController::class)->except(['index', 'create']);
+    Route::resource('notas', NotaController::class)
+        ->except(['index', 'create']);
 
-    Route::get('alumno/notas/{inscripcion}', [NotaController::class, 'index'])->name('notas.index');
-    
-    Route::resource('grupos', GrupoController::class)->only(['index', 'show']);
+    Route::get('alumno/notas/{inscripcion}', [NotaController::class, 'index'])
+        ->name('notas.index');
+
+    Route::resource('grupos', GrupoController::class)
+        ->only(['index', 'show']);
 });
 
-//Recursos
-Route::resource('matriculas', MatriculaController::class)->middleware(['auth']);
-Route::resource('consulta', ConsultaController::class)->only(['index', 'show']);
+// Autenticado, Administradores y Promotor
+Route::resource('matriculas', MatriculaController::class)
+    ->except(['show', 'destroy', 'create'])
+    ->middleware(['auth', 'admin-promotor']);
+
+//Consulta de estudiantes
+Route::resource('consulta', ConsultaController::class)
+    ->parameters(['consulta' => 'inscripcion'])
+    ->only(['index', 'show'])
+    ->middleware(['auth', 'alumno']);
 
 //Login
 Auth::routes(['register' => false]);

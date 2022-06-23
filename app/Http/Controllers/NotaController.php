@@ -22,7 +22,7 @@ class NotaController extends Controller
     public function store(StoreNotaRequest $request)
     {
         Nota::create($request->all());
-        return back()->with('info', config('app.add'));
+        return back()->with('success', 'Guardado');
     }
 
     //Editar nota
@@ -36,14 +36,14 @@ class NotaController extends Controller
     public function update(UpdateNotaRequest $request, Nota $nota)
     {
         $nota->update($request->all());
-        return redirect()->route('notas.index', $nota->inscripcion_id)->with('info', config('app.update'));
+        return redirect()->route('notas.index', $nota->inscripcion_id)->with('success', 'Actualizado');
     }
 
     //Eliminar una nota
     public function destroy(Request $request, Nota $nota)
     {
         $nota->delete();
-        return redirect()->route('notas.index', $request->inscripcion)->with('deleted', config('app.deleted'));
+        return redirect()->route('notas.index', $request->inscripcion)->with('success', 'Eliminado');
     }
 
     //Ver reporte de notas

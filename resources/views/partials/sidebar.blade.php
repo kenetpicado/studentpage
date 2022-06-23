@@ -2,8 +2,9 @@
 <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->
     <li class="nav-item active">
-        <a class="nav-link text-center" href="/">
-            <span>{{ config('app.name') }}</span></a>
+        <div class="nav-link text-center">
+            <span>{{ config('app.name') }}</span>
+        </div>
     </li>
 
     <hr class="sidebar-divider my-0">

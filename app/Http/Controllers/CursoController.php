@@ -20,7 +20,7 @@ class CursoController extends Controller
     public function store(StoreCursoRequest $request)
     {
         Curso::create($request->all());
-        return back()->with('info', config('app.add'));
+        return back()->with('success', 'Guardado');
     }
 
     //Mostrar formulario editar curso
@@ -36,16 +36,16 @@ class CursoController extends Controller
             $request->merge(['activo' => '0']);
 
         $curso->update($request->all());
-        return redirect()->route('cursos.index')->with('info', config('app.update'));
+        return redirect()->route('cursos.index')->with('success', 'Actualizado');
     }
 
     //Eliminar curso
     public function destroy(Curso $curso)
     {
         if ($curso->grupos()->count() > 0)
-            return redirect()->route('cursos.edit', $curso->id)->with('message', config('app.undeleted'));
+            return redirect()->route('cursos.edit', $curso->id)->with('error', 'No es posible eliminar');
 
         $curso->delete();
-        return redirect()->route('cursos.index')->with('deleted', config('app.deleted'));
+        return redirect()->route('cursos.index')->with('success', 'Eliminado');
     }
 }

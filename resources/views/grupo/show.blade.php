@@ -12,7 +12,7 @@
                 <li class="breadcrumb-item active" aria-current="page">Alumnos</li>
             </ol>
         </nav>
-
+        <x-message></x-message>
         <div class="row">
             <div class="col-xl-12 col-lg-7">
 

@@ -12,6 +12,8 @@
             </ol>
         </nav>
 
+        <x-message></x-message>
+
         <div class="row">
             <div class="col-xl-12 col-lg-7">
 
@@ -52,7 +54,6 @@
                         <x-slot name="title">
                             <th>Carnet</th>
                             <th>Nombre</th>
-                            <th>Registro por</th>
                             <th>Fecha registro</th>
                             <th>Estado</th>
                             <th>Mas</th>
@@ -62,7 +63,6 @@
                                 <tr>
                                     <td>{{ $matricula->carnet }}</td>
                                     <td>{{ $matricula->nombre }}</td>
-                                    <td>{{ $matricula->promotor->carnet ?? '' }}</td>
                                     <td>{{ $matricula->created_at }}</td>
                                     <td>
                                         <x-status :val="count($matricula->inscripciones)" y="Inscrito" n="Pendiente"></x-status>

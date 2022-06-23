@@ -3,49 +3,34 @@
 @section('title', 'Consulta')
 
 @section('content')
+    <h1 class="h4 text-gray-900 mb-4 text-uppercase">Cursos</h1>
 
-    <div class="container">
+    <div class="row">
+        @foreach ($inscripciones as $inscripcion)
+            <div class="col-xl-6 col-md-6 mb-4">
+                <div class="card border-left-primary h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary mb-1">
+                                    {{ $inscripcion->grupo->docente->nombre }}</div>
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Datos</h1>
-        </div>
-
-        <p>Nombre: <strong>{{ $matricula->nombre }}</strong></p>
-        <p>Carnet: <strong>{{ $matricula->carnet }}</strong></p>
-        <hr>
-
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Cursos</h1>
-        </div>
-
-        <div class="row">
-            @foreach ($inscripcion as $gm)
-                <div class="col-xl-6 col-md-6 mb-4">
-                    <div class="card border-left-primary shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        {{ $gm->grupo->docente->nombre }}</div>
-                                    <div class="h5 mb-2 font-weight-bold text-gray-800 text-uppercase">
-                                        {{ $gm->grupo->curso->nombre }}
-                                    </div>
-                                    <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
-                                        {{ $gm->grupo->horario }} - {{ $gm->grupo->anyo }}
-                                    </div>
+                                <div class="h5 mb-2 font-weight-bold text-gray-800 text-uppercase">
+                                    {{ $inscripcion->grupo->curso->nombre }}
                                 </div>
-                                <div class="col-auto">
-                                    <a href="{{ route('consulta.show', $gm->id) }}">
-                                        <i class="fas fa-angle-double-right fa-2x"></i>
-                                    </a>
+                                <div class="text-xs font-weight-bold text-secondary mb-1">
+                                    {{ $inscripcion->grupo->horario }} - {{ $inscripcion->grupo->anyo }}
                                 </div>
+                            </div>
+                            <div class="col-auto">
+                                <a href="{{ route('consulta.show', $inscripcion->id) }}">
+                                    <i class="fas fa-angle-double-right fa-2x"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            @endforeach
-        </div>
+            </div>
+        @endforeach
     </div>
-@endsection('content')
+@endsection
