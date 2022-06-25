@@ -49,7 +49,7 @@
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <form action="{{ route('grupos.status', $grupo->id) }}" method="POST">
+                    <form action="{{ route('grupos.desactivar', $grupo->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="modal-body">

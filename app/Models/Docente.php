@@ -13,22 +13,6 @@ class Docente extends Model
     protected $fillable = ['carnet', 'nombre', 'correo', 'activo', 'sucursal'];
     public $timestamps = false;
 
-    public function setNombreAttribute($value)
-    {
-        $this->attributes['nombre'] = trim(ucwords(strtolower($value)));
-    }
-
-    public function setCorreoAttribute($value)
-    {
-        $this->attributes['correo'] = trim(strtolower($value));
-    }
-
-    //Relacion 1:n a Grupos
-    public function grupos()
-    {
-        return $this->hasMany(Grupo::class);
-    }
-
     //Obtener todos los docentes
     public static function getDocentes()
     {
@@ -38,7 +22,9 @@ class Docente extends Model
     //Obtener Docentes de un sucursal
     public static function getDocentesSucursal()
     {
-        return Docente::sucursal(auth()->user()->sucursal)->orderAsc()->get();
+        return Docente::sucursal(auth()->user()->sucursal)
+            ->orderAsc()
+            ->get();
     }
 
     //Obtener Docentes activos de una sucursal
@@ -53,7 +39,9 @@ class Docente extends Model
     //Obtener Docentes activos
     public static function getDocentesActivos()
     {
-        return Docente::activo()->orderAsc()->get(['id', 'nombre']);
+        return Docente::activo()
+            ->orderAsc()
+            ->get(['id', 'nombre']);
     }
 
     /* SCOPES */
@@ -71,5 +59,20 @@ class Docente extends Model
     {
         return $q->where('activo', '1');
     }
-    /* SCOPES */
+
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = trim(ucwords(strtolower($value)));
+    }
+
+    public function setCorreoAttribute($value)
+    {
+        $this->attributes['correo'] = trim(strtolower($value));
+    }
+
+    //Relacion 1:n a Grupos
+    public function grupos()
+    {
+        return $this->hasMany(Grupo::class);
+    }
 }

@@ -26,10 +26,7 @@ class InscribirRequest extends FormRequest
     {
         return [
             //
-            'grupo_id' => ['required', 
-            Rule::unique('inscripciones')->where(function ($query) {
-                return $query->where('matricula_id', $this->matricula_id);
-            })],
+            'grupo_id' => ['required', Rule::unique('inscripciones')->where('matricula_id', $this->matricula_id)],
         ];
     }
 

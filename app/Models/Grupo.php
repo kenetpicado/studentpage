@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Curso;
 use App\Models\Docente;
 use App\Models\Inscripcion;
-use Carbon\Carbon;
 
 class Grupo extends Model
 {
@@ -16,12 +15,15 @@ class Grupo extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    public static function getToReport($grupo_id)
+    //Obtener grupo para reporte de notas
+    public static function getToReport($id)
     {
-        return Grupo::where('id', $grupo_id)->withCursoDocente()->first();
+        return Grupo::where('id', $id)
+            ->withCursoDocente()
+            ->first();
     }
 
-    //Grupos para Inscripcion - create
+    //Grupos para crear y editar Inscripcion
     public static function getForInscripciones($sucursal)
     {
         return Grupo::sucursal($sucursal)
@@ -38,7 +40,7 @@ class Grupo extends Model
         return Grupo::sucursal(auth()->user()->sucursal)
             ->status($activo)
             ->withCursoDocente()
-            ->withInsc()
+            ->withInscripciones()
             ->orderDesc()
             ->attributes()
             ->get();
@@ -50,21 +52,28 @@ class Grupo extends Model
         return Grupo::docenteId($id)
             ->status($activo)
             ->withCursoDocente()
-            ->withInsc()
+            ->withInscripciones()
             ->orderDesc()
             ->attributes()
             ->get();
     }
 
-    //Obtener Grupos
+    //Obtener todos los Grupos
     public static function getGrupos($activo = '1')
     {
         return Grupo::status($activo)
             ->withCursoDocente()
-            ->withInsc()
+            ->withInscripciones()
             ->orderDesc()
             ->attributes()
             ->get();
+    }
+
+    //Establecer el valor de estado
+    public static function activo($grupo_id, $status)
+    {
+        Grupo::find($grupo_id, ['id', 'activo'])
+            ->update(['activo' => $status]);
     }
 
     /* SCOPES */
@@ -98,7 +107,7 @@ class Grupo extends Model
         return $q->with('docente:id,nombre');
     }
 
-    public function scopeWithInsc($q)
+    public function scopeWithInscripciones($q)
     {
         return $q->with('inscripciones');
     }
@@ -117,7 +126,6 @@ class Grupo extends Model
     {
         return $q->orderBy('id', 'desc');
     }
-    /* SCOPES */
 
     //Relacion n:1 a Curso
     public function curso()

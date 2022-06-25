@@ -2,8 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Inscripcion;
-use App\Models\Matricula;
+use App\Models\Grupo;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -29,6 +28,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('propietario', function ($user, $inscripcion) {
             return $user->sub_id == $inscripcion->matricula_id;
+        });
+
+        Gate::define('propietario-grupo', function ($user, $docente_id) {
+            return $user->sub_id == $docente_id;
         });
     }
 }

@@ -26,8 +26,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('promotores', PromotorController::class)
         ->parameters(['promotores' => 'promotor']);
 
-    Route::put('status/grupos/{grupo}', [GrupoController::class, 'status'])
-        ->name('grupos.status');
+    Route::put('desactivar/grupos/{grupo}', [GrupoController::class, 'desactivarGrupo'])
+        ->name('grupos.desactivar');
+
+    Route::put('activar/grupos/{grupo}', [GrupoController::class, 'activarGrupo'])
+        ->name('grupos.activar');
 
     Route::get('grupos/terminados', [GrupoController::class, 'showClosed'])
         ->name('grupos.closed');

@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Grupo;
-use Illuminate\Support\Facades\DB;
 
 class Curso extends Model
 {
@@ -13,6 +12,20 @@ class Curso extends Model
 
     protected $fillable = ['nombre', 'activo'];
     public $timestamps = false;
+
+    //Obtener todos los Cursos
+    public static function getCursos()
+    {
+        return Curso::orderBy('nombre')->get();
+    }
+
+    //Obtener los Cursos activos
+    public static function getCursosActivos()
+    {
+        return Curso::where('activo', '1')
+            ->orderBy('nombre')
+            ->get(['id', 'nombre']);
+    }
 
     public function setNombreAttribute($value)
     {
@@ -23,23 +36,5 @@ class Curso extends Model
     public function grupos()
     {
         return $this->hasMany(Grupo::class);
-    }
-
-    //Obtener todos los Cursos
-    public static function getCursos()
-    {
-        return Curso::orderAsc()->get();
-    }
-
-    //Obtener los Cursos activos
-    public static function getCursosActivos()
-    {
-        return Curso::where('activo', '1')->orderAsc()->get(['id', 'nombre']);
-    }
-
-    /* SCOPES */
-    public function scopeOrderAsc($q)
-    {
-        return $q->orderBy('nombre', 'asc');
     }
 }

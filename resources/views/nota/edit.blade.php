@@ -35,6 +35,8 @@
                         </x-input-edit>
                         <x-input-edit label="materia" :val="$nota->materia"></x-input-edit>
                         <x-input-edit label="valor" :val="$nota->valor" text="Nota"></x-input-edit>
+                        <input type="hidden" name="inscripcion_id" value="{{ $nota->inscripcion_id }}">
+                        <input type="hidden" name="nota_id" value="{{ $nota->id }}">
                     </x-edit-form>
                 </div>
             </div>

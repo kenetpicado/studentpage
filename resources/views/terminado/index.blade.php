@@ -42,7 +42,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <form action="{{ route('grupos.status', $grupo->id) }}" method="post">
+                                        <form action="{{ route('grupos.activar', $grupo->id) }}" method="post">
                                             @csrf
                                             @method('PUT')
                                             <button type="submit" class="btn btn-outline-primary btn-sm">Reactivar</button>

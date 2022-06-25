@@ -18,6 +18,7 @@ class Inscripcion extends Model
 
     protected $table = "inscripciones";
 
+    //Para reporte de notas
     public static function getToReport($grupo_id)
     {
         return Inscripcion::where('grupo_id', $grupo_id)
@@ -26,6 +27,7 @@ class Inscripcion extends Model
             ->sortBy('matricula.nombre');
     }
 
+    //Obtener todas las inscripciones de una Matricula
     public static function getByMatricula()
     {
         return Inscripcion::where('matricula_id', auth()->user()->sub_id)
@@ -37,6 +39,7 @@ class Inscripcion extends Model
             ->get();
     }
 
+    //Obtener todas las inscripciones de un Grupo
     public static function getByGrupo($grupo_id)
     {
         return Inscripcion::where('grupo_id', $grupo_id)

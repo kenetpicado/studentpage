@@ -14,6 +14,12 @@ class Promotor extends Model
     protected $fillable = ['carnet', 'nombre', 'correo'];
     public $timestamps = false;
 
+    //Obtener todos los Promotores
+    public static function getPromotores()
+    {
+        return Promotor::orderBy('nombre')->get();
+    }
+
     public function setNombreAttribute($value)
     {
         $this->attributes['nombre'] = trim(ucwords(strtolower($value)));
@@ -28,11 +34,5 @@ class Promotor extends Model
     public function matriculas()
     {
         return $this->hasMany(Matricula::class);
-    }
-
-    //Obtener todos los Promotores
-    public static function getPromotores()
-    {
-        return Promotor::orderBy('nombre')->get();
     }
 }

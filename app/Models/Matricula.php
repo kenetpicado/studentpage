@@ -24,7 +24,7 @@ class Matricula extends Model
             ->get();
     }
 
-    //Desde Matricula Index
+    //Matriculas de un Promotor (Index)
     public static function getMatriculasPromotor($promotor_id)
     {
         return Matricula::wherePromotor($promotor_id)
@@ -33,15 +33,7 @@ class Matricula extends Model
             ->get();
     }
 
-    //Obtener todas las Matriculas
-    public static function getMatriculas()
-    {
-        return Matricula::withInscripcion()
-            ->attributes()
-            ->get();
-    }
-
-    //Desde Promotor Show
+    //Matriculas de un Promotor (Show)
     public static function toPromotorShow($promotor_id)
     {
         if (auth()->user()->sucursal == 'all')
@@ -57,15 +49,23 @@ class Matricula extends Model
             ->get();
     }
 
-    /* SCOPES */
-    public function scopeWherePromotor($q, $p)
+    //Obtener todas las Matriculas
+    public static function getMatriculas()
     {
-        return $q->where('promotor_id', $p);
+        return Matricula::withInscripcion()
+            ->attributes()
+            ->get();
     }
 
-    public function scopeSucursal($q, $s)
+    /* SCOPES */
+    public function scopeWherePromotor($q, $promotor_id)
     {
-        return $q->where('sucursal', $s);
+        return $q->where('promotor_id', $promotor_id);
+    }
+
+    public function scopeSucursal($q, $sucursal)
+    {
+        return $q->where('sucursal', $sucursal);
     }
 
     public function scopeWithInscripcion($q)
@@ -78,12 +78,6 @@ class Matricula extends Model
         return $q->select(['id', 'nombre', 'carnet', 'created_at', 'promotor_id'])
             ->orderBy('id', 'desc');
     }
-
-    public function scopeByCarnet($q)
-    {
-        return $q->where('carnet', auth()->user()->email);
-    }
-    /* SCOPES */
 
     //FUNCION PARA CADENA EN MAYUSCULA
     public function setNombreAttribute($value)

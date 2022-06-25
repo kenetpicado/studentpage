@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateNotaRequest extends FormRequest
 {
@@ -25,7 +26,14 @@ class UpdateNotaRequest extends FormRequest
     {
         return [
             //
-            'num' => 'required|min:1|max:20',
+            'num' => [
+                'required',
+                'numeric',
+                'min:1',
+                'max:20',
+                Rule::unique('notas')->where('inscripcion_id', $this->inscripcion_id)->ignore($this->nota_id)
+            ],
+
             'materia' => ['required', 'max:50'],
             'valor' => 'required|numeric|min:0|max:100',
         ];
