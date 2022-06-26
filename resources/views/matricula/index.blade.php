@@ -65,7 +65,11 @@
                                     <td>{{ $matricula->nombre }}</td>
                                     <td>{{ $matricula->created_at }}</td>
                                     <td>
-                                        <x-status :val="count($matricula->inscripciones)" y="Inscrito" n="Pendiente"></x-status>
+                                        @if ($matricula->inscripciones_count > 0)
+                                            Inscrito <i class="fas fa-check-circle text-primary"></i>
+                                        @else
+                                            Pendiente <i class="fas fa-exclamation-circle text-danger"></i>
+                                        @endif
                                     </td>
                                     <td>
                                         <div class="dropdown no-arrow">

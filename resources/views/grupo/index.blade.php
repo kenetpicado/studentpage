@@ -49,7 +49,7 @@
                                     <td>
                                         <a href="{{ route('grupos.show', $grupo->id) }}"
                                             class="btn btn-sm btn-primary btn-lg btn-block">
-                                            Ver {{ count($grupo->inscripciones) }}
+                                            Ver {{ $grupo->inscripciones_count }}
                                         </a>
                                     </td>
 

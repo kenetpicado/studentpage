@@ -19,7 +19,7 @@
             <div class="col-xl-12 col-lg-7">
 
                 <div class="card mb-4">
-                    <x-header-1 modelo='Docente'></x-header-1>
+                    <x-header-1 modelo='Docentes'></x-header-1>
 
                     {{-- FORM STORE --}}
                     <x-modal-add ruta='docentes.store' title='Docente'>
@@ -48,7 +48,11 @@
                                     <td>{{ $docente->nombre }}</td>
                                     <td>{{ $docente->correo }}</td>
                                     <td>
-                                        <x-status :val="$docente->activo"></x-status>
+                                        @if ($docente->activo > 0)
+                                            Activo <i class="fas fa-check-circle text-primary"></i>
+                                        @else
+                                            Inactivo <i class="fas fa-exclamation-circle text-danger"></i>
+                                        @endif
                                     </td>
                                     <td>
                                         <a href="{{ route('docentes.show', $docente->id) }}"

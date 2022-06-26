@@ -19,8 +19,8 @@ class Matricula extends Model
     public static function getMatriculasSucursal()
     {
         return Matricula::sucursal(auth()->user()->sucursal)
-            ->withInscripcion()
             ->attributes()
+            ->withInscripcion()
             ->get();
     }
 
@@ -28,8 +28,8 @@ class Matricula extends Model
     public static function getMatriculasPromotor($promotor_id)
     {
         return Matricula::wherePromotor($promotor_id)
-            ->withInscripcion()
             ->attributes()
+            ->withInscripcion()
             ->get();
     }
 
@@ -38,22 +38,22 @@ class Matricula extends Model
     {
         if (auth()->user()->sucursal == 'all')
             return Matricula::wherePromotor($promotor_id)
-                ->withInscripcion()
                 ->attributes()
+                ->withInscripcion()
                 ->get();
 
         return Matricula::wherePromotor($promotor_id)
             ->sucursal(auth()->user()->sucursal)
-            ->withInscripcion()
             ->attributes()
+            ->withInscripcion()
             ->get();
     }
 
     //Obtener todas las Matriculas
     public static function getMatriculas()
     {
-        return Matricula::withInscripcion()
-            ->attributes()
+        return Matricula::attributes()
+            ->withInscripcion()
             ->get();
     }
 
@@ -70,7 +70,7 @@ class Matricula extends Model
 
     public function scopeWithInscripcion($q)
     {
-        return $q->with('inscripciones');
+        return $q->withCount('inscripciones');
     }
 
     public function scopeAttributes($q)

@@ -39,10 +39,10 @@ class Grupo extends Model
     {
         return Grupo::sucursal(auth()->user()->sucursal)
             ->status($activo)
+            ->attributes()
             ->withCursoDocente()
             ->withInscripciones()
             ->orderDesc()
-            ->attributes()
             ->get();
     }
 
@@ -51,10 +51,10 @@ class Grupo extends Model
     {
         return Grupo::docenteId($id)
             ->status($activo)
+            ->attributes()
             ->withCursoDocente()
             ->withInscripciones()
             ->orderDesc()
-            ->attributes()
             ->get();
     }
 
@@ -62,10 +62,10 @@ class Grupo extends Model
     public static function getGrupos($activo = '1')
     {
         return Grupo::status($activo)
+            ->attributes()
             ->withCursoDocente()
             ->withInscripciones()
             ->orderDesc()
-            ->attributes()
             ->get();
     }
 
@@ -109,7 +109,7 @@ class Grupo extends Model
 
     public function scopeWithInscripciones($q)
     {
-        return $q->with('inscripciones');
+        return $q->withCount('inscripciones');
     }
 
     public function scopeAttributes($q)

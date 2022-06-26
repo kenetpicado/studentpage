@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateMatriculaRequest;
 use App\Mail\VerMatricula;
 use App\Models\Matricula;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class MatriculaController extends Controller
 {
@@ -39,7 +40,7 @@ class MatriculaController extends Controller
             $request->merge(['sucursal' =>  auth()->user()->sucursal]);
 
         if ($request->carnet == '') {
-            
+
             $request->merge([
                 'carnet' =>  Generate::idEstudiante($request->sucursal, $request->fecha_nac)
             ]);
@@ -82,6 +83,9 @@ class MatriculaController extends Controller
     //Editar una matricula
     public function edit(Matricula $matricula)
     {
+        if (auth()->user()->rol == 'promotor')
+            Gate::authorize('propietario-matricula', $matricula);
+
         return view('matricula.edit', compact('matricula'));
     }
 

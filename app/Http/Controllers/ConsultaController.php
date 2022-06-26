@@ -17,7 +17,7 @@ class ConsultaController extends Controller
     //Ver detalles de un curso
     public function show(Inscripcion $inscripcion)
     {
-        Gate::authorize('propietario', $inscripcion);
+        Gate::authorize('propietario-nota', $inscripcion);
 
         $inscripcion->load(['notas', 'pagos']);
         return view('consulta.show', compact('inscripcion'));
