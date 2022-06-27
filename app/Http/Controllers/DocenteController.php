@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDocenteRequest;
 use App\Http\Requests\UpdateDocenteRequest;
-use App\Mail\CredencialesDocente;
 use App\Models\Docente;
-use App\Models\User;
 use App\Models\Grupo;
-use Illuminate\Support\Facades\Mail;
+use App\Services\FormattingRequest;
 
 class DocenteController extends Controller
 {
@@ -25,32 +23,10 @@ class DocenteController extends Controller
     //Guardar docente
     public function store(StoreDocenteRequest $request)
     {
-        if (auth()->user()->sucursal != 'all')
-            $request->merge(['sucursal' => auth()->user()->sucursal]);
+        $formated = (new FormattingRequest)->docente($request);
 
-        //Generar credenciales
-        $id = Generate::id($request->sucursal, 4);
-        $pin = Generate::pin();
-
-        //Agregar credenciales en claro
-        $request->merge(['carnet' =>  $id]);
-
-        //Guardar en la base de datos
-        $docente = Docente::create($request->all());
-
-        //Guardar cuenta de usuario
-        User::create([
-            'name' => $request->nombre,
-            'email' => $id,
-            'password' => bcrypt('FFFFFF'),
-            'rol' => 'docente',
-            'sucursal' => $request->sucursal,
-            'sub_id' => $docente->id,
-        ]);
-
-        //Enviar correo
-        //Mail::to($request->correo)->send(new CredencialesDocente($docente, $pin));
-
+        $docente = Docente::create($formated->all());
+        (new UserController)->store($formated, $docente->id);
         return back()->with('success', 'Guardado');
     }
 
@@ -70,11 +46,11 @@ class DocenteController extends Controller
     //Actualizar un docente
     public function update(UpdateDocenteRequest $request, Docente $docente)
     {
-        if ($request->activo == null)
+        if (!$request->activo)
             $request->merge(['activo' => '0']);
 
         $docente->update($request->all());
-        User::updateUser($docente);
+        (new UserController)->update($docente);
         return redirect()->route('docentes.index')->with('success', 'Actualizado');
     }
 
@@ -84,7 +60,7 @@ class DocenteController extends Controller
         if ($docente->grupos()->count() > 0)
             return redirect()->route('docentes.edit', $docente->id)->with('error', 'No es posible eliminar');
 
-        User::where('email', $docente->carnet)->first()->delete();
+        (new UserController)->destroy($docente->carnet);
         $docente->delete();
         return redirect()->route('docentes.index')->with('success', 'Eliminado');
     }

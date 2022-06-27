@@ -6,7 +6,7 @@ use App\Http\Requests\StoreMatriculaRequest;
 use App\Http\Requests\UpdateMatriculaRequest;
 use App\Mail\VerMatricula;
 use App\Models\Matricula;
-use App\Models\User;
+use App\Services\FormattingRequest;
 use Illuminate\Support\Facades\Gate;
 
 class MatriculaController extends Controller
@@ -35,42 +35,10 @@ class MatriculaController extends Controller
     //Guardar nueva matricula
     public function store(StoreMatriculaRequest $request)
     {
-        //Si es admin de sucursal especifica
-        if (auth()->user()->sucursal != 'all')
-            $request->merge(['sucursal' =>  auth()->user()->sucursal]);
+        $formated = (new FormattingRequest)->alumno($request);
 
-        if ($request->carnet == '') {
-
-            $request->merge([
-                'carnet' =>  Generate::idEstudiante($request->sucursal, $request->fecha_nac)
-            ]);
-
-            //Verificar Carnet Unico
-            $request->validate(['carnet' => 'unique:matriculas']);
-        }
-
-        $pin = Generate::pin();
-
-        //Agregar campos que faltan
-        $request->merge([
-            'pin' => $pin,
-            'promotor_id' => auth()->user()->sub_id,
-            'created_at' => now()->format('Y-m-d'),
-        ]);
-
-        //Guardar datos
-        $matricula = Matricula::create($request->all());
-
-        //Crear cuenta de usuario
-        User::create([
-            'name' => $request->nombre,
-            'email' => $request->carnet,
-            'password' => bcrypt($pin),
-            'rol' => 'alumno',
-            'sucursal' => $request->sucursal,
-            'sub_id' => $matricula->id,
-        ]);
-
+        $matricula = Matricula::create($formated->all());
+        (new UserController)->store($formated, $matricula->id);
         return back()->with('success', 'Guardado');
     }
 
@@ -92,8 +60,11 @@ class MatriculaController extends Controller
     //Actualizar matricula
     public function update(UpdateMatriculaRequest $request, Matricula $matricula)
     {
+        if (auth()->user()->rol == 'promotor')
+            Gate::authorize('propietario-matricula', $matricula);
+
         $matricula->update($request->all());
-        User::updateUser($matricula);
+        (new UserController)->update($matricula);
         return redirect()->route('matriculas.index')->with('success', 'Actualizado');
     }
 
@@ -103,7 +74,7 @@ class MatriculaController extends Controller
         if ($matricula->inscripciones()->count() > 0)
             return redirect()->route('matriculas.edit', $matricula->id)->with('error', 'No es posible eliminar');
 
-        User::where('email', $matricula->carnet)->first()->delete();
+        (new UserController)->destroy($matricula->carnet);
         $matricula->delete();
         return redirect()->route('matriculas.index')->with('success', 'Eliminado');
     }

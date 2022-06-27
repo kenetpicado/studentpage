@@ -34,7 +34,7 @@
 
                         <div class="row">
                             <x-input-form label="tutor" class="col-lg-6"></x-input-form>
-                            <x-input-form label="celular" class="col-lg-6"></x-input-form>
+                            <x-input-form label="celular" class="col-lg-6" type="number"></x-input-form>
                         </div>
 
                         <div class="row">

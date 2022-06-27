@@ -23,7 +23,7 @@
                     {{-- FORM STORE --}}
                     <x-modal-add ruta='promotores.store' title='Promotor'>
                         <x-input-form label="nombre"></x-input-form>
-                        <x-input-form label="correo"></x-input-form>
+                        <x-input-form label="correo" type="email"></x-input-form>
                     </x-modal-add>
 
                     {{-- INDEX --}}

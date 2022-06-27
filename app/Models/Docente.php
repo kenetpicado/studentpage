@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Casts\Lower;
+use App\Casts\Ucwords;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Grupo;
@@ -12,6 +14,11 @@ class Docente extends Model
 
     protected $fillable = ['carnet', 'nombre', 'correo', 'activo', 'sucursal'];
     public $timestamps = false;
+
+    protected $casts = [
+        'nombre' => Ucwords::class,
+        'correo' => Lower::class,
+    ];
 
     //Obtener todos los docentes
     public static function getDocentes()
@@ -60,17 +67,6 @@ class Docente extends Model
         return $q->where('activo', '1');
     }
 
-    public function setNombreAttribute($value)
-    {
-        $this->attributes['nombre'] = trim(ucwords(strtolower($value)));
-    }
-
-    public function setCorreoAttribute($value)
-    {
-        $this->attributes['correo'] = trim(strtolower($value));
-    }
-
-    //Relacion 1:n a Grupos
     public function grupos()
     {
         return $this->hasMany(Grupo::class);

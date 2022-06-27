@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Mail\Restablecimiento;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
 
 class Generate extends Controller
 {
-    //Generar un PIN de 6 digitos
+    //PIN de 6 digitos
     public static function pin()
     {
         $comb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -18,39 +14,23 @@ class Generate extends Controller
         return substr($shfl, 0, 6);
     }
 
-    //Funcion para restablecer pin
-    public function cambiar_pin(Request $request)
-    {
-        $user = User::where('email', $request->carnet)->first(['id', 'password']);
-        $pin =  $this->pin();
-
-        $user->update(['password' => bcrypt('FFFFFF')]);
-
-        //Enviar correo con nuevo pin
-        //Mail::to($request->correo)->send(new Restablecimiento($request->carnet, $pin));
-
-        return redirect()->route($request->tipo . '.index')->with('info', config('app.update'));
-    }
-
     //ID Promotor / Docente
-    public static function id($location, $cant)
+    public static function id($prefijo, $longitud)
     {
-        return $location . '-' . Generate::specific_number($cant);
+        return $prefijo . '-' . Generate::random_numbers($longitud);
     }
 
     //Generar ID estudiante
-    public static function idEstudiante($location, $fecha)
+    public static function idEstudiante($prefijo, $fecha)
     {
         $date = Carbon::create($fecha)->format('dmy');
-        return $location . "04-" . $date . "-" . Generate::specific_number(3);
+        return $prefijo . "04-" . $date . "-" . Generate::random_numbers(3);
     }
 
-    //Funcion para devolver una secuencia de numeros
-    //aleatoria de una longitud especifica
-    public function specific_number($long)
+    public function random_numbers($longitud)
     {
         $comb = "0123456789";
         $shfl = str_shuffle($comb);
-        return substr($shfl, 0, $long);
+        return substr($shfl, 0, $longitud);
     }
 }

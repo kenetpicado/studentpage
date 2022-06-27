@@ -2,18 +2,42 @@
 
 namespace App\Models;
 
+use App\Casts\Ucfirst;
+use App\Casts\Ucwords;
+use App\Casts\Upper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Promotor;
 use App\Models\Inscripcion;
-use Illuminate\Support\Facades\Auth;
 
 class Matricula extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'nombre',
+        'cedula',
+        'fecha_nac',
+        'celular',
+        'tutor',
+        'grado',
+        'carnet',
+        'pin',
+        'sucursal',
+        'promotor_id',
+        'created_at'
+    ];
+
     public $timestamps = false;
+
+    protected $casts = [
+        'nombre' => Ucwords::class,
+        'tutor' => Ucwords::class,
+        'grado' => Ucfirst::class,
+        'cedula' => Upper::class,
+        'carnet' => Upper::class,
+        'pin' => Upper::class,
+    ];
 
     //Todas las Matriculas de sucursal
     public static function getMatriculasSucursal()
@@ -57,7 +81,6 @@ class Matricula extends Model
             ->get();
     }
 
-    /* SCOPES */
     public function scopeWherePromotor($q, $promotor_id)
     {
         return $q->where('promotor_id', $promotor_id);
@@ -79,49 +102,16 @@ class Matricula extends Model
             ->orderBy('id', 'desc');
     }
 
-    //FUNCION PARA CADENA EN MAYUSCULA
-    public function setNombreAttribute($value)
-    {
-        $this->attributes['nombre'] = trim(ucwords(strtolower($value)));
-    }
-
-    public function setCedulaAttribute($value)
-    {
-        $this->attributes['cedula'] = trim(strtoupper($value));
-    }
-
-    public function setTutorAttribute($value)
-    {
-        $this->attributes['tutor'] = trim(ucwords(strtolower($value)));
-    }
-
-    public function setGradoAttribute($value)
-    {
-        $this->attributes['grado'] = trim(ucwords(strtolower($value)));
-    }
-
-    public function setCarnetAttribute($value)
-    {
-        $this->attributes['carnet'] = trim(strtoupper($value));
-    }
-
-    public function setPinAttribute($value)
-    {
-        $this->attributes['pin'] = trim(strtoupper($value));
-    }
-
     public function getCreatedAtAttribute($value)
     {
         return date('d-m-Y', strtotime($value));
     }
 
-    //Relacion 1:1 inversa a promotor
     public function promotor()
     {
         return $this->belongsTo(Promotor::class);
     }
 
-    //Relacion 1:n inversa a promotor
     public function inscripciones()
     {
         return $this->hasMany(Inscripcion::class);

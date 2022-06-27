@@ -24,7 +24,7 @@
                     {{-- FORM STORE --}}
                     <x-modal-add ruta='docentes.store' title='Docente'>
                         <x-input-form label="nombre"></x-input-form>
-                        <x-input-form label="correo"></x-input-form>
+                        <x-input-form label="correo" type="email"></x-input-form>
 
                         @if (auth()->user()->sucursal == 'all')
                             <x-sucursal-form></x-sucursal-form>

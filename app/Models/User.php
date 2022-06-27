@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Ucwords;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,19 +21,13 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
+        'name' => Ucwords::class,
         'email_verified_at' => 'datetime',
     ];
 
-    public function setNameAttribute($value)
+    public static function carnet($carnet)
     {
-        $this->attributes['name'] = trim(ucwords(strtolower($value)));
-    }
-
-    public static function updateUser($user)
-    {
-        User::where('email', $user->carnet)
-            ->first(['id', 'name'])
-            ->update(['name' => $user->nombre]);
+        return User::where('email', $carnet)->first(['id', 'name', 'password']);
     }
 
     public static function loggedId()

@@ -32,7 +32,7 @@ class CursoController extends Controller
     //Actualizar curso
     public function update(UpdateCursoRequest $request, Curso $curso)
     {
-        if ($request->activo == null)
+        if (!$request->activo)
             $request->merge(['activo' => '0']);
 
         $curso->update($request->all());

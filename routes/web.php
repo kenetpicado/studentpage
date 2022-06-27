@@ -3,7 +3,6 @@
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DocenteController;
-use App\Http\Controllers\Generate;
 use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\PromotorController;
@@ -11,6 +10,7 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotaController;
 use App\Http\Controllers\InscripcionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,7 +37,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('grupos/terminados/{id}', [GrupoController::class, 'showThisClosed'])
         ->name('grupos.thisClosed');
 
-    Route::post('cambiar/pin', [Generate::class, 'cambiar_pin'])
+    Route::post('cambiar/pin', [UserController::class, 'cambiar_pin'])
         ->name('cambiar.pin');
 
     Route::get('alumno/pagos/{inscripcion}', [PagoController::class, 'index'])
