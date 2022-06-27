@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Casts\dmY;
+use App\Casts\Ucfirst;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,15 +21,10 @@ class Pago extends Model
     
     public $timestamps = false;
 
-    public function setConceptoAttribute($value)
-    {
-        $this->attributes['concepto'] = trim(ucfirst(strtolower($value)));
-    }
-
-    public function getCreatedAtAttribute($value)
-    {
-        return date('d-m-Y', strtotime($value));
-    }
+    protected $casts = [
+        'concepto' => Ucfirst::class,
+        'created_at' => dmY::class,
+    ];
     
     public function inscripcion()
     {

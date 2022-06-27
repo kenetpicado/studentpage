@@ -22,7 +22,7 @@ class PromotorController extends Controller
     public function store(StorePromotorRequest $request)
     {
         $formated = (new FormattingRequest)->promotor($request);
- 
+
         $promotor = Promotor::create($formated->all());
         (new UserController)->store($formated, $promotor->id);
         return back()->with('success', 'Guardado');

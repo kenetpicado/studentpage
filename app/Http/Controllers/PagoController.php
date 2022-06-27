@@ -19,7 +19,7 @@ class PagoController extends Controller
     //Guardar pago
     public function store(StorePagoRequest $request)
     {
-        $request->merge(['created_at' => now()->format('Y-m-d')]);
+        $request->merge(['created_at' => now()]);
         Pago::create($request->all());
         return back()->with('success', 'Guardado');
     }

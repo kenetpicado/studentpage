@@ -2,34 +2,33 @@
 
 namespace App\Models;
 
+use App\Casts\Ucwords;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Grupo;
+use App\Traits\ScopesTraits;
 
 class Curso extends Model
 {
-    use HasFactory;
+    use HasFactory, ScopesTraits;
 
     protected $fillable = ['nombre', 'activo'];
     public $timestamps = false;
 
+    protected $casts = [
+        'nombre' => Ucwords::class,
+    ];
+
     //Obtener todos los Cursos
     public static function getCursos()
     {
-        return Curso::orderBy('nombre')->get();
+        return Curso::orderCurso()->get();
     }
 
     //Obtener los Cursos activos
     public static function getCursosActivos()
     {
-        return Curso::where('activo', '1')
-            ->orderBy('nombre')
-            ->get(['id', 'nombre']);
-    }
-
-    public function setNombreAttribute($value)
-    {
-        $this->attributes['nombre'] = trim(ucwords(strtolower($value)));
+        return Curso::activo()->orderCurso()->get(['id', 'nombre']);
     }
 
     //Releacion 1:n a Grupos

@@ -11,6 +11,7 @@
             </div>
             <form action="{{ route('cambiar.pin') }}" method="POST">
                 @csrf
+                @method('PUT')
                 <input type="hidden" name="carnet" value="{{ $person->carnet }}">
                 <input type="hidden" name="correo" value="{{ $person->correo }}">
                 <input type="hidden" name="tipo" value="{{ $tipo }}">

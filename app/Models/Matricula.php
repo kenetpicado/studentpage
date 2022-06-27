@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\dmY;
 use App\Casts\Ucfirst;
 use App\Casts\Ucwords;
 use App\Casts\Upper;
@@ -9,10 +10,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Promotor;
 use App\Models\Inscripcion;
+use App\Traits\ScopesTraits;
 
 class Matricula extends Model
 {
-    use HasFactory;
+    use HasFactory, ScopesTraits;
 
     protected $fillable = [
         'nombre',
@@ -37,6 +39,7 @@ class Matricula extends Model
         'cedula' => Upper::class,
         'carnet' => Upper::class,
         'pin' => Upper::class,
+        'created_at' => dmY::class,
     ];
 
     //Todas las Matriculas de sucursal
@@ -44,7 +47,7 @@ class Matricula extends Model
     {
         return Matricula::sucursal(auth()->user()->sucursal)
             ->attributes()
-            ->withInscripcion()
+            ->countInscripciones()
             ->get();
     }
 
@@ -53,7 +56,7 @@ class Matricula extends Model
     {
         return Matricula::wherePromotor($promotor_id)
             ->attributes()
-            ->withInscripcion()
+            ->countInscripciones()
             ->get();
     }
 
@@ -63,13 +66,13 @@ class Matricula extends Model
         if (auth()->user()->sucursal == 'all')
             return Matricula::wherePromotor($promotor_id)
                 ->attributes()
-                ->withInscripcion()
+                ->countInscripciones()
                 ->get();
 
         return Matricula::wherePromotor($promotor_id)
             ->sucursal(auth()->user()->sucursal)
             ->attributes()
-            ->withInscripcion()
+            ->countInscripciones()
             ->get();
     }
 
@@ -77,34 +80,13 @@ class Matricula extends Model
     public static function getMatriculas()
     {
         return Matricula::attributes()
-            ->withInscripcion()
+            ->countInscripciones()
             ->get();
-    }
-
-    public function scopeWherePromotor($q, $promotor_id)
-    {
-        return $q->where('promotor_id', $promotor_id);
-    }
-
-    public function scopeSucursal($q, $sucursal)
-    {
-        return $q->where('sucursal', $sucursal);
-    }
-
-    public function scopeWithInscripcion($q)
-    {
-        return $q->withCount('inscripciones');
     }
 
     public function scopeAttributes($q)
     {
-        return $q->select(['id', 'nombre', 'carnet', 'created_at', 'promotor_id'])
-            ->orderBy('id', 'desc');
-    }
-
-    public function getCreatedAtAttribute($value)
-    {
-        return date('d-m-Y', strtotime($value));
+        return $q->select(['id', 'nombre', 'carnet', 'created_at', 'promotor_id'])->orderBy('id', 'desc');
     }
 
     public function promotor()

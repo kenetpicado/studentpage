@@ -8,10 +8,11 @@ use App\Models\Nota;
 use App\Models\Pago;
 use App\Models\Matricula;
 use App\Models\Grupo;
+use App\Traits\ScopesTraits;
 
 class Inscripcion extends Model
 {
-    use HasFactory;
+    use HasFactory, ScopesTraits;
 
     public $timestamps = false;
     protected $fillable = ['grupo_id', 'matricula_id'];
@@ -21,7 +22,7 @@ class Inscripcion extends Model
     //Para reporte de notas
     public static function getToReport($grupo_id)
     {
-        return Inscripcion::where('grupo_id', $grupo_id)
+        return Inscripcion::loadGrupo($grupo_id)
             ->with(['matricula:id,nombre,carnet', 'notas'])
             ->get()
             ->sortBy('matricula.nombre');
@@ -30,7 +31,7 @@ class Inscripcion extends Model
     //Obtener todas las inscripciones de una Matricula
     public static function getByMatricula()
     {
-        return Inscripcion::where('matricula_id', auth()->user()->sub_id)
+        return Inscripcion::loadMatricula(auth()->user()->sub_id)
             ->with([
                 'grupo:id,curso_id,docente_id,anyo,horario',
                 'grupo.curso:id,nombre',
@@ -42,7 +43,7 @@ class Inscripcion extends Model
     //Obtener todas las inscripciones de un Grupo
     public static function getByGrupo($grupo_id)
     {
-        return Inscripcion::where('grupo_id', $grupo_id)
+        return Inscripcion::loadGrupo($grupo_id)
             ->with('matricula:id,carnet,nombre')
             ->get()
             ->sortBy('matricula.nombre');

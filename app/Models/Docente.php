@@ -7,10 +7,11 @@ use App\Casts\Ucwords;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Grupo;
+use App\Traits\ScopesTraits;
 
 class Docente extends Model
 {
-    use HasFactory;
+    use HasFactory, ScopesTraits;
 
     protected $fillable = ['carnet', 'nombre', 'correo', 'activo', 'sucursal'];
     public $timestamps = false;
@@ -23,48 +24,25 @@ class Docente extends Model
     //Obtener todos los docentes
     public static function getDocentes()
     {
-        return Docente::orderAsc()->get();
+        return Docente::orderDocente()->get();
     }
 
     //Obtener Docentes de un sucursal
     public static function getDocentesSucursal()
     {
-        return Docente::sucursal(auth()->user()->sucursal)
-            ->orderAsc()
-            ->get();
+        return Docente::sucursal(auth()->user()->sucursal)->orderDocente()->get();
     }
 
     //Obtener Docentes activos de una sucursal
     public static function getDocentesActivosSucursal($sucursal)
     {
-        return Docente::sucursal($sucursal)
-            ->activo()
-            ->orderAsc()
-            ->get(['id', 'nombre']);
+        return Docente::sucursal($sucursal)->activo()->orderDocente()->get(['id', 'nombre']);
     }
 
     //Obtener Docentes activos
     public static function getDocentesActivos()
     {
-        return Docente::activo()
-            ->orderAsc()
-            ->get(['id', 'nombre']);
-    }
-
-    /* SCOPES */
-    public function scopeOrderAsc($q)
-    {
-        return $q->orderBy('nombre');
-    }
-
-    public function scopeSucursal($q, $sucursal)
-    {
-        return $q->where('sucursal', $sucursal);
-    }
-
-    public function scopeAcTivo($q)
-    {
-        return $q->where('activo', '1');
+        return Docente::activo()->orderDocente()->get(['id', 'nombre']);
     }
 
     public function grupos()

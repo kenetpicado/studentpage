@@ -37,7 +37,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('grupos/terminados/{id}', [GrupoController::class, 'showThisClosed'])
         ->name('grupos.thisClosed');
 
-    Route::post('cambiar/pin', [UserController::class, 'cambiar_pin'])
+    Route::put('cambiar/pin', [UserController::class, 'cambiar_pin'])
         ->name('cambiar.pin');
 
     Route::get('alumno/pagos/{inscripcion}', [PagoController::class, 'index'])
@@ -91,3 +91,9 @@ Auth::routes(['register' => false]);
 
 //Home
 Route::resource('/', HomeController::class)->middleware(['auth']);
+
+Route::get('/mailable', function () {
+    $user = App\Models\Matricula::find(1);
+ 
+    return new App\Mail\Credenciales($user);
+});

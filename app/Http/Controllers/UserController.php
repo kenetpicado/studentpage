@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendCredentialsEvent;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -21,8 +22,8 @@ class UserController extends Controller
             'sub_id' => $sub_id,
         ]);
 
-        //Aqui deberia enviar correo
-        //Mail::to($request->correo)->send(new CredencialesDocente($docente, $pin));
+        // if ($request->rol != 'alumno')
+        //     event(new SendCredentialsEvent($request, $pin));
     }
 
     //Actualizar Usuario
@@ -40,14 +41,10 @@ class UserController extends Controller
     //Restablecer PIN
     public function cambiar_pin(Request $request)
     {
-        $user = User::carnet($request->carnet);
         $pin =  Generate::pin();
+        User::carnet($request->carnet)->update(['password' => bcrypt('FFFFFF')]);
 
-        $user->update(['password' => bcrypt('FFFFFF')]);
-
-        //Enviar correo con nuevo pin
-        //Mail::to($request->correo)->send(new Restablecimiento($request->carnet, $pin));
-
+        //event(new SendCredentialsEvent($request, $pin));
         return redirect()->route($request->tipo . '.index')->with('success', 'Actualizado');
     }
 }

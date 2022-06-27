@@ -117,14 +117,14 @@ class GrupoController extends Controller
     //Activar grupo
     public function activarGrupo($grupo_id)
     {
-        Grupo::activo($grupo_id, '1');
+        Grupo::find($grupo_id, ['id', 'activo'])->update(['activo' => '1']);
         return redirect()->route('grupos.index')->with('success', 'Actualizado');
     }
 
     //Desactivar grupo
     public function desactivarGrupo($grupo_id)
     {
-        Grupo::activo($grupo_id, '0');
+        Grupo::find($grupo_id, ['id', 'activo'])->update(['activo' => '0']);
         return redirect()->route('grupos.index')->with('success', 'Actualizado');
     }
 }

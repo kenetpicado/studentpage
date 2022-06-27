@@ -19,10 +19,9 @@ class CreateUsersTable extends Migration
             $table->string('name', 45);
             $table->string('rol', 10);
             $table->string('sucursal', 5)->default('all');
-            $table->string('password');
             $table->unsignedBigInteger('sub_id')->nullable();
+            $table->string('password');
             $table->rememberToken();
-            $table->timestamps();
         });
     }
 

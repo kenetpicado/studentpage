@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Curso;
 use App\Models\Docente;
 use App\Models\Inscripcion;
+use App\Traits\ScopesTraits;
 
 class Grupo extends Model
 {
-    use HasFactory;
+    use HasFactory, ScopesTraits;
 
     protected $guarded = [];
     public $timestamps = false;
@@ -41,7 +42,7 @@ class Grupo extends Model
             ->status($activo)
             ->attributes()
             ->withCursoDocente()
-            ->withInscripciones()
+            ->countInscripciones()
             ->orderDesc()
             ->get();
     }
@@ -53,7 +54,7 @@ class Grupo extends Model
             ->status($activo)
             ->attributes()
             ->withCursoDocente()
-            ->withInscripciones()
+            ->countInscripciones()
             ->orderDesc()
             ->get();
     }
@@ -64,16 +65,9 @@ class Grupo extends Model
         return Grupo::status($activo)
             ->attributes()
             ->withCursoDocente()
-            ->withInscripciones()
+            ->countInscripciones()
             ->orderDesc()
             ->get();
-    }
-
-    //Establecer el valor de estado
-    public static function activo($grupo_id, $status)
-    {
-        Grupo::find($grupo_id, ['id', 'activo'])
-            ->update(['activo' => $status]);
     }
 
     /* SCOPES */
@@ -86,17 +80,7 @@ class Grupo extends Model
     {
         return $q->where('docente_id', $id);
     }
-
-    public function scopeSucursal($q, $sucursal)
-    {
-        return $q->where('sucursal', $sucursal);
-    }
-
-    public function scopeTypeCurso($q, $id)
-    {
-        return $q->where('curso_id', $id);
-    }
-
+    
     public function scopewithCursoDocente($q)
     {
         return $q->with('curso:id,nombre')->with('docente:id,nombre');
@@ -105,11 +89,6 @@ class Grupo extends Model
     public function scopeWithDocente($q)
     {
         return $q->with('docente:id,nombre');
-    }
-
-    public function scopeWithInscripciones($q)
-    {
-        return $q->withCount('inscripciones');
     }
 
     public function scopeAttributes($q)
