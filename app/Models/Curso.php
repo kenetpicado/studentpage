@@ -22,13 +22,13 @@ class Curso extends Model
     //Obtener todos los Cursos
     public static function getCursos()
     {
-        return Curso::orderCurso()->get();
+        return Curso::orderNombre()->get();
     }
 
     //Obtener los Cursos activos
     public static function getCursosActivos()
     {
-        return Curso::activo()->orderCurso()->get(['id', 'nombre']);
+        return Curso::activo()->orderNombre()->get(['id', 'nombre']);
     }
 
     //Releacion 1:n a Grupos

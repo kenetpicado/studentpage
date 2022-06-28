@@ -24,25 +24,25 @@ class Docente extends Model
     //Obtener todos los docentes
     public static function getDocentes()
     {
-        return Docente::orderDocente()->get();
+        return Docente::orderNombre()->get();
     }
 
     //Obtener Docentes de un sucursal
     public static function getDocentesSucursal()
     {
-        return Docente::sucursal(auth()->user()->sucursal)->orderDocente()->get();
+        return Docente::sucursal(auth()->user()->sucursal)->orderNombre()->get();
     }
 
     //Obtener Docentes activos de una sucursal
     public static function getDocentesActivosSucursal($sucursal)
     {
-        return Docente::sucursal($sucursal)->activo()->orderDocente()->get(['id', 'nombre']);
+        return Docente::sucursal($sucursal)->activo()->orderNombre()->get(['id', 'nombre']);
     }
 
     //Obtener Docentes activos
     public static function getDocentesActivos()
     {
-        return Docente::activo()->orderDocente()->get(['id', 'nombre']);
+        return Docente::activo()->orderNombre()->get(['id', 'nombre']);
     }
 
     public function grupos()

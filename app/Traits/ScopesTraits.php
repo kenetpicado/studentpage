@@ -9,19 +9,19 @@ trait ScopesTraits
         return $q->where('sucursal', $sucursal);
     }
 
-    public function scopeActivo($q)
+    public function scopeActivo($q, $activo = '1')
     {
-        return $q->where('activo', '1');
+        return $q->where('activo', $activo);
     }
 
-    public function scopeOrderDocente($q)
+    public function scopeOrderNombre($q)
     {
         return $q->orderBy('nombre');
     }
 
-    public function scopeOrderCurso($q)
+    public function scopeLatestId($q)
     {
-        return $q->orderBy('nombre');
+        return $q->latest('id');
     }
 
     public function scopeCountInscripciones($q)
@@ -34,6 +34,11 @@ trait ScopesTraits
         return $q->where('promotor_id', $promotor_id);
     }
 
+    public function scopeWhereDocente($q, $docente_id)
+    {
+        return $q->where('docente_id', $docente_id);
+    }
+
     public function scopeLoadGrupo($q, $grupo_id)
     {
         return $q->where('grupo_id', $grupo_id);
@@ -42,5 +47,15 @@ trait ScopesTraits
     public function scopeLoadMatricula($q, $matricula_id)
     {
         return $q->where('matricula_id', $matricula_id);
+    }
+    
+    public function scopeWithMatricula($q)
+    {
+        return $q->with('matricula:id,carnet,nombre');
+    }
+        
+    public function scopewithCursoDocente($q)
+    {
+        return $q->with('curso:id,nombre')->with('docente:id,nombre');
     }
 }

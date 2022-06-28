@@ -17,20 +17,18 @@ class Grupo extends Model
     public $timestamps = false;
 
     //Obtener grupo para reporte de notas
-    public static function getToReport($id)
+    public static function getToReport($grupo_id)
     {
-        return Grupo::where('id', $id)
-            ->withCursoDocente()
-            ->first();
+        return Grupo::withCursoDocente()->find($grupo_id);
     }
 
     //Grupos para crear y editar Inscripcion
     public static function getForInscripciones($sucursal)
     {
         return Grupo::sucursal($sucursal)
-            ->status('1')
+            ->activo()
             ->withCursoDocente()
-            ->orderDesc()
+            ->latestId()
             ->attrInsc()
             ->get();
     }
@@ -39,56 +37,35 @@ class Grupo extends Model
     public static function getGruposSucursal($activo = '1')
     {
         return Grupo::sucursal(auth()->user()->sucursal)
-            ->status($activo)
+            ->activo($activo)
             ->attributes()
             ->withCursoDocente()
             ->countInscripciones()
-            ->orderDesc()
+            ->latestId()
             ->get();
     }
 
     //Grupos de 1 Docente
-    public static function getGruposDocente($id, $activo = '1')
+    public static function getGruposDocente($docente_id, $activo = '1')
     {
-        return Grupo::docenteId($id)
-            ->status($activo)
+        return Grupo::whereDocente($docente_id)
+            ->activo($activo)
             ->attributes()
             ->withCursoDocente()
             ->countInscripciones()
-            ->orderDesc()
+            ->latestId()
             ->get();
     }
 
     //Obtener todos los Grupos
     public static function getGrupos($activo = '1')
     {
-        return Grupo::status($activo)
+        return Grupo::activo($activo)
             ->attributes()
             ->withCursoDocente()
             ->countInscripciones()
-            ->orderDesc()
+            ->latestId()
             ->get();
-    }
-
-    /* SCOPES */
-    public function scopeStatus($q, $activo)
-    {
-        return $q->where('activo', $activo);
-    }
-
-    public function scopeDocenteId($q, $id)
-    {
-        return $q->where('docente_id', $id);
-    }
-    
-    public function scopewithCursoDocente($q)
-    {
-        return $q->with('curso:id,nombre')->with('docente:id,nombre');
-    }
-
-    public function scopeWithDocente($q)
-    {
-        return $q->with('docente:id,nombre');
     }
 
     public function scopeAttributes($q)
@@ -99,11 +76,6 @@ class Grupo extends Model
     public function scopeAttrInsc($q)
     {
         return $q->select(['id', 'horario', 'curso_id', 'docente_id']);
-    }
-
-    public function scopeOrderDesc($q)
-    {
-        return $q->orderBy('id', 'desc');
     }
 
     //Relacion n:1 a Curso

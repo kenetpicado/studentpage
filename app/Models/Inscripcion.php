@@ -23,7 +23,8 @@ class Inscripcion extends Model
     public static function getToReport($grupo_id)
     {
         return Inscripcion::loadGrupo($grupo_id)
-            ->with(['matricula:id,nombre,carnet', 'notas'])
+            ->withMatricula()
+            ->with('notas')
             ->get()
             ->sortBy('matricula.nombre');
     }
@@ -44,7 +45,7 @@ class Inscripcion extends Model
     public static function getByGrupo($grupo_id)
     {
         return Inscripcion::loadGrupo($grupo_id)
-            ->with('matricula:id,carnet,nombre')
+            ->withMatricula()
             ->get()
             ->sortBy('matricula.nombre');
     }
