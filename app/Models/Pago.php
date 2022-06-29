@@ -6,6 +6,7 @@ use App\Casts\dmY;
 use App\Casts\Ucfirst;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Pago extends Model
 {
@@ -25,6 +26,18 @@ class Pago extends Model
         'concepto' => Ucfirst::class,
         'created_at' => dmY::class,
     ];
+
+    public static function forEdit($pago_id)
+    {
+        return DB::table('pagos')
+            ->where('pagos.id', $pago_id)
+            ->select([
+                'pagos.*',
+                'inscripciones.grupo_id as grupo_id'
+            ])
+            ->join('inscripciones', 'pagos.inscripcion_id', '=', 'inscripciones.id')
+            ->first();
+    }
     
     public function inscripcion()
     {

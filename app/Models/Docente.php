@@ -7,11 +7,11 @@ use App\Casts\Ucwords;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Grupo;
-use App\Traits\ScopesTraits;
+use Illuminate\Support\Facades\DB;
 
 class Docente extends Model
 {
-    use HasFactory, ScopesTraits;
+    use HasFactory;
 
     protected $fillable = ['carnet', 'nombre', 'correo', 'activo', 'sucursal'];
     public $timestamps = false;
@@ -24,25 +24,32 @@ class Docente extends Model
     //Obtener todos los docentes
     public static function getDocentes()
     {
-        return Docente::orderNombre()->get();
+        return DB::table('docentes')->orderBy('nombre')->get();
     }
 
     //Obtener Docentes de un sucursal
     public static function getDocentesSucursal()
     {
-        return Docente::sucursal(auth()->user()->sucursal)->orderNombre()->get();
+        return DB::table('docentes')
+            ->where('sucursal', auth()->user()->sucursal)
+            ->orderBy('nombre')->get();
     }
 
     //Obtener Docentes activos de una sucursal
     public static function getDocentesActivosSucursal($sucursal)
     {
-        return Docente::sucursal($sucursal)->activo()->orderNombre()->get(['id', 'nombre']);
+        return DB::table('docentes')
+            ->where('sucursal', auth()->user()->sucursal)
+            ->where('activo', '1')
+            ->orderBy('nombre')->get(['id', 'nombre']);
     }
 
     //Obtener Docentes activos
     public static function getDocentesActivos()
     {
-        return Docente::activo()->orderNombre()->get(['id', 'nombre']);
+        return DB::table('docentes')
+            ->where('activo', '1')
+            ->orderBy('nombre')->get(['id', 'nombre']);
     }
 
     public function grupos()

@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Promotor;
 use App\Models\Inscripcion;
-use App\Traits\ScopesTraits;
+use Illuminate\Support\Facades\DB;
 
 class Matricula extends Model
 {
-    use HasFactory, ScopesTraits;
+    use HasFactory;
 
     protected $fillable = [
         'nombre',
@@ -45,18 +45,34 @@ class Matricula extends Model
     //Todas las Matriculas de sucursal
     public static function getMatriculasSucursal()
     {
-        return Matricula::sucursal(auth()->user()->sucursal)
-            ->attributes()
-            ->countInscripciones()
+        return DB::table('matriculas')
+            ->where('sucursal', auth()->user()->sucursal)
+            ->select([
+                'id',
+                'carnet',
+                'nombre',
+                'created_at',
+                'promotor_id',
+                DB::raw('(select count(*) from `inscripciones` where `matriculas`.`id` = `inscripciones`.`matricula_id`) as `inscripciones_count`')
+            ])
+            ->latest('id')
             ->get();
     }
 
     //Matriculas de un Promotor (Index)
     public static function getMatriculasPromotor($promotor_id)
     {
-        return Matricula::wherePromotor($promotor_id)
-            ->attributes()
-            ->countInscripciones()
+        return DB::table('matriculas')
+            ->where('promotor_id', $promotor_id)
+            ->select([
+                'id',
+                'carnet',
+                'nombre',
+                'created_at',
+                'promotor_id',
+                DB::raw('(select count(*) from `inscripciones` where `matriculas`.`id` = `inscripciones`.`matricula_id`) as `inscripciones_count`')
+            ])
+            ->latest('id')
             ->get();
     }
 
@@ -64,29 +80,48 @@ class Matricula extends Model
     public static function toPromotorShow($promotor_id)
     {
         if (auth()->user()->sucursal == 'all')
-            return Matricula::wherePromotor($promotor_id)
-                ->attributes()
-                ->countInscripciones()
+            return DB::table('matriculas')
+                ->where('promotor_id', $promotor_id)
+                ->select([
+                    'id',
+                    'carnet',
+                    'nombre',
+                    'created_at',
+                    'promotor_id',
+                    DB::raw('(select count(*) from `inscripciones` where `matriculas`.`id` = `inscripciones`.`matricula_id`) as `inscripciones_count`')
+                ])
+                ->latest('id')
                 ->get();
 
-        return Matricula::wherePromotor($promotor_id)
-            ->sucursal(auth()->user()->sucursal)
-            ->attributes()
-            ->countInscripciones()
+        return DB::table('matriculas')
+            ->where('promotor_id', $promotor_id)
+            ->where('sucursal', auth()->user()->sucursal)
+            ->select([
+                'id',
+                'carnet',
+                'nombre',
+                'created_at',
+                'promotor_id',
+                DB::raw('(select count(*) from `inscripciones` where `matriculas`.`id` = `inscripciones`.`matricula_id`) as `inscripciones_count`')
+            ])
+            ->latest('id')
             ->get();
     }
 
     //Obtener todas las Matriculas
     public static function getMatriculas()
     {
-        return Matricula::attributes()
-            ->countInscripciones()
+        return DB::table('matriculas')
+            ->select([
+                'id',
+                'carnet',
+                'nombre',
+                'created_at',
+                'promotor_id',
+                DB::raw('(select count(*) from `inscripciones` where `matriculas`.`id` = `inscripciones`.`matricula_id`) as `inscripciones_count`')
+            ])
+            ->latest('id')
             ->get();
-    }
-
-    public function scopeAttributes($q)
-    {
-        return $q->select(['id', 'nombre', 'carnet', 'created_at', 'promotor_id'])->orderBy('id', 'desc');
     }
 
     public function promotor()

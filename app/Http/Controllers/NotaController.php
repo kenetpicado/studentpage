@@ -26,9 +26,9 @@ class NotaController extends Controller
     }
 
     //Editar nota
-    public function edit(Nota $nota)
+    public function edit($nota_id)
     {
-        $nota->load('inscripcion');
+        $nota = Nota::forEdit($nota_id);
         return view('nota.edit', compact('nota'));
     }
 

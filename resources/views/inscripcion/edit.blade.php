@@ -30,7 +30,7 @@
 
                     {{-- FORM UPDATE --}}
                     <x-edit-form ruta='inscripciones.update' :id="$inscripcion->id" btn="Mover">
-                        <x-grupos :grupos="$grupos" :old="$inscripcion->grupo->id" text="Mover a"></x-grupos>
+                        <x-grupos :grupos="$grupos" :old="$inscripcion->grupo_id" text="Mover a"></x-grupos>
 
                         <input type="hidden" name="matricula_id" value="{{ $inscripcion->matricula_id }}">
                         <input type="hidden" name="oldview" value="{{ $inscripcion->grupo_id }}">

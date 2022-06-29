@@ -29,8 +29,8 @@
                         <tbody>
                             @foreach ($inscripciones as $inscripcion)
                                 <tr>
-                                    <td>{{ $inscripcion->matricula->carnet }}</td>
-                                    <td>{{ $inscripcion->matricula->nombre }}</td>
+                                    <td>{{ $inscripcion->matricula_carnet }}</td>
+                                    <td>{{ $inscripcion->matricula_nombre }}</td>
                                     <td><a href="{{ route('notas.certified', $inscripcion->id) }}" class="btn btn-primary btn-sm">Ver
                                             certicado</a></td>
                                 </tr>

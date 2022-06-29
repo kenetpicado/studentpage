@@ -9,9 +9,9 @@
             @foreach ($grupos as $grupo)
                 <option value="{{ $grupo->id }}"
                     {{ old('grupo_id') == $grupo->id || $grupo->id == $old ? 'selected' : '' }}>
-                    {{ $grupo->curso->nombre }} -
+                    {{ $grupo->curso_nombre }} -
                     {{ $grupo->horario }} -
-                    {{ $grupo->docente->nombre }}
+                    {{ $grupo->docente_nombre }}
                 </option>
             @endforeach
         </select>

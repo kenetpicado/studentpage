@@ -9,7 +9,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('grupos.show', $nota->inscripcion->grupo_id) }}">Alumnos</a>
+                <li class="breadcrumb-item"><a href="{{ route('grupos.show', $nota->grupo_id) }}">Alumnos</a>
                 </li>
                 <li class="breadcrumb-item"><a href="{{ route('notas.index', $nota->inscripcion_id) }}">Notas</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Editar</li>

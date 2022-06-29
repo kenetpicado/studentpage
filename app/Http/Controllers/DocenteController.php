@@ -34,7 +34,7 @@ class DocenteController extends Controller
     //Ver grupos de un docente
     public function show($docente_id)
     {
-        $grupos = Grupo::getGruposDocente($docente_id);
+        $grupos = Grupo::getGruposDocenteShow($docente_id);
         return view('docente.show', compact('grupos'));
     }
 

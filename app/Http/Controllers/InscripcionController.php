@@ -30,10 +30,10 @@ class InscripcionController extends Controller
     }
 
     //Cambiar de grupo
-    public function edit(Inscripcion $inscripcion)
+    public function edit($inscripcion_id)
     {
-        $inscripcion->load('grupo:id,sucursal');
-        $grupos = Grupo::getForInscripciones($inscripcion->grupo->sucursal);
+        $inscripcion = Inscripcion::withGrupoSucursal($inscripcion_id);
+        $grupos = Grupo::getForInscripciones($inscripcion->grupo_sucursal);
         return view('inscripcion.edit', compact('inscripcion', 'grupos'));
     }
 

@@ -30,7 +30,7 @@
                         <tbody>
                             @foreach ($grupos as $grupo)
                                 <tr>
-                                    <td>{{ $grupo->curso->nombre }}</td>
+                                    <td>{{ $grupo->curso_nombre }}</td>
                                     <td>{{ $grupo->horario }}</td>
                                     <td>{{ $grupo->sucursal }}</td>
                                     <td>{{ $grupo->anyo }}</td>

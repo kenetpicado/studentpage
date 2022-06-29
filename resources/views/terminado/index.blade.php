@@ -32,13 +32,13 @@
                         <tbody>
                             @foreach ($grupos as $grupo)
                                 <tr>
-                                    <td>{{ $grupo->curso->nombre }}</td>
-                                    <td>{{ $grupo->docente->nombre }}</td>
+                                    <td>{{ $grupo->curso_nombre }}</td>
+                                    <td>{{ $grupo->docente_nombre }}</td>
                                     <td>{{ $grupo->horario }}</td>
                                     <td>{{ $grupo->anyo }}</td>
                                     <td>
                                         <a href="{{ route('grupos.thisClosed', $grupo->id) }}">
-                                            Ver {{ count($grupo->inscripciones) }} alumnos
+                                            Ver {{ $grupo->inscripciones_count }} alumnos
                                         </a>
                                     </td>
                                     <td>

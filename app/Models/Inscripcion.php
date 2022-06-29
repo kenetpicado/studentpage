@@ -8,46 +8,78 @@ use App\Models\Nota;
 use App\Models\Pago;
 use App\Models\Matricula;
 use App\Models\Grupo;
-use App\Traits\ScopesTraits;
+use Illuminate\Support\Facades\DB;
 
 class Inscripcion extends Model
 {
-    use HasFactory, ScopesTraits;
+    use HasFactory;
 
     public $timestamps = false;
     protected $fillable = ['grupo_id', 'matricula_id'];
 
     protected $table = "inscripciones";
 
-    //Para reporte de notas
+    //Para reporte de notas (ELOQUENT)
     public static function getToReport($grupo_id)
     {
-        return Inscripcion::loadGrupo($grupo_id)
-            ->withMatricula()
+        return Inscripcion::where('grupo_id', $grupo_id)
+            ->select([
+                'inscripciones.id',
+                'nombre as matricula_nombre',
+                'carnet as matricula_carnet',
+            ])
+            ->join('matriculas', 'inscripciones.matricula_id', '=', 'matriculas.id')
             ->with('notas')
-            ->get()
-            ->sortBy('matricula.nombre');
+            ->get();
     }
 
     //Obtener todas las inscripciones de una Matricula
     public static function getByMatricula()
     {
-        return Inscripcion::loadMatricula(auth()->user()->sub_id)
-            ->with([
-                'grupo:id,curso_id,docente_id,anyo,horario',
-                'grupo.curso:id,nombre',
-                'grupo.docente:id,nombre'
+        return DB::table('inscripciones')
+            ->where('matricula_id', auth()->user()->sub_id)
+            ->select([
+                'inscripciones.id',
+                'grupos.horario as grupo_horario',
+                'grupos.anyo as grupo_anyo',
+                'cursos.nombre as curso_nombre',
+                'docentes.nombre as docente_nombre',
             ])
+            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
+            ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
+            ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
             ->get();
     }
 
     //Obtener todas las inscripciones de un Grupo
     public static function getByGrupo($grupo_id)
     {
-        return Inscripcion::loadGrupo($grupo_id)
-            ->withMatricula()
-            ->get()
-            ->sortBy('matricula.nombre');
+        return DB::table('inscripciones')
+            ->where('inscripciones.grupo_id', $grupo_id)
+            ->select([
+                'inscripciones.id',
+                'grupo_id',
+                'matriculas.carnet as matricula_carnet',
+                'matriculas.nombre as matricula_nombre',
+            ])
+            ->join('matriculas', 'inscripciones.matricula_id', '=', 'matriculas.id')
+            ->orderBy('matriculas.nombre')
+            ->get();
+    }
+
+    public static function withGrupoSucursal($inscripcion_id)
+    {
+        return DB::table('inscripciones')
+            ->where('inscripciones.id', $inscripcion_id)
+            ->select([
+                'inscripciones.id',
+                'grupo_id',
+                'matricula_id',
+                'grupos.sucursal as grupo_sucursal',
+            ])
+            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
+            ->latest('inscripciones.id')
+            ->first();
     }
 
     // RELACIONES

@@ -13,13 +13,13 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary mb-1">
-                                    {{ $inscripcion->grupo->docente->nombre }}</div>
+                                    {{ $inscripcion->docente_nombre }}</div>
 
                                 <div class="h5 mb-2 font-weight-bold text-gray-800 text-uppercase">
-                                    {{ $inscripcion->grupo->curso->nombre }}
+                                    {{ $inscripcion->curso_nombre }}
                                 </div>
                                 <div class="text-xs font-weight-bold text-secondary mb-1">
-                                    {{ $inscripcion->grupo->horario }} - {{ $inscripcion->grupo->anyo }}
+                                    {{ $inscripcion->grupo_horario }} - {{ $inscripcion->grupo_anyo }}
                                 </div>
                             </div>
                             <div class="col-auto">

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePromotorRequest;
 use App\Http\Requests\UpdatePromotorRequest;
 use App\Models\Promotor;
-use App\Models\User;
 use App\Models\Matricula;
 use App\Services\FormattingRequest;
 

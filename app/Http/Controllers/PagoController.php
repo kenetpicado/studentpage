@@ -24,9 +24,9 @@ class PagoController extends Controller
         return back()->with('success', 'Guardado');
     }
 
-    public function edit(Pago $pago)
+    public function edit($pago_id)
     {
-        $pago->load('inscripcion');
+        $pago = Pago::forEdit($pago_id);
         return view('pago.edit', compact('pago'));
     }
 

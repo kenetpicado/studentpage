@@ -6,11 +6,11 @@ use App\Casts\Ucwords;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Grupo;
-use App\Traits\ScopesTraits;
+use Illuminate\Support\Facades\DB;
 
 class Curso extends Model
 {
-    use HasFactory, ScopesTraits;
+    use HasFactory;
 
     protected $fillable = ['nombre', 'activo'];
     public $timestamps = false;
@@ -22,13 +22,13 @@ class Curso extends Model
     //Obtener todos los Cursos
     public static function getCursos()
     {
-        return Curso::orderNombre()->get();
+        return DB::table('cursos')->orderBy('nombre')->get();
     }
 
     //Obtener los Cursos activos
     public static function getCursosActivos()
     {
-        return Curso::activo()->orderNombre()->get(['id', 'nombre']);
+        return DB::table('cursos')->where('activo', '1')->orderBy('nombre')->get(['id', 'nombre']);
     }
 
     //Releacion 1:n a Grupos

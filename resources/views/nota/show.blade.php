@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="{{ config('app.name') }}">
 
-    <title>Reporte de notas - {{ $grupo->curso->nombre }}</title>
+    <title>Reporte de notas - {{ $grupo->curso_nombre }}</title>
 
     <!-- Custom fonts for this template-->
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
@@ -22,10 +22,10 @@
         <div class="col-lg-12">
 
             <div class="card" id="seleccion">
-                <x-header-0 text="Reporte de notas: ">{{ $grupo->curso->nombre }}</x-header-0>
+                <x-header-0 text="Reporte de notas: ">{{ $grupo->curso_nombre }}</x-header-0>
 
                 <div class="card-body">
-                    <p>Docente: <strong>{{ $grupo->docente->nombre }}</strong></p>
+                    <p>Docente: <strong>{{ $grupo->docente_nombre }}</strong></p>
                     <p>Horario: <strong>{{ $grupo->horario }}</strong></p>
 
                     @if ($grupo->sucursal == 'CH')
@@ -47,12 +47,12 @@
                                 @endforeach
                             </thead>
                             <tbody>
-                                @foreach ($inscripciones as $alumno)
+                                @foreach ($inscripciones as $inscripcion)
                                     <tr>
-                                        <td>{{ $alumno->matricula->carnet }}</td>
-                                        <td>{{ $alumno->matricula->nombre }}</td>
+                                        <td>{{ $inscripcion->matricula_carnet }}</td>
+                                        <td>{{ $inscripcion->matricula_nombre }}</td>
 
-                                        @foreach ($alumno->notas as $nota)
+                                        @foreach ($inscripcion->notas as $nota)
                                             <td>{{ $nota->valor }}</td>
                                         @endforeach
                                     </tr>
