@@ -70,7 +70,7 @@ class MatriculaController extends Controller
 
     //Eliminar matricula
     public function destroy(Matricula $matricula)
-    {
+    { 
         if ($matricula->inscripciones()->count() > 0)
             return redirect()->route('matriculas.edit', $matricula->id)->with('error', 'No es posible eliminar');
 

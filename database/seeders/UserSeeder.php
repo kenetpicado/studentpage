@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
     {
         //admin de ch
         User::create([
-            'name' => 'ADMIN-CH',
+            'name' => 'Administrador',
             'email' => 'admin-ch',
             'password' => Hash::make('FFFFFF'),
             'rol' => 'admin',
@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
 
         //admin de mg
         User::create([
-            'name' => 'ADMIN-MG',
+            'name' => 'Administrador',
             'email' => 'admin-mg',
             'password' => Hash::make('FFFFFF'),
             'rol' => 'admin',
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
 
         //admin root
         User::create([
-            'name' => 'ADMIN',
+            'name' => 'Administrador',
             'email' => 'root',
             'password' => Hash::make('FFFFFF'),
             'rol' => 'admin',

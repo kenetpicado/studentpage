@@ -126,6 +126,18 @@ class Grupo extends Model
             ->get();
     }
 
+    public static function status($grupo_id, $activo = '1')
+    {
+        Grupo::find($grupo_id, ['id', 'activo'])->update(['activo' => $activo]);
+    }
+
+    public static function edit($grupo_id)
+    {
+        return DB::table('grupos')
+            ->select(['id', 'docente_id', 'horario', 'sucursal'])
+            ->find($grupo_id);
+    }
+
     //Relacion n:1 a Curso
     public function curso()
     {
@@ -142,6 +154,11 @@ class Grupo extends Model
     public function inscripciones()
     {
         return $this->hasMany(Inscripcion::class);
+    }
+
+    public function mensajes()
+    {
+        return $this->hasMany(Mensaje::class);
     }
 
     public function setHorarioAttribute($value)

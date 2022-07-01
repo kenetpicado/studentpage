@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inscripcion;
+use App\Models\Mensaje;
+use App\Models\Nota;
+use App\Models\Pago;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class ConsultaController extends Controller
@@ -14,11 +18,27 @@ class ConsultaController extends Controller
         return view('consulta.index', compact('inscripciones'));
     }
 
-    //Ver detalles de un curso
-    public function show(Inscripcion $inscripcion)
+    //Ver notas de un curso
+    public function notas($inscripcion_id)
     {
-        Gate::authorize('propietario-nota', $inscripcion);
-        $inscripcion->load(['notas', 'pagos']);
-        return view('consulta.show', compact('inscripcion'));
+        Gate::authorize('alumno_autorizado', $inscripcion_id);
+        $notas = Nota::getByInscripcion($inscripcion_id);
+        return view('consulta.nota', compact('notas'));
     }
+
+     //Ver pagos de un curso
+     public function pagos($inscripcion_id)
+     {
+         Gate::authorize('alumno_autorizado', $inscripcion_id);
+         $pagos = Pago::getByInscripcion($inscripcion_id);
+         return view('consulta.pago', compact('pagos'));
+     }
+
+      //Ver mensajes de un curso
+      public function mensajes($grupo_id)
+      {
+          Gate::authorize('alumno_autorizado_mensajes', $grupo_id);
+          $mensajes = Mensaje::getByGrupo($grupo_id);
+          return view('consulta.mensaje', compact('mensajes'));
+      }
 }

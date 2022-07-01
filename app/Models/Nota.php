@@ -30,6 +30,14 @@ class Nota extends Model
             ->join('inscripciones', 'notas.inscripcion_id', '=', 'inscripciones.id')
             ->first();
     }
+    
+    public static function getByInscripcion($inscripcion_id)
+    {
+        return DB::table('notas')
+            ->where('inscripcion_id', $inscripcion_id)
+            ->orderBy('num')
+            ->get();
+    }
 
     public function inscripcion()
     {

@@ -10,6 +10,7 @@ use App\Models\Docente;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Inscripcion;
+use Illuminate\Support\Facades\DB;
 
 class GrupoController extends Controller
 {
@@ -62,20 +63,16 @@ class GrupoController extends Controller
     //Mostrar alumnos de un grupo
     public function show($grupo_id)
     {
-        if (auth()->user()->rol == 'docente')
-            Gate::authorize(
-                'propietario-grupo',
-                Grupo::find($grupo_id, ['docente_id'])->docente_id
-            );
+        Gate::authorize('docente_autorizado', $grupo_id);
 
         $inscripciones = Inscripcion::getByGrupo($grupo_id);
         return view('grupo.show', compact('inscripciones', 'grupo_id'));
     }
 
     //Editar grupo
-    public function edit(Grupo $grupo)
+    public function edit($grupo_id)
     {
-        $grupo->load('docente:id,nombre');
+        $grupo = Grupo::edit($grupo_id);
         $docentes = Docente::getDocentesActivosSucursal($grupo->sucursal);
         return view('grupo.edit', compact('grupo', 'docentes'));
     }
@@ -117,14 +114,14 @@ class GrupoController extends Controller
     //Activar grupo
     public function activarGrupo($grupo_id)
     {
-        Grupo::find($grupo_id, ['id', 'activo'])->update(['activo' => '1']);
+        Grupo::status($grupo_id);
         return redirect()->route('grupos.index')->with('success', 'Actualizado');
     }
 
     //Desactivar grupo
     public function desactivarGrupo($grupo_id)
     {
-        Grupo::find($grupo_id, ['id', 'activo'])->update(['activo' => '0']);
+        Grupo::status($grupo_id, '0');
         return redirect()->route('grupos.index')->with('success', 'Actualizado');
     }
 }

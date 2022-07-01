@@ -38,6 +38,11 @@ class Pago extends Model
             ->join('inscripciones', 'pagos.inscripcion_id', '=', 'inscripciones.id')
             ->first();
     }
+
+    public static function getByInscripcion($inscripcion_id)
+    {
+        return DB::table('pagos')->where('inscripcion_id', $inscripcion_id)->get();
+    }
     
     public function inscripcion()
     {

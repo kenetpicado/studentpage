@@ -27,24 +27,22 @@
 
     @include('partials.topbar')
 
-    <div class="container ">
+    <div class="container">
 
         <div class="row justify-content-center">
 
             <div class="col-lg-10">
-                <div class="card o-hidden border-0 my-5" style="border-radius: 0px">
-                    <div class="card-body p-0">
+                <div class="card o-hidden border-1 my-5" style="border-radius: 20px">
+                    <div class="card-body p-0 pb-5">
                         <div class="p-5">
-
                             @yield('content')
-                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    @include('partials.footer')
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
@@ -59,4 +57,5 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 </body>
+
 </html>

@@ -10,6 +10,7 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotaController;
 use App\Http\Controllers\InscripcionController;
+use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -73,6 +74,9 @@ Route::middleware(['auth', 'admin-docente'])->group(function () {
 
     Route::resource('grupos', GrupoController::class)
         ->only(['index', 'show']);
+
+    Route::get('mensajes/{grupo_id}', [MensajeController::class, 'index'])->name('mensajes.index');
+    Route::resource('mensajes', MensajeController::class)->except(['index', 'show', 'create']);
 });
 
 // Autenticado, Administradores y Promotor
@@ -81,10 +85,12 @@ Route::resource('matriculas', MatriculaController::class)
     ->middleware(['auth', 'admin-promotor']);
 
 //Consulta de estudiantes
-Route::resource('consulta', ConsultaController::class)
-    ->parameters(['consulta' => 'inscripcion'])
-    ->only(['index', 'show'])
-    ->middleware(['auth', 'alumno']);
+Route::middleware(['auth', 'alumno'])->group(function () {
+    Route::get('consulta', [ConsultaController::class, 'index'])->name('consulta.index');
+    Route::get('consulta/notas/{id}', [ConsultaController::class, 'notas'])->name('consulta.notas');
+    Route::get('consulta/pagos/{id}', [ConsultaController::class, 'pagos'])->name('consulta.pagos');
+    Route::get('consulta/mensajes/{id}', [ConsultaController::class, 'mensajes'])->name('consulta.mensajes');
+});
 
 //Login
 Auth::routes(['register' => false]);
@@ -94,6 +100,6 @@ Route::resource('/', HomeController::class)->middleware(['auth']);
 
 Route::get('/mailable', function () {
     $user = App\Models\Matricula::find(1);
- 
+
     return new App\Mail\Credenciales($user);
 });

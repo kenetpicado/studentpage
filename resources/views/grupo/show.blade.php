@@ -18,12 +18,14 @@
 
                 <div class="card mb-4">
                     <x-header-2 text="Alumnos">
+                        <a href="{{ route('mensajes.index', $grupo_id) }}"
+                            class="dropdown-item">
+                            Mensajes
+                        </a>
                         @if (count($inscripciones))
-                            <a href="{{ route('notas.show', $inscripciones->first()->grupo_id) }}"
+                            <a href="{{ route('notas.show', $grupo_id) }}"
                                 class="dropdown-item" target="_blank">
                                 Reporte de notas</a>
-                        @else
-                            <div class="dropdown-header">No hay opciones</div>
                         @endif
                     </x-header-2>
 

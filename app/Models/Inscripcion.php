@@ -40,8 +40,7 @@ class Inscripcion extends Model
             ->where('matricula_id', auth()->user()->sub_id)
             ->select([
                 'inscripciones.id',
-                'grupos.horario as grupo_horario',
-                'grupos.anyo as grupo_anyo',
+                'grupos.id as grupo_id',
                 'cursos.nombre as curso_nombre',
                 'docentes.nombre as docente_nombre',
             ])
