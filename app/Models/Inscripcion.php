@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Nota;
 use App\Models\Pago;
-use App\Models\Matricula;
-use App\Models\Grupo;
 use Illuminate\Support\Facades\DB;
 
 class Inscripcion extends Model
@@ -41,6 +39,7 @@ class Inscripcion extends Model
             ->select([
                 'inscripciones.id',
                 'grupos.id as grupo_id',
+                'cursos.imagen as curso_imagen',
                 'cursos.nombre as curso_nombre',
                 'docentes.nombre as docente_nombre',
             ])
@@ -82,16 +81,6 @@ class Inscripcion extends Model
     }
 
     // RELACIONES
-    public function grupo()
-    {
-        return $this->belongsTo(Grupo::class);
-    }
-
-    public function matricula()
-    {
-        return $this->belongsTo(Matricula::class);
-    }
-
     public function notas()
     {
         return $this->hasMany(Nota::class)->orderBy('num');

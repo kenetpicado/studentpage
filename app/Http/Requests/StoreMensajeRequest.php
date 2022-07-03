@@ -26,6 +26,7 @@ class StoreMensajeRequest extends FormRequest
         return [
             //
             'contenido' => 'required',
+            'enlace' => 'nullable|url'
         ];
     }
 }

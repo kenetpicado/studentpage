@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Casts\Ucwords;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Inscripcion;
 use Illuminate\Support\Facades\DB;
 
 class Nota extends Model
@@ -37,10 +36,5 @@ class Nota extends Model
             ->where('inscripcion_id', $inscripcion_id)
             ->orderBy('num')
             ->get();
-    }
-
-    public function inscripcion()
-    {
-        return $this->belongsTo(Inscripcion::class);
     }
 }

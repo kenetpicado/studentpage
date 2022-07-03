@@ -30,7 +30,7 @@
 
             <div class="col-lg-6">
 
-                <div class="card o-hidden border-0 my-5" style="border-radius: 0px">
+                <div class="card o-hidden border-0 my-5" style="border-radius: 30px">
                     <div class="card-body p-0">
                         <div class="p-5">
                             <div class="text-center">

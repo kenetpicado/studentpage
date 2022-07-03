@@ -39,7 +39,7 @@ class Docente extends Model
     public static function getDocentesActivosSucursal($sucursal)
     {
         return DB::table('docentes')
-            ->where('sucursal', auth()->user()->sucursal)
+            ->where('sucursal', $sucursal)
             ->where('activo', '1')
             ->orderBy('nombre')->get(['id', 'nombre']);
     }

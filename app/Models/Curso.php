@@ -12,7 +12,7 @@ class Curso extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'activo'];
+    protected $fillable = ['nombre', 'imagen', 'activo'];
     public $timestamps = false;
 
     protected $casts = [
@@ -31,7 +31,6 @@ class Curso extends Model
         return DB::table('cursos')->where('activo', '1')->orderBy('nombre')->get(['id', 'nombre']);
     }
 
-    //Releacion 1:n a Grupos
     public function grupos()
     {
         return $this->hasMany(Grupo::class);

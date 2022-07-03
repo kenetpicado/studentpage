@@ -8,15 +8,17 @@
                 <span class="mr-2 text-gray-600 small">
                     {{ Auth::user()->name ?? '' }}
                 </span>
-                <img class="img-profile rounded-circle" src="{{ asset('img/undraw_profile_2.svg') }}">
+                <img class="img-profile rounded-circle" src="{{ asset('img/profile-1.svg') }}">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <div class="dropdown-header">
-                    {{auth()->user()->sucursal == 'CH' ? 'Chinandega':'Managua'}}
-                </div>
-
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                @if (in_array(auth()->user()->rol, ['admin', 'alumno']))
+                    <div class="dropdown-header">
+                        {{ auth()->user()->sucursal == 'CH' ? 'Chinandega' : 'Managua' }}
+                    </div>
+                @endif
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">Logout</a>
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

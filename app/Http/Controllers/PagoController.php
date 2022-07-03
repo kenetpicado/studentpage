@@ -6,6 +6,7 @@ use App\Http\Requests\StorePagoRequest;
 use App\Models\Inscripcion;
 use App\Models\Pago;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PagoController extends Controller
 {
@@ -24,18 +25,21 @@ class PagoController extends Controller
         return back()->with('success', 'Guardado');
     }
 
+    //Editar un pago
     public function edit($pago_id)
     {
         $pago = Pago::forEdit($pago_id);
         return view('pago.edit', compact('pago'));
     }
 
+    //Actualizar un pago
     public function update(StorePagoRequest $request, Pago $pago)
     {
         $pago->update($request->all());
         return redirect()->route('pagos.index', $pago->inscripcion_id)->with('success', 'Actualizado');
     }
 
+    //Eliminar un pago
     public function destroy(Request $request, Pago $pago)
     {
         $pago->delete();

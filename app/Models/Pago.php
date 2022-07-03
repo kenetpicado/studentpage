@@ -43,9 +43,4 @@ class Pago extends Model
     {
         return DB::table('pagos')->where('inscripcion_id', $inscripcion_id)->get();
     }
-    
-    public function inscripcion()
-    {
-        return $this->belongsTo(Inscripcion::class);
-    }
 }

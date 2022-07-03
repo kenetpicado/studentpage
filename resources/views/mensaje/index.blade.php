@@ -31,6 +31,7 @@
                                 </span>
                             @enderror
                         </div>
+                        <x-input-form label="enlace" text="Enlace - (Opcional)"></x-input-form>
                         <input type="hidden" name="grupo_id" value="{{ $grupo_id }}">
                     </x-modal-add>
 
@@ -50,6 +51,9 @@
                                                 {{ $mensaje->from }}:
                                             </div>
                                             {{ $mensaje->contenido }}
+                                            @if ($mensaje->enlace)
+                                                <a href={{ $mensaje->enlace }} target="_blank">Ir al enlace</a>
+                                            @endif
                                         </div>
                                     </td>
                                     <td style="vertical-align:middle;">

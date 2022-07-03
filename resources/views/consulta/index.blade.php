@@ -4,13 +4,12 @@
 
 @section('content')
     <h1 class="h4 text-gray-900 mb-4">Cursos</h1>
-
     <div class="row">
         @foreach ($inscripciones as $inscripcion)
             <div class="col-xl-6 col-md-6 mb-2">
                 <div class="card">
                     <div class="text-center">
-                        <img class="" src="{{ asset('img/person.jpg') }}" width="50%">
+                        <img class="" src="{{ asset('courses/' . $inscripcion->curso_imagen) }}" style="height: 250px; width: 250px;">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ $inscripcion->curso_nombre }}</h5>

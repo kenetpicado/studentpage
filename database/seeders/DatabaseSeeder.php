@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         //Promotor::factory(15)->create();
         //Grupo::factory(15)->create();
 
-        Matricula::factory(50)->create();
+        //Matricula::factory(50)->create();
         //Inscripcion::factory(200)->create();
     }
 }

@@ -17,6 +17,7 @@ class CreateMensajesTable extends Migration
             $table->id();
             $table->string('from', 45);
             $table->text('contenido');
+            $table->string('enlace')->nullable();
             $table->date('created_at');
             
             $table->unsignedBigInteger('grupo_id');

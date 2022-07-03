@@ -6,7 +6,6 @@ use App\Casts\Lower;
 use App\Casts\Ucwords;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Matricula;
 
 class Promotor extends Model
 {
@@ -19,9 +18,4 @@ class Promotor extends Model
         'nombre' => Ucwords::class,
         'correo' => Lower::class,
     ];
-
-    public function matriculas()
-    {
-        return $this->hasMany(Matricula::class);
-    }
 }

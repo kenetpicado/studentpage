@@ -1,4 +1,4 @@
-@props(['ruta', 'id', 'btn' => 'Actualizar'])
+@props(['ruta', 'id', 'btn' => 'Actualizar', 'class' => 'col-lg-6'])
 
 <div class="card-body">
     <form action="{{ route($ruta, $id) }}" method="POST">
@@ -8,7 +8,7 @@
         {{ $slot }}
 
         <div class="row">
-            <div class=" form-group col-lg-6">
+            <div class=" form-group {{ $class }}">
                 <button type="submit" class="btn btn-primary float-right">{{ $btn }}</button>
             </div>
         </div>

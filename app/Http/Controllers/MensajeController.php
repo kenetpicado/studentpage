@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMensajeRequest;
 use App\Models\Mensaje;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class MensajeController extends Controller
@@ -13,7 +12,7 @@ class MensajeController extends Controller
     public function index($grupo_id)
     {
         Gate::authorize('docente_autorizado', $grupo_id);
-        $mensajes = DB::table('mensajes')->where('grupo_id', $grupo_id)->latest('id')->get();
+        $mensajes = Mensaje::getByGrupo($grupo_id);
         return view('mensaje.index', compact('mensajes', 'grupo_id'));
     }
 

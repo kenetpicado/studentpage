@@ -11,7 +11,7 @@
                 <li class="breadcrumb-item active" aria-current="page">Cursos</li>
             </ol>
         </nav>
-        
+
         <x-message></x-message>
 
         <!-- Content Row -->
@@ -24,12 +24,14 @@
                     {{-- FORM STORE --}}
                     <x-modal-add ruta='cursos.store' title='Cursos'>
                         <x-input-form label="nombre"></x-input-form>
+                        <x-imagenes :imagenes="$imagenes"></x-imagenes>
                     </x-modal-add>
 
                     {{-- INDEX --}}
                     <x-table-head>
                         <x-slot name="title">
                             <th>Nombre</th>
+                            <th>Imagen</th>
                             <th>Estado</th>
                             <th>Editar</th>
                         </x-slot>
@@ -37,6 +39,7 @@
                             @foreach ($cursos as $curso)
                                 <tr>
                                     <td>{{ $curso->nombre }}</td>
+                                    <td>{{$curso->imagen}}</td>
                                     <td>
                                         <x-status :val="$curso->activo"></x-status>
                                     </td>
@@ -49,7 +52,6 @@
                             @endforeach
                         </tbody>
                     </x-table-head>
-
                 </div>
             </div>
         </div>

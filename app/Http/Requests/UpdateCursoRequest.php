@@ -26,7 +26,8 @@ class UpdateCursoRequest extends FormRequest
     {
         return [
             //
-            'nombre' => ['required', 'max:45', Rule::unique('cursos')->ignore($this->curso_id)]
+            'nombre' => ['required', 'max:45', Rule::unique('cursos')->ignore($this->curso_id)],
+            'imagen' => 'required',
         ];
     }
     public function messages()

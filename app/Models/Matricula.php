@@ -8,7 +8,6 @@ use App\Casts\Ucwords;
 use App\Casts\Upper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Promotor;
 use App\Models\Inscripcion;
 use Illuminate\Support\Facades\DB;
 
@@ -122,11 +121,6 @@ class Matricula extends Model
             ])
             ->latest('id')
             ->get();
-    }
-
-    public function promotor()
-    {
-        return $this->belongsTo(Promotor::class);
     }
 
     public function inscripciones()

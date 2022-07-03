@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Curso;
-use App\Models\Docente;
 use App\Models\Inscripcion;
 use Illuminate\Support\Facades\DB;
 
@@ -126,11 +124,13 @@ class Grupo extends Model
             ->get();
     }
 
+    //Cambiar estado del grupo
     public static function status($grupo_id, $activo = '1')
     {
         Grupo::find($grupo_id, ['id', 'activo'])->update(['activo' => $activo]);
     }
 
+    //
     public static function edit($grupo_id)
     {
         return DB::table('grupos')
@@ -138,27 +138,10 @@ class Grupo extends Model
             ->find($grupo_id);
     }
 
-    //Relacion n:1 a Curso
-    public function curso()
-    {
-        return $this->belongsTo(Curso::class);
-    }
-
-    //Relacion n:1 a Docente
-    public function docente()
-    {
-        return $this->belongsTo(Docente::class);
-    }
-
     //Relacion 1:n a Inscripciones
     public function inscripciones()
     {
         return $this->hasMany(Inscripcion::class);
-    }
-
-    public function mensajes()
-    {
-        return $this->hasMany(Mensaje::class);
     }
 
     public function setHorarioAttribute($value)

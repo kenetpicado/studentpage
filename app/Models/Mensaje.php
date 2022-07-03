@@ -10,10 +10,10 @@ class Mensaje extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $fillable = ['from', 'contenido', 'created_at', 'grupo_id'];
+    protected $fillable = ['from', 'contenido', 'created_at', 'enlace', 'grupo_id'];
 
     public static function getByGrupo($grupo_id)
     {
-        return DB::table('mensajes')->where('grupo_id', $grupo_id)->get();
+        return DB::table('mensajes')->where('grupo_id', $grupo_id)->latest('id')->get();
     }
 }

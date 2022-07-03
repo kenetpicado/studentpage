@@ -26,12 +26,24 @@
                     {{-- MODAL DELETE --}}
                     <x-modal-delete ruta='cursos.destroy' :id="$curso->id" title="Curso"></x-modal-delete>
 
-                    {{-- FORM EDIT --}}
-                    <x-edit-form ruta='cursos.update' :id="$curso->id">
-                        <x-input-edit label="nombre" :val="$curso->nombre"></x-input-edit>
-                        <x-check-activo :val="$curso->activo"></x-check-activo>
-                        <input type="hidden" name="curso_id" value="{{ $curso->id }}">
-                    </x-edit-form>
+                    <div class="row">
+                        <div class="col">
+                            <x-edit-form ruta='cursos.update' :id="$curso->id" class="col-lg-12">
+                                <x-input-edit class="col-lg-12" label="nombre" :val="$curso->nombre"></x-input-edit>
+                                <div class="row">
+                                    <x-imagenes :old="$curso->imagen" class="col-lg-12" :imagenes="$imagenes"></x-imagenes>
+                                </div>
+                                <x-check-activo :val="$curso->activo"></x-check-activo>
+                                <input type="hidden" name="curso_id" value="{{ $curso->id }}">
+                            </x-edit-form>
+                        </div>
+
+                        <div class="col">
+                            <div class="text-center">
+                                <img src="{{ asset('courses/' . $curso->imagen) }}" style="height: 250px; width: 250px;">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

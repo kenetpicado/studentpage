@@ -15,6 +15,9 @@
                             {{ $mensaje->from }}:
                         </div>
                         {{ $mensaje->contenido }}
+                        @if ($mensaje->enlace)
+                            <a href={{ $mensaje->enlace }} target="_blank">Ir al enlace</a>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -41,7 +41,7 @@
                                 <tr>
                                     <td>{{ $pago->concepto }}</td>
                                     <td>{{ $pago->recibo }}</td>
-                                    <td>C$ {{ $pago->monto }}</td>
+                                    <td>{{ $pago->monto }}</td>
                                     <td>{{ $pago->created_at }}</td>
                                     <td>
                                         <a href="{{ route('pagos.edit', $pago->id) }}" class="btn btn-sm btn-primary">

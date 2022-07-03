@@ -12,8 +12,9 @@ class CursoController extends Controller
     //Mostrar todos los cursos
     public function index()
     {
+        $imagenes = $this->listarImagenes();
         $cursos = Curso::getCursos();
-        return view('curso.index', compact('cursos'));
+        return view('curso.index', compact('cursos', 'imagenes'));
     }
 
     //Guardar nuevo curso
@@ -26,7 +27,8 @@ class CursoController extends Controller
     //Mostrar formulario editar curso
     public function edit(Curso $curso)
     {
-        return view('curso.edit', compact('curso'));
+        $imagenes = $this->listarImagenes();
+        return view('curso.edit', compact('curso', 'imagenes'));
     }
 
     //Actualizar curso
@@ -47,5 +49,19 @@ class CursoController extends Controller
 
         $curso->delete();
         return redirect()->route('cursos.index')->with('success', 'Eliminado');
+    }
+
+    public function listarImagenes()
+    {
+        $imagenes = [];
+        $path = '../public/courses';
+        $dir = opendir($path);
+
+        while ($elemento = readdir($dir)) {
+            if (!in_array($elemento, ['.', '..']))
+                array_push($imagenes, ['nombre' => $elemento]);
+        }
+        closedir($dir);
+        return collect($imagenes)->sortBy('nombre');
     }
 }

@@ -37,7 +37,7 @@
                             <th>Notas</th>
                             @if (auth()->user()->rol == 'admin')
                                 <th>Pagos</th>
-                                <th>Editar</th>
+                                <th>Mover</th>
                             @endif
                         </x-slot>
                         <tbody>
@@ -56,7 +56,7 @@
                                         </td>
                                         <td>
                                             <a href="{{ route('inscripciones.edit', $inscripcion->id) }}"
-                                                class="btn btn-sm btn-outline-primary">Editar</a>
+                                                class="btn btn-sm btn-outline-primary">Mover</a>
                                         </td>
                                     @endif
                                 </tr>
