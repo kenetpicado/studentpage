@@ -31,15 +31,4 @@ class User extends Authenticatable
     {
         return User::where('email', $carnet)->first(['id', 'name', 'password']);
     }
-
-    public static function loggedId()
-    {
-        $user = auth()->user();
-
-        if ($user->rol != 'promotor')
-            return 'admin';
-
-        $object = Promotor::where('carnet', $user->email)->first(['id']);
-        return $object->id;
-    }
 }

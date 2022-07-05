@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Matricula;
 use App\Models\User;
-use App\Models\Promotor;
-use App\Http\Resources\matricula\MatriculaIndex;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Generate;
+use App\Http\Controllers\UserController;
+use App\Services\FormattingRequest;
 use Illuminate\Support\Facades\Validator;
 
 class MatriculaController extends Controller
@@ -21,20 +20,14 @@ class MatriculaController extends Controller
     public function index()
     {
         //
-        $promotor = User::loggedId();
-
-        if ($promotor == 'admin') {
+        if (auth()->user()->rol != 'promotor')
             return response()->json([
                 'status' => '0',
                 'message' => 'No es promotor',
             ], 401);
-        } else {
 
-            $matricula = Matricula::where('promotor_id', $promotor)
-                ->get(['id', 'nombre', 'carnet']);
-
-            return response()->json($matricula, 200);
-        }
+        $matricula = Matricula::where('promotor_id', auth()->user()->sub_id)->get(['id', 'nombre', 'carnet']);
+        return response()->json($matricula, 200);
     }
 
     /**
@@ -64,39 +57,17 @@ class MatriculaController extends Controller
             'sucursal' => 'required|in:CH,MG'
         ], [], [
             'fecha_nac' => 'fecha de nacimiento',
-            'tel' => 'telefono',
         ]);
 
         if ($validator->fails())
-            return $validator->errors();
+            return response()->json([
+                'status' => '0',
+                'message' => $validator->errors()->first(),
+            ], 500);
 
-        $carnet = Generate::idEstudiante($request->sucursal, $request->fecha_nac);
-        $pin = Generate::pin();
-
-        //Agregar campos que faltan
-        $request->merge([
-            'carnet' =>  $carnet,
-            'pin' => $pin,
-            'promotor_id' => auth()->user()->sub_id,
-            'created_at' => now()->format('Y-m-d'),
-        ]);
-
-        $request->validate([
-            'carnet' => 'unique:matriculas'
-        ]);
-
-        //Guardar datos
-        $matricula = Matricula::create($request->all());
-
-        //Crear cuenta de usuario
-        User::create([
-            'name' => $request->nombre,
-            'email' => $carnet,
-            'password' => bcrypt('FFFFFF'),
-            'rol' => 'alumno',
-            'sucursal' => $request->sucursal,
-            'sub_id' => $matricula->id,
-        ]);
+        $formated = (new FormattingRequest)->alumno($request);
+        $matricula = Matricula::create($formated->all());
+        (new UserController)->store($formated, $matricula->id);
 
         return response()->json([
             'status' => '1',
@@ -113,6 +84,12 @@ class MatriculaController extends Controller
     public function show(Matricula $matricula)
     {
         //
+        if ($matricula->promotor_id != auth()->user()->sub_id)
+            return response()->json([
+                'status' => '0',
+                'message' => 'No es propietario de esta matricula'
+            ], 403);
+
         return response()->json($matricula, 200);
     }
 
@@ -125,6 +102,12 @@ class MatriculaController extends Controller
     public function edit(Matricula $matricula)
     {
         //
+        if ($matricula->promotor_id != auth()->user()->sub_id)
+            return response()->json([
+                'status' => '0',
+                'message' => 'No es propietario de esta matricula'
+            ], 403);
+
         return response()->json($matricula, 200);
     }
 
@@ -148,9 +131,16 @@ class MatriculaController extends Controller
      */
     public function destroy(Matricula $matricula)
     {
+        if ($matricula->promotor_id != auth()->user()->sub_id)
+            return response()->json([
+                'status' => '0',
+                'message' => 'No es propietario de esta matricula'
+            ], 403);
+
         if ($matricula->delete()) {
             return response()->json(['message' => 'Matricula eliminada correctamente'], 200);
         }
+
         return response()->json(['message' => 'Error al eliminar la matricula'], 500);
     }
 }
