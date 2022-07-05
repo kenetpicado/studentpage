@@ -16,6 +16,7 @@ class CreateCursosTable extends Migration
         Schema::create('cursos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 45)->unique();
+            $table->string('imagen')->default('generic-1.svg');
             $table->boolean('activo')->default(true);
         });
     }

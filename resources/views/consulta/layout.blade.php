@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="{{ config('app.name') }}">
 
-    <title>{{ config('app.name') }} - @yield('title')</title>
+    <title>{{ config('app.name') }} | @yield('title')</title>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('img/SP.png') }}">
 
@@ -42,7 +42,7 @@
             </div>
         </div>
     </div>
-    @include('partials.footer')
+
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>

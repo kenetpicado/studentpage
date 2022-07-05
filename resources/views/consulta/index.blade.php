@@ -17,15 +17,15 @@
                     </div>
 
                     <div class="card-footer">
+                        <a class="btn btn-primary" href="{{route('consulta.mensajes', $inscripcion->grupo_id)}}">Mensajes</a>
                         <div class="dropdown float-right">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Detalles
+                                Más
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="{{route('consulta.notas', $inscripcion->id)}}">Notas</a>
                                 <a class="dropdown-item" href="{{route('consulta.pagos', $inscripcion->id)}}">Pagos</a>
-                                <a class="dropdown-item" href="{{route('consulta.mensajes', $inscripcion->grupo_id)}}">Mensajes</a>
                             </div>
                         </div>
                     </div>

@@ -33,18 +33,17 @@
 
                         <div class="row">
                             <div class="form-group col-lg-6">
-                            <label>Contenido</label>
-                            <textarea name="contenido" rows="5"
-                                class="form-control @error('contenido') is-invalid @enderror">{{ old('contenido', $mensaje->contenido) }}</textarea>
+                                <label>Contenido</label>
+                                <textarea name="contenido" rows="5" class="form-control @error('contenido') is-invalid @enderror">{{ old('contenido', $mensaje->contenido) }}</textarea>
 
-                            @error('contenido')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                                @error('contenido')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
-                        </div>
-                        
+                        <x-input-edit label="enlace" text="Enlace - (Opcional)" :val="$mensaje->enlace"></x-input-edit>
                         <input type="hidden" name="grupo_id" value="{{ $mensaje->grupo_id }}">
                     </x-edit-form>
                 </div>

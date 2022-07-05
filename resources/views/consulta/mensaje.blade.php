@@ -1,6 +1,6 @@
 @extends('consulta.layout')
 
-@section('title', 'Notas')
+@section('title', 'Mensajes')
 
 @section('content')
     <h1 class="h4 text-gray-900 mb-4">Mensajes</h1>
