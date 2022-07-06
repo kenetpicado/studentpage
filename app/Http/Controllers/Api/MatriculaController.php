@@ -24,7 +24,7 @@ class MatriculaController extends Controller
             return response()->json([
                 'status' => '0',
                 'message' => 'No es promotor',
-            ], 401);
+            ], 403);
 
         $matricula = Matricula::where('promotor_id', auth()->user()->sub_id)->get(['id', 'nombre', 'carnet']);
         return response()->json($matricula, 200);
@@ -61,9 +61,9 @@ class MatriculaController extends Controller
 
         if ($validator->fails())
             return response()->json([
-                'status' => '0',
+                'status' => '2',
                 'message' => $validator->errors()->first(),
-            ], 500);
+            ], 422);
 
         $formated = (new FormattingRequest)->alumno($request);
         $matricula = Matricula::create($formated->all());

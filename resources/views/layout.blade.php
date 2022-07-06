@@ -14,7 +14,7 @@
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
     {{-- normalize --}}
     <link href="{{ asset('css/normalize.css') }}" rel="stylesheet">
@@ -22,43 +22,27 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
-    <!-- LOADER -->
-    <link href="{{ asset('css/loader.css') }}" rel="stylesheet">
 </head>
 
 <body id="page-top">
 
     <div id="wrapper">
-
         @include('partials.sidebar')
-
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
-
                 @include('partials.topbar')
                 @yield('content')
-
             </div>
-
             @include('partials.footer')
         </div>
     </div>
-
-    {{-- <div id="preloader">
-        <div class="sk-three-bounce">
-            <div class="sk-child sk-bounce1"></div>
-            <div class="sk-child sk-bounce2"></div>
-            <div class="sk-child sk-bounce3"></div>
-        </div>
-    </div> --}}
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
-    @yield('agregarModal')
+    @yield('re-open')
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
@@ -74,11 +58,6 @@
     <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
-
-    {{-- funciones extras --}}
-    <script src="{{ asset('js/functions.js') }}"></script>
-
-    @yield('re-open')
 </body>
 
 </html>
