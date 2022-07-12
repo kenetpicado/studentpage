@@ -115,12 +115,34 @@ class MatriculaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Matricula  $matricula
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Matricula $matricula)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|max:45',
+            'cedula' => 'nullable|alpha_dash|min:16|max:16',
+            'fecha_nac' => 'required|date',
+            'celular' => 'nullable|numeric|digits:8',
+            'grado' => 'required|max:45',
+        ], [], [
+            'fecha_nac' => 'fecha de nacimiento',
+        ]);
+
+        if ($validator->fails())
+            return response()->json([
+                'status' => '2',
+                'message' => $validator->errors()->first(),
+            ], 422);
+
+        $matricula->update($request->all());
+        (new UserController)->update($matricula);
+
+        return response()->json([
+            'status' => '1',
+            'message' => 'success',
+        ], 200);
     }
 
     /**
