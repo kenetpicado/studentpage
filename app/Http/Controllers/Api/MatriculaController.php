@@ -26,8 +26,8 @@ class MatriculaController extends Controller
                 'message' => 'No es promotor',
             ], 403);
 
-        $matricula = Matricula::where('promotor_id', auth()->user()->sub_id)->get(['id', 'nombre', 'carnet']);
-        return response()->json($matricula, 200);
+        $matriculas = Matricula::getMatriculasPromotor(auth()->user()->sub_id);
+        return response()->json($matriculas, 200);
     }
 
     /**
