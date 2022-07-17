@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreDocenteRequest;
-use App\Http\Requests\UpdateDocenteRequest;
+use App\Http\Requests\DocenteRequest;
 use App\Models\Docente;
 use App\Models\Grupo;
 use App\Services\FormattingRequest;
@@ -21,7 +20,7 @@ class DocenteController extends Controller
     }
 
     //Guardar docente
-    public function store(StoreDocenteRequest $request)
+    public function store(DocenteRequest $request)
     {
         $formated = (new FormattingRequest)->docente($request);
 
@@ -44,7 +43,7 @@ class DocenteController extends Controller
     }
 
     //Actualizar un docente
-    public function update(UpdateDocenteRequest $request, Docente $docente)
+    public function update(DocenteRequest $request, Docente $docente)
     {
         if (!$request->activo)
             $request->merge(['activo' => '0']);

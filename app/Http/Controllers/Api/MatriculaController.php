@@ -7,6 +7,7 @@ use App\Models\Matricula;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\UserController;
+use App\Http\Requests\UpdateMatriculaRequest;
 use App\Services\FormattingRequest;
 use Illuminate\Support\Facades\Validator;
 
@@ -137,7 +138,7 @@ class MatriculaController extends Controller
             ], 422);
 
         $matricula->update($request->all());
-        (new UserController)->update($matricula);
+        //(new UserController)->update($matricula);
 
         return response()->json([
             'status' => '1',

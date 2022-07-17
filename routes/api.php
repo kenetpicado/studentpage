@@ -22,8 +22,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::post('logout', [LoginController::class, 'logout']);
 
-        Route::apiResource('v1/matriculas', MatriculaController::class)
-                ->only(['index', 'show', 'store']);
+        Route::apiResource('v1/matriculas', MatriculaController::class);
 
         Route::get('consulta', [ConsultaController::class, 'index'])->name('consulta.index');
         Route::get('consulta/notas/{id}', [ConsultaController::class, 'notas'])->name('consulta.notas');

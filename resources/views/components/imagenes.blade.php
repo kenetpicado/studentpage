@@ -1,7 +1,7 @@
-@props(['old' => '', 'class' => '', 'imagenes'])
+@props(['old' => '', 'imagenes'])
 
-<div class="form-group {{ $class }}">
-    <label>Imagen</label>
+<div class="mb-3">
+    <label class="form-label">Imagen</label>
     <select name="imagen" class="form-control @error('imagen') is-invalid @enderror" autofocus>
         <option selected disabled value="">Seleccionar</option>
         @foreach ($imagenes as $imagen)

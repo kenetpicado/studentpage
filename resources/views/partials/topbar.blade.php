@@ -1,31 +1,49 @@
-<!-- Topbar -->
-<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-    <ul class="navbar-nav ml-auto">
-        <!-- Nav Item - User Information -->
-        <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 text-gray-600 small">
-                    {{ Auth::user()->name ?? '' }}
-                </span>
-                <img class="img-profile rounded-circle" src="{{ asset('img/profile-1.svg') }}">
-            </a>
-            <!-- Dropdown - User Information -->
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                @if (in_array(auth()->user()->rol, ['admin', 'alumno']))
-                    <div class="dropdown-header">
-                        {{ auth()->user()->sucursal == 'CH' ? 'Chinandega' : 'Managua' }}
-                    </div>
-                @endif
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();">Logout</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-white static-top shadow-sm mb-3">
+    <div class="container">
+        <a class="navbar-brand fw-bolder" href="/">{{ config('app.name') }}</a>
 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <x-itembar when="/" text="Inicio" route="index"></x-itembar>
+
+                @if (Auth::user()->rol == 'admin')
+                    <x-itembar when="docentes" text="Docentes" route="docentes.index"></x-itembar>
+                    <x-itembar when="cursos" text="Cursos" route="cursos.index"></x-itembar>
+                    <x-itembar when="promotores" text="Promotores" route="promotores.index"></x-itembar>
+                @endif
+
+                @if (Auth::user()->rol == 'docente' || Auth::user()->rol == 'admin')
+                    <x-itembar when="grupos" text="Grupos" route="grupos.index"></x-itembar>
+                @endif
+
+                @if (Auth::user()->rol == 'promotor' || Auth::user()->rol == 'admin')
+                    <x-itembar when="matriculas" text="Matriculas" route="matriculas.index"></x-itembar>
+                @endif
+            </ul>
+
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ Auth::user()->name ?? '' }}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a href="#" class="dropdown-item">Perfil</a></li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </li>
+                </ul>
             </div>
-        </li>
-    </ul>
+        </div>
+    </div>
 </nav>
-<!-- End of Topbar -->

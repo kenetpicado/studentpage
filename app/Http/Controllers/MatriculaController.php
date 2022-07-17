@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreMatriculaRequest;
-use App\Http\Requests\UpdateMatriculaRequest;
-use App\Mail\VerMatricula;
 use App\Models\Matricula;
+use App\Mail\VerMatricula;
 use App\Services\FormattingRequest;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\MatriculaRequest;
 
 class MatriculaController extends Controller
 {
@@ -33,7 +32,7 @@ class MatriculaController extends Controller
     }
 
     //Guardar nueva matricula
-    public function store(StoreMatriculaRequest $request)
+    public function store(MatriculaRequest $request)
     {
         $formated = (new FormattingRequest)->alumno($request);
 
@@ -58,7 +57,7 @@ class MatriculaController extends Controller
     }
 
     //Actualizar matricula
-    public function update(UpdateMatriculaRequest $request, Matricula $matricula)
+    public function update(MatriculaRequest $request, Matricula $matricula)
     {
         if (auth()->user()->rol == 'promotor')
             Gate::authorize('propietario-matricula', $matricula);

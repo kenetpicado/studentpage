@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePromotorRequest;
-use App\Http\Requests\UpdatePromotorRequest;
 use App\Models\Promotor;
 use App\Models\Matricula;
 use App\Services\FormattingRequest;
+use App\Http\Requests\PromotorRequest;
 
 class PromotorController extends Controller
 {
@@ -18,7 +17,7 @@ class PromotorController extends Controller
     }
 
     //Guardar nuevo promotor
-    public function store(StorePromotorRequest $request)
+    public function store(PromotorRequest $request)
     {
         $formated = (new FormattingRequest)->promotor($request);
 
@@ -41,7 +40,7 @@ class PromotorController extends Controller
     }
 
     //Actualizar promotor
-    public function update(UpdatePromotorRequest $request, Promotor $promotor)
+    public function update(PromotorRequest $request, Promotor $promotor)
     {
         $promotor->update($request->all());
         (new UserController)->update($promotor);

@@ -15,9 +15,12 @@ class CreateNotasTable extends Migration
     {
         Schema::create('notas', function (Blueprint $table) {
             $table->id();
-            $table->integer('num');
-            $table->string('materia', 50);
             $table->float('valor');
+
+            $table->unsignedBigInteger('modulo_id');
+            $table->foreign('modulo_id')
+                ->references('id')
+                ->on('modulos');
 
             $table->unsignedBigInteger('inscripcion_id');
             $table->foreign('inscripcion_id')

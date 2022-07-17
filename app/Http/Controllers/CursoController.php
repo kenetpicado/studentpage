@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCursoRequest;
-use App\Http\Requests\UpdateCursoRequest;
+use App\Http\Requests\CursoRequest;
 use App\Models\Curso;
 
 
@@ -18,7 +17,7 @@ class CursoController extends Controller
     }
 
     //Guardar nuevo curso
-    public function store(StoreCursoRequest $request)
+    public function store(CursoRequest $request)
     {
         Curso::create($request->all());
         return back()->with('success', 'Guardado');
@@ -32,7 +31,7 @@ class CursoController extends Controller
     }
 
     //Actualizar curso
-    public function update(UpdateCursoRequest $request, Curso $curso)
+    public function update(CursoRequest $request, Curso $curso)
     {
         if (!$request->activo)
             $request->merge(['activo' => '0']);

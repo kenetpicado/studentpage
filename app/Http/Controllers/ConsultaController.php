@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inscripcion;
-use App\Models\Mensaje;
 use App\Models\Nota;
 use App\Models\Pago;
-use Illuminate\Support\Facades\DB;
+use App\Models\Mensaje;
+use App\Models\Inscripcion;
 use Illuminate\Support\Facades\Gate;
 
 class ConsultaController extends Controller

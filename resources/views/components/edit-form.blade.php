@@ -1,16 +1,14 @@
-@props(['ruta', 'id', 'btn' => 'Actualizar', 'class' => 'col-lg-6'])
+@props(['ruta', 'id', 'btn' => 'Actualizar'])
 
-<div class="card-body">
-    <form action="{{ route($ruta, $id) }}" method="POST">
-        @csrf
-        @method('PUT')
-
-        {{ $slot }}
-
-        <div class="row">
-            <div class=" form-group {{ $class }}">
-                <button type="submit" class="btn btn-primary float-right">{{ $btn }}</button>
-            </div>
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card-body">
+            <form action="{{ route($ruta, $id)  }}" method="post">
+                @csrf
+                @method('put')
+                {{ $slot }}
+                <button type="submit" class="btn btn-primary rounded-3">{{ $btn }}</button>
+            </form>
         </div>
-    </form>
+    </div>
 </div>

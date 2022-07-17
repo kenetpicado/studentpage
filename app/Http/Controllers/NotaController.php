@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreNotaRequest;
-use App\Http\Requests\UpdateNotaRequest;
-use App\Models\Grupo;
 use App\Models\Nota;
+use App\Models\Grupo;
 use App\Models\Inscripcion;
 use Illuminate\Http\Request;
+use App\Http\Requests\NotaRequest;
 
 class NotaController extends Controller
 {
@@ -19,7 +18,7 @@ class NotaController extends Controller
     }
 
     //Guardar nota
-    public function store(StoreNotaRequest $request)
+    public function store(NotaRequest $request)
     {
         Nota::create($request->all());
         return back()->with('success', 'Guardado');
@@ -33,7 +32,7 @@ class NotaController extends Controller
     }
 
     //Actualizar nota
-    public function update(UpdateNotaRequest $request, Nota $nota)
+    public function update(NotaRequest $request, Nota $nota)
     {
         $nota->update($request->all());
         return redirect()->route('notas.index', $nota->inscripcion_id)->with('success', 'Actualizado');

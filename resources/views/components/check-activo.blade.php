@@ -1,6 +1,6 @@
 @props(['val'])
 
-<div class="form-check">
+<div class="form-check mb-3">
     <input class="form-check-input" type="checkbox" name="activo" value="1"
         {{ !old() && $val || old('activo') == '1' ? 'checked' : '' }}>
     <label>Activo</label>

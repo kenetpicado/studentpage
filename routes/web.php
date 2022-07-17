@@ -21,8 +21,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('cursos', CursoController::class)
         ->except(['create', 'show']);
 
-    Route::resource('docentes', DocenteController::class)
-        ->except(['create']);
+    Route::resource('docentes', DocenteController::class);
 
     Route::resource('promotores', PromotorController::class)
         ->parameters(['promotores' => 'promotor']);

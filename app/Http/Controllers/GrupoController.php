@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreGrupoRequest;
-use App\Http\Requests\UpdateGrupoRequest;
-use App\Models\Grupo;
 use App\Models\Curso;
+use App\Models\Grupo;
 use App\Models\Docente;
-use App\Models\User;
-use Illuminate\Support\Facades\Gate;
 use App\Models\Inscripcion;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\GrupoRequest;
+use Illuminate\Support\Facades\Gate;
 
 class GrupoController extends Controller
 {
@@ -48,7 +45,7 @@ class GrupoController extends Controller
     }
 
     //Guardar grupo
-    public function store(StoreGrupoRequest $request)
+    public function store(GrupoRequest $request)
     {
         //Sucursal del grupo = suscursal del docente
         $request->merge([
@@ -78,7 +75,7 @@ class GrupoController extends Controller
     }
 
     //Actualizar grupo
-    public function update(UpdateGrupoRequest $request, Grupo $grupo)
+    public function update(GrupoRequest $request, Grupo $grupo)
     {
         $grupo->update($request->all());
         return redirect()->route('grupos.index')->with('success', 'Actualizado');

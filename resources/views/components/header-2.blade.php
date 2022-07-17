@@ -1,15 +1,15 @@
 @props(['text'])
 
-<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-    <h6 class="m-0 font-weight-bold text-primary">{{$text}}</h6>
-    <div class="dropdown no-arrow">
-        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-ellipsis-h fa-sm fa-fw text-primary"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-            aria-labelledby="dropdownMenuLink">
-            {{$slot}}
-        </div>
+<div class="card-header bg-white border-0 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 fw-bolder text-primary">{{ $text }}</h6>
+
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class="fas fa-cog"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            {{ $slot }}
+        </ul>
     </div>
 </div>

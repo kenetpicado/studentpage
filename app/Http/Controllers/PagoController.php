@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePagoRequest;
-use App\Models\Inscripcion;
 use App\Models\Pago;
+use App\Models\Inscripcion;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\PagoRequest;
 
 class PagoController extends Controller
 {
@@ -18,7 +17,7 @@ class PagoController extends Controller
     }
 
     //Guardar pago
-    public function store(StorePagoRequest $request)
+    public function store(PagoRequest $request)
     {
         $request->merge(['created_at' => now()]);
         Pago::create($request->all());
@@ -33,7 +32,7 @@ class PagoController extends Controller
     }
 
     //Actualizar un pago
-    public function update(StorePagoRequest $request, Pago $pago)
+    public function update(PagoRequest $request, Pago $pago)
     {
         $pago->update($request->all());
         return redirect()->route('pagos.index', $pago->inscripcion_id)->with('success', 'Actualizado');

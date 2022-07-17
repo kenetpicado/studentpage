@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Matricula;
 use App\Models\Grupo;
-use App\Http\Requests\InscribirRequest;
+use App\Models\Matricula;
 use App\Models\Inscripcion;
 use Illuminate\Http\Request;
+use App\Http\Requests\InscribirRequest;
 
 class InscripcionController extends Controller
 {
