@@ -16,6 +16,7 @@
                         Esta acción no se puede deshacer.
                     </p>
                 </div>
+                {{$slot}}
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-outline-primary">Eliminar</button>

@@ -7,7 +7,14 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('img/SP.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }} - Login</title>
-    <link href="css/app.css" rel="stylesheet">
+    <link href="css/app2.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto">
+    <style>
+      body {
+        font-family: 'Roboto', serif;
+      }
+    </style>
 </head>
 
 <body class="bg-light">

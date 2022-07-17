@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CursoRequest;
 use App\Models\Curso;
-
+use Illuminate\Support\Facades\DB;
 
 class CursoController extends Controller
 {
@@ -21,6 +21,13 @@ class CursoController extends Controller
     {
         Curso::create($request->all());
         return back()->with('success', 'Guardado');
+    }
+
+    //Ver modulos de un curso
+    public function show($curso_id)
+    {
+        $modulos = DB::table('modulos')->where('curso_id', $curso_id)->get();
+        return view('curso.show', compact('modulos', 'curso_id'));
     }
 
     //Mostrar formulario editar curso

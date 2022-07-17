@@ -3,7 +3,5 @@
 @section('title', 'Inicio')
 
 @section('content')
-    <div class="container-fluid">
-
-    </div>
+<h1>Inicio</h1>
 @endsection

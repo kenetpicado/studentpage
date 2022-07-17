@@ -19,6 +19,7 @@
             <th>Nombre</th>
             <th>Imagen</th>
             <th>Estado</th>
+            <th>Modulos</th>
             <th>Editar</th>
         </x-slot>
         <tbody>
@@ -34,7 +35,12 @@
                         @endif
                     </td>
                     <td>
-                        <a class="btn btn-primary btn-sm" href="{{ route('cursos.edit', $curso->id) }}">
+                        <a class="btn btn-primary btn-sm" href="{{ route('cursos.show', $curso->id) }}">
+                            Modulos
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary btn-sm" href="{{ route('cursos.edit', $curso->id) }}">
                             Editar
                         </a>
                     </td>

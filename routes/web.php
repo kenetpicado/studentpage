@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotaController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\MensajeController;
+use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,9 @@ use Illuminate\Support\Facades\Auth;
 Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::resource('cursos', CursoController::class)
-        ->except(['create', 'show']);
+        ->except(['create']);
+
+    Route::resource('modulos', ModuloController::class)->except(['index']);
 
     Route::resource('docentes', DocenteController::class);
 
