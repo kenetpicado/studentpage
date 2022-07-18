@@ -8,13 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }} - Login</title>
     <link href="css/app2.css" rel="stylesheet">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto">
-    <style>
-      body {
-        font-family: 'Roboto', serif;
-      }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -31,7 +25,23 @@
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <x-input name="email" label="ID"></x-input>
-                                <x-input name="password" label="PIN" type="password"></x-input>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">PIN</label>
+
+                                    <div class="input-group">
+                                        <input type="password"
+                                            class="form-control @error('password') is-invalid @enderror"
+                                            id="input_password" name="password">
+                                        <button type="button" class="input-group-text" id="show_password"><i
+                                                class="fa fa-eye"></i></button>
+                                    </div>
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
 
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember"
@@ -49,6 +59,13 @@
             </div>
         </div>
     </div>
+    <script>
+        var password = document.getElementById("show_password");
+        password.onclick = function() {
+            $input = document.getElementById("input_password");
+            $input.type == "text" ? $input.type = "password" : $input.type = "text";
+        }
+    </script>
 </body>
 
 </html>

@@ -83,7 +83,12 @@ class Inscripcion extends Model
     // RELACIONES
     public function notas()
     {
-        return $this->hasMany(Nota::class)->orderBy('num');
+        return $this->hasMany(Nota::class);
+    }
+
+    public function grupo()
+    {
+        return $this->belongsTo(Grupo::class);
     }
 
     public function pagos()

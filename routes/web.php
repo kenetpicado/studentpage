@@ -22,9 +22,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('cursos', CursoController::class)
         ->except(['create']);
 
-    Route::resource('modulos', ModuloController::class)->except(['index']);
+    Route::resource('modulos', ModuloController::class);
 
-    Route::resource('docentes', DocenteController::class);
+    Route::resource('docentes', DocenteController::class)
+    ->except(['create']);
 
     Route::resource('promotores', PromotorController::class)
         ->parameters(['promotores' => 'promotor']);

@@ -1,4 +1,4 @@
-@props(['name', 'class' => 'col-lg-6', 'text' => $name, 'items', 'old' => ''])
+@props(['name', 'text' => $name, 'items', 'old' => ''])
 
 <div class="mb-3">
     <label class="form-label">{{ ucfirst($text) }}</label>

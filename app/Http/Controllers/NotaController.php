@@ -7,14 +7,34 @@ use App\Models\Grupo;
 use App\Models\Inscripcion;
 use Illuminate\Http\Request;
 use App\Http\Requests\NotaRequest;
+use App\Models\Modulo;
+use Illuminate\Support\Facades\DB;
 
 class NotaController extends Controller
 {
     //Ver notas
-    public function index(Inscripcion $inscripcion)
+    public function index($inscripcion_id)
     {
-        $inscripcion->load('notas');
-        return view('nota.index', compact('inscripcion'));
+        $inscripcion = DB::table('inscripciones')
+            ->where('inscripciones.id', $inscripcion_id)
+            ->select([
+                'inscripciones.*',
+                'grupos.curso_id'
+            ])
+            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
+            ->first();
+
+        $notas = DB::table('notas')
+            ->where('notas.inscripcion_id', $inscripcion->id)
+            ->select([
+                'notas.*',
+                'modulos.nombre as modulo_nombre'
+            ])
+            ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')
+            ->get();
+
+        $modulos = Modulo::where('curso_id', $inscripcion->curso_id)->get();
+        return view('nota.index', compact('inscripcion', 'modulos', 'notas'));
     }
 
     //Guardar nota
@@ -27,8 +47,21 @@ class NotaController extends Controller
     //Editar nota
     public function edit($nota_id)
     {
-        $nota = Nota::forEdit($nota_id);
-        return view('nota.edit', compact('nota'));
+        //$nota = Nota::forEdit($nota_id);
+        $nota = DB::table('notas')
+            ->where('notas.id', $nota_id)
+            ->select([
+                'notas.*',
+                'modulos.id as modulo_id',
+                'modulos.curso_id as curso_id',
+                'inscripciones.grupo_id as grupo_id'
+            ])
+            ->join('inscripciones', 'notas.inscripcion_id', '=', 'inscripciones.id')
+            ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')
+            ->first();
+
+        $modulos = Modulo::where('curso_id', $nota->curso_id)->get();
+        return view('nota.edit', compact('nota', 'modulos'));
     }
 
     //Actualizar nota

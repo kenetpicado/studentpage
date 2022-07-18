@@ -12,26 +12,24 @@
     <x-header-1>Notas</x-header-1>
 
     <x-modal-add ruta='notas.store' title='Nota'>
-        <x-input name="num" label="Número de materia (Unidad)" type="number"></x-input>
-        <x-input name="materia"></x-input>
+        <x-select-0 name="modulo_id" :items="$modulos" text="Modulo"></x-select-0>
         <x-input name="valor" label="Nota"></x-input>
         <input type="hidden" name="inscripcion_id" value="{{ $inscripcion->id }}">
     </x-modal-add>
 
     <x-table-head>
         <x-slot name="title">
-            <th>Materia</th>
+            <th>Modulo</th>
             <th>Nota</th>
+            <th>Fecha de registro</th>
             <th>Editar</th>
         </x-slot>
         <tbody>
-            @foreach ($inscripcion->notas as $nota)
+            @foreach ($notas as $nota)
                 <tr>
-                    <td>
-                        {{ $nota->num }} -
-                        {{ $nota->materia }}
-                    </td>
+                    <td>{{ $nota->modulo_nombre }}</td>
                     <td>{{ $nota->valor }}</td>
+                    <td>Fecha</td>
                     <td>
                         <a href="{{ route('notas.edit', $nota->id) }}" class="btn btn-sm btn-primary">
                             Editar

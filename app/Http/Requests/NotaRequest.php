@@ -25,20 +25,20 @@ class NotaRequest extends FormRequest
     public function rules()
     {
         return [
-            'materia' => 'required|max:50',
+            'modulo_id' => 'required',
             'valor' => 'required|numeric|min:0|max:100',
-        ]
-            + ($this->isMethod('POST')
-                ? $this->store()
-                : $this->update());
+            'inscripcion_id' => 'required'
+        ];
+            // + ($this->isMethod('POST')
+            //     ? $this->store()
+            //     : $this->update());
     }
 
     protected function store()
     {
         return [
-            'num' => [
-                'required', 'numeric', 'min:1', 'max:20',
-                Rule::unique('notas')->where('inscripcion_id', $this->inscripcion_id)
+            'modulo_id' => [
+                'required', Rule::unique('notas')->where('inscripcion_id', $this->inscripcion_id)
             ]
         ];
     }
@@ -47,8 +47,7 @@ class NotaRequest extends FormRequest
     {
         return [
             'num' => [
-                'required', 'numeric', 'min:1', 'max:20',
-                Rule::unique('notas')->where('inscripcion_id', $this->inscripcion_id)->ignore($this->nota_id)
+                'required', Rule::unique('notas')->where('inscripcion_id', $this->inscripcion_id)->ignore($this->nota_id)
             ]
         ];
     }
@@ -57,7 +56,7 @@ class NotaRequest extends FormRequest
     {
         return [
             'valor' => 'nota',
-            'num' => 'numero de materia'
+            'modulo_id' => 'modulo'
         ];
     }
 }

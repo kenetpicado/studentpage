@@ -11,7 +11,7 @@ class Nota extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['num', 'materia', 'valor', 'inscripcion_id'];
+    protected $fillable = ['modulo_id', 'valor', 'inscripcion_id'];
     public $timestamps = false;
 
     protected $casts = [

@@ -10,8 +10,6 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                <x-itembar when="/" text="Inicio" route="index"></x-itembar>
-
                 @if (Auth::user()->rol == 'admin')
                     <x-itembar when="docentes" text="Docentes" route="docentes.index"></x-itembar>
                     <x-itembar when="cursos" text="Cursos" route="cursos.index"></x-itembar>
@@ -24,6 +22,10 @@
 
                 @if (Auth::user()->rol == 'promotor' || Auth::user()->rol == 'admin')
                     <x-itembar when="matriculas" text="Matriculas" route="matriculas.index"></x-itembar>
+                @endif
+                
+                @if (Auth::user()->rol == 'admin')
+                    <x-itembar when="reportes" text="Reportes" route="docentes.index"></x-itembar>
                 @endif
             </ul>
 

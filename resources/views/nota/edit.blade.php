@@ -20,9 +20,7 @@
     </x-modal-delete>
 
     <x-edit-form ruta='notas.update' :id="$nota->id">
-        <x-input name="num" :val="$nota->num" text="Número de materia (Unidad)" type="number">
-        </x-input>
-        <x-input name="materia" :val="$nota->materia"></x-input>
+        <x-select-0 name="modulo_id" :items="$modulos" text="Modulo" :old="$nota->modulo_id"></x-select-0>
         <x-input name="valor" :val="$nota->valor" text="Nota"></x-input>
         <input type="hidden" name="inscripcion_id" value="{{ $nota->inscripcion_id }}">
         <input type="hidden" name="nota_id" value="{{ $nota->id }}">

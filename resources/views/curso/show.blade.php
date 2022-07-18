@@ -3,8 +3,8 @@
 @section('title', 'Cursos')
 
 @section('bread')
-<li class="breadcrumb-item"><a href="{{ route('cursos.index') }}">Cursos</a></li>
-<li class="breadcrumb-item active" aria-current="page">Modulos</li>
+    <li class="breadcrumb-item"><a href="{{ route('cursos.index') }}">Cursos</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Modulos</li>
 @endsection
 
 @section('content')
@@ -12,6 +12,7 @@
 
     <x-modal-add ruta='modulos.store' title='Modulos'>
         <x-input name="nombre"></x-input>
+        <input type="hidden" name="curso_id" value="{{ $curso_id }}">
     </x-modal-add>
 
     <x-table-head>
@@ -24,7 +25,7 @@
                 <tr>
                     <td>{{ $modulo->nombre }}</td>
                     <td>
-                        <a class="btn btn-outline-primary btn-sm" href="{{ route('modulos.edit', $modulo->id) }}">
+                        <a class="btn btn-primary btn-sm" href="{{ route('modulos.edit', $modulo->id) }}">
                             Editar
                         </a>
                     </td>

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Casts\Ucwords;
+use App\Casts\Upper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Grupo;
@@ -16,7 +16,7 @@ class Curso extends Model
     public $timestamps = false;
 
     protected $casts = [
-        'nombre' => Ucwords::class,
+        'nombre' => Upper::class,
     ];
 
     //Obtener todos los Cursos
