@@ -14,9 +14,10 @@ class Pago extends Model
 
     protected $fillable = [
         'monto',
+        'moneda',
         'recibo',
         'concepto',
-        'inscripcion_id',
+        'matricula_id',
         'created_at',
     ];
     

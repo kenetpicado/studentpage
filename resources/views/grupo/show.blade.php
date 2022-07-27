@@ -24,7 +24,6 @@
             <th>Nombre</th>
             <th>Notas</th>
             @if (auth()->user()->rol == 'admin')
-                <th>Pagos</th>
                 <th>Mover</th>
             @endif
         </x-slot>
@@ -37,10 +36,6 @@
                         <a href="{{ route('notas.index', $inscripcion->id) }}" class="btn btn-sm btn-primary">Notas</a>
                     </td>
                     @if (auth()->user()->rol == 'admin')
-                        <td>
-                            <a href="{{ route('pagos.index', $inscripcion->id) }}"
-                                class="btn btn-sm btn-secondary">Pagos</a>
-                        </td>
                         <td>
                             <a href="{{ route('inscripciones.edit', $inscripcion->id) }}"
                                 class="btn btn-sm btn-outline-primary">Mover</a>

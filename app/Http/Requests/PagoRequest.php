@@ -28,6 +28,7 @@ class PagoRequest extends FormRequest
             'concepto' => 'required|max:50',
             'monto' => 'required|numeric|gt:0',
             'recibo' => 'required|max:50',
+            'moneda' => 'required|in:CORDOBA,DOLAR',
         ];
     }
 }

@@ -12,14 +12,14 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('DataTables/datatables.min.css') }}" />
 </head>
 
-<body>
+<body class="bg-light">
     @include('partials.topbar')
 
     <div class="container">
         <div class="justify-content-center">
 
-            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-                <ol class="breadcrumb">
+            <nav aria-label="breadcrumb" class="bg-secondary bg-opacity-10 rounded-3">
+                <ol class="breadcrumb p-2">
                     <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
                     @yield('bread')
                 </ol>
@@ -39,7 +39,7 @@
                 </div>
             @endif
 
-            <div class="card border-1 mb-4">
+            <div class="card border-0 mb-4 shadow-sm rounded-3">
                 @yield('content')
             </div>
         </div>

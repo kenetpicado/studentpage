@@ -6,14 +6,16 @@ use App\Models\Pago;
 use App\Models\Inscripcion;
 use Illuminate\Http\Request;
 use App\Http\Requests\PagoRequest;
+use App\Services\Moneda;
 
 class PagoController extends Controller
 {
     //Cargar vista de los pagos
-    public function index(Inscripcion $inscripcion)
+    public function index($matricula_id)
     {
-        $inscripcion->load('pagos');
-        return view('pago.index', compact('inscripcion'));
+        $monedas = (new Moneda)->get();
+        $pagos = Pago::where('matricula_id', $matricula_id)->get();
+        return view('pago.index', compact('pagos', 'matricula_id', 'monedas'));
     }
 
     //Guardar pago
@@ -21,7 +23,7 @@ class PagoController extends Controller
     {
         $request->merge(['created_at' => now()]);
         Pago::create($request->all());
-        return back()->with('success', 'Guardado');
+        return back()->with('success', 'Pago guardado correctamente');
     }
 
     //Editar un pago

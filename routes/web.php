@@ -44,7 +44,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('cambiar/pin', [UserController::class, 'cambiar_pin'])
         ->name('cambiar.pin');
 
-    Route::get('alumno/pagos/{inscripcion}', [PagoController::class, 'index'])
+    Route::get('alumno/pagos/{matricula}', [PagoController::class, 'index'])
         ->name('pagos.index');
     Route::resource('pagos', PagoController::class)
         ->except(['index']);

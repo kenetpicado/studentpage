@@ -67,6 +67,9 @@
                                     <a class="dropdown-item"
                                         href="{{ route('inscripciones.create', [$matricula->id, 'global']) }}">Inscribir
                                     </a>
+                                    <a class="dropdown-item"
+                                        href="{{ route('pagos.index', $matricula->id) }}">Pagos
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('matriculas.show', $matricula->id) }}"
                                         target="_blank">Detalles</a>
                                 @endif

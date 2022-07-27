@@ -16,14 +16,14 @@ class CreatePagosTable extends Migration
         Schema::create('pagos', function (Blueprint $table) {
             $table->id();
             $table->float('monto');
+            $table->string('moneda', 15);
             $table->string('recibo', 20);
             $table->string('concepto', 50);
 
-            $table->unsignedBigInteger('inscripcion_id');
-            $table->foreign('inscripcion_id')
+            $table->unsignedBigInteger('matricula_id');
+            $table->foreign('matricula_id')
                 ->references('id')
-                ->on('inscripciones')
-                ->onDelete('cascade');
+                ->on('matriculas');
 
             $table->date('created_at')->default(now()->format('Y-m-d'));
         });
