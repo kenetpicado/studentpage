@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Nota;
 use App\Models\Grupo;
+use App\Models\Modulo;
 use App\Models\Inscripcion;
 use Illuminate\Http\Request;
 use App\Http\Requests\NotaRequest;
-use App\Models\Modulo;
 use Illuminate\Support\Facades\DB;
 
 class NotaController extends Controller
@@ -15,51 +15,30 @@ class NotaController extends Controller
     //Ver notas
     public function index($inscripcion_id)
     {
-        $inscripcion = DB::table('inscripciones')
-            ->where('inscripciones.id', $inscripcion_id)
-            ->select([
-                'inscripciones.*',
-                'grupos.curso_id'
-            ])
-            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
-            ->first();
+        $inscripcion = DB::table('inscripciones')->find($inscripcion_id);
+        $notas = Nota::index($inscripcion_id);
+        return view('nota.index', compact('notas', 'inscripcion'));
+    }
 
-        $notas = DB::table('notas')
-            ->where('notas.inscripcion_id', $inscripcion->id)
-            ->select([
-                'notas.*',
-                'modulos.nombre as modulo_nombre'
-            ])
-            ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')
-            ->get();
-
+    //Crear nota
+    public function create($inscripcion_id)
+    {
+        $inscripcion = Inscripcion::create_nota($inscripcion_id);
         $modulos = Modulo::where('curso_id', $inscripcion->curso_id)->get();
-        return view('nota.index', compact('inscripcion', 'modulos', 'notas'));
+        return view('nota.create', compact('modulos', 'inscripcion'));
     }
 
     //Guardar nota
     public function store(NotaRequest $request)
     {
         Nota::create($request->all());
-        return back()->with('success', 'Guardado');
+        return redirect()->route('notas.index', $request->inscripcion_id)->with('success', 'Nota guardada correctamente');
     }
 
     //Editar nota
     public function edit($nota_id)
     {
-        //$nota = Nota::forEdit($nota_id);
-        $nota = DB::table('notas')
-            ->where('notas.id', $nota_id)
-            ->select([
-                'notas.*',
-                'modulos.id as modulo_id',
-                'modulos.curso_id as curso_id',
-                'inscripciones.grupo_id as grupo_id'
-            ])
-            ->join('inscripciones', 'notas.inscripcion_id', '=', 'inscripciones.id')
-            ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')
-            ->first();
-
+        $nota = Nota::edit($nota_id);
         $modulos = Modulo::where('curso_id', $nota->curso_id)->get();
         return view('nota.edit', compact('nota', 'modulos'));
     }
@@ -68,14 +47,15 @@ class NotaController extends Controller
     public function update(NotaRequest $request, Nota $nota)
     {
         $nota->update($request->all());
-        return redirect()->route('notas.index', $nota->inscripcion_id)->with('success', 'Actualizado');
+        return redirect()->route('notas.index', $nota->inscripcion_id)->with('success', 'Nota actualizada correctamente');
     }
 
     //Eliminar una nota
-    public function destroy(Request $request, Nota $nota)
+    public function destroy(Nota $nota)
     {
+        $inscripcion = $nota->inscripcion_id;
         $nota->delete();
-        return redirect()->route('notas.index', $request->inscripcion)->with('success', 'Eliminado');
+        return redirect()->route('notas.index', $inscripcion)->with('success', 'Nota eliminada correctamente');
     }
 
     //Ver reporte de notas

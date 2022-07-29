@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <x-header-1>Mensajes</x-header-1>
+    <x-header-3>Mensajes</x-header-1>
 
     <x-modal-add ruta='mensajes.store' title='Mensaje'>
         <div class="mb-3">

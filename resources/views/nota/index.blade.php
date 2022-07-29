@@ -9,13 +9,7 @@
 @endsection
 
 @section('content')
-    <x-header-1>Notas</x-header-1>
-
-    <x-modal-add ruta='notas.store' title='Nota'>
-        <x-select-0 name="modulo_id" :items="$modulos" text="Modulo"></x-select-0>
-        <x-input name="valor" label="Nota"></x-input>
-        <input type="hidden" name="inscripcion_id" value="{{ $inscripcion->id }}">
-    </x-modal-add>
+    <x-header-1 ruta="notas.create" :id="$inscripcion->id">Notas</x-header-1>
 
     <x-table-head>
         <x-slot name="title">
@@ -29,7 +23,7 @@
                 <tr>
                     <td>{{ $nota->modulo_nombre }}</td>
                     <td>{{ $nota->valor }}</td>
-                    <td>Fecha</td>
+                    <td>{{ $nota->created_at }}</td>
                     <td>
                         <a href="{{ route('notas.edit', $nota->id) }}" class="btn btn-sm btn-primary">
                             Editar

@@ -7,33 +7,7 @@
 @endsection
 
 @section('content')
-    <x-header-1>Matriculas</x-header-1>
-    <x-modal-add ruta='matriculas.store' title='Matrícula' lg='modal-lg'>
-        <div class="row">
-            <x-input name="nombre" class="col-lg-6"></x-input>
-            <x-input name="fecha_nac" label="Fecha de nacimiento" class="col-lg-6" type='date'></x-input>
-        </div>
-
-        <div class="row">
-            <x-input name="cedula" class="col-lg-6"></x-input>
-            <x-input name="grado" label="Último grado aprobado" class="col-lg-6"></x-input>
-        </div>
-
-        <div class="row">
-            <x-input name="tutor" class="col-lg-6"></x-input>
-            <x-input name="celular" class="col-lg-6" type="number"></x-input>
-        </div>
-
-        <div class="row">
-            @if (auth()->user()->rol == 'admin')
-                <x-input name="carnet" text="Carnet - (Opcional)" class="col-lg-6"></x-input>
-            @endif
-
-            @if (auth()->user()->sucursal == 'all')
-                <x-sucursal-form class="col-lg-6"></x-sucursal-form>
-            @endif
-        </div>
-    </x-modal-add>
+    <x-header-1 ruta='matriculas.create'>Matriculas</x-header-1>
 
     <x-table-head>
         <x-slot name="title">

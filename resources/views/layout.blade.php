@@ -39,7 +39,7 @@
                 </div>
             @endif
 
-            <div class="card border-0 mb-4 shadow-sm rounded-3">
+            <div class="card mb-4 ">
                 @yield('content')
             </div>
         </div>

@@ -11,7 +11,7 @@ class MensajeController extends Controller
     //Ver todos los mensajes de un grupo
     public function index($grupo_id)
     {
-        //Gate::authorize('docente_autorizado', $grupo_id);
+        Gate::authorize('docente_autorizado', $grupo_id);
         $mensajes = Mensaje::getByGrupo($grupo_id);
         return view('mensaje.index', compact('mensajes', 'grupo_id'));
     }

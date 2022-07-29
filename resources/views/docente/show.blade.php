@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <x-header-1>Grupos</x-header-1>
+    <x-header-0>Grupos</x-header-0>
 
     <x-table-head>
         <x-slot name="title">

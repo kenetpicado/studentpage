@@ -14,7 +14,7 @@ class FormattingRequest
 
         //Agregar credenciales en claro
         $request->merge([
-            'carnet' =>  Generate::id($request->sucursal, 4),
+            'carnet' =>  (new Credenciales)->id($request->sucursal, 4),
             'rol' => 'docente'
         ]);
 
@@ -25,7 +25,7 @@ class FormattingRequest
     {
         //Agregar credenciales en claro
         $request->merge([
-            'carnet' =>  Generate::id('PM', 4),
+            'carnet' =>  (new Credenciales)->id('PM', 4),
             'rol' => 'promotor',
             'sucursal' => 'all',
         ]);
@@ -42,7 +42,7 @@ class FormattingRequest
         if ($request->carnet == '') {
 
             $request->merge([
-                'carnet' =>  Generate::idEstudiante($request->sucursal, $request->fecha_nac)
+                'carnet' =>  (new Credenciales)->idEstudiante($request->sucursal, $request->fecha_nac)
             ]);
 
             //Verificar Carnet Unico
@@ -51,7 +51,7 @@ class FormattingRequest
 
         //Agregar campos que faltan
         $request->merge([
-            'pin' => Generate::pin(),
+            'pin' => (new Credenciales)->pin(),
             'promotor_id' => auth()->user()->sub_id,
             'created_at' => now()->format('Y-m-d'),
             'rol' => 'alumno'

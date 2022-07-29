@@ -8,15 +8,7 @@
 @endsection
 
 @section('content')
-    <x-header-1>Pagos</x-header-1>
-
-    <x-modal-add ruta='pagos.store' title='Pagos'>
-        <x-input name="concepto"></x-input>
-        <x-input name="recibo"></x-input>
-        <x-input name="monto"></x-input>
-        <x-select-0 name="moneda" :items="$monedas"></x-select-0>
-        <input type="hidden" name="matricula_id" value="{{ $matricula_id }}">
-    </x-modal-add>
+    <x-header-1 ruta="pagos.create" :id="$matricula_id">Pagos</x-header-1>
 
     <x-table-head>
         <x-slot name="title">

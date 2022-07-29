@@ -7,12 +7,7 @@
 @endsection
 
 @section('content')
-    <x-header-1>Cursos</x-header-1>
-
-    <x-modal-add ruta='cursos.store' title='Cursos'>
-        <x-input name="nombre"></x-input>
-        <x-imagenes :imagenes="$imagenes"></x-imagenes>
-    </x-modal-add>
+    <x-header-1 ruta="cursos.create">Cursos</x-header-1>
 
     <x-table-head>
         <x-slot name="title">

@@ -31,6 +31,11 @@ class MatriculaController extends Controller
         return view('matricula.index', compact('matriculas'));
     }
 
+    public function create()
+    {
+        return view('matricula.create');
+    }
+
     //Guardar nueva matricula
     public function store(MatriculaRequest $request)
     {
@@ -38,7 +43,7 @@ class MatriculaController extends Controller
 
         $matricula = Matricula::create($formated->all());
         (new UserController)->store($formated, $matricula->id);
-        return back()->with('success', 'Guardado');
+        return redirect()->route('matriculas.index')->with('success', 'Matricula guardada correctamente');
     }
 
     //Ver datos de una matricula

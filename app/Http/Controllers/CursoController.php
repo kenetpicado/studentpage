@@ -11,16 +11,21 @@ class CursoController extends Controller
     //Mostrar todos los cursos
     public function index()
     {
-        $imagenes = $this->listarImagenes();
         $cursos = Curso::getCursos();
-        return view('curso.index', compact('cursos', 'imagenes'));
+        return view('curso.index', compact('cursos'));
+    }
+
+    public function create()
+    {
+        $imagenes = $this->listarImagenes();
+        return view('curso.create', compact('imagenes'));
     }
 
     //Guardar nuevo curso
     public function store(CursoRequest $request)
     {
         Curso::create($request->all());
-        return back()->with('success', 'Guardado');
+        return redirect()->route('cursos.index')->with('success', 'Curso guardado correctamente');
     }
 
     //Ver modulos de un curso

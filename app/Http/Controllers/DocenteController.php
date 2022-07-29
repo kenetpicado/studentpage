@@ -19,6 +19,10 @@ class DocenteController extends Controller
         return view('docente.index', compact('docentes'));
     }
 
+    public function create()
+    {
+        return view('docente.create');
+    }
     //Guardar docente
     public function store(DocenteRequest $request)
     {
@@ -26,7 +30,7 @@ class DocenteController extends Controller
 
         $docente = Docente::create($formated->all());
         (new UserController)->store($formated, $docente->id);
-        return back()->with('success', 'Guardado');
+        return redirect()->route('docentes.index')->with('success', 'Docente guardado correctamente');
     }
 
     //Ver grupos de un docente

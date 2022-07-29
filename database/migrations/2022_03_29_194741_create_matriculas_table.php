@@ -24,6 +24,7 @@ class CreateMatriculasTable extends Migration
             $table->string('carnet', 15)->unique();
             $table->string('pin', 6);
             $table->string('sucursal', 5);
+            $table->boolean('activo')->default('1');
 
             $table->unsignedBigInteger('promotor_id')->nullable();
             $table->foreign('promotor_id')

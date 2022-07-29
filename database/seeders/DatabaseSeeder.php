@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PromotorSeeder::class);
 
         //Curso::factory(20)->create();
-       //Docente::factory(30)->create();
+        //Docente::factory(30)->create();
         
         //Promotor::factory(15)->create();
         //Grupo::factory(15)->create();

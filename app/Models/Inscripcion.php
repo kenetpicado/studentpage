@@ -27,7 +27,12 @@ class Inscripcion extends Model
                 'carnet as matricula_carnet',
             ])
             ->join('matriculas', 'inscripciones.matricula_id', '=', 'matriculas.id')
-            ->with('notas')
+            ->with(['notas' => function ($q) {
+                $q->select([
+                    'notas.*',
+                    'modulos.nombre as mod'
+                ])->join('modulos', 'notas.modulo_id', '=', 'modulos.id');
+            }])
             ->get();
     }
 
@@ -38,6 +43,7 @@ class Inscripcion extends Model
             ->where('matricula_id', auth()->user()->sub_id)
             ->select([
                 'inscripciones.id',
+                'inscripciones.matricula_id',
                 'grupos.id as grupo_id',
                 'cursos.imagen as curso_imagen',
                 'cursos.nombre as curso_nombre',
@@ -80,10 +86,28 @@ class Inscripcion extends Model
             ->first();
     }
 
+    //Obtener inscripcion para crear nota
+    public static function create_nota($inscripcion_id)
+    {
+        return DB::table('inscripciones')
+            ->where('inscripciones.id', $inscripcion_id)
+            ->select([
+                'inscripciones.*',
+                'grupos.curso_id as curso_id',
+            ])
+            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
+            ->first();
+    }
+
     // RELACIONES
     public function notas()
     {
         return $this->hasMany(Nota::class);
+    }
+
+    public function matricula()
+    {
+        return $this->belongsTo(Matricula::class);
     }
 
     public function grupo()

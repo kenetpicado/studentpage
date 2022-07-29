@@ -16,6 +16,11 @@ class PromotorController extends Controller
         return view('promotor.index', compact('promotors'));
     }
 
+    public function create()
+    {
+        return view('promotor.create');
+    }
+
     //Guardar nuevo promotor
     public function store(PromotorRequest $request)
     {
@@ -23,7 +28,7 @@ class PromotorController extends Controller
 
         $promotor = Promotor::create($formated->all());
         (new UserController)->store($formated, $promotor->id);
-        return back()->with('success', 'Guardado');
+        return redirect()->route('promotores.index')->with('success', 'Promotor guardado correctamente');
     }
 
     //Ver matriculas de un promotor

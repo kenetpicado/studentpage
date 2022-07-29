@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <x-header-1>Modulos</x-header-1>
+    <x-header-3>Modulos</x-header-3>
 
     <x-modal-add ruta='modulos.store' title='Modulos'>
         <x-input name="nombre"></x-input>

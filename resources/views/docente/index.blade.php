@@ -7,17 +7,8 @@
 @endsection
 
 @section('content')
-    <x-header-1>Docentes</x-header-1>
-
-    <x-modal-add ruta='docentes.store' title='Docente'>
-        <x-input name="nombre"></x-input>
-        <x-input name="correo" type="email"></x-input>
-
-        @if (auth()->user()->sucursal == 'all')
-            <x-sucursal-form></x-sucursal-form>
-        @endif
-    </x-modal-add>
-
+    <x-header-1 ruta="docentes.create">Docentes</x-header-1>
+    
     <x-table-head>
         <x-slot name="title">
             <th>ID</th>

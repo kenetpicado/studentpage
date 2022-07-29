@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CajaController;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DocenteController;
@@ -16,19 +17,19 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+// Autenticado, Administradores y Promotor
+Route::resource('matriculas', MatriculaController::class)
+    ->except(['destroy', 'show'])
+    ->middleware(['auth', 'admin-promotor']);
+
 // Autenticado y administradores
 Route::middleware(['auth', 'admin'])->group(function () {
 
-    Route::resource('cursos', CursoController::class)
-        ->except(['create']);
-
+    Route::resource('cursos', CursoController::class);
     Route::resource('modulos', ModuloController::class);
+    Route::resource('docentes', DocenteController::class);
 
-    Route::resource('docentes', DocenteController::class)
-    ->except(['create']);
-
-    Route::resource('promotores', PromotorController::class)
-        ->parameters(['promotores' => 'promotor']);
+    Route::resource('promotores', PromotorController::class)->parameters(['promotores' => 'promotor']);
 
     Route::put('desactivar/grupos/{grupo}', [GrupoController::class, 'desactivarGrupo'])
         ->name('grupos.desactivar');
@@ -44,10 +45,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('cambiar/pin', [UserController::class, 'cambiar_pin'])
         ->name('cambiar.pin');
 
-    Route::get('alumno/pagos/{matricula}', [PagoController::class, 'index'])
-        ->name('pagos.index');
-    Route::resource('pagos', PagoController::class)
-        ->except(['index']);
+    Route::get('pagos-alumno/{matricula}', [PagoController::class, 'index'])->name('pagos.index');
+    Route::get('pagos-agregar/{matricula}', [PagoController::class, 'create'])->name('pagos.create');
+    Route::resource('pagos', PagoController::class)->except(['index', 'create']);
 
     Route::get('certificado/notas/{inscripcion}', [NotaController::class, 'showCertified'])
         ->name('notas.certified');
@@ -64,16 +64,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::resource('matriculas', MatriculaController::class)
         ->only(['show', 'destroy']);
+
+    Route::get('caja', [CajaController::class, 'index'])->name('caja.index');
+    Route::post('caja', [CajaController::class, 'buscar'])->name('caja.buscar');
 });
 
 // Autenticado, Administradores y Docente
 Route::middleware(['auth', 'admin-docente'])->group(function () {
 
-    Route::resource('notas', NotaController::class)
-        ->except(['index', 'create']);
+    Route::get('notas-agregar/{id}', [NotaController::class, 'create'])->name('notas.create');
 
-    Route::get('alumno/notas/{inscripcion}', [NotaController::class, 'index'])
-        ->name('notas.index');
+    Route::get('notas-alumno/{inscripcion}', [NotaController::class, 'index'])->name('notas.index');
+
+    Route::resource('notas', NotaController::class)->except(['index', 'create']);
 
     Route::resource('grupos', GrupoController::class)
         ->only(['index', 'show']);
@@ -82,16 +85,10 @@ Route::middleware(['auth', 'admin-docente'])->group(function () {
     Route::resource('mensajes', MensajeController::class)->except(['index', 'show', 'create']);
 });
 
-// Autenticado, Administradores y Promotor
-Route::resource('matriculas', MatriculaController::class)
-    ->except(['show', 'destroy', 'create'])
-    ->middleware(['auth', 'admin-promotor']);
-
 //Consulta de estudiantes
 Route::middleware(['auth', 'alumno'])->group(function () {
     Route::get('consulta', [ConsultaController::class, 'index'])->name('consulta.index');
     Route::get('consulta/notas/{id}', [ConsultaController::class, 'notas'])->name('consulta.notas');
-    Route::get('consulta/pagos/{id}', [ConsultaController::class, 'pagos'])->name('consulta.pagos');
     Route::get('consulta/mensajes/{id}', [ConsultaController::class, 'mensajes'])->name('consulta.mensajes');
 });
 

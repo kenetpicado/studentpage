@@ -7,11 +7,7 @@
 @endsection
 
 @section('content')
-    <x-header-1>Promotores</x-header-1>
-    <x-modal-add ruta='promotores.store' title='Promotor'>
-        <x-input name="nombre"></x-input>
-        <x-input name="correo" type="email"></x-input>
-    </x-modal-add>
+    <x-header-1 ruta="promotores.create">Promotores</x-header-1>
 
     <x-table-head>
         <x-slot name="title">

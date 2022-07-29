@@ -16,6 +16,7 @@ class CreateNotasTable extends Migration
         Schema::create('notas', function (Blueprint $table) {
             $table->id();
             $table->float('valor');
+            $table->date('created_at')->default(now()->format('Y-m-d'));
 
             $table->unsignedBigInteger('modulo_id');
             $table->foreign('modulo_id')

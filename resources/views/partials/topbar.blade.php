@@ -11,9 +11,29 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 @if (Auth::user()->rol == 'admin')
-                    <x-itembar when="docentes" text="Docentes" route="docentes.index"></x-itembar>
-                    <x-itembar when="cursos" text="Cursos" route="cursos.index"></x-itembar>
-                    <x-itembar when="promotores" text="Promotores" route="promotores.index"></x-itembar>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Personal
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a href="{{route('promotores.index')}}" class="dropdown-item">Promotores</a></li>
+                        <li><a href="{{route('docentes.index')}}" class="dropdown-item">Docentes</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Administración
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a href="{{route('caja.index')}}" class="dropdown-item">Caja</a></li>
+                        <li><a href="{{route('cursos.index')}}" class="dropdown-item">Reportes</a></li>
+                        <li><a href="{{route('cursos.index')}}" class="dropdown-item">Cursos</a></li>
+                    </ul>
+                </div>
+
                 @endif
 
                 @if (Auth::user()->rol == 'docente' || Auth::user()->rol == 'admin')
@@ -22,10 +42,6 @@
 
                 @if (Auth::user()->rol == 'promotor' || Auth::user()->rol == 'admin')
                     <x-itembar when="matriculas" text="Matriculas" route="matriculas.index"></x-itembar>
-                @endif
-                
-                @if (Auth::user()->rol == 'admin')
-                    <x-itembar when="reportes" text="Reportes" route="docentes.index"></x-itembar>
                 @endif
             </ul>
 

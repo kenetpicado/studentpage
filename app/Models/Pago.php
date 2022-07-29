@@ -34,14 +34,9 @@ class Pago extends Model
             ->where('pagos.id', $pago_id)
             ->select([
                 'pagos.*',
-                'inscripciones.grupo_id as grupo_id'
+                'matriculas.grupo_id as grupo_id'
             ])
-            ->join('inscripciones', 'pagos.inscripcion_id', '=', 'inscripciones.id')
+            ->join('matriculas', 'pagos.matricula_id', '=', 'matriculas.id')
             ->first();
-    }
-
-    public static function getByInscripcion($inscripcion_id)
-    {
-        return DB::table('pagos')->where('inscripcion_id', $inscripcion_id)->get();
     }
 }

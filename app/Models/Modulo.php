@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\Upper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Nota;
 
 class Modulo extends Model
 {
