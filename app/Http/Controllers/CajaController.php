@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Matricula;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,14 +16,9 @@ class CajaController extends Controller
     public function buscar(Request $request)
     {
         $request->validate([
-            'carnet' => 'required'
+            'buscar' => 'required'
         ]);
-
-        $matriculas = DB::table('matriculas')
-            ->where('carnet', 'LIKE', '%' . $request->carnet . '%')
-            ->select(['id', 'nombre', 'carnet'])
-            ->get();
-
+        $matriculas = Matricula::buscar($request);
         return redirect()->route('caja.index')->with('matriculas', $matriculas);
     }
 }

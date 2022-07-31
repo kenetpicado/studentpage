@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMensajeRequest;
+use App\Models\Matricula;
 use App\Models\Mensaje;
 use Illuminate\Support\Facades\Gate;
 

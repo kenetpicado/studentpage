@@ -25,6 +25,7 @@ class Matricula extends Model
         'carnet',
         'pin',
         'sucursal',
+        'activo',
         'promotor_id',
         'created_at'
     ];
@@ -120,6 +121,22 @@ class Matricula extends Model
                 DB::raw('(select count(*) from `inscripciones` where `matriculas`.`id` = `inscripciones`.`matricula_id`) as `inscripciones_count`')
             ])
             ->latest('id')
+            ->get();
+    }
+
+    public static function buscar($request)
+    {
+        return auth()->user()->sucursal == 'all'
+            ? DB::table('matriculas')
+            ->where('carnet', 'LIKE', '%' . $request->buscar . '%')
+            ->orWhere('nombre', 'LIKE', '%' . $request->buscar . '%')
+            ->select(['id', 'nombre', 'carnet'])
+            ->get()
+            : DB::table('matriculas')
+            ->where('sucursal', auth()->user()->sucursal)
+            ->where('carnet', 'LIKE', '%' . $request->buscar . '%')
+            ->orWhere('nombre', 'LIKE', '%' . $request->buscar . '%')
+            ->select(['id', 'nombre', 'carnet'])
             ->get();
     }
 

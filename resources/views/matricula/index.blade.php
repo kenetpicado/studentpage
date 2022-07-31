@@ -32,8 +32,8 @@
                     </td>
                     <td>
                         <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                            <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-cog"></i>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -41,11 +41,16 @@
                                     <a class="dropdown-item"
                                         href="{{ route('inscripciones.create', [$matricula->id, 'global']) }}">Inscribir
                                     </a>
-                                    <a class="dropdown-item"
-                                        href="{{ route('pagos.index', $matricula->id) }}">Pagos
+                                    <a class="dropdown-item" href="{{ route('pagos.index', $matricula->id) }}">Pagos
                                     </a>
                                     <a class="dropdown-item" href="{{ route('matriculas.show', $matricula->id) }}"
                                         target="_blank">Detalles</a>
+
+                                    <form action="{{ route('cambiar.estado', $matricula->id) }}" method="post">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="dropdown-item">Cambiar estado</button>
+                                    </form>
                                 @endif
 
                                 <a class="dropdown-item" href="{{ route('matriculas.edit', $matricula->id) }}">Editar</a>

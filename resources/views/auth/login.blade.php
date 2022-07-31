@@ -11,7 +11,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 </head>
 
-<body class="bg-light">
+<body class="bg-primary">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">

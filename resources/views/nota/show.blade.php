@@ -7,7 +7,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('img/SP.png') }}">
     <title>Reporte de notas - {{ $grupo->curso_nombre }}</title>
 
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app2.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -15,23 +15,28 @@
         <x-header-0>Reporte de notas: {{ $grupo->curso_nombre }}</x-header-0>
 
         <div class="card-body">
-            <p>Docente: <strong>{{ $grupo->docente_nombre }}</strong></p>
-            <p>Horario: <strong>{{ $grupo->horario }}</strong></p>
 
-            @if ($grupo->sucursal == 'CH')
-                <p>Sucusal: <strong>Chinandega</strong></p>
-            @else
-                <p>Sucusal: <strong>Managua</strong></p>
-            @endif
-
-            <p>Fecha: <strong>{{ date('d-m-Y') }}</strong> </p>
+            <table class="table table-borderless table-sm" width="100%" cellspacing="0">
+                <tr>
+                    <td>Docente: <strong>{{ $grupo->docente_nombre }}</strong></td>
+                    <td>Horario: <strong>{{ $grupo->horario }}</strong></td>
+                    <td>
+                        @if ($grupo->sucursal == 'CH')
+                            <p>Sucusal: <strong>Chinandega</strong></p>
+                        @else
+                            <p>Sucusal: <strong>Managua</strong></p>
+                        @endif
+                    </td>
+                    <td>Fecha: <strong>{{ date('d-m-Y') }}</strong></td>
+                </tr>
+            </table>
             <div class="table-responsive">
                 <table class="table table-borderless table-sm" width="100%" cellspacing="0">
 
                     <thead>
                         <tr>
-                            <td>Carnet</td>
-                            <td>Nombre</td>
+                            <th>Carnet</th>
+                            <th>Nombre</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,7 +47,7 @@
 
                                 @foreach ($inscripcion->notas as $nota)
                                     <td>
-                                        <div class="small">{{ $nota->mod}}: {{ $nota->valor }}</div>
+                                        <div class="small">{{ $nota->mod }}: {{ $nota->valor }}</div>
                                     </td>
                                 @endforeach
                             </tr>

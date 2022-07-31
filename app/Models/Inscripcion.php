@@ -21,6 +21,7 @@ class Inscripcion extends Model
     public static function getToReport($grupo_id)
     {
         return Inscripcion::where('grupo_id', $grupo_id)
+            ->where('matriculas.activo', '1')
             ->select([
                 'inscripciones.id',
                 'nombre as matricula_nombre',
@@ -61,8 +62,8 @@ class Inscripcion extends Model
         return DB::table('inscripciones')
             ->where('inscripciones.grupo_id', $grupo_id)
             ->select([
-                'inscripciones.id',
-                'grupo_id',
+                'inscripciones.*',
+                'matriculas.activo as activo',
                 'matriculas.carnet as matricula_carnet',
                 'matriculas.nombre as matricula_nombre',
             ])

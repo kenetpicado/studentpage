@@ -24,7 +24,6 @@ class StoreMensajeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
             'contenido' => 'required',
             'enlace' => 'nullable|url'
         ];

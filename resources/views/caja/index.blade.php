@@ -14,26 +14,42 @@
             <div class="card-body">
                 <form class="d-flex" method="POST" action="{{ route('caja.buscar') }}">
                     @csrf
-                    <input class="form-control me-2  @error('carnet') is-invalid @enderror" type="search"
-                        placeholder="Ingrese el carnet" name="carnet">
+                    <input class="form-control me-2  @error('buscar') is-invalid @enderror" type="search"
+                        placeholder="Ingrese el carnet o nombre" name="buscar">
                     <button class="btn btn-primary" type="submit">Buscar</button>
                 </form>
             </div>
-            <div class="card-body">
-                @if (session('matriculas') && count(session('matriculas')) > 0)
-                    @foreach (session('matriculas') as $matricula)
-                        <div class="alert alert-primary" role="alert">
-                            <a class="btn btn-sm btn-primary" href="{{ route('pagos.index', $matricula->id) }}">Pagar</a>
-                            {{ $matricula->carnet }} - {{ $matricula->nombre }}
-                            
-                        </div>
-                    @endforeach
-                @else
-                    <div class="alert alert-danger" role="alert">
-                        No hay datos para mostrar
-                    </div>
-                @endif
-            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-borderless" width="100%" cellspacing="0">
+                <thead>
+                    <tr class="text-primary text-uppercase small">
+                        <th>Carnet</th>
+                        <th>Nombre</th>
+                        <th>Pagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (session('matriculas') && count(session('matriculas')) > 0)
+                        @foreach (session('matriculas') as $matricula)
+                            <tr>
+                                <td>{{ $matricula->carnet }}</td>
+                                <td>{{ $matricula->nombre }}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-primary" href="{{ route('pagos.index', $matricula->id) }}">Pagos</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="3" class="text-center">Vacío</td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
         </div>
     </div>
 @endsection

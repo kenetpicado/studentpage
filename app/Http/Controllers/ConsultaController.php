@@ -6,6 +6,7 @@ use App\Models\Nota;
 use App\Models\Pago;
 use App\Models\Mensaje;
 use App\Models\Inscripcion;
+use App\Models\Matricula;
 use Illuminate\Support\Facades\Gate;
 
 class ConsultaController extends Controller
@@ -13,8 +14,9 @@ class ConsultaController extends Controller
     //Ventana principal de consulta de alumno
     public function index()
     {
+        $activo = Matricula::find(auth()->user()->sub_id, ['activo'])->activo;
         $inscripciones = Inscripcion::getByMatricula();
-        return view('consulta.index', compact('inscripciones'));
+        return view('consulta.index', compact('inscripciones', 'activo'));
     }
 
     //Ver notas de un curso

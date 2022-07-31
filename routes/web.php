@@ -37,13 +37,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('activar/grupos/{grupo}', [GrupoController::class, 'activarGrupo'])
         ->name('grupos.activar');
 
+    Route::put('cambiar-estado/{matricula}', [MatriculaController::class, 'cambiarEstado'])->name('cambiar.estado');
+
     Route::get('grupos/terminados', [GrupoController::class, 'showClosed'])
         ->name('grupos.closed');
     Route::get('grupos/terminados/{id}', [GrupoController::class, 'showThisClosed'])
         ->name('grupos.thisClosed');
 
-    Route::put('cambiar/pin', [UserController::class, 'cambiar_pin'])
-        ->name('cambiar.pin');
+    Route::put('cambiar/pin', [UserController::class, 'cambiar_pin'])->name('cambiar.pin');
 
     Route::get('pagos-alumno/{matricula}', [PagoController::class, 'index'])->name('pagos.index');
     Route::get('pagos-agregar/{matricula}', [PagoController::class, 'create'])->name('pagos.create');
@@ -59,8 +60,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('inscribir/{matricula}/{type}', [InscripcionController::class, 'create'])
         ->name('inscripciones.create');
 
-    Route::resource('grupos', GrupoController::class)
-        ->except(['index', 'show']);
+    Route::resource('grupos', GrupoController::class)->except(['index', 'show']);
 
     Route::resource('matriculas', MatriculaController::class)
         ->only(['show', 'destroy']);
@@ -97,9 +97,3 @@ Auth::routes(['register' => false]);
 
 //Home
 Route::resource('/', HomeController::class)->middleware(['auth']);
-
-Route::get('/mailable', function () {
-    $user = App\Models\Matricula::find(1);
-
-    return new App\Mail\Credenciales($user);
-});

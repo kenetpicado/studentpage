@@ -82,4 +82,15 @@ class MatriculaController extends Controller
         $matricula->delete();
         return redirect()->route('matriculas.index')->with('success', 'Eliminado');
     }
+
+    public function cambiarEstado($matricula_id)
+    {
+        $matricula = Matricula::find($matricula_id, ['id', 'activo']);
+
+        $matricula->update([
+            'activo' => $matricula->activo == '1'  ? '0':'1'
+        ]);
+        
+        return back()->with('success', 'Estado de la matricula actualizado');
+    }
 }

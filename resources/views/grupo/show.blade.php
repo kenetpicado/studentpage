@@ -24,21 +24,46 @@
             <th>Nombre</th>
             <th>Notas</th>
             @if (auth()->user()->rol == 'admin')
-                <th>Mover</th>
+                <th>Opciones</th>
             @endif
         </x-slot>
         <tbody>
             @foreach ($inscripciones as $inscripcion)
                 <tr>
-                    <td>{{ $inscripcion->matricula_carnet }}</td>
+                    <td>
+                        @if ($inscripcion->activo == 1)
+                            <i class="fas fa-circle fa-sm text-primary"></i>
+                        @else
+                            <i class="fas fa-circle fa-sm text-danger"></i>
+                        @endif
+                        {{ $inscripcion->matricula_carnet }}
+                    </td>
                     <td>{{ $inscripcion->matricula_nombre }}</td>
                     <td>
                         <a href="{{ route('notas.index', $inscripcion->id) }}" class="btn btn-sm btn-primary">Notas</a>
                     </td>
                     @if (auth()->user()->rol == 'admin')
                         <td>
-                            <a href="{{ route('inscripciones.edit', $inscripcion->id) }}"
-                                class="btn btn-sm btn-outline-primary">Mover</a>
+                            <div class="btn-group">
+                                <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
+                                    id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Opciones
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li>
+                                        <a href="{{ route('inscripciones.edit', $inscripcion->id) }}"
+                                            class="dropdown-item">Mover</a>
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('cambiar.estado', $inscripcion->matricula_id) }}"
+                                            method="post">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit" class="dropdown-item">Cambiar estado</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
                     @endif
                 </tr>
