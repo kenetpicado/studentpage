@@ -13,9 +13,7 @@
     <x-table-head>
         <x-slot name="title">
             <th>Concepto</th>
-            <th>Recibo</th>
             <th>Monto</th>
-            <th>Moneda</th>
             <th>Fecha</th>
             <th>Recibo</th>
             <th>Editar</th>
@@ -24,12 +22,10 @@
             @foreach ($pagos as $pago)
                 <tr>
                     <td>{{ $pago->concepto }}</td>
-                    <td>{{ $pago->recibo }}</td>
-                    <td>{{ $pago->monto }}</td>
-                    <td>{{ $pago->moneda }}</td>
+                    <td>{{ $pago->monto }} {{ $pago->moneda }}</td>
                     <td>{{ $pago->created_at }}</td>
                     <td>
-                        <a href="#" class="btn btn-sm btn-primary">
+                        <a href="{{ route('recibo', $pago->id) }}" target="_blank" class="btn btn-sm btn-primary">
                             Ver recibo
                         </a>
                     </td>

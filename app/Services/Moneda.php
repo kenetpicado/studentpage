@@ -9,8 +9,8 @@ class Moneda
     public function get()
     {
         $monedas = [];
-        array_push($monedas, new Items('CORDOBA'));
-        array_push($monedas, new Items('DOLAR'));
+        array_push($monedas, new Items('CORDOBAS'));
+        array_push($monedas, new Items('DOLARES'));
         return $monedas;
     }
 

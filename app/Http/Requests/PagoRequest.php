@@ -24,11 +24,23 @@ class PagoRequest extends FormRequest
     public function rules()
     {
         return [
-            //
             'concepto' => 'required|max:50',
             'monto' => 'required|numeric|gt:0',
-            'recibo' => 'required|max:50',
-            'moneda' => 'required|in:CORDOBA,DOLAR',
-        ];
+            'moneda' => 'required|in:CORDOBAS,DOLARES',
+            'grupo_id' => 'nullable|integer',
+        ] +
+            ($this->isMethod('POST')
+                ? $this->store()
+                : $this->update());
+    }
+
+    protected function store()
+    {
+        return ['matricula_id' => 'required|integer'];
+    }
+
+    protected function update()
+    {
+        return [];
     }
 }

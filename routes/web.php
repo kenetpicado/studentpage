@@ -67,6 +67,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('caja', [CajaController::class, 'index'])->name('caja.index');
     Route::post('caja', [CajaController::class, 'buscar'])->name('caja.buscar');
+
+    Route::get('ver-recibo/{pago_id}', [PagoController::class, 'recibo'])->name('recibo');
 });
 
 // Autenticado, Administradores y Docente

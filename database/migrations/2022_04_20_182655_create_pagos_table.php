@@ -17,13 +17,17 @@ class CreatePagosTable extends Migration
             $table->id();
             $table->float('monto');
             $table->string('moneda', 15);
-            $table->string('recibo', 20);
             $table->string('concepto', 50);
 
             $table->unsignedBigInteger('matricula_id');
             $table->foreign('matricula_id')
                 ->references('id')
                 ->on('matriculas');
+
+            $table->unsignedBigInteger('grupo_id')->nullable();
+            $table->foreign('grupo_id')
+                ->references('id')
+                ->on('grupos');
 
             $table->date('created_at')->default(now()->format('Y-m-d'));
         });

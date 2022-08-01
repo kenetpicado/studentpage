@@ -100,6 +100,19 @@ class Inscripcion extends Model
             ->first();
     }
 
+    public static function grupos($matricula_id)
+    {
+        return DB::table('inscripciones')
+            ->where('matricula_id', $matricula_id)
+            ->select([
+                'grupos.id as id',
+                'cursos.nombre as nombre',
+            ])
+            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
+            ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
+            ->get();
+    }
+
     // RELACIONES
     public function notas()
     {
