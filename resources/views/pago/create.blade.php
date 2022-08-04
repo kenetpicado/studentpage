@@ -14,6 +14,7 @@
     <x-create-form ruta='pagos.store'>
         <x-input name="concepto"></x-input>
         <x-input name="monto"></x-input>
+        <x-input name="saldo"></x-input>
         <x-select-0 name="moneda" :items="$monedas"></x-select-0>
         <x-select-0 name="grupo_id" :items="$grupos" text="Curso"></x-select-0>
         <input type="hidden" name="matricula_id" value="{{ $matricula_id }}">

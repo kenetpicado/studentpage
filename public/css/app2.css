@@ -10158,5 +10158,8 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+a {
+  text-decoration: none;
+}
 
 /*# sourceMappingURL=app2.css.map */

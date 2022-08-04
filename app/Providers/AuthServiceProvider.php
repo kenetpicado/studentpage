@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Http\Middleware\Docente;
 use App\Models\Grupo;
 use App\Models\Inscripcion;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -28,27 +28,26 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('alumno_autorizado', function ($user, $id) {
-            return $user->sub_id === Inscripcion::find($id, ['matricula_id'])->matricula_id;
+        Gate::define('alumno-nota', function (User $user, $inscripcion_id) {
+            return $user->sub_id === Inscripcion::find($inscripcion_id)->matricula_id;
         });
 
-        Gate::define('alumno_pago', function ($user, $matricula_id) {
-            return $user->sub_id == $matricula_id;
+        Gate::define('alumno-mensaje', function (User $user, $grupo_id) {
+            return Inscripcion::where('grupo_id', $grupo_id)->where('matricula_id', $user->sub_id)->count() > 0;
         });
 
-        Gate::define('docente_autorizado', function ($user, $grupo_id) {
-            if (auth()->user()->rol == 'docente')
-                return $user->sub_id == Grupo::find($grupo_id, ['docente_id'])->docente_id;
+        Gate::define('docente_autorizado', function (User $user, $grupo_id) {
+            if ($user->rol == 'docente')
+                return $user->sub_id === Grupo::find($grupo_id, ['docente_id'])->docente_id;
 
             return true;
         });
 
-        Gate::define('alumno_autorizado_mensajes', function ($user, $grupo_id) {
-            return $user->sub_id === Inscripcion::where('grupo_id', $grupo_id)->where('matricula_id', auth()->user()->sub_id)->value('matricula_id');
-        });
+        Gate::define('propietario-matricula', function (User $user, $matricula) {
+            if ($user->rol == 'promotor')
+                return $user->sub_id == $matricula->promotor_id;
 
-        Gate::define('propietario-matricula', function ($user, $matricula) {
-            return $user->sub_id === $matricula->promotor_id;
+            return true;
         });
     }
 }

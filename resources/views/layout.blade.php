@@ -10,11 +10,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
     <link href="{{ asset('css/app2.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('DataTables/datatables.min.css') }}" />
-    <style>
-        a {
-            text-decoration: none;
-        }
-    </style>
 </head>
 
 <body class="bg-light">
@@ -23,8 +18,8 @@
     <div class="container">
         <div class="justify-content-center">
 
-            <nav aria-label="breadcrumb" class="bg-secondary bg-opacity-10 rounded-3">
-                <ol class="breadcrumb p-2">
+            <nav aria-label="breadcrumb" class="rounded-3">
+                <ol class="breadcrumb p-1">
                     <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
                     @yield('bread')
                 </ol>
@@ -44,12 +39,11 @@
                 </div>
             @endif
 
-            <div class="card mb-4 ">
+            <div class="card pb-2" >
                 @yield('content')
             </div>
         </div>
     </div>
-
 
     <script src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript" src="{{ asset('DataTables/datatables.min.js') }}"></script>
@@ -68,6 +62,23 @@
                 "ordering": false,
                 responsive: true,
                 "pageLength": 50,
+
+                language: {
+                    oPaginate: {
+                        sFirst: "Primero",
+                        sLast: "Último",
+                        sNext: "Siguiente",
+                        sPrevious: "Anterior"
+                    },
+                    sEmptyTable: "No hay datos disponibles en la tabla",
+                    sInfo: "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                    sInfoEmpty: "Mostrando 0 a 0 de 0 entradas",
+                    sInfoFiltered: "(filtrado de _MAX_ entradas totales)",
+                    sLengthMenu: "Ver _MENU_ entradas",
+                    sLoadingRecords: "Cargando...",
+                    sSearch: "Buscar:",
+                    sZeroRecords: "No se encontraron registros coincidentes"
+                }
             });
         });
     </script>

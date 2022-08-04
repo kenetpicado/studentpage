@@ -5,7 +5,7 @@
 @section('content')
     <x-header-0>Cursos</x-header-0>
 
-    <div class="row justify-content-center mb-4">
+    <div class="row justify-content-center">
         <div class="col-lg-4">
             <div class="card-body">
 
@@ -42,7 +42,7 @@
                                             </li>
                                             <li>
                                                 <a class="dropdown-item"
-                                                    href="{{ route('consulta.mensajes', $inscripcion->id) }}">Mensajes</a>
+                                                    href="{{ route('consulta.mensajes', $inscripcion->grupo_id) }}">Mensajes</a>
                                             </li>
                                         </ul>
                                     </div>

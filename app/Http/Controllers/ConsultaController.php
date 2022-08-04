@@ -22,7 +22,7 @@ class ConsultaController extends Controller
     //Ver notas de un curso
     public function notas($inscripcion_id)
     {
-        Gate::authorize('alumno_autorizado', $inscripcion_id);
+        Gate::authorize('alumno-nota', $inscripcion_id);
         $notas = Nota::getByInscripcion($inscripcion_id);
         return view('consulta.nota', compact('notas'));
     }
@@ -30,7 +30,7 @@ class ConsultaController extends Controller
     //Ver mensajes de un curso
     public function mensajes($grupo_id)
     {
-        Gate::authorize('alumno_autorizado_mensajes', $grupo_id);
+        Gate::authorize('alumno-mensaje', $grupo_id);
         $mensajes = Mensaje::getByGrupo($grupo_id);
         return view('consulta.mensaje', compact('mensajes'));
     }

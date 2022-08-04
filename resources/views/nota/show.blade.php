@@ -18,43 +18,40 @@
 
             <table class="table table-borderless table-sm" width="100%" cellspacing="0">
                 <tr>
-                    <td>Docente: <strong>{{ $grupo->docente_nombre }}</strong></td>
-                    <td>Horario: <strong>{{ $grupo->horario }}</strong></td>
+                    <td>Docente: {{ $grupo->docente_nombre }}</td>
+                    <td>Horario: {{ $grupo->horario }} </td>
                     <td>
                         @if ($grupo->sucursal == 'CH')
-                            <p>Sucusal: <strong>Chinandega</strong></p>
+                            <p>Sucusal: Chinandega </p>
                         @else
-                            <p>Sucusal: <strong>Managua</strong></p>
+                            <p>Sucusal: Managua </p>
                         @endif
                     </td>
-                    <td>Fecha: <strong>{{ date('d-m-Y') }}</strong></td>
+                    <td>Fecha: {{ date('d-m-Y') }} </td>
                 </tr>
             </table>
-            <div class="table-responsive">
-                <table class="table table-borderless table-sm" width="100%" cellspacing="0">
-
-                    <thead>
+            <table class="table table-borderless table-sm" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Carnet</th>
+                        <th>Nombre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($inscripciones as $inscripcion)
                         <tr>
-                            <th>Carnet</th>
-                            <th>Nombre</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($inscripciones as $inscripcion)
-                            <tr>
-                                <td>{{ $inscripcion->matricula_carnet }}</td>
-                                <td>{{ $inscripcion->matricula_nombre }}</td>
+                            <td>{{ $inscripcion->matricula_carnet }}</td>
+                            <td>{{ $inscripcion->matricula_nombre }}</td>
 
-                                @foreach ($inscripcion->notas as $nota)
-                                    <td>
-                                        <div class="small">{{ $nota->mod }}: {{ $nota->valor }}</div>
-                                    </td>
-                                @endforeach
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                            @foreach ($inscripcion->notas as $nota)
+                                <td>
+                                    <div class="small">{{ $nota->mod }}: {{ $nota->valor }}</div>
+                                </td>
+                            @endforeach
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
     <input type="button" class="btn btn-primary my-2" onclick="printDiv('seleccion');" value="Imprimir" />

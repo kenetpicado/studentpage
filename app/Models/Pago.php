@@ -15,6 +15,7 @@ class Pago extends Model
     protected $fillable = [
         'monto',
         'moneda',
+        'saldo',
         'concepto',
         'matricula_id',
         'grupo_id',
@@ -39,7 +40,7 @@ class Pago extends Model
             ->where('pagos.id', $pago_id)
             ->select([
                 'pagos.*',
-                'matriculas.grupo_id as grupo_id'
+                'matriculas.grupo_id as grupo_id',
             ])
             ->join('matriculas', 'pagos.matricula_id', '=', 'matriculas.id')
             ->first();
@@ -53,11 +54,14 @@ class Pago extends Model
                 'pagos.*',
                 'grupos.horario as horario',
                 'cursos.nombre as curso',
-                'docentes.nombre as docente'
+                'docentes.nombre as docente',
+                'grupos.sucursal as sucursal',
+                'matriculas.nombre as nombre'
             ])
             ->leftjoin('grupos', 'pagos.grupo_id', '=', 'grupos.id')
             ->leftjoin('cursos', 'grupos.curso_id', '=', 'cursos.id')
             ->leftjoin('docentes', 'grupos.docente_id', '=', 'docentes.id')
+            ->leftjoin('matriculas', 'pagos.matricula_id', '=', 'matriculas.id')
             ->first();
     }
 }

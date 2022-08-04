@@ -20,7 +20,7 @@ class CreateMensajesTable extends Migration
             $table->string('enlace')->nullable();
             $table->date('created_at');
             
-            $table->unsignedBigInteger('grupo_id');
+            $table->unsignedBigInteger('grupo_id')->nullable();
             $table->foreign('grupo_id')
                 ->references('id')
                 ->on('grupos')

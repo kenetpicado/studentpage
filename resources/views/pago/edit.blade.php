@@ -17,6 +17,7 @@
     <x-edit-form ruta='pagos.update' :id="$pago->id">
         <x-input name="concepto" :val="$pago->concepto"></x-input>
         <x-input name="monto" :val="$pago->monto"></x-input>
+        <x-input name="saldo" :val="$pago->saldo"></x-input>
         <x-select-0 name="moneda" :items="$monedas" :old="$pago->moneda"></x-select-0>
         <x-select-0 name="grupo_id" :items="$grupos" text="Curso" :old="$pago->grupo_id"></x-select-0>
     </x-edit-form>

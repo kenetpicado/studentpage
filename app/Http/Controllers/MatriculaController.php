@@ -55,18 +55,14 @@ class MatriculaController extends Controller
     //Editar una matricula
     public function edit(Matricula $matricula)
     {
-        if (auth()->user()->rol == 'promotor')
-            Gate::authorize('propietario-matricula', $matricula);
-
+        Gate::authorize('propietario-matricula', $matricula);
         return view('matricula.edit', compact('matricula'));
     }
 
     //Actualizar matricula
     public function update(MatriculaRequest $request, Matricula $matricula)
     {
-        if (auth()->user()->rol == 'promotor')
-            Gate::authorize('propietario-matricula', $matricula);
-
+        Gate::authorize('propietario-matricula', $matricula);
         $matricula->update($request->all());
         (new UserController)->update($matricula);
         return redirect()->route('matriculas.index')->with('success', 'Actualizado');
@@ -74,7 +70,7 @@ class MatriculaController extends Controller
 
     //Eliminar matricula
     public function destroy(Matricula $matricula)
-    { 
+    {
         if ($matricula->inscripciones()->count() > 0)
             return redirect()->route('matriculas.edit', $matricula->id)->with('error', 'No es posible eliminar');
 
@@ -88,9 +84,9 @@ class MatriculaController extends Controller
         $matricula = Matricula::find($matricula_id, ['id', 'activo']);
 
         $matricula->update([
-            'activo' => $matricula->activo == '1'  ? '0':'1'
+            'activo' => $matricula->activo == '1'  ? '0' : '1'
         ]);
-        
+
         return back()->with('success', 'Estado de la matricula actualizado');
     }
 }

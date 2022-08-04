@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMensajeRequest;
 use App\Models\Matricula;
 use App\Models\Mensaje;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class MensajeController extends Controller
@@ -27,7 +29,11 @@ class MensajeController extends Controller
         ]);
 
         Mensaje::create($request->all());
-        return back()->with('success', 'Guardado');
+
+        if ($request->has('global'))
+            return redirect()->route('mensajes.grupos')->with('success', 'Notificacion enviada correctamente');
+
+        return back()->with('success', 'Mensaje guardado correctamente');
     }
 
     //Editar un mensaje
@@ -47,15 +53,42 @@ class MensajeController extends Controller
         ]);
 
         $mensaje->update($request->all());
-        return redirect()->route('mensajes.index', $request->grupo_id)->with('success', 'Actualizado');
+
+        if ($request->has('global'))
+            return redirect()->route('mensajes.grupos')->with('success', 'Notificacion actualizada correctamente');
+
+        return redirect()->route('mensajes.index', $request->grupo_id)->with('success', 'Mensaje actualizado correctamente');
     }
 
     //Eliminar un mensaje
-    public function destroy(Mensaje $mensaje)
+    public function destroy(Request $request, Mensaje $mensaje)
     {
         Gate::authorize('docente_autorizado', $mensaje->grupo_id);
         $grupo_id = $mensaje->grupo_id;
         $mensaje->delete();
-        return redirect()->route('mensajes.index', $grupo_id)->with('success', 'Eliminado');
+
+        if ($request->has('global'))
+            return redirect()->route('mensajes.grupos')->with('success', 'Notificacion eliminada correctamente');
+
+        return redirect()->route('mensajes.index', $grupo_id)->with('success', 'Mensaje eliminado correctamente');
+    }
+
+    //Ver mensajes globales
+    public function grupos()
+    {
+        $mensajes = DB::table('mensajes')->where('grupo_id', null)->latest('id')->get();
+        return view('mensaje.grupos', compact('mensajes'));
+    }
+
+    //Vista de mensajes globales
+    public function agregar()
+    {
+        return view('mensaje.agregar');
+    }
+
+    public function modificar($mensaje_id)
+    {
+        $mensaje = Mensaje::find($mensaje_id);
+        return view('mensaje.modificar', compact('mensaje'));
     }
 }

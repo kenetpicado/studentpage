@@ -13,6 +13,7 @@ use App\Http\Controllers\NotaController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\ModuloController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -62,13 +63,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::resource('grupos', GrupoController::class)->except(['index', 'show']);
 
-    Route::resource('matriculas', MatriculaController::class)
-        ->only(['show', 'destroy']);
+    Route::resource('matriculas', MatriculaController::class)->only(['show', 'destroy']);
 
     Route::get('caja', [CajaController::class, 'index'])->name('caja.index');
     Route::post('caja', [CajaController::class, 'buscar'])->name('caja.buscar');
 
     Route::get('ver-recibo/{pago_id}', [PagoController::class, 'recibo'])->name('recibo');
+
+    Route::get('mensajes-grupos', [MensajeController::class, 'grupos'])->name('mensajes.grupos');
+    Route::get('mensajes-grupos-agregar', [MensajeController::class, 'agregar'])->name('mensajes.agregar');
+    Route::get('mensajes-grupos-modificar/{id}', [MensajeController::class, 'modificar'])->name('mensajes.modificar');
 });
 
 // Autenticado, Administradores y Docente
@@ -84,7 +88,7 @@ Route::middleware(['auth', 'admin-docente'])->group(function () {
         ->only(['index', 'show']);
 
     Route::get('mensajes/{grupo_id}', [MensajeController::class, 'index'])->name('mensajes.index');
-    Route::resource('mensajes', MensajeController::class)->except(['index', 'show', 'create']);
+    Route::resource('mensajes', MensajeController::class)->except(['index', 'show']);
 });
 
 //Consulta de estudiantes
@@ -97,5 +101,9 @@ Route::middleware(['auth', 'alumno'])->group(function () {
 //Login
 Auth::routes(['register' => false]);
 
-//Home
-Route::resource('/', HomeController::class)->middleware(['auth']);
+Route::middleware('auth')->group(function () {
+    Route::get('perfil/editar', [ProfileController::class, 'edit'])->name('perfil.edit');
+    Route::put('perfil/name', [ProfileController::class, 'name'])->name('perfil.name');
+    Route::put('perfil/password', [ProfileController::class, 'password'])->name('perfil.password');
+    Route::resource('/', HomeController::class);
+});

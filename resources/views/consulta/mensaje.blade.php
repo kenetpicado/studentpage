@@ -9,7 +9,7 @@
 @section('content')
     <x-header-0>Mensajes</x-header-0>
     <div class="card-body">
-        <div class="row justify-content-center mb-4">
+        <div class="row justify-content-center">
             <div class="col-lg-6">
                 @if (count($mensajes) > 0)
                     @foreach ($mensajes as $mensaje)

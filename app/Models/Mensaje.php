@@ -14,6 +14,9 @@ class Mensaje extends Model
 
     public static function getByGrupo($grupo_id)
     {
-        return DB::table('mensajes')->where('grupo_id', $grupo_id)->latest('id')->get();
+        return DB::table('mensajes')
+            ->where('grupo_id', $grupo_id)
+            ->orWhere('grupo_id', null)
+            ->latest('id')->get();
     }
 }

@@ -64,24 +64,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        //Generar pin
-        $pin = Generate::pin();
-        
-        //Generar el id segun el tipo
-        if($data['sucursal'] == 'AD')
-        {
-            $id = Generate::id('AD', 2);
-        }
-
-        if($data['sucursal'] == 'CH')
-        {
-            $id = Generate::id('CH-AD', 2);
-        }
-
-        if($data['sucursal'] == 'MG')
-        {
-            $id = Generate::id('MG-AD', 2);
-        }
 
         //Enviar id y pin al correo
 
@@ -90,7 +72,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'correo' => $data['correo'],
             'password' => Hash::make('FFFFFF'),
-            'email' => $id,
+            'email' => $data['correo'],
             'rol' => 'admin',
             'sucursal' => $data['sucursal'],
         ]);

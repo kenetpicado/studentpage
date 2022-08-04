@@ -58,15 +58,16 @@
                     <tbody>
                         <tr>
                             <th colspan="2">
-                                MEGABYTE SERVICE S.A
-                                <br>
-                                <small>RUC: J0310000144397</small>
-
+                                <img src="{{asset('img/logoms.png')}}" alt="" srcset="" width="60%" height="auto">
                             </th>
                             <th class="text-end">
-                                SERIE "A"
+                                @if ($pago->sucursal == 'MG')
+                                    SERIE "A"
+                                @else
+                                    SERIE "B"
+                                @endif
                                 <br>
-                                N° {{$pago->id}}
+                                N° {{ $pago->id }}
                             </th>
                         </tr>
                         <tr>
@@ -85,6 +86,11 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Alumno:</td>
+                            <td>{{$pago->nombre}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td>Recibi de</td>
                             <td>{{ auth()->user()->name }}</td>
                             <td rowspan="4">
@@ -95,17 +101,12 @@
                                     el
                                     cajero, en caso contario será nulo.</p>
                                 <p class="small">Claro: 8637-9364 | Tigo: 7876-3867</p>
+                                <p class="small">RUC: J0310000144397</p>
                             </td>
                         </tr>
                         <tr>
                             <td>La cantidad de</td>
-                            <td>
-                                @if ($pago->moneda == 'DOLARES')
-                                    {{ $pago->monto }} DOLARES
-                                @else
-                                    {{ $pago->monto }} CORDOBAS
-                                @endif
-                            </td>
+                            <td>{{ $pago->monto }} {{ $pago->moneda }}</td>
                         </tr>
                         <tr>
                             <td>En concepto de</td>
@@ -113,7 +114,7 @@
                         </tr>
                         <tr>
                             <td>Saldo</td>
-                            <td>-</td>
+                            <td>{{$pago->saldo ?? '-'}}  {{ $pago->moneda }}</td>
                         </tr>
                         <tr>
                             <td>Curso</td>
@@ -140,15 +141,16 @@
                     <tbody>
                         <tr>
                             <th colspan="2">
-                                MEGABYTE SERVICE S.A
-                                <br>
-                                <small>RUC: J0310000144397</small>
-
+                                <img src="{{asset('img/logoms.png')}}" alt="" srcset="" width="60%" height="auto">
                             </th>
                             <th class="text-end">
-                                SERIE "A"
+                                @if ($pago->sucursal == 'MG')
+                                    SERIE "A"
+                                @else
+                                    SERIE "B"
+                                @endif
                                 <br>
-                                N° {{$pago->id}}
+                                N° {{ $pago->id }}
                             </th>
                         </tr>
                         <tr>
@@ -167,6 +169,11 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Alumno:</td>
+                            <td>{{$pago->nombre}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td>Recibi de</td>
                             <td>{{ auth()->user()->name }}</td>
                             <td rowspan="4">
@@ -177,17 +184,12 @@
                                     el
                                     cajero, en caso contario será nulo.</p>
                                 <p class="small">Claro: 8637-9364 | Tigo: 7876-3867</p>
+                                <p class="small">RUC: J0310000144397</p>
                             </td>
                         </tr>
                         <tr>
                             <td>La cantidad de</td>
-                            <td>
-                                @if ($pago->moneda == 'DOLARES')
-                                    {{ $pago->monto }} DOLARES
-                                @else
-                                    {{ $pago->monto }} CORDOBAS
-                                @endif
-                            </td>
+                            <td>{{ $pago->monto }} {{ $pago->moneda }}</td>
                         </tr>
                         <tr>
                             <td>En concepto de</td>
@@ -195,7 +197,7 @@
                         </tr>
                         <tr>
                             <td>Saldo</td>
-                            <td>-</td>
+                            <td>{{$pago->saldo ?? '-'}}  {{ $pago->moneda }}</td>
                         </tr>
                         <tr>
                             <td>Curso</td>
@@ -219,7 +221,6 @@
             </div>
         </div>
     </div>
-
 </body>
 
 </html>

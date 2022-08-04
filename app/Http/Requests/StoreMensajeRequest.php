@@ -25,7 +25,8 @@ class StoreMensajeRequest extends FormRequest
     {
         return [
             'contenido' => 'required',
-            'enlace' => 'nullable|url'
+            'enlace' => 'nullable|url',
+            'grupo_id' => 'nullable|integer'
         ];
     }
 }

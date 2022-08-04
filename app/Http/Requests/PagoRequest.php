@@ -26,6 +26,7 @@ class PagoRequest extends FormRequest
         return [
             'concepto' => 'required|max:50',
             'monto' => 'required|numeric|gt:0',
+            'saldo' => 'nullable|numeric',
             'moneda' => 'required|in:CORDOBAS,DOLARES',
             'grupo_id' => 'nullable|integer',
         ] +

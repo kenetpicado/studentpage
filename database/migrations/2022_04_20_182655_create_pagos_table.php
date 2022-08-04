@@ -15,7 +15,8 @@ class CreatePagosTable extends Migration
     {
         Schema::create('pagos', function (Blueprint $table) {
             $table->id();
-            $table->float('monto');
+            $table->float('monto')->nullable();
+            $table->float('saldo')->nullable();
             $table->string('moneda', 15);
             $table->string('concepto', 50);
 
