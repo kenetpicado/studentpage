@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ModuloRequest extends FormRequest
 {
@@ -23,19 +24,24 @@ class ModuloRequest extends FormRequest
      */
     public function rules()
     {
-        return ['nombre' => 'required']
-            + ($this->isMethod('POST')
-                ? $this->store()
-                : $this->update());
+        return [] +
+        ($this->isMethod('POST')
+            ? $this->store()
+            : $this->update());
     }
 
     protected function store()
     {
-        return ['curso_id' => 'required'];
+        return [
+            'nombre' => ['required', Rule::unique('modulos')->where('curso_id', $this->curso_id)],
+            'curso_id' => 'required|integer'
+        ];
     }
 
     protected function update()
     {
-        return [];
+        return [
+            'nombre' => ['required', Rule::unique('modulos')->where('curso_id', $this->curso_id)->ignore($this->modulo_id)],
+        ];
     }
 }

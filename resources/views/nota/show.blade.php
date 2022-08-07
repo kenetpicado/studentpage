@@ -6,16 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="{{ asset('img/SP.png') }}">
     <title>Reporte de notas - {{ $grupo->curso_nombre }}</title>
-
     <link href="{{ asset('css/app2.css') }}" rel="stylesheet">
+
+    <style>
+        @media print {
+            .ocultar,
+            .ocultar * {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="card" id="seleccion">
+    <div class="card border-0">
         <x-header-0>Reporte de notas: {{ $grupo->curso_nombre }}</x-header-0>
-
         <div class="card-body">
-
             <table class="table table-borderless table-sm" width="100%" cellspacing="0">
                 <tr>
                     <td>Docente: {{ $grupo->docente_nombre }}</td>
@@ -30,14 +36,12 @@
                     <td>Fecha: {{ date('d-m-Y') }} </td>
                 </tr>
             </table>
-            <table class="table table-borderless table-sm" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Carnet</th>
-                        <th>Nombre</th>
-                    </tr>
-                </thead>
+            <table class="table table-bordered table-sm" width="100%" cellspacing="0">
                 <tbody>
+                    <tr>
+                        <td>Carnet</td>
+                        <td>Nombre</td>
+                    </tr>
                     @foreach ($inscripciones as $inscripcion)
                         <tr>
                             <td>{{ $inscripcion->matricula_carnet }}</td>
@@ -54,17 +58,6 @@
             </table>
         </div>
     </div>
-    <input type="button" class="btn btn-primary my-2" onclick="printDiv('seleccion');" value="Imprimir" />
-
-    <script>
-        function printDiv(nombreDiv) {
-            var contenido = document.getElementById(nombreDiv).innerHTML;
-            var contenidoOriginal = document.body.innerHTML;
-            document.body.innerHTML = contenido;
-            window.print();
-            document.body.innerHTML = contenidoOriginal;
-        }
-    </script>
+    <a href="javascript:window.print()" class="btn btn-primary ocultar"> Imprimir</a>
 </body>
-
 </html>

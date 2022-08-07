@@ -21,16 +21,11 @@ class Docente extends Model
         'correo' => Lower::class,
     ];
 
-    //Obtener todos los docentes
-    public static function getDocentes()
+    public static function index()
     {
-        return DB::table('docentes')->orderBy('nombre')->get();
-    }
-
-    //Obtener Docentes de un sucursal
-    public static function getDocentesSucursal()
-    {
-        return DB::table('docentes')
+        return auth()->user()->sucursal == 'all'
+            ? DB::table('docentes')->orderBy('nombre')->get()
+            : DB::table('docentes')
             ->where('sucursal', auth()->user()->sucursal)
             ->orderBy('nombre')->get();
     }

@@ -25,9 +25,9 @@
                     <td>{{ $matricula->created_at }}</td>
                     <td>
                         @if ($matricula->inscripciones_count > 0)
-                            Inscrito <i class="fas fa-check-circle text-primary"></i>
+                            <i class="fas fa-check-circle text-primary"></i> Inscrito 
                         @else
-                            Pendiente <i class="fas fa-exclamation-circle text-danger"></i>
+                            <i class="fas fa-exclamation-circle text-danger"></i> Pendiente 
                         @endif
                     </td>
                     <td>

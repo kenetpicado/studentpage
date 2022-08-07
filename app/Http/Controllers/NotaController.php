@@ -53,9 +53,8 @@ class NotaController extends Controller
     //Eliminar una nota
     public function destroy(Nota $nota)
     {
-        $inscripcion = $nota->inscripcion_id;
         $nota->delete();
-        return redirect()->route('notas.index', $inscripcion)->with('success', 'Nota eliminada correctamente');
+        return redirect()->route('notas.index', $nota->inscripcion)->with('success', 'Nota eliminada correctamente');
     }
 
     //Ver reporte de notas

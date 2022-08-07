@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreMensajeRequest;
-use App\Models\Matricula;
 use App\Models\Mensaje;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\StoreMensajeRequest;
 
 class MensajeController extends Controller
 {
@@ -31,9 +30,9 @@ class MensajeController extends Controller
         Mensaje::create($request->all());
 
         if ($request->has('global'))
-            return redirect()->route('mensajes.grupos')->with('success', 'Notificacion enviada correctamente');
+            return redirect()->route('mensajes.grupos')->with('success', config('app.created'));
 
-        return back()->with('success', 'Mensaje guardado correctamente');
+        return back()->with('success', config('app.created'));
     }
 
     //Editar un mensaje
@@ -55,9 +54,9 @@ class MensajeController extends Controller
         $mensaje->update($request->all());
 
         if ($request->has('global'))
-            return redirect()->route('mensajes.grupos')->with('success', 'Notificacion actualizada correctamente');
+            return redirect()->route('mensajes.grupos')->with('success', config('app.updated'));
 
-        return redirect()->route('mensajes.index', $request->grupo_id)->with('success', 'Mensaje actualizado correctamente');
+        return redirect()->route('mensajes.index', $request->grupo_id)->with('success', config('app.updated'));
     }
 
     //Eliminar un mensaje
@@ -68,9 +67,9 @@ class MensajeController extends Controller
         $mensaje->delete();
 
         if ($request->has('global'))
-            return redirect()->route('mensajes.grupos')->with('success', 'Notificacion eliminada correctamente');
+            return redirect()->route('mensajes.grupos')->with('success', config('app.deleted'));
 
-        return redirect()->route('mensajes.index', $grupo_id)->with('success', 'Mensaje eliminado correctamente');
+        return redirect()->route('mensajes.index', $grupo_id)->with('success', config('app.deleted'));
     }
 
     //Ver mensajes globales

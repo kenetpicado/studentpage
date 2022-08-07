@@ -20,14 +20,13 @@ class MatriculaController extends Controller
      */
     public function index()
     {
-        //
         if (auth()->user()->rol != 'promotor')
             return response()->json([
                 'status' => '0',
                 'message' => 'No es promotor',
             ], 403);
 
-        $matriculas = Matricula::getMatriculasPromotor(auth()->user()->sub_id);
+        $matriculas = Matricula::index();
         return response()->json($matriculas, 200);
     }
 

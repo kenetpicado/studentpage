@@ -8,12 +8,7 @@
 @endsection
 
 @section('content')
-    <x-header-3>Modulos</x-header-3>
-
-    <x-modal-add ruta='modulos.store' title='Modulos'>
-        <x-input name="nombre"></x-input>
-        <input type="hidden" name="curso_id" value="{{ $curso_id }}">
-    </x-modal-add>
+    <x-header-1 ruta="modulos.create" :id="$curso_id">Modulos</x-header-1>
 
     <x-table-head>
         <x-slot name="title">

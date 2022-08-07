@@ -16,5 +16,7 @@
 
     <x-edit-form ruta='modulos.update' :id="$modulo->id">
         <x-input name="nombre" :val="$modulo->nombre"></x-input>
+        {{-- <input type="hidden" name="curso_id" value="{{ $modulo->curso_id }}">
+        <input type="hidden" name="modulo_id" value="{{ $modulo->id }}"> --}}
     </x-edit-form>
 @endsection

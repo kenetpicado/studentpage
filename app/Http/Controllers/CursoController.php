@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CursoRequest;
 use App\Models\Curso;
+use App\Services\Imagenes;
 use Illuminate\Support\Facades\DB;
 
 class CursoController extends Controller
@@ -15,9 +16,10 @@ class CursoController extends Controller
         return view('curso.index', compact('cursos'));
     }
 
+    //Agregar un nuevo curso
     public function create()
     {
-        $imagenes = $this->listarImagenes();
+        $imagenes = (new Imagenes)->get();
         return view('curso.create', compact('imagenes'));
     }
 
@@ -25,7 +27,7 @@ class CursoController extends Controller
     public function store(CursoRequest $request)
     {
         Curso::create($request->all());
-        return redirect()->route('cursos.index')->with('success', 'Curso guardado correctamente');
+        return redirect()->route('cursos.index')->with('success',  config('app.created'));
     }
 
     //Ver modulos de un curso
@@ -38,7 +40,7 @@ class CursoController extends Controller
     //Mostrar formulario editar curso
     public function edit(Curso $curso)
     {
-        $imagenes = $this->listarImagenes();
+        $imagenes = (new Imagenes)->get();
         return view('curso.edit', compact('curso', 'imagenes'));
     }
 
@@ -49,30 +51,17 @@ class CursoController extends Controller
             $request->merge(['activo' => '0']);
 
         $curso->update($request->all());
-        return redirect()->route('cursos.index')->with('success', 'Actualizado');
+        return redirect()->route('cursos.index')->with('success', config('app.created'));
     }
 
     //Eliminar curso
     public function destroy(Curso $curso)
     {
         if ($curso->grupos()->count() > 0)
-            return redirect()->route('cursos.edit', $curso->id)->with('error', 'No es posible eliminar');
+            return redirect()->route('cursos.edit', $curso->id)->with('error', config('app.undeleted'));
 
         $curso->delete();
-        return redirect()->route('cursos.index')->with('success', 'Eliminado');
+        return redirect()->route('cursos.index')->with('success', config('app.deleted'));
     }
 
-    public function listarImagenes()
-    {
-        $imagenes = [];
-        $path = '../public/courses';
-        $dir = opendir($path);
-
-        while ($elemento = readdir($dir)) {
-            if (!in_array($elemento, ['.', '..']))
-                array_push($imagenes, ['nombre' => $elemento]);
-        }
-        closedir($dir);
-        return collect($imagenes)->sortBy('nombre');
-    }
 }

@@ -6,6 +6,7 @@ use App\Models\Promotor;
 use App\Models\Matricula;
 use App\Services\FormattingRequest;
 use App\Http\Requests\PromotorRequest;
+use App\Services\Info;
 
 class PromotorController extends Controller
 {
@@ -16,6 +17,7 @@ class PromotorController extends Controller
         return view('promotor.index', compact('promotors'));
     }
 
+    //Crear un nuevo promotor
     public function create()
     {
         return view('promotor.create');
@@ -25,17 +27,16 @@ class PromotorController extends Controller
     public function store(PromotorRequest $request)
     {
         $formated = (new FormattingRequest)->promotor($request);
-
-        $promotor = Promotor::create($formated->all());
-        (new UserController)->store($formated, $promotor->id);
-        return redirect()->route('promotores.index')->with('success', 'Promotor guardado correctamente');
+        Promotor::create($formated->all());
+        return redirect()->route('promotores.index')->with('success', config('app.created'));
     }
 
     //Ver matriculas de un promotor
     public function show($promotor_id)
     {
-        $matriculas = Matricula::toPromotorShow($promotor_id);
-        return view('promotor.show', compact('matriculas'));
+        $matriculas = Matricula::promotor($promotor_id);
+        $info = (new Info)->promotor($matriculas);
+        return view('promotor.show', compact('matriculas', 'info'));
     }
 
     //Editar promotor
@@ -48,15 +49,13 @@ class PromotorController extends Controller
     public function update(PromotorRequest $request, Promotor $promotor)
     {
         $promotor->update($request->all());
-        (new UserController)->update($promotor);
-        return redirect()->route('promotores.index')->with('success', 'Actualizado');
+        return redirect()->route('promotores.index')->with('success', config('app.updated'));
     }
 
     //Eliminar promotor
     public function destroy(Promotor $promotor)
     {
-        (new UserController)->destroy($promotor->carnet);
         $promotor->delete();
-        return redirect()->route('promotores.index')->with('success', 'Eliminado');
+        return redirect()->route('promotores.index')->with('success', config('app.deleted'));
     }
 }

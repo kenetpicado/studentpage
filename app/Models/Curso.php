@@ -35,4 +35,9 @@ class Curso extends Model
     {
         return $this->hasMany(Grupo::class);
     }
+
+    public function modulos()
+    {
+        return $this->hasMany(Modulo::class);
+    }
 }

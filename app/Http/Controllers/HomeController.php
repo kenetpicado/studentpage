@@ -2,12 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Curso;
-use App\Models\Docente;
-use App\Models\Grupo;
-use App\Models\Matricula;
-use App\Models\Promotor;
-use Illuminate\Http\Request;
+use App\Services\Info;
 
 class HomeController extends Controller
 {
@@ -24,7 +19,8 @@ class HomeController extends Controller
                 return redirect()->route('matriculas.index');
                 break;
             default:
-                return view('index');
+                $info = (new Info)->home();
+                return view('index', compact('info'));
                 break;
         }
     }

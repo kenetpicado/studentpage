@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="{{ asset('img/SP.png') }}">
     <title>{{ config('app.name') }} | @yield('title')</title>
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
     <link href="{{ asset('css/app2.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('DataTables/datatables.min.css') }}" />
@@ -17,7 +16,6 @@
 
     <div class="container">
         <div class="justify-content-center">
-
             <nav aria-label="breadcrumb" class="rounded-3">
                 <ol class="breadcrumb p-1">
                     <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
@@ -39,7 +37,9 @@
                 </div>
             @endif
 
-            <div class="card pb-2" >
+            @yield('card')
+
+            <div class="card pb-2">
                 @yield('content')
             </div>
         </div>
@@ -62,23 +62,6 @@
                 "ordering": false,
                 responsive: true,
                 "pageLength": 50,
-
-                language: {
-                    oPaginate: {
-                        sFirst: "Primero",
-                        sLast: "Último",
-                        sNext: "Siguiente",
-                        sPrevious: "Anterior"
-                    },
-                    sEmptyTable: "No hay datos disponibles en la tabla",
-                    sInfo: "Mostrando _START_ a _END_ de _TOTAL_ entradas",
-                    sInfoEmpty: "Mostrando 0 a 0 de 0 entradas",
-                    sInfoFiltered: "(filtrado de _MAX_ entradas totales)",
-                    sLengthMenu: "Ver _MENU_ entradas",
-                    sLoadingRecords: "Cargando...",
-                    sSearch: "Buscar:",
-                    sZeroRecords: "No se encontraron registros coincidentes"
-                }
             });
         });
     </script>

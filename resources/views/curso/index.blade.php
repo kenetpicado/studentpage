@@ -24,9 +24,9 @@
                     <td>{{ $curso->imagen }}</td>
                     <td>
                         @if ($curso->activo > 0)
-                            Activo <i class="fas fa-check-circle text-primary"></i>
+                            <i class="fas fa-check-circle text-primary"></i> Activo 
                         @else
-                            Inactivo <i class="fas fa-exclamation-circle text-danger"></i>
+                            <i class="fas fa-exclamation-circle text-danger"></i> Inactivo 
                         @endif
                     </td>
                     <td>

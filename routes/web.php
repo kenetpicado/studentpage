@@ -27,7 +27,10 @@ Route::resource('matriculas', MatriculaController::class)
 Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::resource('cursos', CursoController::class);
-    Route::resource('modulos', ModuloController::class);
+
+    Route::resource('modulos', ModuloController::class)->except(['create']);
+    Route::get('modulos-curso/{id}/crear', [ModuloController::class, 'create'])->name('modulos.create');
+
     Route::resource('docentes', DocenteController::class);
 
     Route::resource('promotores', PromotorController::class)->parameters(['promotores' => 'promotor']);
@@ -70,9 +73,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('ver-recibo/{pago_id}', [PagoController::class, 'recibo'])->name('recibo');
 
-    Route::get('mensajes-grupos', [MensajeController::class, 'grupos'])->name('mensajes.grupos');
-    Route::get('mensajes-grupos-agregar', [MensajeController::class, 'agregar'])->name('mensajes.agregar');
-    Route::get('mensajes-grupos-modificar/{id}', [MensajeController::class, 'modificar'])->name('mensajes.modificar');
+    Route::get('notificaciones-grupos', [MensajeController::class, 'grupos'])->name('mensajes.grupos');
+    Route::get('notificaciones-grupos-agregar', [MensajeController::class, 'agregar'])->name('mensajes.agregar');
+    Route::get('notificaciones-grupos-modificar/{id}', [MensajeController::class, 'modificar'])->name('mensajes.modificar');
 });
 
 // Autenticado, Administradores y Docente

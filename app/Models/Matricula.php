@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use App\Casts\dmY;
+use App\Casts\Upper;
 use App\Casts\Ucfirst;
 use App\Casts\Ucwords;
-use App\Casts\Upper;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Inscripcion;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Matricula extends Model
 {
@@ -42,42 +42,55 @@ class Matricula extends Model
         'created_at' => dmY::class,
     ];
 
-    //Todas las Matriculas de sucursal
-    public static function getMatriculasSucursal()
+    public static function index()
     {
-        return DB::table('matriculas')
-            ->where('sucursal', auth()->user()->sucursal)
-            ->select([
-                'id',
-                'carnet',
-                'nombre',
-                'created_at',
-                'promotor_id',
-                DB::raw('(select count(*) from `inscripciones` where `matriculas`.`id` = `inscripciones`.`matricula_id`) as `inscripciones_count`')
-            ])
-            ->latest('id')
-            ->get();
-    }
+        switch (true) {
 
-    //Matriculas de un Promotor (Index)
-    public static function getMatriculasPromotor($promotor_id)
-    {
-        return DB::table('matriculas')
-            ->where('promotor_id', $promotor_id)
-            ->select([
-                'id',
-                'carnet',
-                'nombre',
-                'created_at',
-                'promotor_id',
-                DB::raw('(select count(*) from `inscripciones` where `matriculas`.`id` = `inscripciones`.`matricula_id`) as `inscripciones_count`')
-            ])
-            ->latest('id')
-            ->get();
+            case (auth()->user()->rol == 'promotor'):
+                return DB::table('matriculas')
+                    ->where('promotor_id', auth()->user()->sub_id)
+                    ->select([
+                        'id',
+                        'carnet',
+                        'nombre',
+                        'created_at',
+                        DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
+                    ])
+                    ->latest('id')
+                    ->get();
+                break;
+
+            case (auth()->user()->rol == 'admin' && auth()->user()->sucursal != 'all'):
+                return DB::table('matriculas')
+                    ->where('sucursal', auth()->user()->sucursal)
+                    ->select([
+                        'id',
+                        'carnet',
+                        'nombre',
+                        'created_at',
+                        DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
+                    ])
+                    ->latest('id')
+                    ->get();
+                break;
+
+            default:
+                return DB::table('matriculas')
+                    ->select([
+                        'id',
+                        'carnet',
+                        'nombre',
+                        'created_at',
+                        DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
+                    ])
+                    ->latest('id')
+                    ->get();
+                break;
+        }
     }
 
     //Matriculas de un Promotor (Show)
-    public static function toPromotorShow($promotor_id)
+    public static function promotor($promotor_id)
     {
         if (auth()->user()->sucursal == 'all')
             return DB::table('matriculas')
@@ -87,8 +100,8 @@ class Matricula extends Model
                     'carnet',
                     'nombre',
                     'created_at',
-                    'promotor_id',
-                    DB::raw('(select count(*) from `inscripciones` where `matriculas`.`id` = `inscripciones`.`matricula_id`) as `inscripciones_count`')
+                    'activo',
+                    DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
                 ])
                 ->latest('id')
                 ->get();
@@ -102,23 +115,8 @@ class Matricula extends Model
                 'nombre',
                 'created_at',
                 'promotor_id',
-                DB::raw('(select count(*) from `inscripciones` where `matriculas`.`id` = `inscripciones`.`matricula_id`) as `inscripciones_count`')
-            ])
-            ->latest('id')
-            ->get();
-    }
-
-    //Obtener todas las Matriculas
-    public static function getMatriculas()
-    {
-        return DB::table('matriculas')
-            ->select([
-                'id',
-                'carnet',
-                'nombre',
-                'created_at',
-                'promotor_id',
-                DB::raw('(select count(*) from `inscripciones` where `matriculas`.`id` = `inscripciones`.`matricula_id`) as `inscripciones_count`')
+                'activo',
+                DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
             ])
             ->latest('id')
             ->get();

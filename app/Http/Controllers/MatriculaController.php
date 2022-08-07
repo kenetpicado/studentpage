@@ -13,24 +13,11 @@ class MatriculaController extends Controller
     //Ver todas las matriculas
     public function index()
     {
-        switch (true) {
-
-            case (auth()->user()->rol == 'promotor'):
-                $matriculas = Matricula::getMatriculasPromotor(auth()->user()->sub_id);
-                break;
-
-            case (auth()->user()->rol == 'admin' && auth()->user()->sucursal != 'all'):
-                $matriculas = Matricula::getMatriculasSucursal();
-                break;
-
-            default:
-                $matriculas = Matricula::getMatriculas();
-                break;
-        }
-
+        $matriculas = Matricula::index();
         return view('matricula.index', compact('matriculas'));
     }
 
+    //Crear nuevo matricula
     public function create()
     {
         return view('matricula.create');
@@ -40,16 +27,14 @@ class MatriculaController extends Controller
     public function store(MatriculaRequest $request)
     {
         $formated = (new FormattingRequest)->alumno($request);
-
-        $matricula = Matricula::create($formated->all());
-        (new UserController)->store($formated, $matricula->id);
-        return redirect()->route('matriculas.index')->with('success', 'Matricula guardada correctamente');
+        Matricula::create($formated->all());
+        return redirect()->route('matriculas.index')->with('success', config('app.created'));
     }
 
     //Ver datos de una matricula
     public function show(Matricula $matricula)
     {
-        return new VerMatricula($matricula);
+        return view('matricula.show', compact('matricula'));
     }
 
     //Editar una matricula
@@ -64,29 +49,25 @@ class MatriculaController extends Controller
     {
         Gate::authorize('propietario-matricula', $matricula);
         $matricula->update($request->all());
-        (new UserController)->update($matricula);
-        return redirect()->route('matriculas.index')->with('success', 'Actualizado');
+        return redirect()->route('matriculas.index')->with('success', config('app.updated'));
     }
 
     //Eliminar matricula
     public function destroy(Matricula $matricula)
     {
         if ($matricula->inscripciones()->count() > 0)
-            return redirect()->route('matriculas.edit', $matricula->id)->with('error', 'No es posible eliminar');
+            return redirect()->route('matriculas.edit', $matricula->id)->with('error', config('app.undeleted'));
 
-        (new UserController)->destroy($matricula->carnet);
         $matricula->delete();
-        return redirect()->route('matriculas.index')->with('success', 'Eliminado');
+        return redirect()->route('matriculas.index')->with('success', config('app.deleted'));
     }
 
     public function cambiarEstado($matricula_id)
     {
         $matricula = Matricula::find($matricula_id, ['id', 'activo']);
-
         $matricula->update([
             'activo' => $matricula->activo == '1'  ? '0' : '1'
         ]);
-
-        return back()->with('success', 'Estado de la matricula actualizado');
+        return back()->with('success', config('app.updated'));
     }
 }

@@ -36,7 +36,10 @@ class AuthServiceProvider extends ServiceProvider
             return Inscripcion::where('grupo_id', $grupo_id)->where('matricula_id', $user->sub_id)->count() > 0;
         });
 
-        Gate::define('docente_autorizado', function (User $user, $grupo_id) {
+        Gate::define('docente_autorizado', function (User $user, $grupo_id = 'null') {
+            if ($user->rol == 'docente' && $grupo_id == 'null')
+                return false;
+
             if ($user->rol == 'docente')
                 return $user->sub_id === Grupo::find($grupo_id, ['docente_id'])->docente_id;
 

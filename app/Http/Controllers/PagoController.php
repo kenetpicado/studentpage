@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Pago;
 use App\Services\Moneda;
-use App\Http\Requests\PagoRequest;
-use App\Models\Inscripcion;
 use App\Models\Matricula;
+use App\Models\Inscripcion;
+use App\Http\Requests\PagoRequest;
 use Illuminate\Support\Facades\DB;
 
 class PagoController extends Controller
@@ -54,9 +54,8 @@ class PagoController extends Controller
     //Eliminar un pago
     public function destroy(Pago $pago)
     {
-        $matricula_id = $pago->matricula_id;
         $pago->delete();
-        return redirect()->route('pagos.index', $matricula_id)->with('success', 'Pago eliminado correctamente');
+        return redirect()->route('pagos.index', $pago->matricula_id)->with('success', 'Pago eliminado correctamente');
     }
 
     //Ver recibo

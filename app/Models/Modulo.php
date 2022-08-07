@@ -22,4 +22,9 @@ class Modulo extends Model
     {
         return $this->hasMany(Nota::class);
     }
+
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
+    }
 }
