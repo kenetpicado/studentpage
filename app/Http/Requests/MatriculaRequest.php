@@ -29,7 +29,6 @@ class MatriculaRequest extends FormRequest
                     'carnet' => (new Credenciales)->idEstudiante($this->sucursal, $this->fecha_nac)
                 ]);
 
-
             $this->merge([
                 'pin' => (new Credenciales)->pin(),
                 'promotor_id' => auth()->user()->sub_id,
@@ -48,11 +47,11 @@ class MatriculaRequest extends FormRequest
     {
         return [
             'nombre' => 'required|max:45',
-            'cedula' => 'nullable|alpha_dash|min:16|max:16',
             'fecha_nac' => 'required|date',
-            'celular' => 'nullable|numeric|digits:8',
             'grado' => 'required|max:45',
-            'tutor' => 'nullable'
+            'cedula' => 'nullable|alpha_dash|min:16|max:16',
+            'celular' => 'nullable|numeric|digits:8',
+            'tutor' => 'nullable:max|45'
         ]
             + ($this->isMethod('POST')
                 ? $this->store()
@@ -62,8 +61,8 @@ class MatriculaRequest extends FormRequest
     protected function store()
     {
         return [
-            'carnet' => 'nullable|unique:matriculas|alpha_dash|min:15|max:15',
             'pin' => 'required|min:6|alpha_dash',
+            'carnet' => 'nullable|unique:matriculas|alpha_dash|min:15|max:15',
             'sucursal' => [Rule::requiredIf($this->user()->sucursal == 'all')]
         ];
     }

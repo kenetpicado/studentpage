@@ -51,7 +51,7 @@ class Nota extends Model
         return DB::table('notas')
             ->where('inscripcion_id', $inscripcion_id)
             ->select([
-                'notas.*',
+                'notas.valor',
                 'modulos.nombre as modulo'
             ])
             ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')

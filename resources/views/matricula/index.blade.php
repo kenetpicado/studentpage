@@ -32,9 +32,9 @@
                     <td>{{ $matricula->created_at }}</td>
                     <td>
                         @if ($matricula->inscripciones_count > 0)
-                            <i class="fas fa-check-circle text-primary"></i> Inscrito 
+                            <i class="fas fa-check-circle text-primary"></i> Inscrito
                         @else
-                            <i class="fas fa-exclamation-circle text-danger"></i> Pendiente 
+                            <i class="fas fa-exclamation-circle text-danger"></i> Pendiente
                         @endif
                     </td>
                     <td>
@@ -57,7 +57,7 @@
                                         @csrf
                                         @method('PUT')
                                         <button type="submit" class="dropdown-item">
-                                            {{$matricula->activo ? 'Desactivar' : 'Activar'}}
+                                            {{ $matricula->activo ? 'Desactivar' : 'Activar' }}
                                         </button>
                                     </form>
                                 @endif

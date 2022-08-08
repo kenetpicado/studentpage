@@ -2,167 +2,115 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Matricula;
-use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\UserController;
-use App\Http\Requests\UpdateMatriculaRequest;
-use App\Services\FormattingRequest;
+use App\Services\Credenciales;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class MatriculaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        if (auth()->user()->rol != 'promotor')
-            return response()->json([
-                'status' => '0',
-                'message' => 'No es promotor',
-            ], 403);
+        if ($this->isPromotor())
+            return response()->json(Matricula::index(), 200);
 
-        $matriculas = Matricula::index();
-        return response()->json($matriculas, 200);
+        return $this->noPromotor();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+        $request->merge([
+            'carnet' => (new Credenciales)->idEstudiante($request->sucursal, $request->fecha_nac),
+            'pin' => (new Credenciales)->pin(),
+            'promotor_id' => auth()->user()->sub_id,
+            'created_at' => now()->format('Y-m-d'),
+        ]);
+
         $validator = Validator::make($request->all(), [
+            'carnet' => 'unique:matriculas',
             'nombre' => 'required|max:45',
-            'cedula' => 'nullable|alpha_dash|min:16|max:16',
             'fecha_nac' => 'required|date',
-            'celular' => 'nullable|numeric|digits:8',
             'grado' => 'required|max:45',
-            'sucursal' => 'required|in:CH,MG'
-        ], [], [
-            'fecha_nac' => 'fecha de nacimiento',
+            'sucursal' => 'required|in:CH,MG',
+            'cedula' => 'nullable|alpha_dash|min:16|max:16',
+            'celular' => 'nullable|numeric|digits:8',
+            'tutor' => 'nullable|max:45',
         ]);
 
         if ($validator->fails())
-            return response()->json([
-                'status' => '2',
-                'message' => $validator->errors()->first(),
-            ], 422);
+            return $this->fail($validator);
 
-        $formated = (new FormattingRequest)->alumno($request);
-        $matricula = Matricula::create($formated->all());
-        (new UserController)->store($formated, $matricula->id);
-
-        return response()->json([
-            'status' => '1',
-            'message' => 'success',
-        ], 200);
+        Matricula::create($request->all());
+        return $this->success();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Matricula $matricula)
     {
-        //
-        if ($matricula->promotor_id != auth()->user()->sub_id)
-            return response()->json([
-                'status' => '0',
-                'message' => 'No es propietario de esta matricula'
-            ], 403);
+        if ($this->isAutorizado($matricula))
+            return response()->json($matricula, 200);
 
-        return response()->json($matricula, 200);
+        return $this->noAutorizado();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Matricula $matricula)
-    {
-        //
-        if ($matricula->promotor_id != auth()->user()->sub_id)
-            return response()->json([
-                'status' => '0',
-                'message' => 'No es propietario de esta matricula'
-            ], 403);
-
-        return response()->json($matricula, 200);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Matricula  $matricula
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Matricula $matricula)
     {
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|max:45',
-            'cedula' => 'nullable|alpha_dash|min:16|max:16',
             'fecha_nac' => 'required|date',
-            'celular' => 'nullable|numeric|digits:8',
             'grado' => 'required|max:45',
-        ], [], [
-            'fecha_nac' => 'fecha de nacimiento',
+            'cedula' => 'nullable|alpha_dash|min:16|max:16',
+            'celular' => 'nullable|numeric|digits:8',
+            'tutor' => 'nullable|max:45',
         ]);
 
         if ($validator->fails())
-            return response()->json([
-                'status' => '2',
-                'message' => $validator->errors()->first(),
-            ], 422);
+            return $this->fail($validator);
 
         $matricula->update($request->all());
-        //(new UserController)->update($matricula);
+        return $this->success();
+    }
 
+    public function success()
+    {
         return response()->json([
             'status' => '1',
             'message' => 'success',
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Matricula $matricula)
+    public function fail($validator)
     {
-        if ($matricula->promotor_id != auth()->user()->sub_id)
-            return response()->json([
-                'status' => '0',
-                'message' => 'No es propietario de esta matricula'
-            ], 403);
+        return response()->json([
+            'status' => '2',
+            'message' => $validator->errors()->first(),
+        ], 422);
+    }
 
-        if ($matricula->delete()) {
-            return response()->json(['message' => 'Matricula eliminada correctamente'], 200);
-        }
+    public function isPromotor()
+    {
+        return auth()->user()->rol == 'promotor';
+    }
 
-        return response()->json(['message' => 'Error al eliminar la matricula'], 500);
+    public function noPromotor()
+    {
+        return response()->json([
+            'status' => '0',
+            'message' => 'No es promotor',
+        ], 403);
+    }
+
+    public function isAutorizado($matricula)
+    {
+        return $matricula->promotor_id == auth()->user()->sub_id;
+    }
+
+    public function noAutorizado()
+    {
+        return response()->json([
+            'status' => '0',
+            'message' => 'No es propietario de esta matricula'
+        ], 403);
     }
 }
