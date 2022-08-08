@@ -14,47 +14,23 @@ class GrupoController extends Controller
     //Ver todos los grupos
     public function index()
     {
-        switch (true) {
-
-            case (auth()->user()->sucursal == 'all'):
-                $grupos = Grupo::getGrupos();
-                break;
-
-            case (auth()->user()->rol == 'docente'):
-                $grupos = Grupo::getGruposDocente(auth()->user()->sub_id);
-                break;
-
-            default:
-                $grupos = Grupo::getGruposSucursal();
-                break;
-        }
-
+        $grupos = Grupo::index();
         return view('grupo.index', compact('grupos'));
     }
 
     //Crear un nuevo grupo
     public function create()
     {
-        $cursos = Curso::getCursosActivos();
-
-        $docentes = auth()->user()->sucursal == 'all'
-            ? Docente::getDocentesActivos()
-            : Docente::getDocentesActivosSucursal(auth()->user()->sucursal);
-
+        $cursos = Curso::activos();
+        $docentes = Docente::createGrupo();
         return view('grupo.create', compact('cursos', 'docentes'));
     }
 
     //Guardar grupo
     public function store(GrupoRequest $request)
     {
-        //Sucursal del grupo = suscursal del docente
-        $request->merge([
-            'sucursal' => Docente::find($request->docente_id)->sucursal,
-            'anyo' => now()->format('Y'),
-        ]);
-
         Grupo::create($request->all());
-        return redirect()->route('grupos.index')->with('success', 'Guardado');
+        return redirect()->route('grupos.index')->with('success', config('app.created'));
     }
 
     //Mostrar alumnos de un grupo
@@ -66,10 +42,9 @@ class GrupoController extends Controller
     }
 
     //Editar grupo
-    public function edit($grupo_id)
+    public function edit(Grupo $grupo)
     {
-        $grupo = Grupo::edit($grupo_id);
-        $docentes = Docente::getDocentesActivosSucursal($grupo->sucursal);
+        $docentes = Docente::sucursal($grupo->sucursal);
         return view('grupo.edit', compact('grupo', 'docentes'));
     }
 
@@ -77,26 +52,23 @@ class GrupoController extends Controller
     public function update(GrupoRequest $request, Grupo $grupo)
     {
         $grupo->update($request->all());
-        return redirect()->route('grupos.index')->with('success', 'Actualizado');
+        return redirect()->route('grupos.index')->with('success', config('app.updated'));
     }
 
     //Eliminar un grupo
     public function destroy(Grupo $grupo)
     {
         if ($grupo->inscripciones()->count() > 0)
-            return redirect()->route('grupos.edit', $grupo->id)->with('error', 'No es posible eliminar');
+            return redirect()->route('grupos.edit', $grupo->id)->with('error', config('app.undeleted'));
 
         $grupo->delete();
-        return redirect()->route('grupos.index')->with('success', 'Eliminado');
+        return redirect()->route('grupos.index')->with('success', config('app.deleted'));
     }
 
     //Ver grupos terminados
     public function showClosed()
     {
-        $grupos = auth()->user()->sucursal == 'all'
-            ? Grupo::getGrupos('0')
-            : Grupo::getGruposSucursal('0');
-
+        $grupos = Grupo::index('0');
         return view('terminado.index', compact('grupos'));
     }
 
@@ -110,14 +82,14 @@ class GrupoController extends Controller
     //Activar grupo
     public function activarGrupo($grupo_id)
     {
-        Grupo::status($grupo_id);
+        Grupo::find($grupo_id, ['id', 'activo'])->update(['activo' => '1']);
         return redirect()->route('grupos.index')->with('success', 'Actualizado');
     }
 
     //Desactivar grupo
     public function desactivarGrupo($grupo_id)
     {
-        Grupo::status($grupo_id, '0');
+        Grupo::find($grupo_id, ['id', 'activo'])->update(['activo' => '0']);
         return redirect()->route('grupos.index')->with('success', 'Actualizado');
     }
 }

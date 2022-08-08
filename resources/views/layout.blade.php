@@ -39,7 +39,7 @@
 
             @yield('card')
 
-            <div class="card pb-2">
+            <div class="card pb-2 shadow-sm mb-5">
                 @yield('content')
             </div>
         </div>

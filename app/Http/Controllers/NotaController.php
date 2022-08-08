@@ -60,7 +60,7 @@ class NotaController extends Controller
     //Ver reporte de notas
     public function show($grupo_id)
     {
-        $grupo = Grupo::getToReport($grupo_id);
+        $grupo = Grupo::reporte($grupo_id);
         $inscripciones = Inscripcion::getToReport($grupo_id);
         return view('nota.show', compact('inscripciones', 'grupo'));
     }

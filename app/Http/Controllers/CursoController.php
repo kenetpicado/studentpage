@@ -47,9 +47,6 @@ class CursoController extends Controller
     //Actualizar curso
     public function update(CursoRequest $request, Curso $curso)
     {
-        if (!$request->activo)
-            $request->merge(['activo' => '0']);
-
         $curso->update($request->all());
         return redirect()->route('cursos.index')->with('success', config('app.created'));
     }

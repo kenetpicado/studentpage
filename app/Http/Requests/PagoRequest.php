@@ -16,6 +16,13 @@ class PagoRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'created_at' => now(),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

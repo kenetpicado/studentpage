@@ -35,4 +35,26 @@ class UserController extends Controller
         //event(new SendCredentialsEvent($request, $pin));
         return redirect()->route($request->tipo . '.index')->with('success', 'Actualizado');
     }
+    public function name(Request $request)
+    {
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        User::find(auth()->user()->id)->update(['name' => $request->name]);
+        return redirect('/')->with('success', 'Perfil actualizado correctamente');
+    }
+
+    public function password(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:6|alpha_dash|confirmed'
+        ]);
+
+        User::find(auth()->user()->id)->update([
+            'password' => bcrypt($request->password),
+        ]);
+        
+        return redirect('/')->with('success', 'Perfil actualizado correctamente');
+    }
 }

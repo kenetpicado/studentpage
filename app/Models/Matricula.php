@@ -54,6 +54,7 @@ class Matricula extends Model
                         'carnet',
                         'nombre',
                         'created_at',
+                        'activo',
                         DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
                     ])
                     ->latest('id')
@@ -68,6 +69,7 @@ class Matricula extends Model
                         'carnet',
                         'nombre',
                         'created_at',
+                        'activo',
                         DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
                     ])
                     ->latest('id')
@@ -81,6 +83,7 @@ class Matricula extends Model
                         'carnet',
                         'nombre',
                         'created_at',
+                        'activo',
                         DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
                     ])
                     ->latest('id')

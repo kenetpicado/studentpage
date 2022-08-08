@@ -22,11 +22,6 @@ class MensajeController extends Controller
     public function store(StoreMensajeRequest $request)
     {
         Gate::authorize('docente_autorizado', $request->grupo_id);
-        $request->merge([
-            'from' => auth()->user()->name,
-            'created_at' => now(),
-        ]);
-
         Mensaje::create($request->all());
 
         if ($request->has('global'))
@@ -46,11 +41,6 @@ class MensajeController extends Controller
     public function update(StoreMensajeRequest $request, Mensaje $mensaje)
     {
         Gate::authorize('docente_autorizado', $mensaje->grupo_id);
-        $request->merge([
-            'from' => auth()->user()->name,
-            'created_at' => now(),
-        ]);
-
         $mensaje->update($request->all());
 
         if ($request->has('global'))
@@ -63,13 +53,12 @@ class MensajeController extends Controller
     public function destroy(Request $request, Mensaje $mensaje)
     {
         Gate::authorize('docente_autorizado', $mensaje->grupo_id);
-        $grupo_id = $mensaje->grupo_id;
         $mensaje->delete();
 
         if ($request->has('global'))
             return redirect()->route('mensajes.grupos')->with('success', config('app.deleted'));
 
-        return redirect()->route('mensajes.index', $grupo_id)->with('success', config('app.deleted'));
+        return redirect()->route('mensajes.index', $mensaje->grupo_id)->with('success', config('app.deleted'));
     }
 
     //Ver mensajes globales

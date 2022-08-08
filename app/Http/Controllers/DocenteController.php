@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Grupo;
 use App\Models\Docente;
-use App\Services\FormattingRequest;
 use App\Http\Requests\DocenteRequest;
 
 class DocenteController extends Controller
@@ -25,15 +24,14 @@ class DocenteController extends Controller
     //Guardar docente
     public function store(DocenteRequest $request)
     {
-        $formated = (new FormattingRequest)->docente($request);
-        Docente::create($formated->all());
+        Docente::create($request->validated());
         return redirect()->route('docentes.index')->with('success', config('app.created'));
     }
 
     //Ver grupos de un docente
     public function show($docente_id)
     {
-        $grupos = Grupo::getGruposDocenteShow($docente_id);
+        $grupos = Grupo::docente($docente_id);
         return view('docente.show', compact('grupos'));
     }
 
@@ -46,10 +44,7 @@ class DocenteController extends Controller
     //Actualizar un docente
     public function update(DocenteRequest $request, Docente $docente)
     {
-        if (!$request->activo)
-            $request->merge(['activo' => '0']);
-
-        $docente->update($request->all());
+        $docente->update($request->validated());
         return redirect()->route('docentes.index')->with('success', config('app.updated'));
     }
 

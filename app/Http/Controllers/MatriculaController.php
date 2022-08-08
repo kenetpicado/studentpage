@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Matricula;
-use App\Mail\VerMatricula;
-use App\Services\FormattingRequest;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\MatriculaRequest;
 
@@ -26,8 +24,7 @@ class MatriculaController extends Controller
     //Guardar nueva matricula
     public function store(MatriculaRequest $request)
     {
-        $formated = (new FormattingRequest)->alumno($request);
-        Matricula::create($formated->all());
+        Matricula::create($request->validated());
         return redirect()->route('matriculas.index')->with('success', config('app.created'));
     }
 

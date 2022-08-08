@@ -20,7 +20,14 @@
         <tbody>
             @foreach ($matriculas as $matricula)
                 <tr>
-                    <td>{{ $matricula->carnet }}</td>
+                    <td>
+                        @if ($matricula->activo == 1)
+                            <i class="fas fa-circle fa-sm text-primary"></i>
+                        @else
+                            <i class="fas fa-circle fa-sm text-danger"></i>
+                        @endif
+                        {{ $matricula->carnet }}
+                    </td>
                     <td>{{ $matricula->nombre }}</td>
                     <td>{{ $matricula->created_at }}</td>
                     <td>
@@ -49,7 +56,9 @@
                                     <form action="{{ route('cambiar.estado', $matricula->id) }}" method="post">
                                         @csrf
                                         @method('PUT')
-                                        <button type="submit" class="dropdown-item">Cambiar estado</button>
+                                        <button type="submit" class="dropdown-item">
+                                            {{$matricula->activo ? 'Desactivar' : 'Activar'}}
+                                        </button>
                                     </form>
                                 @endif
 

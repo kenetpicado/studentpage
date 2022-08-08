@@ -63,6 +63,7 @@ class Inscripcion extends Model
             ->where('inscripciones.grupo_id', $grupo_id)
             ->select([
                 'inscripciones.*',
+                'matriculas.activo',
                 'matriculas.activo as activo',
                 'matriculas.carnet as matricula_carnet',
                 'matriculas.nombre as matricula_nombre',

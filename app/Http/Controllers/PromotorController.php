@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Promotor;
 use App\Models\Matricula;
-use App\Services\FormattingRequest;
 use App\Http\Requests\PromotorRequest;
 use App\Services\Info;
 
@@ -26,8 +25,7 @@ class PromotorController extends Controller
     //Guardar nuevo promotor
     public function store(PromotorRequest $request)
     {
-        $formated = (new FormattingRequest)->promotor($request);
-        Promotor::create($formated->all());
+        Promotor::create($request->validated());
         return redirect()->route('promotores.index')->with('success', config('app.created'));
     }
 
@@ -48,7 +46,7 @@ class PromotorController extends Controller
     //Actualizar promotor
     public function update(PromotorRequest $request, Promotor $promotor)
     {
-        $promotor->update($request->all());
+        $promotor->update($request->validated());
         return redirect()->route('promotores.index')->with('success', config('app.updated'));
     }
 

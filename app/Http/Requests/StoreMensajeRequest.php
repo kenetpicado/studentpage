@@ -16,6 +16,14 @@ class StoreMensajeRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'from' => auth()->user()->name,
+            'created_at' => now(),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

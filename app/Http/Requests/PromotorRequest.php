@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Services\Credenciales;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -16,6 +17,14 @@ class PromotorRequest extends FormRequest
     public function authorize()
     {
         return true;
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->isMethod('POST'))
+            $this->merge([
+                'carnet' => (new Credenciales)->id('PM', 4),
+            ]);
     }
 
     /**
@@ -34,7 +43,10 @@ class PromotorRequest extends FormRequest
 
     protected function store()
     {
-        return ['correo' => 'required|unique:promotors|email:rfc,dns'];
+        return [
+            'correo' => 'required|unique:promotors|email:rfc,dns',
+            'carnet' => 'required|unique:promotors'
+        ];
     }
 
     protected function update()

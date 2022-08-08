@@ -7,7 +7,6 @@ use App\Services\Moneda;
 use App\Models\Matricula;
 use App\Models\Inscripcion;
 use App\Http\Requests\PagoRequest;
-use Illuminate\Support\Facades\DB;
 
 class PagoController extends Controller
 {
@@ -29,17 +28,15 @@ class PagoController extends Controller
     //Guardar pago
     public function store(PagoRequest $request)
     {
-        $request->merge(['created_at' => now()]);
         Pago::create($request->all());
         Matricula::find($request->matricula_id)->update(['activo' => '1']);
         return redirect()->route('pagos.index', $request->matricula_id)->with('success', 'Pago guardado correctamente');
     }
 
     //Editar un pago
-    public function edit($pago_id)
+    public function edit(Pago $pago)
     {
         $monedas = (new Moneda)->get();
-        $pago = DB::table('pagos')->find($pago_id);
         $grupos = Inscripcion::grupos($pago->matricula_id);
         return view('pago.edit', compact('pago', 'monedas', 'grupos'));
     }

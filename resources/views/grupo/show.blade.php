@@ -59,7 +59,9 @@
                                             method="post">
                                             @csrf
                                             @method('PUT')
-                                            <button type="submit" class="dropdown-item">Cambiar estado</button>
+                                            <button type="submit" class="dropdown-item">
+                                                {{$inscripcion->activo ? 'Desactivar' : 'Activar'}}
+                                            </button>
                                         </form>
                                     </li>
                                 </ul>

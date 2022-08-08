@@ -17,6 +17,12 @@ class CursoRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if ($this->isMethod('PUT') && !$this->activo)
+            $this->merge(['activo' => '0']);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

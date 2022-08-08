@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Docente;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GrupoRequest extends FormRequest
@@ -16,6 +17,13 @@ class GrupoRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'sucursal' => Docente::find($this->docente_id)->sucursal,
+            'anyo' => now()->format('Y'),
+        ]);
+    }
     /**
      * Get the validation rules that apply to the request.
      *

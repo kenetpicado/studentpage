@@ -89,8 +89,7 @@
             <th>Nombre</th>
             <th>Fecha registro</th>
             <th>Estado</th>
-            <th>Inscribir</th>
-            <th>Ver detalles</th>
+            <th>Opciones</th>
         </x-slot>
         <tbody>
             @foreach ($matriculas as $matricula)
@@ -106,13 +105,20 @@
                         @endif
                     </td>
                     <td>
-                        <a class="btn btn-primary btn-sm"
-                            href="{{ route('inscripciones.create', [$matricula->id, $matricula->promotor_id]) }}">Inscribir
-                        </a>
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary btn-sm" href="{{ route('matriculas.show', $matricula->id) }}"
-                            target="_blank">Detalles</a>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <a class="dropdown-item"
+                                    href="{{ route('inscripciones.create', [$matricula->id, $matricula->promotor_id]) }}">Inscribir
+                                </a>
+                                <a class="dropdown-item" href="{{ route('matriculas.show', $matricula->id) }}"
+                                    target="_blank">Detalles</a>
+                                <a class="dropdown-item" href="{{ route('matriculas.edit', $matricula->id) }}">Editar</a>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             @endforeach

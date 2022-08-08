@@ -30,21 +30,24 @@ class Docente extends Model
             ->orderBy('nombre')->get();
     }
 
+    public static function createGrupo()
+    {
+        return auth()->user()->sucursal != 'all'
+            ? Docente::sucursal(auth()->user()->sucursal)
+            : DB::table('docentes')
+            ->where('activo', '1')
+            ->orderBy('nombre')
+            ->get(['id', 'nombre']);
+    }
+
     //Obtener Docentes activos de una sucursal
-    public static function getDocentesActivosSucursal($sucursal)
+    public static function sucursal($sucursal)
     {
         return DB::table('docentes')
             ->where('sucursal', $sucursal)
             ->where('activo', '1')
-            ->orderBy('nombre')->get(['id', 'nombre']);
-    }
-
-    //Obtener Docentes activos
-    public static function getDocentesActivos()
-    {
-        return DB::table('docentes')
-            ->where('activo', '1')
-            ->orderBy('nombre')->get(['id', 'nombre']);
+            ->orderBy('nombre')
+            ->get(['id', 'nombre']);
     }
 
     public function grupos()

@@ -14,8 +14,67 @@ class Grupo extends Model
     protected $guarded = [];
     public $timestamps = false;
 
+    public static function index($activo = '1')
+    {
+        switch (true) {
+
+            case (auth()->user()->rol == 'docente'):
+                return DB::table('grupos')
+                    ->where('grupos.activo', $activo)
+                    ->where('grupos.docente_id', auth()->user()->sub_id)
+                    ->select([
+                        'grupos.id',
+                        'horario',
+                        'anyo',
+                        'cursos.nombre as curso_nombre',
+                        'docentes.nombre as docente_nombre',
+                        DB::raw('(select count(*) from inscripciones where grupos.id = inscripciones.grupo_id) as inscripciones_count')
+                    ])
+                    ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
+                    ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
+                    ->latest('grupos.id')
+                    ->get();
+                break;
+
+            case (auth()->user()->sucursal != 'all'):
+                return DB::table('grupos')
+                    ->where('grupos.activo', $activo)
+                    ->where('grupos.sucursal', auth()->user()->sucursal)
+                    ->select([
+                        'grupos.id',
+                        'horario',
+                        'anyo',
+                        'cursos.nombre as curso_nombre',
+                        'docentes.nombre as docente_nombre',
+                        DB::raw('(select count(*) from inscripciones where grupos.id = inscripciones.grupo_id) as inscripciones_count')
+                    ])
+                    ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
+                    ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
+                    ->latest('grupos.id')
+                    ->get();
+                break;
+
+            default:
+                return DB::table('grupos')
+                    ->where('grupos.activo', $activo)
+                    ->select([
+                        'grupos.id',
+                        'horario',
+                        'anyo',
+                        'cursos.nombre as curso_nombre',
+                        'docentes.nombre as docente_nombre',
+                        DB::raw('(select count(*) from inscripciones where grupos.id = inscripciones.grupo_id) as inscripciones_count')
+                    ])
+                    ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
+                    ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
+                    ->latest('grupos.id')
+                    ->get();
+                break;
+        }
+    }
+
     //Obtener grupo para reporte de notas
-    public static function getToReport($grupo_id)
+    public static function reporte($grupo_id)
     {
         return DB::table('grupos')
             ->where('grupos.id', $grupo_id)
@@ -32,7 +91,7 @@ class Grupo extends Model
     }
 
     //Grupos para crear y editar Inscripcion
-    public static function getForInscripciones($sucursal)
+    public static function inscripcion($sucursal)
     {
         return DB::table('grupos')
             ->where('grupos.sucursal', $sucursal)
@@ -49,51 +108,12 @@ class Grupo extends Model
             ->get();
     }
 
-    //Grupos de 1 Sucursal
-    public static function getGruposSucursal($activo = '1')
-    {
-        return DB::table('grupos')
-            ->where('grupos.sucursal', auth()->user()->sucursal)
-            ->where('grupos.activo', $activo)
-            ->select([
-                'grupos.id',
-                'horario',
-                'anyo',
-                'cursos.nombre as curso_nombre',
-                'docentes.nombre as docente_nombre',
-                DB::raw('(select count(*) from `inscripciones` where `grupos`.`id` = `inscripciones`.`grupo_id`) as `inscripciones_count`')
-            ])
-            ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
-            ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
-            ->latest('grupos.id')
-            ->get();
-    }
-
-    //Grupos de 1 Docente
-    public static function getGruposDocente($docente_id, $activo = '1')
-    {
-        return DB::table('grupos')
-            ->where('grupos.docente_id', $docente_id)
-            ->where('grupos.activo', $activo)
-            ->select([
-                'grupos.id',
-                'horario',
-                'anyo',
-                'cursos.nombre as curso_nombre',
-                'docentes.nombre as docente_nombre',
-                DB::raw('(select count(*) from `inscripciones` where `grupos`.`id` = `inscripciones`.`grupo_id`) as `inscripciones_count`')
-            ])
-            ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
-            ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
-            ->latest('grupos.id')
-            ->get();
-    }
-
     //ver grupos de 1 Docente
-    public static function getGruposDocenteShow($docente_id, $activo = '1')
+    public static function docente($docente_id)
     {
-        return DB::table('grupos')->where('docente_id', $docente_id)
-            ->where('grupos.activo', $activo)
+        return DB::table('grupos')
+            ->where('docente_id', $docente_id)
+            ->where('grupos.activo', '1')
             ->select([
                 'grupos.horario',
                 'grupos.sucursal',
@@ -105,47 +125,8 @@ class Grupo extends Model
             ->get();
     }
 
-    //Obtener todos los Grupos
-    public static function getGrupos($activo = '1')
-    {
-        return DB::table('grupos')
-            ->where('grupos.activo', $activo)
-            ->select([
-                'grupos.id',
-                'horario',
-                'anyo',
-                'cursos.nombre as curso_nombre',
-                'docentes.nombre as docente_nombre',
-                DB::raw('(select count(*) from `inscripciones` where `grupos`.`id` = `inscripciones`.`grupo_id`) as `inscripciones_count`')
-            ])
-            ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
-            ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
-            ->latest('grupos.id')
-            ->get();
-    }
-
-    //Cambiar estado del grupo
-    public static function status($grupo_id, $activo = '1')
-    {
-        Grupo::find($grupo_id, ['id', 'activo'])->update(['activo' => $activo]);
-    }
-
-    //
-    public static function edit($grupo_id)
-    {
-        return DB::table('grupos')
-            ->select(['id', 'docente_id', 'horario', 'sucursal'])
-            ->find($grupo_id);
-    }
-
-    //Relacion 1:n a Inscripciones
     public function inscripciones()
     {
         return $this->hasMany(Inscripcion::class);
-    }
-
-    public function setHorarioAttribute($value)
-    {
-        $this->attributes['horario'] = trim(strtolower($value));
     }
 }

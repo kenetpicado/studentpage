@@ -34,18 +34,6 @@ class Pago extends Model
         return DB::table('pagos')->where('matricula_id', $matricula_id)->latest('id')->get();
     }
 
-    public static function forEdit($pago_id)
-    {
-        return DB::table('pagos')
-            ->where('pagos.id', $pago_id)
-            ->select([
-                'pagos.*',
-                'matriculas.grupo_id as grupo_id',
-            ])
-            ->join('matriculas', 'pagos.matricula_id', '=', 'matriculas.id')
-            ->first();
-    }
-
     public static function recibo($pago_id)
     {
         return DB::table('pagos')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Services\Credenciales;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -15,6 +16,20 @@ class DocenteRequest extends FormRequest
     public function authorize()
     {
         return true;
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->isMethod('POST')) {
+            if (auth()->user()->sucursal != 'all')
+                $this->merge(['sucursal' => auth()->user()->sucursal]);
+
+            $this->merge([
+                'carnet' => (new Credenciales)->id($this->sucursal, 4)
+            ]);
+        } else if (!$this->activo) {
+            $this->merge(['activo' => '0']);
+        }
     }
 
     /**
@@ -42,6 +57,9 @@ class DocenteRequest extends FormRequest
 
     protected function update()
     {
-        return ['correo' => ['required', 'email:rfc,dns', Rule::unique('docentes')->ignore($this->docente_id)]];
+        return [
+            'correo' => ['required', 'email:rfc,dns', Rule::unique('docentes')->ignore($this->docente_id)],
+            'activo' => 'nullable'
+        ];
     }
 }

@@ -18,7 +18,7 @@
 
     <x-edit-form ruta='docentes.update' :id="$docente->id">
         <x-input name='nombre' :val="$docente->nombre"></x-input>
-        <x-input name='correo' :val="$docente->correo"></x-input>
+        <x-input name='correo' :val="$docente->correo" type="email"></x-input>
         <x-check-activo :val="$docente->activo"></x-check-activo>
         <input type="hidden" name="docente_id" value="{{ $docente->id }}">
     </x-edit-form>

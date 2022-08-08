@@ -96,8 +96,7 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-6 mb-4">
-
+            {{-- <div class="col-lg-6 mb-4">
                 <div class="card mb-4">
                     <div class="card-header">
                         <h6 class="m-0 fw-bolder">Estadisticas</h6>
@@ -136,7 +135,43 @@
                         </div>
                     </div>
                 </div>
+            </div> --}}
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="m-0 fw-bolder">Totales</h6>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Docentes activos
+                            <strong class="float-end">{{ $info['docentes_activos'] }}</strong>
+                        </li>
+                        <li class="list-group-item">Cursos activos <strong
+                                class="float-end">{{ $info['cursos_activos'] }}</strong></li>
+                        <li class="list-group-item">Grupos activos <strong
+                                class="float-end">{{ $info['grupos_activos'] }}</strong></li>
+                        <li class="list-group-item">Matriculas activas <strong
+                                class="float-end">{{ $info['matriculas_activos'] }}</strong></li>
+                    </ul>
+                </div>
             </div>
 
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="m-0 fw-bolder">Año {{ date('Y') }}</h6>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Grupos totales <strong
+                                class="float-end">{{ $info['grupos_anyo'] }}</strong></li>
+                        <li class="list-group-item">Grupos activos <strong
+                                class="float-end">{{ $info['grupos_anyo_activo'] }}</strong></li>
+                        <li class="list-group-item">Matriculas totales <strong
+                                class="float-end">{{ $info['matriculas_anyo'] }}</strong></li>
+                        <li class="list-group-item">Matriculas activas <strong
+                                class="float-end">{{ $info['matriculas_anyo_activo'] }}</strong></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     @endsection

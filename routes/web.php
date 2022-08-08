@@ -104,9 +104,7 @@ Route::middleware(['auth', 'alumno'])->group(function () {
 //Login
 Auth::routes(['register' => false]);
 
+//Autenticado
 Route::middleware('auth')->group(function () {
-    Route::get('perfil/editar', [ProfileController::class, 'edit'])->name('perfil.edit');
-    Route::put('perfil/name', [ProfileController::class, 'name'])->name('perfil.name');
-    Route::put('perfil/password', [ProfileController::class, 'password'])->name('perfil.password');
     Route::resource('/', HomeController::class);
 });

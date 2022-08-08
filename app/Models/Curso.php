@@ -26,7 +26,7 @@ class Curso extends Model
     }
 
     //Obtener los Cursos activos
-    public static function getCursosActivos()
+    public static function activos()
     {
         return DB::table('cursos')->where('activo', '1')->orderBy('nombre')->get(['id', 'nombre']);
     }
