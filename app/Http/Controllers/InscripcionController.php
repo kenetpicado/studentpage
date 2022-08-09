@@ -22,7 +22,7 @@ class InscripcionController extends Controller
     //Guardar inscripcion
     public function store(InscribirRequest $request)
     {
-        Inscripcion::create($request->all());
+        Inscripcion::create($request->validated());
 
         if ($request->from == 'global')
             return redirect()->route('matriculas.index')->with('success', config('app.created'));
@@ -41,7 +41,7 @@ class InscripcionController extends Controller
     //Actualizar grupo
     public function update(InscribirRequest $request, Inscripcion $inscripcion)
     {
-        $inscripcion->update($request->all());
+        $inscripcion->update($request->validated());
         return redirect()->route('grupos.show', $request->oldview)->with('success', config('app.updated'));
     }
 

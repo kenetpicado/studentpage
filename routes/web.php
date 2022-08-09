@@ -13,7 +13,7 @@ use App\Http\Controllers\NotaController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\ModuloController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -48,21 +48,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('grupos/terminados/{id}', [GrupoController::class, 'showThisClosed'])
         ->name('grupos.thisClosed');
 
-    Route::put('cambiar/pin', [UserController::class, 'cambiar_pin'])->name('cambiar.pin');
+    Route::put('user-pin', [UserController::class, 'pin'])->name('cambiar.pin');
 
     Route::get('pagos-alumno/{matricula}', [PagoController::class, 'index'])->name('pagos.index');
     Route::get('pagos-agregar/{matricula}', [PagoController::class, 'create'])->name('pagos.create');
     Route::resource('pagos', PagoController::class)->except(['index', 'create']);
 
-    Route::get('certificado/notas/{inscripcion}', [NotaController::class, 'showCertified'])
-        ->name('notas.certified');
+    Route::get('certificado/notas/{inscripcion}', [NotaController::class, 'showCertified'])->name('notas.certified');
 
-    Route::resource('inscripciones', InscripcionController::class)
-        ->parameters(['inscripciones' => 'inscripcion'])
-        ->except(['create']);
-
-    Route::get('inscribir/{matricula}/{type}', [InscripcionController::class, 'create'])
-        ->name('inscripciones.create');
+    Route::resource('inscripciones', InscripcionController::class)->parameters(['inscripciones' => 'inscripcion'])->except(['create']);
+    Route::get('inscribir/{matricula}/{type}', [InscripcionController::class, 'create'])->name('inscripciones.create');
 
     Route::resource('grupos', GrupoController::class)->except(['index', 'show']);
 
@@ -76,6 +71,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('notificaciones-grupos', [MensajeController::class, 'grupos'])->name('mensajes.grupos');
     Route::get('notificaciones-grupos-agregar', [MensajeController::class, 'agregar'])->name('mensajes.agregar');
     Route::get('notificaciones-grupos-modificar/{id}', [MensajeController::class, 'modificar'])->name('mensajes.modificar');
+
+    Route::get('reportes', [ReporteController::class, 'index'])->name('reportes.index');
+    Route::get('reportes/promotores/general', [ReporteController::class, 'promotores'])->name('reportes.promotores');
+    Route::get('reportes/promotor/{id}', [ReporteController::class, 'promotor'])->name('reportes.promotor');
+
+    Route::get('reportes/docentes/general', [ReporteController::class, 'docentes'])->name('reportes.docentes');
+
 });
 
 // Autenticado, Administradores y Docente
@@ -106,5 +108,6 @@ Auth::routes(['register' => false]);
 
 //Autenticado
 Route::middleware('auth')->group(function () {
+    Route::resource('user', UserController::class)->only(['edit', 'update']);
     Route::resource('/', HomeController::class);
 });

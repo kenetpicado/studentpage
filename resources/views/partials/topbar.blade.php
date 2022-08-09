@@ -30,7 +30,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a href="{{route('caja.index')}}" class="dropdown-item">Caja</a></li>
                         <li><a href="{{route('mensajes.grupos')}}" class="dropdown-item">Notificaciones</a></li>
-                        <li><a href="{{route('cursos.index')}}" class="dropdown-item">Reportes</a></li>
+                        <li><a href="{{route('reportes.index')}}" class="dropdown-item">Reportes</a></li>
                         <li><a href="{{route('cursos.index')}}" class="dropdown-item">Cursos</a></li>
                     </ul>
                 </div>
@@ -52,7 +52,7 @@
                     {{ Auth::user()->name ?? '' }}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a href="/" class="dropdown-item">Perfil</a></li>
+                    <li><a href="{{route('user.edit', auth()->user()->id)}}" class="dropdown-item">Perfil</a></li>
                     <li>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>

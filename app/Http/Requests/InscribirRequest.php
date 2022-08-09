@@ -25,7 +25,7 @@ class InscribirRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'matricula_id' => 'required|integer',
             'grupo_id' => ['required', Rule::unique('inscripciones')->where('matricula_id', $this->matricula_id)],
         ];
     }

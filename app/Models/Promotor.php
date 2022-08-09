@@ -18,4 +18,9 @@ class Promotor extends Model
         'nombre' => Ucwords::class,
         'correo' => Lower::class,
     ];
+
+    public function matriculas()
+    {
+        return $this->hasMany(Matricula::class);
+    }
 }

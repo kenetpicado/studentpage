@@ -81,7 +81,9 @@
 @endsection
 
 @section('content')
-    <x-header-0>Matrículas</x-header-0>
+    <x-header-2 text="Matriculas">
+        <a class="dropdown-item" href="{{ route('reportes.promotor', $promotor_id) }}" target="_blank">Generar reporte</a>
+    </x-header-2>
 
     <x-table-head>
         <x-slot name="title">

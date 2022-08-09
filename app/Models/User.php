@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use App\Casts\Ucwords;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -26,9 +25,4 @@ class User extends Authenticatable
         'name' => Ucwords::class,
         'email_verified_at' => 'datetime',
     ];
-
-    public static function carnet($carnet)
-    {
-        return User::where('email', $carnet)->first(['id', 'name', 'password']);
-    }
 }

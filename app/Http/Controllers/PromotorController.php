@@ -34,7 +34,7 @@ class PromotorController extends Controller
     {
         $matriculas = Matricula::promotor($promotor_id);
         $info = (new Info)->promotor($matriculas);
-        return view('promotor.show', compact('matriculas', 'info'));
+        return view('promotor.show', compact('matriculas', 'info', 'promotor_id'));
     }
 
     //Editar promotor
