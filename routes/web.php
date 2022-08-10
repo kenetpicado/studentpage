@@ -77,6 +77,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('reportes/promotor/{id}', [ReporteController::class, 'promotor'])->name('reportes.promotor');
 
     Route::get('reportes/docentes/general', [ReporteController::class, 'docentes'])->name('reportes.docentes');
+    Route::get('reportes/docente/{id}', [ReporteController::class, 'docente'])->name('reportes.docente');
 
 });
 

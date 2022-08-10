@@ -8,7 +8,9 @@
 @endsection
 
 @section('content')
-    <x-header-0>Grupos</x-header-0>
+    <x-header-2 text="Grupos">
+        <a class="dropdown-item" href="{{ route('reportes.docente', $docente_id) }}" target="_blank">Generar reporte</a>
+    </x-header-2>
 
     <x-table-head>
         <x-slot name="title">

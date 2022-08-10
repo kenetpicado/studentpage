@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Docente;
+use App\Models\Grupo;
 use App\Models\Promotor;
 use App\Services\Info;
 use Illuminate\Http\Request;
@@ -17,7 +18,15 @@ class ReporteController extends Controller
 
     public function promotores()
     {
-        $promotores = Promotor::with('matriculas:id,sucursal,activo,promotor_id')
+        $promotores = auth()->user()->sucursal != 'all'
+            ? Promotor::with(['matriculas' => function ($q) {
+                $q->select(['id', 'sucursal', 'activo', 'promotor_id'])
+                    ->where('sucursal', auth()->user()->sucursal);
+            }])
+            ->orderBy('nombre')
+            ->get(['id', 'carnet', 'nombre'])
+
+            : Promotor::with('matriculas:id,sucursal,activo,promotor_id')
             ->orderBy('nombre')
             ->get(['id', 'carnet', 'nombre']);
 
@@ -26,7 +35,14 @@ class ReporteController extends Controller
 
     public function docentes()
     {
-        $docentes = Docente::with('grupos')
+        $docentes = auth()->user()->sucursal != 'all'
+            ? Docente::with('grupos:id,activo')
+            ->where('sucursal', auth()->user()->sucursal)
+            ->orderBy('sucursal')
+            ->latest('activo')
+            ->orderBy('nombre')
+            ->get(['id', 'carnet', 'nombre', 'sucursal', 'activo'])
+            : Docente::with('grupos:id,activo')
             ->orderBy('sucursal')
             ->latest('activo')
             ->orderBy('nombre')
@@ -35,11 +51,35 @@ class ReporteController extends Controller
         return view('reporte.docentes', compact('docentes'));
     }
 
+    public function docente($docente_id)
+    {
+        
+        return view('reporte.docente', compact('grupos'));
+    }
+
     public function promotor($promotor_id)
     {
         $promotor = DB::table('promotors')->find($promotor_id);
 
-        $matriculas = DB::table('matriculas')
+        $matriculas = auth()->user()->sucursal != 'all'
+            ? DB::table('matriculas')
+            ->where('sucursal', auth()->user()->sucursal)
+            ->select([
+                'id',
+                'sucursal',
+                'activo',
+                'carnet',
+                'nombre',
+                'created_at',
+                DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
+            ])
+            ->where('promotor_id', $promotor_id)
+            ->latest('activo')
+            ->latest('inscripciones_count')
+            ->orderBy('nombre')
+            ->get()
+
+            : DB::table('matriculas')
             ->select([
                 'id',
                 'sucursal',
@@ -55,15 +95,7 @@ class ReporteController extends Controller
             ->orderBy('nombre')
             ->get();
 
-        $info = [
-            'matriculas_total' => $matriculas->count(),
-            'matriculas_ch_total' => $matriculas->where('sucursal', 'CH')->count(),
-            'matriculas_mg_total' => $matriculas->where('sucursal', 'MG')->count(),
-
-            'matriculas' => $matriculas->where('activo', '1')->count(),
-            'matriculas_ch' => $matriculas->where('activo', '1')->where('sucursal', 'CH')->count(),
-            'matriculas_mg' => $matriculas->where('activo', '1')->where('sucursal', 'MG')->count(),
-        ];
+        $info = (new Info)->promotor($matriculas);
         return view('reporte.promotor', compact('matriculas', 'promotor', 'info'));
     }
 }

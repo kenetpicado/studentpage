@@ -8,73 +8,50 @@
 @endsection
 
 @section('card')
-    <div class="row">
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card shadow-sm h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs fw-bolder text-primary text-uppercase mb-1">
-                                <a href="{{ route('matriculas.index') }}">totales</a>
-                            </div>
-                            <div class="h5 mb-0 fw-bolder">{{ $info['matriculas_total'] }}</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-users fa-2x text-secondary text-opacity-25"></i>
-                        </div>
-                    </div>
+    <div class="row my-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="m-0 fw-bolder">MATRICULAS TOTAL</h6>
                 </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Chinandega
+                        <strong class="float-end">{{ $info['matriculas_ch_total'] }}</strong>
+                    </li>
+                    <li class="list-group-item">Managua<strong class="float-end">{{ $info['matriculas_mg_total'] }}</strong>
+                    </li>
+                    <li class="list-group-item">Total<strong class="float-end">{{ $info['matriculas_total'] }}</strong>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card shadow-sm h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs fw-bolder text-primary text-uppercase mb-1">
-                                <a href="{{ route('matriculas.index') }}">activas</a>
-                            </div>
-                            <div class="h5 mb-0 fw-bolder">{{ $info['matriculas_activas'] }}</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-users fa-2x text-secondary text-opacity-25"></i>
-                        </div>
-                    </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="m-0 fw-bolder">MATRICULAS ACTIVAS</h6>
                 </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Chinandega
+                        <strong class="float-end">{{ $info['matriculas_ch'] }}</strong>
+                    </li>
+                    <li class="list-group-item">Managua<strong class="float-end">{{ $info['matriculas_mg'] }}</strong></li>
+                    <li class="list-group-item">Total<strong class="float-end">{{ $info['matriculas'] }}</strong>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card shadow-sm h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs fw-bolder text-primary text-uppercase mb-1">
-                                <a href="{{ route('matriculas.index') }}">totales {{ date('Y') }}</a>
-                            </div>
-                            <div class="h5 mb-0 fw-bolder">{{ $info['matriculas_anyo'] }}</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-users fa-2x text-secondary text-opacity-25"></i>
-                        </div>
-                    </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="m-0 fw-bolder">MATRICULAS {{ date('Y') }}</h6>
                 </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card shadow-sm h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs fw-bolder text-primary text-uppercase mb-1">
-                                <a href="{{ route('matriculas.index') }}">activas {{ date('Y') }}</a>
-                            </div>
-                            <div class="h5 mb-0 fw-bolder">{{ $info['matriculas_anyo_activas'] }}</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-users fa-2x text-secondary text-opacity-25"></i>
-                        </div>
-                    </div>
-                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Activas<strong
+                            class="float-end">{{ $info['matriculas_anyo_activas'] }}</strong></li>
+                    <li class="list-group-item">Total
+                        <strong class="float-end">{{ $info['matriculas_anyo'] }}</strong>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

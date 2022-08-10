@@ -32,7 +32,7 @@ class DocenteController extends Controller
     public function show($docente_id)
     {
         $grupos = Grupo::docente($docente_id);
-        return view('docente.show', compact('grupos'));
+        return view('docente.show', compact('grupos','docente_id'));
     }
 
     //Formulario para editar un docente

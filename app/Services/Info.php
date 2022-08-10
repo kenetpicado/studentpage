@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class Info
@@ -28,7 +27,7 @@ class Info
             'docentes_total' => $docentes->count(),
             'cursos_total' => $cursos->count(),
             'grupos_total' => $grupos->count(),
-            'matriculas_total' => $matriculas->count(), 
+            'matriculas_total' => $matriculas->count(),
             'promotores_total' => $promotores->count(),
 
             'docentes_activos' => $docentes->where('activo', '1')->count(),
@@ -41,14 +40,19 @@ class Info
             'matriculas_anyo' => $matriculas->where('created_at', '>=', date('Y') . '-01-01')->count(),
             'matriculas_anyo_activo' => $matriculas->where('created_at', '>=', date('Y') . '-01-01')->where('activo', '1')->count(),
         ];
-
     }
 
     public function promotor($matriculas)
     {
         return [
             'matriculas_total' => $matriculas->count(),
-            'matriculas_activas' => $matriculas->where('activo', '1')->count(),
+            'matriculas_ch_total' => $matriculas->where('sucursal', 'CH')->count(),
+            'matriculas_mg_total' => $matriculas->where('sucursal', 'MG')->count(),
+
+            'matriculas' => $matriculas->where('activo', '1')->count(),
+            'matriculas_ch' => $matriculas->where('activo', '1')->where('sucursal', 'CH')->count(),
+            'matriculas_mg' => $matriculas->where('activo', '1')->where('sucursal', 'MG')->count(),
+
             'matriculas_anyo' => $matriculas->where('created_at', '>=', date('Y') . '-01-01')->count(),
             'matriculas_anyo_activas' => $matriculas->where('created_at', '>=', date('Y') . '-01-01')->where('activo', '1')->count(),
         ];
