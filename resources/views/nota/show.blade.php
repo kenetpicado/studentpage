@@ -1,63 +1,46 @@
-<!DOCTYPE html>
-<html lang="es">
+@extends('reporte.layout')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="{{ asset('img/SP.png') }}">
-    <title>Reporte de notas - {{ $grupo->curso_nombre }}</title>
-    <link href="{{ asset('css/app2.css') }}" rel="stylesheet">
+@section('title', $grupo->curso_nombre)
 
-    <style>
-        @media print {
-            .ocultar,
-            .ocultar * {
-                display: none !important;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <div class="card border-0">
-        <x-header-0>Reporte de notas: {{ $grupo->curso_nombre }}</x-header-0>
-        <div class="card-body">
-            <table class="table table-borderless table-sm" width="100%" cellspacing="0">
-                <tr>
-                    <td>Docente: {{ $grupo->docente_nombre }}</td>
-                    <td>Horario: {{ $grupo->horario }} </td>
-                    <td>
-                        @if ($grupo->sucursal == 'CH')
-                            <p>Sucusal: Chinandega </p>
-                        @else
-                            <p>Sucusal: Managua </p>
-                        @endif
-                    </td>
-                    <td>Fecha: {{ date('d-m-Y') }} </td>
-                </tr>
-            </table>
-            <table class="table table-bordered table-sm" width="100%" cellspacing="0">
-                <tbody>
-                    <tr>
-                        <td>Carnet</td>
-                        <td>Nombre</td>
-                    </tr>
-                    @foreach ($inscripciones as $inscripcion)
-                        <tr>
-                            <td>{{ $inscripcion->matricula_carnet }}</td>
-                            <td>{{ $inscripcion->matricula_nombre }}</td>
-
-                            @foreach ($inscripcion->notas as $nota)
-                                <td>
-                                    <div class="small">{{ $nota->mod }}: {{ $nota->valor }}</div>
-                                </td>
-                            @endforeach
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+@section('content')
+    <div class="card-title">
+        <h4 class="text-center">REPORTE DE NOTAS</h4>
+        <h5 class="text-center">{{ $grupo->curso_nombre }}</h5>
+        <hr>
+        <table class="table my-3">
+            <tr>
+                <td>DOCENTE</td>
+                <td class="fw-bolder">{{ $grupo->docente_nombre }}</td>
+                <td>HORARIO</td>
+                <td>{{ $grupo->horario }} </td>
+            </tr>
+            <tr>
+                <td>SUCURSAL</td>
+                <td>{{ $grupo->sucursal == 'CH' ? 'Chinandega' : 'Managua' }} </td>
+                <td>FECHA</td>
+                <td> {{ date('d-m-Y') }}</td>
+            </tr>
+        </table>
     </div>
-    <a href="javascript:window.print()" class="btn btn-primary ocultar"> Imprimir</a>
-</body>
-</html>
+
+    <table class="table table-bordered table-sm align-middle" width="100%" cellspacing="0">
+        <tbody>
+            <tr>
+                <td>Carnet</td>
+                <td>Nombre</td>
+            </tr>
+            @foreach ($inscripciones as $inscripcion)
+                <tr>
+                    <td>{{ $inscripcion->matricula_carnet }}</td>
+                    <td>{{ $inscripcion->matricula_nombre }}</td>
+
+                    @foreach ($inscripcion->notas as $nota)
+                        <td>
+                            <div class="small">{{ $nota->mod }}: {{ $nota->valor }}</div>
+                        </td>
+                    @endforeach
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endsection

@@ -22,13 +22,7 @@
                 <tr>
                     <td>{{ $curso->nombre }}</td>
                     <td>{{ $curso->imagen }}</td>
-                    <td>
-                        @if ($curso->activo > 0)
-                            <i class="fas fa-check-circle text-primary"></i> Activo 
-                        @else
-                            <i class="fas fa-exclamation-circle text-danger"></i> Inactivo 
-                        @endif
-                    </td>
+                    <td>{{ $curso->activo == '1' ? 'Activo' : '-' }}</td>
                     <td>
                         <a class="btn btn-primary btn-sm" href="{{ route('cursos.show', $curso->id) }}">
                             Modulos

@@ -26,13 +26,14 @@ class Grupo extends Model
                         'grupos.id',
                         'horario',
                         'anyo',
+                        'grupos.sucursal',
                         'cursos.nombre as curso_nombre',
                         'docentes.nombre as docente_nombre',
-                        DB::raw('(select count(*) from inscripciones where grupos.id = inscripciones.grupo_id) as inscripciones_count')
                     ])
                     ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
                     ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
                     ->latest('grupos.id')
+                    ->orderBy('sucursal')
                     ->get();
                 break;
 
@@ -44,13 +45,14 @@ class Grupo extends Model
                         'grupos.id',
                         'horario',
                         'anyo',
+                        'grupos.sucursal',
                         'cursos.nombre as curso_nombre',
                         'docentes.nombre as docente_nombre',
-                        DB::raw('(select count(*) from inscripciones where grupos.id = inscripciones.grupo_id) as inscripciones_count')
                     ])
                     ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
                     ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
                     ->latest('grupos.id')
+                    ->orderBy('sucursal')
                     ->get();
                 break;
 
@@ -61,13 +63,14 @@ class Grupo extends Model
                         'grupos.id',
                         'horario',
                         'anyo',
+                        'grupos.sucursal',
                         'cursos.nombre as curso_nombre',
                         'docentes.nombre as docente_nombre',
-                        DB::raw('(select count(*) from inscripciones where grupos.id = inscripciones.grupo_id) as inscripciones_count')
                     ])
                     ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
                     ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
                     ->latest('grupos.id')
+                    ->orderBy('sucursal')
                     ->get();
                 break;
         }
@@ -82,6 +85,7 @@ class Grupo extends Model
                 'grupos.id',
                 'horario',
                 'grupos.sucursal',
+                'anyo',
                 'cursos.nombre as curso_nombre',
                 'docentes.nombre as docente_nombre',
             ])

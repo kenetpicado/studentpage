@@ -61,10 +61,9 @@ class Inscripcion extends Model
     {
         return DB::table('inscripciones')
             ->where('inscripciones.grupo_id', $grupo_id)
+            ->where('matriculas.activo', '1')
             ->select([
                 'inscripciones.*',
-                'matriculas.activo',
-                'matriculas.activo as activo',
                 'matriculas.carnet as matricula_carnet',
                 'matriculas.nombre as matricula_nombre',
             ])

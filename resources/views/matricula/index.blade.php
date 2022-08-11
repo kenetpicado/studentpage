@@ -15,6 +15,7 @@
             <th>Nombre</th>
             <th>Fecha registro</th>
             <th>Estado</th>
+            <th>Sucursal</th>
             <th>Mas</th>
         </x-slot>
         <tbody>
@@ -37,6 +38,7 @@
                             <i class="fas fa-exclamation-circle text-danger"></i> Pendiente
                         @endif
                     </td>
+                    <td>{{ $matricula->sucursal }}</td>
                     <td>
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1"

@@ -78,6 +78,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('reportes/docentes/general', [ReporteController::class, 'docentes'])->name('reportes.docentes');
     Route::get('reportes/docente/{id}', [ReporteController::class, 'docente'])->name('reportes.docente');
+    Route::get('reportes/grupos/general', [ReporteController::class, 'grupos'])->name('reportes.grupos');
+    Route::get('reportes/grupo/{id}', [ReporteController::class, 'grupo'])->name('reportes.grupo');
+    
+    Route::post('reportes/promotor/rango', [ReporteController::class, 'promotor_rango'])->name('reportes.rango.promotor');
+    Route::post('reportes/matriculas/rango', [ReporteController::class, 'matriculas_rango'])->name('reportes.rango.matriculas');
+
+    Route::get('reportes/notas/grupos', [ReporteController::class, 'notas'])->name('reportes.notas');
 
 });
 

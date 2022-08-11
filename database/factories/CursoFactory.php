@@ -14,9 +14,9 @@ class CursoFactory extends Factory
     public function definition()
     {
         return [
-            //
             'nombre' => $this->faker->unique()->words(3, true),
             'activo' => $this->faker->randomElement(['0', '1']),
+            'imagen' => 'computacion-1.svg'
         ];
     }
 }

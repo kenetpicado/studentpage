@@ -15,6 +15,8 @@
         @if (count($inscripciones))
             <a href="{{ route('notas.show', $grupo_id) }}" class="dropdown-item" target="_blank">
                 Reporte de notas</a>
+            <a href="{{ route('reportes.grupo', $grupo_id) }}" class="dropdown-item" target="_blank">
+                Reporte de grupo</a>
         @endif
     </x-header-2>
 
@@ -30,14 +32,7 @@
         <tbody>
             @foreach ($inscripciones as $inscripcion)
                 <tr>
-                    <td>
-                        @if ($inscripcion->activo == 1)
-                            <i class="fas fa-circle fa-sm text-primary"></i>
-                        @else
-                            <i class="fas fa-circle fa-sm text-danger"></i>
-                        @endif
-                        {{ $inscripcion->matricula_carnet }}
-                    </td>
+                    <td>{{ $inscripcion->matricula_carnet }}</td>
                     <td>{{ $inscripcion->matricula_nombre }}</td>
                     <td>
                         <a href="{{ route('notas.index', $inscripcion->id) }}" class="btn btn-sm btn-primary">Notas</a>
@@ -59,9 +54,7 @@
                                             method="post">
                                             @csrf
                                             @method('PUT')
-                                            <button type="submit" class="dropdown-item">
-                                                {{$inscripcion->activo ? 'Desactivar' : 'Activar'}}
-                                            </button>
+                                            <button type="submit" class="dropdown-item">Desactivar</button>
                                         </form>
                                     </li>
                                 </ul>

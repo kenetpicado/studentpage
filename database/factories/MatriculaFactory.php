@@ -15,17 +15,17 @@ class MatriculaFactory extends Factory
     public function definition()
     {
         return [
-            //
             'nombre' => $this->faker->name(),
             'cedula' => $this->faker->unique()->bothify('281-######-####?'),
             'fecha_nac' => $this->faker->date('Y-m-d'),
             'celular' => $this->faker->numerify('########'),
             'tutor' => $this->faker->name(),
             'grado' => $this->faker->word(),
-            'carnet' => $this->faker->unique()->bothify('0004-######-###'),
+            'carnet' => $this->faker->unique()->bothify('AA04-######-###'),
             'pin' => $this->faker->bothify('#?#?#?'),
             'sucursal' => $this->faker->randomElement(['CH', 'MG']),
-            'promotor_id' => $this->faker->boolean() ? '1' : null,
+            'activo' => $this->faker->numberBetween(0, 1),
+            'promotor_id' => Promotor::all()->random()->id,
             'created_at' => $this->faker->date('Y-m-d'),
         ];
     }

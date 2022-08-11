@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <table class="table table-borderless table-striped" width="100%" cellspacing="0">
+        <table class="table table-borderless table-striped aligh-middle" width="100%" cellspacing="0">
             <thead>
                 <tr class="text-primary text-uppercase small">
                     <th>Carnet</th>

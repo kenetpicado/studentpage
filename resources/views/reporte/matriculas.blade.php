@@ -1,28 +1,20 @@
 @extends('reporte.layout')
 
-@section('title', 'Promotor')
+@section('title', 'Matriculas')
 
 @section('content')
     <div class="card-title">
-        <h4 class="text-center">REPORTE GENERAL PROMOTOR</h4>
+        <h4 class="text-center">REPORTE GENERAL MATRICULAS</h4>
         <h5 class="text-center">Información general de Matrículas registradas</h5>
         <hr>
-        <table class="table my-3">
-            <tr>
-                <td>NOMBRE </td>
-                <td class="fw-bolder">{{ $promotor->nombre }}</td>
-            </tr>
-            <tr>
-                <td>CARNET</td>
-                <td>{{ $promotor->carnet }}</td>
-            </tr>
-            <tr>
-                <td>CORREO</td>
-                <td>{{ $promotor->correo }}</td>
-            </tr>
-        </table>
         <p>
-            Matriculas registradas: {{ $matriculas->count() }}
+            Desde: {{ $request->inicio }}
+        </p>
+        <p>
+            Hasta: {{ $request->fin }}
+        </p>
+        <p>
+            Todas las matriculas: {{ $matriculas->count() }}
         </p>
         <p>
             Se cuentan únicamente las matrículas activas.

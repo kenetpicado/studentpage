@@ -14,8 +14,7 @@ class DocenteFactory extends Factory
     public function definition()
     {
         return [
-            //
-            'carnet' => $this->faker->unique()->bothify('CH-####'),
+            'carnet' => $this->faker->unique()->bothify('AA-####'),
             'nombre' => $this->faker->name(),
             'correo' => $this->faker->email(),
             'activo' => $this->faker->randomElement(['0', '1']),

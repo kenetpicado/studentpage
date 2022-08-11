@@ -68,7 +68,15 @@ class NotaController extends Controller
     //Ver certificado de notas
     public function showCertified(Inscripcion $inscripcion)
     {
-        $inscripcion->load('notas');
-        return view('nota.certified', compact('inscripcion'));
+        //$inscripcion->load('notas');
+        $notas = DB::table('notas')
+        ->where('inscripcion_id', $inscripcion->id)
+        ->select([
+            'notas.*',
+            'modulos.nombre as modulo'
+        ])
+        ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')
+        ->get();
+        return view('nota.certified', compact('inscripcion', 'notas'));
     }
 }

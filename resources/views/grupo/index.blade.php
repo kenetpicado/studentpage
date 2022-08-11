@@ -22,6 +22,7 @@
             <th>Docente</th>
             <th>Horario</th>
             <th>Año</th>
+            <th>Sucursal</th>
             <th>Alumnos</th>
             @if (auth()->user()->rol == 'admin')
                 <th>Editar</th>
@@ -34,9 +35,10 @@
                     <td>{{ $grupo->docente_nombre }}</td>
                     <td>{{ $grupo->horario }}</td>
                     <td>{{ $grupo->anyo }}</td>
+                    <td>{{ $grupo->sucursal }}</td>
                     <td>
                         <a href="{{ route('grupos.show', $grupo->id) }}" class="btn btn-sm btn-primary d-grid">
-                            Ver {{ $grupo->inscripciones_count }}
+                            Ver
                         </a>
                     </td>
 

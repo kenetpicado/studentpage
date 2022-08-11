@@ -5,8 +5,13 @@
 @section('content')
     <div class="card-title">
         <h4 class="text-center">REPORTE GENERAL DE PROMOTORES</h4>
+        <h5 class="text-center">Información general de Matrículas registradas</h5>
+        <hr>
         <p>
             Promotores registrados: {{ $promotores->count() }}
+        </p>
+        <p>
+            Se cuentan únicamente las matrículas activas.
         </p>
     </div>
     <table class="table table-borderless table-striped" width="100%" cellspacing="0">
@@ -15,7 +20,6 @@
                 <th>CARNET</th>
                 <th>NOMBRE</th>
                 <th>MATRICULAS</th>
-                <th>ACTIVAS</th>
             </tr>
         </thead>
         <tbody>
@@ -24,7 +28,6 @@
                     <td>{{ $promotor->carnet }}</td>
                     <td>{{ $promotor->nombre }}</td>
                     <td>{{ $promotor->matriculas->count() }}</td>
-                    <td>{{ $promotor->matriculas->where('activo', '1')->count() }}</td>
                 </tr>
                 <tr class="align-middle">
                     <td>Sucursales</td>
@@ -37,11 +40,6 @@
                         {{ $promotor->matriculas->where('sucursal', 'CH')->count() }}
                         <br>
                         {{ $promotor->matriculas->where('sucursal', 'MG')->count() }}
-                    </td>
-                    <td>
-                        {{ $promotor->matriculas->where('sucursal', 'CH')->where('activo', '1')->count() }}
-                        <br>
-                        {{ $promotor->matriculas->where('sucursal', 'MG')->where('activo', '1')->count() }}
                     </td>
                 </tr>
             @endforeach

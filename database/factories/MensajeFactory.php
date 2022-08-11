@@ -3,10 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Grupo;
-use App\Models\Matricula;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class InscripcionFactory extends Factory
+class MensajeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,8 +15,11 @@ class InscripcionFactory extends Factory
     public function definition()
     {
         return [
+            'from' => $this->faker->name(),
+            'contenido' => $this->faker->text(),
+            'enlace' => $this->faker->url(),
+            'created_at' => $this->faker->date('Y-m-d'),
             'grupo_id' => Grupo::all()->random()->id,
-            'matricula_id' => Matricula::all()->random()->id,
         ];
     }
 }

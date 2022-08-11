@@ -8,6 +8,9 @@ use App\Models\Grupo;
 use App\Models\Inscripcion;
 use Illuminate\Database\Seeder;
 use App\Models\Matricula;
+use App\Models\Mensaje;
+use App\Models\Modulo;
+use App\Models\Nota;
 use App\Models\Promotor;
 
 class DatabaseSeeder extends Seeder
@@ -22,13 +25,17 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(PromotorSeeder::class);
 
-        //Curso::factory(20)->create();
-        //Docente::factory(30)->create();
+        Curso::factory(10)->create();
+        Modulo::factory(40)->create();
+        Docente::factory(35)->create();
         
-        //Promotor::factory(15)->create();
-        //Grupo::factory(15)->create();
+        Promotor::factory(15)->create();
+        Grupo::factory(25)->create();
 
-        Matricula::factory(50)->create();
-        //Inscripcion::factory(200)->create();
+        Matricula::factory(70)->create();
+        Inscripcion::factory(200)->create();
+
+        Nota::factory(300)->create();
+        Mensaje::factory(50)->create();
     }
 }

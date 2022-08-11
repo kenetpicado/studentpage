@@ -25,6 +25,9 @@
             page-break-inside: avoid;
             page-break-after: auto
         }
+        hr {
+            border-top: solid 1px rgb(7, 7, 7);
+        }
     </style>
 </head>
 

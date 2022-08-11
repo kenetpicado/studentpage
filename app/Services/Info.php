@@ -58,6 +58,16 @@ class Info
         ];
     }
 
+    public function docente($grupos)
+    {
+        return [
+            'grupos_total' => $grupos->count(),
+            'grupos' => $grupos->where('activo', '1')->count(),
+            'grupos_inactivos' => $grupos->where('activo', '0')->count(),
+            'grupos_anyo' => $grupos->where('anyo', date('Y'))->count(),
+        ];
+    }
+
     //Obtener porcentaje
     public function porcentaje($modelo, $columna, $valor)
     {

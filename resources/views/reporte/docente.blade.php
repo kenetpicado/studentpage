@@ -1,95 +1,58 @@
 @extends('reporte.layout')
 
-@section('title', 'Promotor')
+@section('title', 'Docente')
 
 @section('content')
     <div class="card-title">
-        <h4 class="text-center">REPORTE GENERAL PROMOTOR</h4>
+        <h4 class="text-center">REPORTE GENERAL DOCENTE</h4>
+        <h5 class="text-center">Información general de Grupos asignados</h5>
+        <hr>
         <table class="table my-3">
             <tr>
-                <td>NOMBRE </td>
-                <td class="fw-bolder">{{ $promotor->nombre }}</td>
+                <td>NOMBRE</td>
+                <td class="fw-bolder">{{ $docente->nombre }}</td>
             </tr>
             <tr>
                 <td>CARNET</td>
-                <td>{{ $promotor->carnet }}</td>
+                <td>{{ $docente->carnet }}</td>
             </tr>
             <tr>
                 <td>CORREO</td>
-                <td>{{ $promotor->correo }}</td>
+                <td>{{ $docente->correo }}</td>
+            </tr>
+            <tr>
+                <td>SUCURSAL</td>
+                <td> {{ $docente->sucursal == 'CH' ? 'Chinandega' : 'Managua' }}</td>
+            </tr>
+            <tr>
+                <td>ESTADO</td>
+                <td> {{ $docente->activo == '1' ? 'Activo' : '-' }}</td>
             </tr>
         </table>
+        <p>
+            Grupos asignados: {{ $grupos->count() }}
+        </p>
+        <p>
+            Se cuentan únicamente los grupos activos.
+        </p>
+    </div>
 
-    </div>
-    <div class="row my-3">
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="m-0 fw-bolder">MATRICULAS TOTAL</h6>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Chinandega
-                        <strong class="float-end">{{ $info['matriculas_ch_total'] }}</strong>
-                    </li>
-                    <li class="list-group-item">Managua<strong class="float-end">{{ $info['matriculas_mg_total'] }}</strong>
-                    </li>
-                    <li class="list-group-item">Total<strong class="float-end">{{ $info['matriculas_total'] }}</strong>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="m-0 fw-bolder">MATRICULAS ACTIVAS</h6>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Chinandega
-                        <strong class="float-end">{{ $info['matriculas_ch'] }}</strong>
-                    </li>
-                    <li class="list-group-item">Managua<strong class="float-end">{{ $info['matriculas_mg'] }}</strong></li>
-                    <li class="list-group-item">Total<strong class="float-end">{{ $info['matriculas'] }}</strong>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="m-0 fw-bolder">MATRICULAS {{ date('Y') }}</h6>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Activas<strong
-                            class="float-end">{{ $info['matriculas_anyo_activas'] }}</strong></li>
-                    <li class="list-group-item">Total
-                        <strong class="float-end">{{ $info['matriculas_anyo'] }}</strong>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
     <table class="table table-borderless" width="100%" cellspacing="0">
         <thead>
             <tr>
-                <th>CARNET</th>
-                <th>NOMBRE</th>
-                <th>FECHA REGISTRO</th>
-                <th>ESTADO</th>
-                <th>INSCRITO</th>
+                <th>CURSO</th>
+                <th>HORARIO</th>
+                <th>AÑO</th>
+                <th>ALUMNOS</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($matriculas as $matricula)
+            @foreach ($grupos as $grupo)
                 <tr>
-                    <td>{{ $matricula->carnet }}</td>
-                    <td>{{ $matricula->nombre }}</td>
-                    <td>{{ $matricula->created_at }}</td>
-                    <td>
-                        {{ $matricula->activo == '1' ? 'Activo' : '-' }}
-                    </td>
-                    <td>
-                        {{ $matricula->inscripciones_count > '0' ? 'Inscrito' : '-' }}
-                    </td>
+                    <td>{{ $grupo->curso }}</td>
+                    <td>{{ $grupo->horario }}</td>
+                    <td>{{ $grupo->anyo }}</td>
+                    <td>{{ $grupo->inscripciones_count }}</td>
                 </tr>
             @endforeach
         </tbody>

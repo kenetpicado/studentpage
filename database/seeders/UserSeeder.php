@@ -40,14 +40,5 @@ class UserSeeder extends Seeder
             'password' => Hash::make('FFFFFF'),
             'rol' => 'admin',
         ]);
-
-        //Promotor
-        User::create([
-            'name' => 'Promotor',
-            'email' => 'PM-0000',
-            'password' => Hash::make('FFFFFF'),
-            'rol' => 'promotor',
-            'sub_id' => '1'
-        ]);
     }
 }
