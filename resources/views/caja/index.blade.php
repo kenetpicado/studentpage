@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <table class="table table-borderless table-striped aligh-middle" width="100%" cellspacing="0">
+        <table class="table table-borderless table-striped aligh-middle" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr class="text-primary text-uppercase small">
                     <th>Carnet</th>
@@ -41,10 +41,6 @@
                             </td>
                         </tr>
                     @endforeach
-                @else
-                    <tr>
-                        <td colspan="3" class="text-center">Vacío</td>
-                    </tr>
                 @endif
             </tbody>
         </table>

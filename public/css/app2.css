@@ -1,5 +1,4 @@
 @charset "UTF-8";
-@import url(https://fonts.googleapis.com/css?family=Nunito);
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -41,16 +40,16 @@
   --bs-dark-rgb: 33, 37, 41;
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
-  --bs-body-color-rgb: 126, 124, 124;
+  --bs-body-color-rgb: 78, 78, 78;
   --bs-body-bg-rgb: 255, 255, 255;
-  --bs-font-sans-serif: "Nunito", serif;
+  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
   --bs-body-font-size: 0.9rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.6;
-  --bs-body-color: #7e7c7c;
+  --bs-body-color: #4e4e4e;
   --bs-body-bg: #fff;
 }
 
@@ -101,16 +100,16 @@
   --bs-dark-rgb: 33, 37, 41;
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
-  --bs-body-color-rgb: 126, 124, 124;
+  --bs-body-color-rgb: 78, 78, 78;
   --bs-body-bg-rgb: 255, 255, 255;
-  --bs-font-sans-serif: "Nunito", serif;
+  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
   --bs-body-font-size: 0.9rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.6;
-  --bs-body-color: #7e7c7c;
+  --bs-body-color: #4e4e4e;
   --bs-body-bg: #fff;
 }
 
@@ -1783,15 +1782,15 @@ progress {
 .table {
   --bs-table-bg: transparent;
   --bs-table-accent-bg: transparent;
-  --bs-table-striped-color: #7e7c7c;
+  --bs-table-striped-color: #4e4e4e;
   --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
-  --bs-table-active-color: #7e7c7c;
+  --bs-table-active-color: #4e4e4e;
   --bs-table-active-bg: rgba(0, 0, 0, 0.1);
-  --bs-table-hover-color: #7e7c7c;
+  --bs-table-hover-color: #4e4e4e;
   --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
   width: 100%;
   margin-bottom: 1rem;
-  color: #7e7c7c;
+  color: #4e4e4e;
   vertical-align: top;
   border-color: #dee2e6;
 }
@@ -2016,7 +2015,7 @@ progress {
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
-  color: #7e7c7c;
+  color: #4e4e4e;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
@@ -2036,7 +2035,7 @@ progress {
   cursor: pointer;
 }
 .form-control:focus {
-  color: #7e7c7c;
+  color: #4e4e4e;
   background-color: #fff;
   border-color: #97cdd2;
   outline: 0;
@@ -2057,7 +2056,7 @@ progress {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
   margin-inline-end: 0.75rem;
-  color: #7e7c7c;
+  color: #4e4e4e;
   background-color: #e9ecef;
   pointer-events: none;
   border-color: inherit;
@@ -2079,7 +2078,7 @@ progress {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
   margin-inline-end: 0.75rem;
-  color: #7e7c7c;
+  color: #4e4e4e;
   background-color: #e9ecef;
   pointer-events: none;
   border-color: inherit;
@@ -2104,7 +2103,7 @@ progress {
   padding: 0.375rem 0;
   margin-bottom: 0;
   line-height: 1.6;
-  color: #7e7c7c;
+  color: #4e4e4e;
   background-color: transparent;
   border: solid transparent;
   border-width: 1px 0;
@@ -2183,7 +2182,7 @@ textarea.form-control-lg {
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
-  color: #7e7c7c;
+  color: #4e4e4e;
   background-color: #fff;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
@@ -2213,7 +2212,7 @@ textarea.form-control-lg {
 }
 .form-select:-moz-focusring {
   color: transparent;
-  text-shadow: 0 0 0 #7e7c7c;
+  text-shadow: 0 0 0 #4e4e4e;
 }
 
 .form-select-sm {
@@ -2502,7 +2501,7 @@ textarea.form-control-lg {
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
-  color: #7e7c7c;
+  color: #4e4e4e;
   text-align: center;
   white-space: nowrap;
   background-color: #e9ecef;
@@ -2731,7 +2730,7 @@ textarea.form-control-lg {
   display: inline-block;
   font-weight: 400;
   line-height: 1.6;
-  color: #7e7c7c;
+  color: #4e4e4e;
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
@@ -2750,7 +2749,7 @@ textarea.form-control-lg {
   }
 }
 .btn:hover {
-  color: #7e7c7c;
+  color: #4e4e4e;
 }
 .btn-check:focus + .btn, .btn:focus {
   outline: 0;
@@ -3294,7 +3293,7 @@ textarea.form-control-lg {
   padding: 0.5rem 0;
   margin: 0;
   font-size: 0.9rem;
-  color: #7e7c7c;
+  color: #4e4e4e;
   text-align: left;
   list-style: none;
   background-color: #fff;
@@ -4399,7 +4398,7 @@ textarea.form-control-lg {
   width: 100%;
   padding: 1rem 1.25rem;
   font-size: 0.9rem;
-  color: #7e7c7c;
+  color: #4e4e4e;
   text-align: left;
   background-color: #fff;
   border: 0;
@@ -4427,7 +4426,7 @@ textarea.form-control-lg {
   height: 1.25rem;
   margin-left: auto;
   content: "";
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%237e7c7c'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%234e4e4e'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-size: 1.25rem;
   transition: transform 0.2s ease-in-out;
@@ -4805,7 +4804,7 @@ textarea.form-control-lg {
   background-color: #f8f9fa;
 }
 .list-group-item-action:active {
-  color: #7e7c7c;
+  color: #4e4e4e;
   background-color: #e9ecef;
 }
 
@@ -5695,7 +5694,7 @@ textarea.form-control-lg {
 
 .popover-body {
   padding: 1rem 1rem;
-  color: #7e7c7c;
+  color: #4e4e4e;
 }
 
 .carousel {

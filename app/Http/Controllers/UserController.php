@@ -13,16 +13,20 @@ class UserController extends Controller
     //Editar usuario
     public function edit(User $user)
     {
+        if ($user->id != auth()->user()->id)
+            abort(403);
+
         return view('user.edit', compact('user'));
     }
 
     //Actualizar usuario
     public function update(UserRequest $request, User $user)
     {
+        if ($user->id != auth()->user()->id)
+            abort(403);
+
         if ($request->password)
-            $request->merge([
-                'password' => bcrypt($this->password),
-            ]);
+            $request->merge(['password' => bcrypt($this->password)]);
 
         $user->update($request->validated());
         return redirect()->route('index')->with('success', config('app.updated'));
@@ -32,10 +36,7 @@ class UserController extends Controller
     public function pin(Request $request)
     {
         $pin = (new Credenciales)->pin();
-
-        User::where('email', $request->carnet)->first()->update([
-            'password' => bcrypt('FFFFFF')
-        ]);
+        User::where('email', $request->carnet)->first()->update(['password' => bcrypt('FFFFFF')]);
 
         //event(new SendCredentialsEvent($request, $pin));
         return redirect()->route($request->tipo . '.index')->with('success', config('app.updated'));

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Pago;
 use App\Services\Moneda;
-use App\Models\Matricula;
 use App\Models\Inscripcion;
 use App\Http\Requests\PagoRequest;
 
@@ -29,7 +28,6 @@ class PagoController extends Controller
     public function store(PagoRequest $request)
     {
         Pago::create($request->all());
-        Matricula::find($request->matricula_id)->update(['activo' => '1']);
         return redirect()->route('pagos.index', $request->matricula_id)->with('success', 'Pago guardado correctamente');
     }
 

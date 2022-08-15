@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Casts\Upper;
 use App\Models\Inscripcion;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Grupo extends Model
 {
@@ -13,6 +14,10 @@ class Grupo extends Model
 
     protected $guarded = [];
     public $timestamps = false;
+
+    protected $casts = [
+        'horario' => Upper::class,
+    ];
 
     public static function index($activo = '1')
     {

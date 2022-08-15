@@ -26,16 +26,16 @@ class DatabaseSeeder extends Seeder
         $this->call(PromotorSeeder::class);
 
         Curso::factory(10)->create();
-        Modulo::factory(40)->create();
-        Docente::factory(35)->create();
+        //Modulo::factory(40)->create();
+        Docente::factory(10)->create();
         
-        Promotor::factory(15)->create();
+        //Promotor::factory(15)->create();
         Grupo::factory(25)->create();
 
-        Matricula::factory(70)->create();
-        Inscripcion::factory(200)->create();
+        Matricula::factory(10)->create();
+        //Inscripcion::factory(200)->create();
 
-        Nota::factory(300)->create();
-        Mensaje::factory(50)->create();
+        //Nota::factory(300)->create();
+        //Mensaje::factory(50)->create();
     }
 }

@@ -5,8 +5,10 @@ namespace App\Providers;
 use App\Models\Promotor;
 use App\Models\Docente;
 use App\Models\Matricula;
+use App\Models\Pago;
 use App\Observers\DocenteObserver;
 use App\Observers\MatriculaObserver;
+use App\Observers\PagoObserver;
 use App\Observers\PromotorObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
         Docente::observe(DocenteObserver::class);
         Promotor::observe(PromotorObserver::class);
         Matricula::observe(MatriculaObserver::class);
+        Pago::observe(PagoObserver::class);
     }
 }

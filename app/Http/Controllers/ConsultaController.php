@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Nota;
-use App\Models\Pago;
 use App\Models\Mensaje;
 use App\Models\Inscripcion;
 use App\Models\Matricula;

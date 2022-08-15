@@ -16,6 +16,7 @@
             <th>Docente</th>
             <th>Horario</th>
             <th>Año</th>
+            <th>Sucursal</th>
             <th>Alumnos</th>
             <th>Opción</th>
         </x-slot>
@@ -26,13 +27,14 @@
                     <td>{{ $grupo->docente_nombre }}</td>
                     <td>{{ $grupo->horario }}</td>
                     <td>{{ $grupo->anyo }}</td>
+                    <td>{{ $grupo->sucursal }}</td>
                     <td>
-                        <a href="{{ route('grupos.thisClosed', $grupo->id) }}" class="btn btn-primary btn-sm">
-                            Ver {{ $grupo->inscripciones_count }} alumnos
+                        <a href="{{ route('grupos.thisClosed', $grupo->id) }}" class="btn btn-primary btn-sm d-grid">
+                            Ver
                         </a>
                     </td>
                     <td>
-                        <form action="{{ route('grupos.activar', $grupo->id) }}" method="post">
+                        <form action="{{ route('cambiar.estado.grupo', $grupo->id) }}" method="post">
                             @csrf
                             @method('PUT')
                             <button type="submit" class="btn btn-outline-primary btn-sm">Reactivar</button>

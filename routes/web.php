@@ -35,13 +35,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::resource('promotores', PromotorController::class)->parameters(['promotores' => 'promotor']);
 
-    Route::put('desactivar/grupos/{grupo}', [GrupoController::class, 'desactivarGrupo'])
-        ->name('grupos.desactivar');
+    Route::put('cambiar-estado-grupo/{grupo}', [GrupoController::class, 'cambiar_estado'])->name('cambiar.estado.grupo');
 
-    Route::put('activar/grupos/{grupo}', [GrupoController::class, 'activarGrupo'])
-        ->name('grupos.activar');
-
-    Route::put('cambiar-estado/{matricula}', [MatriculaController::class, 'cambiarEstado'])->name('cambiar.estado');
+    Route::put('cambiar-estado-matricula/{matricula}', [MatriculaController::class, 'cambiarEstado'])->name('cambiar.estado');
 
     Route::get('grupos/terminados', [GrupoController::class, 'showClosed'])
         ->name('grupos.closed');
@@ -80,12 +76,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('reportes/docente/{id}', [ReporteController::class, 'docente'])->name('reportes.docente');
     Route::get('reportes/grupos/general', [ReporteController::class, 'grupos'])->name('reportes.grupos');
     Route::get('reportes/grupo/{id}', [ReporteController::class, 'grupo'])->name('reportes.grupo');
-    
+
     Route::post('reportes/promotor/rango', [ReporteController::class, 'promotor_rango'])->name('reportes.rango.promotor');
     Route::post('reportes/matriculas/rango', [ReporteController::class, 'matriculas_rango'])->name('reportes.rango.matriculas');
 
     Route::get('reportes/notas/grupos', [ReporteController::class, 'notas'])->name('reportes.notas');
-
 });
 
 // Autenticado, Administradores y Docente
@@ -102,6 +97,9 @@ Route::middleware(['auth', 'admin-docente'])->group(function () {
 
     Route::get('mensajes/{grupo_id}', [MensajeController::class, 'index'])->name('mensajes.index');
     Route::resource('mensajes', MensajeController::class)->except(['index', 'show']);
+
+    Route::get('grupos-asistencias/{id}', [GrupoController::class, 'asistencias'])->name('grupos.asistencias');
+    Route::post('grupos-asistencias', [GrupoController::class, 'asistencias_store'])->name('grupos.asistencias.store');
 });
 
 //Consulta de estudiantes

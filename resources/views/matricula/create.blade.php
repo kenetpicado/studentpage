@@ -27,7 +27,7 @@
         @endif
         <div class="mb-3">
             <label class="form-label text-primary">Por favor, revise que todos los datos sean correctos y asegúrese que la
-                fecha de nacimiento sea la correcta, ya que a partir
+                fecha de nacimiento no contenga nigún dígito erróneo, ya que a partir
                 de esta se obtendrá el carnet del alumno y una vez generado no se podrá cambiar.</label>
         </div>
     </x-create-form>

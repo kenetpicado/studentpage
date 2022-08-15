@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Services\Info;
+use Barryvdh\Debugbar\Facades\Debugbar;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        
         switch (auth()->user()->rol) {
             case 'alumno':
                 return redirect()->route('consulta.index');

@@ -7,6 +7,10 @@ use App\Models\Grupo;
 use App\Models\Docente;
 use App\Models\Inscripcion;
 use App\Http\Requests\GrupoRequest;
+use App\Models\Matricula;
+use Barryvdh\Debugbar\Facades\Debugbar;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class GrupoController extends Controller
@@ -79,17 +83,42 @@ class GrupoController extends Controller
         return view('terminado.show', compact('inscripciones', 'grupo_id'));
     }
 
-    //Activar grupo
-    public function activarGrupo($grupo_id)
+    /* Cambiar estado del grupo */
+    public function cambiar_estado($grupo_id)
     {
-        Grupo::find($grupo_id, ['id', 'activo'])->update(['activo' => '1']);
-        return redirect()->route('grupos.index')->with('success', 'Actualizado');
+        $grupo = DB::table('grupos')->where('id', $grupo_id);
+        $grupo->update([
+            'activo' => $grupo->first()->activo == '1'  ? '0' : '1'
+        ]);
+        return redirect()->route('grupos.index')->with('success', config('app.updated'));
     }
 
-    //Desactivar grupo
-    public function desactivarGrupo($grupo_id)
+    public function asistencias($grupo_id)
     {
-        Grupo::find($grupo_id, ['id', 'activo'])->update(['activo' => '0']);
-        return redirect()->route('grupos.index')->with('success', 'Actualizado');
+        Gate::authorize('docente_autorizado', $grupo_id);
+        $inscripciones = Inscripcion::getByGrupo($grupo_id);
+        return view('grupo.asistencia', compact('inscripciones', 'grupo_id'));
+    }
+
+    public function asistencias_store(Request $request)
+    {
+        Gate::authorize('docente_autorizado', $request->grupo_id);
+
+        foreach ($request->matricula_id as $key => $matricula_id) {
+            $matricula = DB::table('matriculas')
+                ->where('id', $matricula_id)
+                ->select(['id', 'activo', 'inasistencias']);
+
+            if ($request->asistencia[$key] == '1')
+                $matricula->update(['inasistencias' => '0']);
+            else {
+                $matricula->increment('inasistencias');
+
+                if ($matricula->first()->inasistencias > 2)
+                    $matricula->update(['activo' => 0]);
+            }
+        }
+
+        return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.created'));
     }
 }

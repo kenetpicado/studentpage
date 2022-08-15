@@ -9,6 +9,9 @@
 
 @section('content')
     <x-header-2 text="Alumnos">
+        <a href="{{ route('grupos.asistencias', $grupo_id) }}" class="dropdown-item">
+            Asistencia
+        </a>
         <a href="{{ route('mensajes.index', $grupo_id) }}" class="dropdown-item">
             Mensajes
         </a>
