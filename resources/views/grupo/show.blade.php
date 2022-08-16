@@ -50,7 +50,7 @@
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li>
                                         <a href="{{ route('inscripciones.edit', $inscripcion->id) }}"
-                                            class="dropdown-item">Mover</a>
+                                            class="dropdown-item">Editar</a>
                                     </li>
                                     <li>
                                         <form action="{{ route('cambiar.estado', $inscripcion->matricula_id) }}"

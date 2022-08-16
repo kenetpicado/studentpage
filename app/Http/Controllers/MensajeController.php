@@ -33,8 +33,9 @@ class MensajeController extends Controller
     //Editar un mensaje
     public function edit(Mensaje $mensaje)
     {
+        $type = 'grupo';
         Gate::authorize('docente_autorizado', $mensaje->grupo_id);
-        return view('mensaje.edit', compact('mensaje'));
+        return view('mensaje.edit', compact('mensaje', 'type'));
     }
 
     //Actualizar un mensaje
@@ -76,7 +77,8 @@ class MensajeController extends Controller
 
     public function modificar($mensaje_id)
     {
+        $type = 'global';
         $mensaje = Mensaje::find($mensaje_id);
-        return view('mensaje.modificar', compact('mensaje'));
+        return view('mensaje.edit', compact('mensaje', 'type'));
     }
 }

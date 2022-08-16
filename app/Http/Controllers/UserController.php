@@ -26,7 +26,7 @@ class UserController extends Controller
             abort(403);
 
         if ($request->password)
-            $request->merge(['password' => bcrypt($this->password)]);
+            $request->merge(['password' => bcrypt($request->password)]);
 
         $user->update($request->validated());
         return redirect()->route('index')->with('success', config('app.updated'));

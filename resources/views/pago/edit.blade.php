@@ -9,10 +9,7 @@
 @endsection
 
 @section('content')
-    <x-header-2 text="Editar">
-        <x-dp-item modal='eliminar' text="Eliminar"></x-dp-item>
-    </x-header-2>
-    <x-modal-delete ruta='pagos.destroy' :id="$pago->id" title="Pago"></x-modal-delete>
+    <x-header-0>Editar</x-header-0>
     
     <x-edit-form ruta='pagos.update' :id="$pago->id">
         <x-input name="concepto" :val="$pago->concepto"></x-input>
@@ -20,5 +17,13 @@
         <x-input name="saldo" :val="$pago->saldo"></x-input>
         <x-select-0 name="moneda" :items="$monedas" :old="$pago->moneda"></x-select-0>
         <x-select-0 name="grupo_id" :items="$grupos" text="Curso" :old="$pago->grupo_id"></x-select-0>
+    </x-edit-form>
+
+    <x-edit-form ruta="pagos.destroy" :id="$pago->id" btn="Eliminar" method="delete">
+        <hr>
+        <h4 class="mb-3">Eliminar Pago</h4>
+        <p class="text-primary">
+            Esta opción no se puede deshacer.
+        </p>
     </x-edit-form>
 @endsection

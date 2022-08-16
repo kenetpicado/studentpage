@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Grupo;
-use App\Models\Matricula;
 use App\Models\Inscripcion;
-use Illuminate\Http\Request;
 use App\Http\Requests\InscribirRequest;
 use Illuminate\Support\Facades\DB;
 
@@ -42,13 +40,13 @@ class InscripcionController extends Controller
     public function update(InscribirRequest $request, Inscripcion $inscripcion)
     {
         $inscripcion->update($request->validated());
-        return redirect()->route('grupos.show', $request->oldview)->with('success', config('app.updated'));
+        return redirect()->route('grupos.show', $inscripcion->grupo_id)->with('success', config('app.updated'));
     }
 
     //Eliminar una inscripcion
-    public function destroy(Request $request, Inscripcion $inscripcion)
+    public function destroy(Inscripcion $inscripcion)
     {
         $inscripcion->delete();
-        return redirect()->route('grupos.show', $request->grupo)->with('success', config('app.deleted'));
+        return redirect()->route('grupos.show', $inscripcion->grupo_id)->with('success', config('app.deleted'));
     }
 }

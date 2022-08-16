@@ -50,9 +50,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('pagos-agregar/{matricula}', [PagoController::class, 'create'])->name('pagos.create');
     Route::resource('pagos', PagoController::class)->except(['index', 'create']);
 
-    Route::get('certificado/notas/{inscripcion}', [NotaController::class, 'showCertified'])->name('notas.certified');
+    Route::get('certificado/notas/{inscripcion}', [NotaController::class, 'certificado'])->name('notas.certified');
 
-    Route::resource('inscripciones', InscripcionController::class)->parameters(['inscripciones' => 'inscripcion'])->except(['create']);
+    Route::resource('inscripciones', InscripcionController::class)->parameters(['inscripciones' => 'inscripcion'])->except(['create', 'index']);
     Route::get('inscribir/{matricula}/{type}', [InscripcionController::class, 'create'])->name('inscripciones.create');
 
     Route::resource('grupos', GrupoController::class)->except(['index', 'show']);

@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Promotor;
 use App\Models\Matricula;
 use App\Http\Requests\PromotorRequest;
-use App\Services\Info;
+use Illuminate\Support\Facades\DB;
 
 class PromotorController extends Controller
 {
     //Ver todos los promotores
     public function index()
     {
-        $promotors = Promotor::orderBy('nombre')->get();
+        $promotors = DB::table('promotors')->orderBy('nombre')->get();
         return view('promotor.index', compact('promotors'));
     }
 

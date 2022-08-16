@@ -105,20 +105,17 @@ class GrupoController extends Controller
         Gate::authorize('docente_autorizado', $request->grupo_id);
 
         foreach ($request->matricula_id as $key => $matricula_id) {
-            $matricula = DB::table('matriculas')
-                ->where('id', $matricula_id)
-                ->select(['id', 'activo', 'inasistencias']);
+            $matricula = Matricula::find($matricula_id, ['id', 'activo', 'inasistencias']);
 
             if ($request->asistencia[$key] == '1')
                 $matricula->update(['inasistencias' => '0']);
             else {
                 $matricula->increment('inasistencias');
 
-                if ($matricula->first()->inasistencias > 2)
+                if ($matricula->inasistencias > 2)
                     $matricula->update(['activo' => 0]);
             }
         }
-
         return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.created'));
     }
 }

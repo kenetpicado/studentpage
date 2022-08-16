@@ -8,17 +8,39 @@
 @endsection
 
 @section('content')
-    <x-header-2 text='Editar'>
-        <x-dp-item modal='eliminar' text="Eliminar"></x-dp-item>
-        <x-dp-item modal='restablecer' text="Restablecer PIN"></x-dp-item>
-    </x-header-2>
-
-    <x-modal-delete ruta='promotores.destroy' :id="$promotor->id" title="Promotor"></x-modal-delete>
-    <x-modal-pin :person="$promotor" tipo="promotores"></x-modal-pin>
+    <x-header-0>Editar</x-header-0>
 
     <x-edit-form ruta='promotores.update' :id="$promotor->id">
         <x-input name="nombre" :val="$promotor->nombre"></x-input>
         <x-input name="correo" :val="$promotor->correo" type="email"></x-input>
         <input type="hidden" name="promotor_id" value="{{ $promotor->id }}">
+    </x-edit-form>
+
+    <x-create-form ruta="cambiar.pin" btn="Restablecer PIN">
+        @method('PUT')
+        <hr>
+        <h4 class="mb-3">Restablecer PIN</h4>
+        <p>
+            Esta acción enviará un correo a <strong>{{ $promotor->correo }}</strong> con el nuevo PIN generado.
+            Esto solo debería usarse en caso que el promotor(a) <strong>{{ $promotor->nombre }}</strong> haya perdido sus credenciales
+            y solicite un restablecimiento.
+        </p>
+        <p class="text-primary">
+            Esta opción no se puede deshacer.
+        </p>
+        <input type="hidden" name="carnet" value="{{ $promotor->carnet }}">
+        <input type="hidden" name="correo" value="{{ $promotor->correo }}">
+        <input type="hidden" name="tipo" value="promotores">
+    </x-create-form>
+
+    <x-edit-form ruta="promotores.destroy" :id="$promotor->id" btn="Eliminar" method="delete">
+        <hr>
+        <h4 class="mb-3">Eliminar Promotor</h4>
+        <p>
+            Al eliminar este Promotor aún se conservan todas las Matrículas que hayan sido realizdas por él.
+        </p>
+        <p class="text-primary">
+            Esta opción no se puede deshacer.
+        </p>
     </x-edit-form>
 @endsection

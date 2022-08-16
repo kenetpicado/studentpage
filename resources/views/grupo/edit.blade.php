@@ -8,14 +8,11 @@
 @endsection
 
 @section('content')
-    <x-header-2 text="Editar grupo">
-        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#eliminar">Eliminar</a>
-    </x-header-2>
-
-    <x-modal-delete ruta='grupos.destroy' :id="$grupo->id" title="Grupo"></x-modal-delete>
+    <x-header-0>Editar</x-header-0>
 
     <x-edit-form ruta='grupos.update' :id="$grupo->id">
-        <x-select-0 name="docente_id" :items="$docentes" text="Docentes" :old="$grupo->docente_id"></x-select-0>
+        <h4 class="mb-3">Editar grupo</h4>
+        <x-select-0 name="docente_id" :items="$docentes" text="Seleccionar docente" :old="$grupo->docente_id"></x-select-0>
         <x-input name="horario" :val="$grupo->horario"></x-input>
     </x-edit-form>
 
@@ -27,4 +24,16 @@
             el grupo haya culminado su plan de estudio y no existan más operaciones a realizar.
         </p>
     </x-edit-form>
+    
+    <x-edit-form ruta="grupos.destroy" :id="$grupo->id" btn="Eliminar" method="delete">
+        <hr>
+        <h4 class="mb-3">Eliminar Grupo</h4>
+        <p>
+            Solo es posible eliminar un Grupo vacío. De lo contrario primero elimine los alumnos asignados a este grupo.
+        </p>
+        <p class="text-primary">
+            Esta opción no se puede deshacer.
+        </p>
+    </x-edit-form>
+
 @endsection

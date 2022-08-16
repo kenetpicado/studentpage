@@ -8,10 +8,7 @@
 @endsection
 
 @section('content')
-    <x-header-2 text='Editar'>
-        <x-dp-item modal='eliminar' text="Eliminar"></x-dp-item>
-    </x-header-2>
-    <x-modal-delete ruta='cursos.destroy' :id="$curso->id" title="Curso"></x-modal-delete>
+    <x-header-0>Editar</x-header-0>
 
     <x-edit-form ruta='cursos.update' :id="$curso->id">
         <div class="text-center p-3 mb-3">
@@ -21,5 +18,16 @@
         <x-imagenes :old="$curso->imagen" :imagenes="$imagenes"></x-imagenes>
         <x-check-activo :val="$curso->activo"></x-check-activo>
         <input type="hidden" name="curso_id" value="{{ $curso->id }}">
+    </x-edit-form>
+
+    <x-edit-form ruta="cursos.destroy" :id="$curso->id" btn="Eliminar" method="delete">
+        <hr>
+        <h4 class="mb-3">Eliminar Curso</h4>
+        <p>
+            Solo es posible eliminar un Curso que no tenga Grupos asignados.
+        </p>
+        <p class="text-primary">
+            Esta opción no se puede deshacer.
+        </p>
     </x-edit-form>
 @endsection

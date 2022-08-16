@@ -27,7 +27,8 @@ class Matricula extends Model
         'sucursal',
         'activo',
         'promotor_id',
-        'created_at'
+        'created_at',
+        'inasistencias'
     ];
 
     public $timestamps = false;

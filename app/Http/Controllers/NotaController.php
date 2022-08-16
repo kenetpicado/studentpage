@@ -66,7 +66,7 @@ class NotaController extends Controller
     }
 
     //Ver certificado de notas
-    public function showCertified(Inscripcion $inscripcion)
+    public function certificado(Inscripcion $inscripcion)
     {
         $notas = Nota::getByInscripcion($inscripcion->id);
         return view('nota.certified', compact('inscripcion', 'notas'));

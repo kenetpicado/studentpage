@@ -96,7 +96,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xl-3 col-md-6">
+            <div class="col-xl-3 col-md-6 my-1">
                 <div class="card">
                     <div class="card-header">
                         <h6 class="m-0 fw-bolder">Activos</h6>
@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-6">
+            <div class="col-xl-3 col-md-6 my-1">
                 <div class="card">
                     <div class="card-header">
                         <h6 class="m-0 fw-bolder">Año {{ date('Y') }}</h6>

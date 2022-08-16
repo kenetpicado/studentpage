@@ -16,9 +16,7 @@
     <x-header-0>Inscribir</x-header-0>
 
     <x-create-form ruta='inscripciones.store' btn="Inscribir">
-        <div class="mb-1">
-            <label class="form-label">{{ $matricula->nombre }}</label>
-        </div>
+        <h4>{{ $matricula->nombre }}</h4>
         <x-grupos :grupos="$grupos"></x-grupos>
         <input type="hidden" name="from" value="{{ $type }}">
         <input type="hidden" name="matricula_id" value="{{ $matricula->id }}">

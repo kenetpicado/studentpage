@@ -36,8 +36,7 @@
                             <td>{{ $matricula->carnet }}</td>
                             <td>{{ $matricula->nombre }}</td>
                             <td>
-                                <a class="btn btn-sm btn-primary"
-                                    href="{{ route('pagos.index', $matricula->id) }}">Pagos</a>
+                                <a href="{{ route('pagos.index', $matricula->id) }}">Realizar pago</a>
                             </td>
                         </tr>
                     @endforeach
