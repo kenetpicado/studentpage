@@ -92,30 +92,4 @@ class GrupoController extends Controller
         ]);
         return redirect()->route('grupos.index')->with('success', config('app.updated'));
     }
-
-    public function asistencias($grupo_id)
-    {
-        Gate::authorize('docente_autorizado', $grupo_id);
-        $inscripciones = Inscripcion::getByGrupo($grupo_id);
-        return view('grupo.asistencia', compact('inscripciones', 'grupo_id'));
-    }
-
-    public function asistencias_store(Request $request)
-    {
-        Gate::authorize('docente_autorizado', $request->grupo_id);
-
-        foreach ($request->matricula_id as $key => $matricula_id) {
-            $matricula = Matricula::find($matricula_id, ['id', 'activo', 'inasistencias']);
-
-            if ($request->asistencia[$key] == '1')
-                $matricula->update(['inasistencias' => '0']);
-            else {
-                $matricula->increment('inasistencias');
-
-                if ($matricula->inasistencias > 2)
-                    $matricula->update(['activo' => 0]);
-            }
-        }
-        return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.created'));
-    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\CursoController;
@@ -98,8 +99,9 @@ Route::middleware(['auth', 'admin-docente'])->group(function () {
     Route::get('mensajes/{grupo_id}', [MensajeController::class, 'index'])->name('mensajes.index');
     Route::resource('mensajes', MensajeController::class)->except(['index', 'show']);
 
-    Route::get('grupos-asistencias/{id}', [GrupoController::class, 'asistencias'])->name('grupos.asistencias');
-    Route::post('grupos-asistencias', [GrupoController::class, 'asistencias_store'])->name('grupos.asistencias.store');
+    Route::get('asistencias/{grupo_id}', [AsistenciaController::class, 'index'])->name('asistencias.index');
+    Route::post('asistencias', [AsistenciaController::class, 'store'])->name('asistencias.store');
+    Route::get('asistencias/{grupo_id}/ver', [AsistenciaController::class, 'show'])->name('asistencias.show');
 });
 
 //Consulta de estudiantes

@@ -11,8 +11,8 @@
 
     <x-table-head>
         <x-slot name="title">
-            <th>Carnet</th>
             <th>Nombre</th>
+            <th>Carnet</th>
             <th>Fecha registro</th>
             <th>Estado</th>
             <th>Sucursal</th>
@@ -27,9 +27,9 @@
                         @else
                             <i class="fas fa-circle fa-sm text-danger"></i>
                         @endif
-                        {{ $matricula->carnet }}
+                        {{ $matricula->nombre }}
                     </td>
-                    <td>{{ $matricula->nombre }}</td>
+                    <td>{{ $matricula->carnet }}</td>
                     <td>{{ $matricula->created_at }}</td>
                     <td>
                         @if ($matricula->inscripciones_count > 0)

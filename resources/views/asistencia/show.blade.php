@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="card-title">
-        <h4 class="text-center">REPORTE DE NOTAS</h4>
+        <h4 class="text-center">REPORTE DE ASISTENCIAS</h4>
         <h5 class="text-center">{{ $grupo->curso_nombre }}</h5>
         <hr>
         <table class="table my-3">
@@ -28,15 +28,25 @@
             <tr>
                 <td>Carnet</td>
                 <td>Nombre</td>
+                @foreach ($inscripciones->first()->asistencias as $asistencia)
+                    <td>
+                        {{ date('d-m', strtotime($asistencia->created_at)) }}
+                    </td>
+                @endforeach
             </tr>
             @foreach ($inscripciones as $inscripcion)
                 <tr>
                     <td class="small">{{ $inscripcion->matricula_carnet }}</td>
                     <td>{{ $inscripcion->matricula_nombre }}</td>
 
-                    @foreach ($inscripcion->notas as $nota)
+                    @foreach ($inscripcion->asistencias as $asistencia)
                         <td>
-                            <div class="small">{{ $nota->mod }}: {{ $nota->valor }}</div>
+                            @if ($asistencia->present == '1')
+                            <i class="fas fa-check text-primary"></i>
+                            @else
+                            -
+                            <i class="fas fa-xmark text-secondary"></i>
+                            @endif
                         </td>
                     @endforeach
                 </tr>

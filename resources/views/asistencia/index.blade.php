@@ -11,7 +11,7 @@
 @section('content')
     <x-header-0>Asistencia</x-header-0>
 
-    <x-create-form ruta="grupos.asistencias.store">
+    <x-create-form ruta="asistencias.store">
         <table class="table table-borderless table-striped">
             <thead>
                 <tr>
@@ -23,19 +23,23 @@
                 <tr>
                     <td>{{ $inscripcion->matricula_nombre }}</td>
                     <td>
+                        <input type="hidden" name="inscripcion_id[{{ $key }}]"
+                            value="{{ $inscripcion->id }}">
+
                         <input type="hidden" name="matricula_id[{{ $key }}]"
                             value="{{ $inscripcion->matricula_id }}">
 
-                        <input type="hidden" name="asistencia[{{ $key }}]" value="0">
+                        <input type="hidden" name="present[{{ $key }}]" value="0">
 
                         <div class="form-switch">
                             <input class="form-check-input" type="checkbox" role="switch"
-                                name="asistencia[{{ $key }}]" value="1">
+                                name="present[{{ $key }}]" value="1">
                         </div>
                     </td>
                 </tr>
             @endforeach
         </table>
+        <x-input name="created_at" label="Fecha" type="date" :val="date('Y-m-d')"></x-input>
         <input type="hidden" name="grupo_id" value="{{ $grupo_id }}">
     </x-create-form>
 @endsection

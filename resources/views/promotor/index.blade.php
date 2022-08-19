@@ -11,8 +11,8 @@
 
     <x-table-head>
         <x-slot name="title">
-            <th>ID</th>
             <th>Nombre</th>
+            <th>Canet</th>
             <th>Correo</th>
             <th>Matriculas</th>
             <th>Editar</th>
@@ -20,8 +20,8 @@
         <tbody>
             @foreach ($promotors as $promotor)
                 <tr>
-                    <td>{{ $promotor->carnet }}</td>
                     <td>{{ $promotor->nombre }}</td>
+                    <td>{{ $promotor->carnet }}</td>
                     <td>{{ $promotor->correo }}</td>
                     <td>
                         <a href="{{ route('promotores.show', $promotor->id) }}"

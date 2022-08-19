@@ -11,8 +11,8 @@
 
     <x-table-head>
         <x-slot name="title">
-            <th>ID</th>
             <th>Nombre</th>
+            <th>Carnet</th>
             <th>Correo</th>
             <th>Estado</th>
             <th>Sucursal</th>
@@ -22,8 +22,8 @@
         <tbody>
             @foreach ($docentes as $docente)
                 <tr>
-                    <td>{{ $docente->carnet }}</td>
                     <td>{{ $docente->nombre }}</td>
+                    <td>{{ $docente->carnet }}</td>
                     <td>{{ $docente->correo }}</td>
                     <td>{{ $docente->activo == '1' ? 'Activo' : '-' }}</td>
                     <td>{{ $docente->sucursal }}</td>

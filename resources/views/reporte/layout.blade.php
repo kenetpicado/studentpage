@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="{{ asset('img/SP.png') }}">
     <title>Reporte - @yield('title')</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
     <link href="{{ asset('css/app2.css') }}" rel="stylesheet">
 
     <style>
         @media print {
-
             .ocultar,
             .ocultar * {
                 display: none !important;

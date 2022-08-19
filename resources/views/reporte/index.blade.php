@@ -12,7 +12,7 @@
     <div class="card-body">
 
         <div class="row">
-            <div class="col-xl-3 col-md-6">
+            <div class="col-xl-3 col-md-6 py-2">
                 <div class="card h-100 py-2">
                     <div class="card-body">
                         <h4 class="card-title">Promotores</h4>
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-6">
+            <div class="col-xl-3 col-md-6 py-2">
                 <div class="card h-100 py-2">
                     <div class="card-body">
                         <h4 class="card-title">Docentes</h4>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6">
+            <div class="col-xl-3 col-md-6 py-2">
                 <div class="card h-100 py-2">
                     <div class="card-body">
                         <h4 class="card-title">Grupos</h4>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6">
+            <div class="col-xl-3 col-md-6 py-2">
                 <div class="card h-100 py-2">
                     <div class="card-body">
                         <h4 class="card-title">Notas</h4>
@@ -50,8 +50,8 @@
                 </div>
             </div>
         </div>
-        <hr>
         <x-main>
+            <hr>
             <form action="{{ route('reportes.rango.promotor') }}" method="post" target="_blank">
                 @csrf
                 <p class="text-primary">
@@ -66,8 +66,8 @@
                 </div>
             </form>
         </x-main>
-        <hr>
         <x-main>
+            <hr>
             <form action="{{ route('reportes.rango.matriculas') }}" method="post" target="_blank">
                 @csrf
                 <p class="text-primary">

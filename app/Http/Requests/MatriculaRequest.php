@@ -51,7 +51,7 @@ class MatriculaRequest extends FormRequest
             'grado' => 'required|max:45',
             'cedula' => 'nullable|alpha_dash|min:16|max:16',
             'celular' => 'nullable|numeric|digits:8',
-            'tutor' => 'nullable:max|45'
+            'tutor' => 'nullable|max:45'
         ]
             + ($this->isMethod('POST')
                 ? $this->store()

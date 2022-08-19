@@ -37,6 +37,21 @@ class Inscripcion extends Model
             ->get();
     }
 
+    /* Para reporte de asistencias (ELOQUENT) */
+    public static function asistencia($grupo_id)
+    {
+        return Inscripcion::where('grupo_id', $grupo_id)
+            ->where('matriculas.activo', '1')
+            ->select([
+                'inscripciones.id',
+                'nombre as matricula_nombre',
+                'carnet as matricula_carnet',
+            ])
+            ->join('matriculas', 'inscripciones.matricula_id', '=', 'matriculas.id')
+            ->with('asistencias')
+            ->get();
+    }
+
     //Obtener todas las inscripciones de una Matricula
     public static function getByMatricula()
     {
@@ -129,8 +144,8 @@ class Inscripcion extends Model
         return $this->belongsTo(Grupo::class);
     }
 
-    public function pagos()
+    public function asistencias()
     {
-        return $this->hasMany(Pago::class);
+        return $this->hasMany(Asistencia::class);
     }
 }

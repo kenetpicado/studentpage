@@ -9,17 +9,23 @@
 
 @section('content')
     <x-header-2 text="Alumnos">
-        <a href="{{ route('grupos.asistencias', $grupo_id) }}" class="dropdown-item">
+        <a href="{{ route('asistencias.index', $grupo_id) }}" class="dropdown-item">
             Asistencia
         </a>
         <a href="{{ route('mensajes.index', $grupo_id) }}" class="dropdown-item">
             Mensajes
         </a>
         @if (count($inscripciones))
+            <a href="{{ route('asistencias.show', $grupo_id) }}" class="dropdown-item" target="_blank">
+                Reporte asistencia
+            </a>
+
             <a href="{{ route('notas.show', $grupo_id) }}" class="dropdown-item" target="_blank">
                 Reporte de notas</a>
-            <a href="{{ route('reportes.grupo', $grupo_id) }}" class="dropdown-item" target="_blank">
-                Reporte de grupo</a>
+            @if (auth()->user()->rol == 'admin')
+                <a href="{{ route('reportes.grupo', $grupo_id) }}" class="dropdown-item" target="_blank">
+                    Reporte de grupo</a>
+            @endif
         @endif
     </x-header-2>
 

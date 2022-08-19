@@ -37,8 +37,6 @@
                 </div>
             @endif
 
-            @yield('card')
-
             <div class="card pb-5 shadow-sm mb-5">
                 @yield('content')
             </div>
@@ -59,9 +57,23 @@
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({
-                "ordering": false,
+                ordering: false,
                 responsive: true,
-                "pageLength": 50,
+                pageLength: 50,
+                lengthChange: false,
+                language: {
+                    search: "Buscar:",
+                    zeroRecords: "No hay registros",
+                    info: "_TOTAL_ resultados",
+                    infoEmpty: "",
+                    infoFiltered: "",
+                    paginate: {
+                        first: "««",
+                        previous: "«",
+                        next: "»",
+                        last: "»»"
+                    },
+                }
             });
         });
     </script>
