@@ -31,8 +31,8 @@
 
     <x-table-head>
         <x-slot name="title">
-            <th>Carnet</th>
             <th>Nombre</th>
+            <th>Carnet</th>
             <th>Notas</th>
             @if (auth()->user()->rol == 'admin')
                 <th>Opciones</th>
@@ -41,8 +41,8 @@
         <tbody>
             @foreach ($inscripciones as $inscripcion)
                 <tr>
+                    <td>{{ $inscripcion->matricula_nombre}}</td>
                     <td>{{ $inscripcion->matricula_carnet }}</td>
-                    <td>{{ $inscripcion->matricula_nombre }}</td>
                     <td>
                         <a href="{{ route('notas.index', $inscripcion->id) }}" class="btn btn-sm btn-primary">Notas</a>
                     </td>
