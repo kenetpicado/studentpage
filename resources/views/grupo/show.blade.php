@@ -12,7 +12,7 @@
         <a href="{{ route('asistencias.index', $grupo_id) }}" class="dropdown-item">
             Asistencia
         </a>
-        <a href="{{ route('mensajes.index', $grupo_id) }}" class="dropdown-item">
+        <a href="{{ route('mensajes.index', ['grupo', $grupo_id]) }}" class="dropdown-item">
             Mensajes
         </a>
         @if (count($inscripciones))

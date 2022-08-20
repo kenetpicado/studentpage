@@ -29,7 +29,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a href="{{route('caja.index')}}" class="dropdown-item">Caja</a></li>
-                        <li><a href="{{route('mensajes.grupos')}}" class="dropdown-item">Notificaciones</a></li>
+                        <li><a href="{{route('mensajes.index', 'global')}}" class="dropdown-item">Mensajes</a></li>
                         <li><a href="{{route('reportes.index')}}" class="dropdown-item">Reportes</a></li>
                         <li><a href="{{route('cursos.index')}}" class="dropdown-item">Cursos</a></li>
                     </ul>

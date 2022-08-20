@@ -65,10 +65,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('ver-recibo/{pago_id}', [PagoController::class, 'recibo'])->name('recibo');
 
-    Route::get('notificaciones-grupos', [MensajeController::class, 'grupos'])->name('mensajes.grupos');
-    Route::get('notificaciones-grupos-agregar', [MensajeController::class, 'agregar'])->name('mensajes.agregar');
-    Route::get('notificaciones-grupos-modificar/{id}', [MensajeController::class, 'modificar'])->name('mensajes.modificar');
-
     Route::get('reportes', [ReporteController::class, 'index'])->name('reportes.index');
     Route::get('reportes/promotores/general', [ReporteController::class, 'promotores'])->name('reportes.promotores');
     Route::get('reportes/promotor/{id}', [ReporteController::class, 'promotor'])->name('reportes.promotor');
@@ -93,11 +89,13 @@ Route::middleware(['auth', 'admin-docente'])->group(function () {
 
     Route::resource('notas', NotaController::class)->except(['index', 'create']);
 
-    Route::resource('grupos', GrupoController::class)
-        ->only(['index', 'show']);
+    Route::resource('grupos', GrupoController::class)->only(['index', 'show']);
 
-    Route::get('mensajes/{grupo_id}', [MensajeController::class, 'index'])->name('mensajes.index');
-    Route::resource('mensajes', MensajeController::class)->except(['index', 'show']);
+    Route::get('mensajes/{type}/{grupo_id?}', [MensajeController::class, 'index'])->name('mensajes.index');
+    Route::get('mensajes-crear/{type}/{grupo_id?}', [MensajeController::class, 'create'])->name('mensajes.create');
+
+    Route::get('mensajes/{mensaje_id}/editar/{type}', [MensajeController::class, 'edit'])->name('mensajes.edit');
+    Route::resource('mensajes', MensajeController::class)->except(['index', 'show', 'edit', 'create']);
 
     Route::get('asistencias/{grupo_id}', [AsistenciaController::class, 'index'])->name('asistencias.index');
     Route::post('asistencias', [AsistenciaController::class, 'store'])->name('asistencias.store');

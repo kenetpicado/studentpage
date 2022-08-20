@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Asistencia;
 use App\Models\Grupo;
-use App\Models\Inscripcion;
 use App\Models\Matricula;
-use Illuminate\Support\Facades\Gate;
+use App\Models\Asistencia;
+use App\Models\Inscripcion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AsistenciaController extends Controller
 {
@@ -21,18 +21,20 @@ class AsistenciaController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('docente_autorizado', $request->grupo_id);
+        $matricula = Matricula::find($request->matricula_id, ['id', 'activo', 'inasistencias']);
 
         foreach ($request->inscripcion_id as $key => $inscripcion_id) {
 
-            $matricula = Matricula::find($request->matricula_id[$key], ['id', 'activo', 'inasistencias']);
+            /* Presente */
+            if ($request->present[$key] == '1' && $matricula[$key]->inasistencias != '0')
+                $matricula[$key]->update(['inasistencias' => '0']);
 
-            if ($request->present[$key] == '1')
-                $matricula->update(['inasistencias' => '0']);
-            else {
-                $matricula->increment('inasistencias');
+            /* Ausente */
+            if ($request->present[$key] == '0') {
+                $matricula[$key]->increment('inasistencias');
 
-                if ($matricula->inasistencias > 2)
-                    $matricula->update(['activo' => 0]);
+                if ($matricula[$key]->inasistencias > 2)
+                    $matricula[$key]->update(['activo' => 0]);
             }
 
             Asistencia::create([
@@ -45,8 +47,10 @@ class AsistenciaController extends Controller
         return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.created'));
     }
 
+    /* Reporte de asistencias */
     public function show($grupo_id)
     {
+        Gate::authorize('docente_autorizado', $grupo_id);
         $grupo = Grupo::reporte($grupo_id);
         $inscripciones = Inscripcion::asistencia($grupo_id);
         return view('asistencia.show', compact('grupo', 'inscripciones'));

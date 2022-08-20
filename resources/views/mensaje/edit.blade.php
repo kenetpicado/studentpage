@@ -4,7 +4,7 @@
 
 @section('bread')
     @if ($type == 'global')
-        <li class="breadcrumb-item"><a href="{{ route('mensajes.grupos') }}">Notificaciones</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('mensajes.index', 'global') }}">Notificaciones</a></li>
         <li class="breadcrumb-item active" aria-current="page">Editar</li>
     @else
         <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
@@ -31,6 +31,7 @@
 
         <x-input name="enlace" label="Enlace - (Opcional)" :val="$mensaje->enlace"></x-input>
         <input type="hidden" name="grupo_id" value="{{ $mensaje->grupo_id }}">
+        <input type="hidden" name="type" value="{{ $type }}">
     </x-edit-form>
 
     <x-edit-form ruta="mensajes.destroy" :id="$mensaje->id" btn="Eliminar" method="delete">
@@ -39,6 +40,7 @@
         <p class="text-primary">
             Esta opción no se puede deshacer.
         </p>
-        <input type="hidden" name="{{ $type }}" value="true">
+        <input type="hidden" name="grupo_id" value="{{ $mensaje->grupo_id }}">
+        <input type="hidden" name="type" value="{{ $type }}">
     </x-edit-form>
 @endsection

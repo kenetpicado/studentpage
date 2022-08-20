@@ -11,11 +11,21 @@ use App\Http\Requests\StoreMensajeRequest;
 class MensajeController extends Controller
 {
     //Ver todos los mensajes de un grupo
-    public function index($grupo_id)
+    public function index($type, $grupo_id = null)
     {
         Gate::authorize('docente_autorizado', $grupo_id);
-        $mensajes = Mensaje::getByGrupo($grupo_id);
-        return view('mensaje.index', compact('mensajes', 'grupo_id'));
+
+        $mensajes = $grupo_id == null
+            ? DB::table('mensajes')->where('grupo_id', null)->latest('id')->get()
+            : Mensaje::getByGrupo($grupo_id);
+
+        return view('mensaje.index', compact('mensajes', 'grupo_id', 'type'));
+    }
+
+    //Crear nuevo mensaje
+    public function create($type, $grupo_id = null)
+    {
+        return view('mensaje.create', compact('type', 'grupo_id'));
     }
 
     //Guardar mensaje
@@ -24,16 +34,16 @@ class MensajeController extends Controller
         Gate::authorize('docente_autorizado', $request->grupo_id);
         Mensaje::create($request->all());
 
-        if ($request->has('global'))
-            return redirect()->route('mensajes.grupos')->with('success', config('app.created'));
+        if ($request->type == 'global')
+            return redirect()->route('mensajes.index', 'global')->with('success', config('app.created'));
 
-        return back()->with('success', config('app.created'));
+        return redirect()->route('mensajes.index', ['grupo', $request->grupo_id])->with('success', config('app.created'));
     }
 
     //Editar un mensaje
-    public function edit(Mensaje $mensaje)
+    public function edit($mensaje_id, $type)
     {
-        $type = 'grupo';
+        $mensaje = Mensaje::find($mensaje_id);
         Gate::authorize('docente_autorizado', $mensaje->grupo_id);
         return view('mensaje.edit', compact('mensaje', 'type'));
     }
@@ -44,10 +54,10 @@ class MensajeController extends Controller
         Gate::authorize('docente_autorizado', $mensaje->grupo_id);
         $mensaje->update($request->all());
 
-        if ($request->has('global'))
-            return redirect()->route('mensajes.grupos')->with('success', config('app.updated'));
+        if ($request->type == 'global')
+            return redirect()->route('mensajes.index', 'global')->with('success', config('app.updated'));
 
-        return redirect()->route('mensajes.index', $request->grupo_id)->with('success', config('app.updated'));
+        return redirect()->route('mensajes.index', ['grupo', $request->grupo_id])->with('success', config('app.updated'));
     }
 
     //Eliminar un mensaje
@@ -56,29 +66,9 @@ class MensajeController extends Controller
         Gate::authorize('docente_autorizado', $mensaje->grupo_id);
         $mensaje->delete();
 
-        if ($request->has('global'))
-            return redirect()->route('mensajes.grupos')->with('success', config('app.deleted'));
+        if ($request->type == 'global')
+            return redirect()->route('mensajes.index', ['global'])->with('success', config('app.deleted'));
 
-        return redirect()->route('mensajes.index', $mensaje->grupo_id)->with('success', config('app.deleted'));
-    }
-
-    //Ver mensajes globales
-    public function grupos()
-    {
-        $mensajes = DB::table('mensajes')->where('grupo_id', null)->latest('id')->get();
-        return view('mensaje.grupos', compact('mensajes'));
-    }
-
-    //Vista de mensajes globales
-    public function agregar()
-    {
-        return view('mensaje.agregar');
-    }
-
-    public function modificar($mensaje_id)
-    {
-        $type = 'global';
-        $mensaje = Mensaje::find($mensaje_id);
-        return view('mensaje.edit', compact('mensaje', 'type'));
+        return redirect()->route('mensajes.index', ['grupo', $request->grupo_id])->with('success', config('app.deleted'));
     }
 }
