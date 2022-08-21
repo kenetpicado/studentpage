@@ -10,7 +10,7 @@
     @if (auth()->user()->rol == 'admin')
         <x-header-2 text="Grupos">
             <a class="dropdown-item" href="{{ route('grupos.create') }}">Crear grupo</a>
-            <a class="dropdown-item" href="{{ route('grupos.closed') }}">Grupos terminados</a>
+            <a class="dropdown-item" href="{{ route('grupos.index.closed') }}">Grupos terminados</a>
         </x-header-2>
     @else
         <x-header-0>Grupos</x-header-0>
@@ -21,12 +21,8 @@
             <th>Curso</th>
             <th>Docente</th>
             <th>Horario</th>
-            <th>Año</th>
-            <th>Sucursal</th>
-            <th>Alumnos</th>
-            @if (auth()->user()->rol == 'admin')
-                <th>Editar</th>
-            @endif
+            <th>Suc - Año</th>
+            <th></th>
         </x-slot>
         <tbody>
             @foreach ($grupos as $grupo)
@@ -34,20 +30,23 @@
                     <td>{{ $grupo->curso_nombre }} </td>
                     <td>{{ $grupo->docente_nombre }}</td>
                     <td>{{ $grupo->horario }}</td>
-                    <td>{{ $grupo->anyo }}</td>
-                    <td>{{ $grupo->sucursal }}</td>
+                    <td>{{ $grupo->sucursal }} - {{ $grupo->anyo }}</td>
                     <td>
-                        <a href="{{ route('grupos.show', $grupo->id) }}" class="btn btn-sm btn-primary d-grid">
-                            Ver
-                        </a>
+                        <div class="dropdown">
+                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Opciones <i class="fas fa-cog"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <a class="dropdown-item" href="{{ route('grupos.show', $grupo->id) }}">
+                                    Alumnos
+                                </a>
+                                @if (auth()->user()->rol == 'admin')
+                                    <a class="dropdown-item" href="{{ route('grupos.edit', $grupo->id) }}">Editar</a>
+                                @endif
+                            </ul>
+                        </div>
                     </td>
-
-                    @if (auth()->user()->rol == 'admin')
-                        <td>
-                            <a href="{{ route('grupos.edit', $grupo->id) }}"
-                                class="btn btn-sm btn-outline-primary">Editar</a>
-                        </td>
-                    @endif
                 </tr>
             @endforeach
         </tbody>

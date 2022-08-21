@@ -8,16 +8,15 @@
 
 @section('content')
     <x-header-1 ruta="docentes.create">Docentes</x-header-1>
-
     <x-table-head>
+        <a href="">Configurar permisos</a>
         <x-slot name="title">
             <th>Nombre</th>
             <th>Carnet</th>
             <th>Correo</th>
             <th>Estado</th>
             <th>Sucursal</th>
-            <th>Grupos</th>
-            <th>Editar</th>
+            <th></th>
         </x-slot>
         <tbody>
             @foreach ($docentes as $docente)
@@ -28,10 +27,16 @@
                     <td>{{ $docente->activo == '1' ? 'Activo' : '-' }}</td>
                     <td>{{ $docente->sucursal }}</td>
                     <td>
-                        <a href="{{ route('docentes.show', $docente->id) }}" class="btn btn-primary btn-sm">Grupos</a>
-                    </td>
-                    <td>
-                        <a href="{{ route('docentes.edit', $docente->id) }}" class="btn btn-outline-primary btn-sm">Editar</a>
+                        <div class="dropdown">
+                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Opciones <i class="fas fa-cog"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <a class="dropdown-item" href="{{ route('docentes.show', $docente->id) }}">Grupos</a>
+                                <a class="dropdown-item" href="{{ route('docentes.edit', $docente->id) }}">Editar</a>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             @endforeach

@@ -13,10 +13,10 @@
         <x-slot name="title">
             <th>Nombre</th>
             <th>Carnet</th>
-            <th>Fecha registro</th>
+            <th>Registro</th>
             <th>Estado</th>
             <th>Sucursal</th>
-            <th>Mas</th>
+            <th></th>
         </x-slot>
         <tbody>
             @foreach ($matriculas as $matricula)
@@ -41,10 +41,10 @@
                     <td>{{ $matricula->sucursal }}</td>
                     <td>
                         <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-cog"></i>
-                            </button>
+                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Opciones <i class="fas fa-cog"></i>
+                            </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 @if (auth()->user()->rol == 'admin')
                                     <a class="dropdown-item"

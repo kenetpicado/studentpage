@@ -14,6 +14,7 @@ use App\Http\Controllers\NotaController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\ModuloController;
+use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -40,10 +41,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::put('cambiar-estado-matricula/{matricula}', [MatriculaController::class, 'cambiarEstado'])->name('cambiar.estado');
 
-    Route::get('grupos/terminados', [GrupoController::class, 'showClosed'])
-        ->name('grupos.closed');
-    Route::get('grupos/terminados/{id}', [GrupoController::class, 'showThisClosed'])
-        ->name('grupos.thisClosed');
+    Route::get('grupos/terminados', [GrupoController::class, 'index_closed'])->name('grupos.index.closed');
+    Route::get('grupos/terminados/{id}', [GrupoController::class, 'show_closed'])->name('grupos.show.closed');
 
     Route::put('user-pin', [UserController::class, 'pin'])->name('cambiar.pin');
 
@@ -68,16 +67,17 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('reportes', [ReporteController::class, 'index'])->name('reportes.index');
     Route::get('reportes/promotores/general', [ReporteController::class, 'promotores'])->name('reportes.promotores');
     Route::get('reportes/promotor/{id}', [ReporteController::class, 'promotor'])->name('reportes.promotor');
-
     Route::get('reportes/docentes/general', [ReporteController::class, 'docentes'])->name('reportes.docentes');
     Route::get('reportes/docente/{id}', [ReporteController::class, 'docente'])->name('reportes.docente');
     Route::get('reportes/grupos/general', [ReporteController::class, 'grupos'])->name('reportes.grupos');
     Route::get('reportes/grupo/{id}', [ReporteController::class, 'grupo'])->name('reportes.grupo');
-
     Route::post('reportes/promotor/rango', [ReporteController::class, 'promotor_rango'])->name('reportes.rango.promotor');
     Route::post('reportes/matriculas/rango', [ReporteController::class, 'matriculas_rango'])->name('reportes.rango.matriculas');
-
     Route::get('reportes/notas/grupos', [ReporteController::class, 'notas'])->name('reportes.notas');
+
+    Route::get('permisos/promotores', [PermisoController::class, 'promotores'])->name('permisos.promotores');
+    Route::post('permisos/promotores', [PermisoController::class, 'promotor_store'])->name('permisos.promotor.store');
+
 });
 
 // Autenticado, Administradores y Docente
@@ -93,9 +93,8 @@ Route::middleware(['auth', 'admin-docente'])->group(function () {
 
     Route::get('mensajes/{type}/{grupo_id?}', [MensajeController::class, 'index'])->name('mensajes.index');
     Route::get('mensajes-crear/{type}/{grupo_id?}', [MensajeController::class, 'create'])->name('mensajes.create');
-
     Route::get('mensajes/{mensaje_id}/editar/{type}', [MensajeController::class, 'edit'])->name('mensajes.edit');
-    Route::resource('mensajes', MensajeController::class)->except(['index', 'show', 'edit', 'create']);
+    Route::resource('mensajes', MensajeController::class)->only(['store', 'update', 'destroy']);
 
     Route::get('asistencias/{grupo_id}', [AsistenciaController::class, 'index'])->name('asistencias.index');
     Route::post('asistencias', [AsistenciaController::class, 'store'])->name('asistencias.store');

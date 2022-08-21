@@ -15,8 +15,7 @@
             <th>Concepto</th>
             <th>Monto</th>
             <th>Fecha</th>
-            <th>Recibo</th>
-            <th>Editar</th>
+            <th></th>
         </x-slot>
         <tbody>
             @foreach ($pagos as $pago)
@@ -25,14 +24,16 @@
                     <td>{{ $pago->monto }} {{ $pago->moneda }}</td>
                     <td>{{ $pago->created_at }}</td>
                     <td>
-                        <a href="{{ route('recibo', $pago->id) }}" target="_blank" class="btn btn-sm btn-primary">
-                            Ver recibo
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{ route('pagos.edit', $pago->id) }}" class="btn btn-sm btn-outline-primary">
-                            Editar
-                        </a>
+                        <div class="dropdown">
+                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Opciones <i class="fas fa-cog"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <a href="{{ route('recibo', $pago->id) }}" target="_blank" class="dropdown-item">Ver recibo</a>
+                                <a href="{{ route('pagos.edit', $pago->id) }}" class="dropdown-item">Editar</a>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             @endforeach

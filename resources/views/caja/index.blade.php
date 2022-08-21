@@ -21,20 +21,20 @@
             </div>
         </div>
 
-        <table class="table table-borderless table-striped aligh-middle" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-borderless aligh-middle" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr class="text-primary text-uppercase small">
-                    <th>Carnet</th>
-                    <th>Nombre</th>
-                    <th>Pagar</th>
+                    <th>NOMBRE</th>
+                    <th>CARNET</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @if (session('matriculas') && count(session('matriculas')) > 0)
                     @foreach (session('matriculas') as $matricula)
                         <tr>
-                            <td>{{ $matricula->carnet }}</td>
                             <td>{{ $matricula->nombre }}</td>
+                            <td>{{ $matricula->carnet }}</td>
                             <td>
                                 <a href="{{ route('pagos.index', $matricula->id) }}">Realizar pago</a>
                             </td>

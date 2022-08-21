@@ -33,43 +33,37 @@
         <x-slot name="title">
             <th>Nombre</th>
             <th>Carnet</th>
-            <th>Notas</th>
-            @if (auth()->user()->rol == 'admin')
-                <th>Opciones</th>
-            @endif
+            <th></th>
         </x-slot>
         <tbody>
             @foreach ($inscripciones as $inscripcion)
                 <tr>
-                    <td>{{ $inscripcion->matricula_nombre}}</td>
+                    <td>{{ $inscripcion->matricula_nombre }}</td>
                     <td>{{ $inscripcion->matricula_carnet }}</td>
                     <td>
-                        <a href="{{ route('notas.index', $inscripcion->id) }}" class="btn btn-sm btn-primary">Notas</a>
+                        <div class="dropdown">
+                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Opciones <i class="fas fa-cog"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <a class="dropdown-item" href="{{ route('notas.index', $inscripcion->id) }}"
+                                    class="btn btn-sm btn-primary">Notas</a>
+
+                                @if (auth()->user()->rol == 'admin')
+                                    <a href="{{ route('inscripciones.edit', $inscripcion->id) }}"
+                                        class="dropdown-item">Editar</a>
+
+                                    <form action="{{ route('cambiar.estado', $inscripcion->matricula_id) }}"
+                                        method="post">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="dropdown-item">Desactivar</button>
+                                    </form>
+                                @endif
+                            </ul>
+                        </div>
                     </td>
-                    @if (auth()->user()->rol == 'admin')
-                        <td>
-                            <div class="btn-group">
-                                <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-                                    id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Opciones
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <a href="{{ route('inscripciones.edit', $inscripcion->id) }}"
-                                            class="dropdown-item">Editar</a>
-                                    </li>
-                                    <li>
-                                        <form action="{{ route('cambiar.estado', $inscripcion->matricula_id) }}"
-                                            method="post">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" class="dropdown-item">Desactivar</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    @endif
                 </tr>
             @endforeach
         </tbody>

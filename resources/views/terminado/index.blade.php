@@ -29,7 +29,7 @@
                     <td>{{ $grupo->anyo }}</td>
                     <td>{{ $grupo->sucursal }}</td>
                     <td>
-                        <a href="{{ route('grupos.thisClosed', $grupo->id) }}" class="btn btn-primary btn-sm d-grid">
+                        <a href="{{ route('grupos.show.closed', $grupo->id) }}" class="btn btn-primary btn-sm d-grid">
                             Ver
                         </a>
                     </td>

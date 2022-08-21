@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\Ucwords;
+use App\Models\Permiso;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -25,4 +26,9 @@ class User extends Authenticatable
         'name' => Ucwords::class,
         'email_verified_at' => 'datetime',
     ];
+
+    public function permisos()
+    {
+        return $this->hasMany(Permiso::class);
+    }
 }

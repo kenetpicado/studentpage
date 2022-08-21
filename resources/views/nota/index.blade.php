@@ -15,8 +15,8 @@
         <x-slot name="title">
             <th>Modulo</th>
             <th>Nota</th>
-            <th>Fecha de registro</th>
-            <th>Editar</th>
+            <th>Registro</th>
+            <th></th>
         </x-slot>
         <tbody>
             @foreach ($notas as $nota)
@@ -25,9 +25,7 @@
                     <td>{{ $nota->valor }}</td>
                     <td>{{ $nota->created_at }}</td>
                     <td>
-                        <a href="{{ route('notas.edit', $nota->id) }}" class="btn btn-sm btn-primary">
-                            Editar
-                        </a>
+                        <a href="{{ route('notas.edit', $nota->id) }}">Editar</a>
                     </td>
                 </tr>
             @endforeach

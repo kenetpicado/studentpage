@@ -51,5 +51,9 @@ class AuthServiceProvider extends ServiceProvider
 
             return true;
         });
+
+        Gate::define('create_matricula', function (User $user) {
+            return !$user->permisos->contains('denegar', 'create_matricula');
+        });
     }
 }

@@ -7,15 +7,17 @@
 @endsection
 
 @section('content')
-    <x-header-1 ruta="promotores.create">Promotores</x-header-1>
+    <x-header-2 text="Promotores">
+        <a class="dropdown-item" href="{{ route('promotores.create') }}">Agregar</a>
+        <a class="dropdown-item" href="{{ route('permisos.promotores') }}">Permisos</a>
+    </x-header-2>
 
     <x-table-head>
         <x-slot name="title">
             <th>Nombre</th>
-            <th>Canet</th>
+            <th>Carnet</th>
             <th>Correo</th>
-            <th>Matriculas</th>
-            <th>Editar</th>
+            <th></th>
         </x-slot>
         <tbody>
             @foreach ($promotors as $promotor)
@@ -24,12 +26,16 @@
                     <td>{{ $promotor->carnet }}</td>
                     <td>{{ $promotor->correo }}</td>
                     <td>
-                        <a href="{{ route('promotores.show', $promotor->id) }}"
-                            class="btn btn-primary btn-sm">Matriculas</a>
-                    </td>
-                    <td>
-                        <a href="{{ route('promotores.edit', $promotor->id) }}"
-                            class="btn btn-outline-primary btn-sm">Editar</a>
+                        <div class="dropdown">
+                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Opciones <i class="fas fa-cog"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <a class="dropdown-item" href="{{ route('promotores.show', $promotor->id) }}">Matriculas</a>
+                                <a class="dropdown-item" href="{{ route('promotores.edit', $promotor->id) }}">Editar</a>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             @endforeach

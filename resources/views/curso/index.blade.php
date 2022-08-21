@@ -14,8 +14,7 @@
             <th>Nombre</th>
             <th>Imagen</th>
             <th>Estado</th>
-            <th>Modulos</th>
-            <th>Editar</th>
+            <th></th>
         </x-slot>
         <tbody>
             @foreach ($cursos as $curso)
@@ -24,14 +23,16 @@
                     <td>{{ $curso->imagen }}</td>
                     <td>{{ $curso->activo == '1' ? 'Activo' : '-' }}</td>
                     <td>
-                        <a class="btn btn-primary btn-sm" href="{{ route('cursos.show', $curso->id) }}">
-                            Modulos
-                        </a>
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary btn-sm" href="{{ route('cursos.edit', $curso->id) }}">
-                            Editar
-                        </a>
+                        <div class="dropdown">
+                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Opciones <i class="fas fa-cog"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <a class="dropdown-item" href="{{ route('cursos.show', $curso->id) }}">Modulos</a>
+                                <a class="dropdown-item" href="{{ route('cursos.edit', $curso->id) }}">Editar</a>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             @endforeach

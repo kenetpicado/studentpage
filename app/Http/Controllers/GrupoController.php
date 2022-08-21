@@ -70,14 +70,14 @@ class GrupoController extends Controller
     }
 
     //Ver grupos terminados
-    public function showClosed()
+    public function index_closed()
     {
         $grupos = Grupo::index('0');
         return view('terminado.index', compact('grupos'));
     }
 
     //Ver alumnos de un grupo terminado
-    public function showThisClosed($grupo_id)
+    public function show_closed($grupo_id)
     {
         $inscripciones = Inscripcion::getByGrupo($grupo_id);
         return view('terminado.show', compact('inscripciones', 'grupo_id'));

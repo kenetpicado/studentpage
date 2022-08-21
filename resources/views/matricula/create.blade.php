@@ -9,7 +9,7 @@
 
 @section('content')
     <x-header-0>Crear matricula</x-header-0>
-
+    
     <x-create-form ruta='matriculas.store'>
         <x-input name="nombre"></x-input>
         <x-input name="fecha_nac" label="Fecha de nacimiento" type='date'></x-input>
