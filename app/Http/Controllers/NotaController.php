@@ -8,6 +8,7 @@ use App\Models\Modulo;
 use App\Models\Inscripcion;
 use Illuminate\Http\Request;
 use App\Http\Requests\NotaRequest;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
 
 class NotaController extends Controller
@@ -23,6 +24,9 @@ class NotaController extends Controller
     //Crear nota
     public function create($inscripcion_id)
     {
+        if (Gate::denies('create_nota'))
+            return back()->with('error', config('app.denies'));
+
         $inscripcion = Inscripcion::create_nota($inscripcion_id);
         $modulos = Modulo::where('curso_id', $inscripcion->curso_id)->get();
         return view('nota.create', compact('modulos', 'inscripcion'));
@@ -31,8 +35,11 @@ class NotaController extends Controller
     //Guardar nota
     public function store(NotaRequest $request)
     {
+        if (Gate::denies('create_nota'))
+            return back()->with('error', config('app.denies'));
+
         Nota::create($request->all());
-        return redirect()->route('notas.index', $request->inscripcion_id)->with('success', 'Nota guardada correctamente');
+        return redirect()->route('notas.index', $request->inscripcion_id)->with('success', config('app.created'));
     }
 
     //Editar nota
@@ -47,14 +54,14 @@ class NotaController extends Controller
     public function update(NotaRequest $request, Nota $nota)
     {
         $nota->update($request->all());
-        return redirect()->route('notas.index', $nota->inscripcion_id)->with('success', 'Nota actualizada correctamente');
+        return redirect()->route('notas.index', $nota->inscripcion_id)->with('success', config('app.updated'));
     }
 
     //Eliminar una nota
     public function destroy(Nota $nota)
     {
         $nota->delete();
-        return redirect()->route('notas.index', $nota->inscripcion)->with('success', 'Nota eliminada correctamente');
+        return redirect()->route('notas.index', $nota->inscripcion)->with('success', config('app.deleted'));
     }
 
     //Ver reporte de notas

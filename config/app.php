@@ -20,6 +20,7 @@ return [
     'updated' => 'Registro actualizado correctamente',
     'deleted' => 'Registro eliminado correctamente',
     'undeleted' => 'No es posible eliminar este registro',
+    'denies' => 'Actualmente no tiene permiso para relizar esta acción, por favor comuníquese con el Administrador',
     /*
     |--------------------------------------------------------------------------
     | Application Environment

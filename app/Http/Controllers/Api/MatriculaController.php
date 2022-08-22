@@ -7,20 +7,23 @@ use Illuminate\Http\Request;
 use App\Services\Credenciales;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 
 class MatriculaController extends Controller
 {
-
     public function index()
     {
-        if ($this->isPromotor())
-            return response()->json(Matricula::index(), 200);
+        if (Gate::denies('is_promotor'))
+            return $this->unauthorized();
 
-        return $this->noPromotor();
+        return response()->json(Matricula::index(), 200);
     }
 
     public function store(Request $request)
     {
+        if (Gate::denies('create_matricula'))
+            return $this->unauthorized();
+
         $request->merge([
             'carnet' => (new Credenciales)->idEstudiante($request->sucursal, $request->fecha_nac),
             'pin' => (new Credenciales)->pin(),
@@ -48,10 +51,10 @@ class MatriculaController extends Controller
 
     public function show(Matricula $matricula)
     {
-        if ($this->isAutorizado($matricula))
-            return response()->json($matricula, 200);
+        if (Gate::denies('propietario-matricula', $matricula))
+            return $this->unauthorized();
 
-        return $this->noAutorizado();
+        return response()->json($matricula, 200);
     }
 
     public function update(Request $request, Matricula $matricula)
@@ -88,29 +91,11 @@ class MatriculaController extends Controller
         ], 422);
     }
 
-    public function isPromotor()
-    {
-        return auth()->user()->rol == 'promotor';
-    }
-
-    public function noPromotor()
+    public function unauthorized()
     {
         return response()->json([
             'status' => '0',
-            'message' => 'No es promotor',
-        ], 403);
-    }
-
-    public function isAutorizado($matricula)
-    {
-        return $matricula->promotor_id == auth()->user()->sub_id;
-    }
-
-    public function noAutorizado()
-    {
-        return response()->json([
-            'status' => '0',
-            'message' => 'No es propietario de esta matricula'
+            'message' => 'unauthorized',
         ], 403);
     }
 }

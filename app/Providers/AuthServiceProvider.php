@@ -55,5 +55,17 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create_matricula', function (User $user) {
             return !$user->permisos->contains('denegar', 'create_matricula');
         });
+
+        Gate::define('create_mensaje', function (User $user) {
+            return !$user->permisos->contains('denegar', 'create_mensaje');
+        });
+
+        Gate::define('create_nota', function (User $user) {
+            return !$user->permisos->contains('denegar', 'create_nota');
+        });
+
+        Gate::define('is_promotor', function (User $user) {
+            return $user->rol == 'promotor';
+        });
     }
 }

@@ -6,6 +6,7 @@ use App\Events\SendCredentialsEvent;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\Credenciales;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -24,7 +25,7 @@ class UserController extends Controller
     {
         if ($user->id != auth()->user()->id)
             abort(403);
-
+            
         if ($request->password)
             $request->merge(['password' => bcrypt($request->password)]);
 

@@ -18,14 +18,18 @@ class MatriculaController extends Controller
     //Crear nuevo matricula
     public function create()
     {
-        Gate::authorize('create_matricula');
+        if (Gate::denies('create_matricula'))
+            return back()->with('error', config('app.denies'));
+
         return view('matricula.create');
     }
 
     //Guardar nueva matricula
     public function store(MatriculaRequest $request)
     {
-        Gate::authorize('create_matricula');
+        if (Gate::denies('create_matricula'))
+            return back()->with('error', config('app.denies'));
+            
         Matricula::create($request->validated());
         return redirect()->route('matriculas.index')->with('success', config('app.created'));
     }

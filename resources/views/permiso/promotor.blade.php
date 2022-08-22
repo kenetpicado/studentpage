@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Asistencia de grupo')
+@section('title', 'Permisos')
 
 @section('bread')
     <li class="breadcrumb-item"><a href="{{ route('promotores.index') }}">Promotores</a></li>
@@ -11,17 +11,20 @@
     <x-header-0>Permisos</x-header-0>
 
     <x-create-form ruta="permisos.promotor.store">
+        <p>
+            Permitir o negar el acceso para crear nuevas matriculas.
+        </p>
         <table class="table table-borderless">
             <thead>
-                <tr>
+                <tr class="text-uppercase small text-primary">
                     <th>Nombre</th>
-                    <th>Matricular</th>
+                    <th class="text-center">Matricular</th>
                 </tr>
             </thead>
             @foreach ($promotores as $key => $promotor)
                 <tr>
                     <td>{{ $promotor->name }}</td>
-                    <td>
+                    <td class="text-center">
                         <input type="hidden" name="user_id[{{ $key }}]" value="{{ $promotor->id }}">
                         <input type="hidden" name="permitir[{{ $key }}]" value="0">
 

@@ -25,12 +25,18 @@ class MensajeController extends Controller
     //Crear nuevo mensaje
     public function create($type, $grupo_id = null)
     {
+        if (Gate::denies('create_mensaje'))
+            return back()->with('error', config('app.denies'));
+
         return view('mensaje.create', compact('type', 'grupo_id'));
     }
 
     //Guardar mensaje
     public function store(StoreMensajeRequest $request)
     {
+        if (Gate::denies('create_mensaje'))
+            return back()->with('error', config('app.denies'));
+            
         Gate::authorize('docente_autorizado', $request->grupo_id);
         Mensaje::create($request->all());
 

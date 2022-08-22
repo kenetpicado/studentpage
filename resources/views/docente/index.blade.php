@@ -7,7 +7,11 @@
 @endsection
 
 @section('content')
-    <x-header-1 ruta="docentes.create">Docentes</x-header-1>
+    <x-header-2 text="Docentes">
+        <a class="dropdown-item" href="{{ route('docentes.create') }}">Agregar</a>
+        <a class="dropdown-item" href="{{ route('permisos.docentes') }}">Permisos</a>
+    </x-header-2>
+
     <x-table-head>
         <a href="">Configurar permisos</a>
         <x-slot name="title">
