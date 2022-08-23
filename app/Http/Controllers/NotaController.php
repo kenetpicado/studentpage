@@ -35,9 +35,6 @@ class NotaController extends Controller
     //Guardar nota
     public function store(NotaRequest $request)
     {
-        if (Gate::denies('create_nota'))
-            return back()->with('error', config('app.denies'));
-
         Nota::create($request->all());
         return redirect()->route('notas.index', $request->inscripcion_id)->with('success', config('app.created'));
     }

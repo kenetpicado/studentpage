@@ -70,6 +70,12 @@ class ReporteController extends Controller
         return view('reporte.notas', compact('grupos'));
     }
 
+    public function asistencias()
+    {
+        $grupos = Grupo::index();
+        return view('reporte.asistencias', compact('grupos'));
+    }
+
     /* Reporte por rango de fechas: matriculas de un promotor */
     public function promotor_rango(Request $request)
     {

@@ -24,24 +24,10 @@
             </thead>
             @foreach ($promotores as $key => $promotor)
                 <tr>
+                    <input type="hidden" name="user_id[{{ $key }}]" value="{{ $promotor->id }}">
                     <td>{{ $promotor->email }}</td>
                     <td>{{ $promotor->name }}</td>
-                    <td class="text-center">
-                        <input type="hidden" name="user_id[{{ $key }}]" value="{{ $promotor->id }}">
-                        <input type="hidden" name="permitir[{{ $key }}]" value="0">
-
-                        @if ($promotor->permisos->count() > 0)
-                            <div class="form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                    name="permitir[{{ $key }}]" value="1">
-                            </div>
-                        @else
-                            <div class="form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                    name="permitir[{{ $key }}]" value="1" checked>
-                            </div>
-                        @endif
-                    </td>
+                    <x-switch name="matricula" :key="$key" :adm="$promotor"></x-switch>
                 </tr>
             @endforeach
         </table>

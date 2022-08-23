@@ -26,10 +26,7 @@ class MatriculaController extends Controller
 
     //Guardar nueva matricula
     public function store(MatriculaRequest $request)
-    {
-        if (Gate::denies('create_matricula'))
-            return back()->with('error', config('app.denies'));
-            
+    { 
         Matricula::create($request->validated());
         return redirect()->route('matriculas.index')->with('success', config('app.created'));
     }

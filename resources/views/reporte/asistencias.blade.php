@@ -4,7 +4,7 @@
 
 @section('bread')
     <li class="breadcrumb-item"><a href="{{ route('reportes.index') }}">Reportes</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Notas</li>
+    <li class="breadcrumb-item active" aria-current="page">Asistencias</li>
 @endsection
 
 @section('content')
@@ -26,8 +26,8 @@
                     <td>{{ $grupo->horario }}</td>
                     <td>{{ $grupo->anyo }}</td>
                     <td>
-                        <a href="{{ route('notas.show', $grupo->id) }}" target="_blank">
-                                Reporte de notas</a>
+                        <a href="{{ route('asistencias.show', $grupo->id) }}" target="_blank">
+                                Reporte de asistencias</a>
                     </td>
                 </tr>
             @endforeach

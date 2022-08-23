@@ -27,36 +27,8 @@
                     <input type="hidden" name="user_id[{{ $key }}]" value="{{ $docente->id }}">
                     <td>{{ $docente->email }}</td>
                     <td>{{ $docente->name }}</td>
-                    <td class="text-center">
-                        <input type="hidden" name="permitir_nota[{{ $key }}]" value="0">
-
-                        @if ($docente->permisos->contains('denegar', 'create_nota'))
-                            <div class="form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                    name="permitir_nota[{{ $key }}]" value="1">
-                            </div>
-                        @else
-                            <div class="form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                    name="permitir_nota[{{ $key }}]" value="1" checked>
-                            </div>
-                        @endif
-                    </td>
-                    <td class="text-center">
-                        <input type="hidden" name="permitir_mensaje[{{ $key }}]" value="0">
-
-                        @if ($docente->permisos->contains('denegar', 'create_mensaje'))
-                            <div class="form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                    name="permitir_mensaje[{{ $key }}]" value="1">
-                            </div>
-                        @else
-                            <div class="form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                    name="permitir_mensaje[{{ $key }}]" value="1" checked>
-                            </div>
-                        @endif
-                    </td>
+                    <x-switch name="nota" :key="$key" :adm="$docente"></x-switch>
+                    <x-switch name="mensaje" :key="$key" :adm="$docente"></x-switch>
                 </tr>
             @endforeach
         </table>

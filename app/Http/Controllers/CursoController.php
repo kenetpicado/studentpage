@@ -6,6 +6,7 @@ use App\Http\Requests\CursoRequest;
 use App\Models\Curso;
 use App\Services\Imagenes;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class CursoController extends Controller
 {
@@ -19,6 +20,9 @@ class CursoController extends Controller
     //Agregar un nuevo curso
     public function create()
     {
+        if (Gate::denies('create_curso'))
+        return back()->with('error', config('app.denies'));
+
         $imagenes = (new Imagenes)->get();
         return view('curso.create', compact('imagenes'));
     }

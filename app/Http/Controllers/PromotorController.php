@@ -6,6 +6,7 @@ use App\Models\Promotor;
 use App\Models\Matricula;
 use App\Http\Requests\PromotorRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class PromotorController extends Controller
 {
@@ -19,6 +20,9 @@ class PromotorController extends Controller
     //Crear un nuevo promotor
     public function create()
     {
+        if (Gate::denies('create_promotor'))
+        return back()->with('error', config('app.denies'));
+
         return view('promotor.create');
     }
 

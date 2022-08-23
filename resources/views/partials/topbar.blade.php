@@ -11,29 +11,33 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 @if (Auth::user()->rol == 'admin')
-                <div class="nav-item dropdown mx-2">
-                    <a class="nav-link" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Personal
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a href="{{route('promotores.index')}}" class="dropdown-item">Promotores</a></li>
-                        <li><a href="{{route('docentes.index')}}" class="dropdown-item">Docentes</a></li>
-                    </ul>
-                </div>
+                    <div class="nav-item dropdown mx-2">
+                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Personal
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a href="{{ route('promotores.index') }}" class="dropdown-item">Promotores</a></li>
+                            <li><a href="{{ route('docentes.index') }}" class="dropdown-item">Docentes</a></li>
+                            @if (auth()->user()->sucursal == 'all')
+                                <li><a href="{{ route('permisos.adm') }}" class="dropdown-item">Adm.</a></li>
+                            @endif
+                        </ul>
+                    </div>
 
-                <div class="nav-item dropdown mx-2">
-                    <a class="nav-link" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Administración
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a href="{{route('caja.index')}}" class="dropdown-item">Caja</a></li>
-                        <li><a href="{{route('mensajes.index', 'global')}}" class="dropdown-item">Mensajes</a></li>
-                        <li><a href="{{route('reportes.index')}}" class="dropdown-item">Reportes</a></li>
-                        <li><a href="{{route('cursos.index')}}" class="dropdown-item">Cursos</a></li>
-                    </ul>
-                </div>
+                    <div class="nav-item dropdown mx-2">
+                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Administración
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a href="{{ route('caja.index') }}" class="dropdown-item">Caja</a></li>
+                            <li><a href="{{ route('mensajes.index', 'global') }}" class="dropdown-item">Mensajes</a>
+                            </li>
+                            <li><a href="{{ route('reportes.index') }}" class="dropdown-item">Reportes</a></li>
+                            <li><a href="{{ route('cursos.index') }}" class="dropdown-item">Cursos</a></li>
+                        </ul>
+                    </div>
 
                 @endif
 
@@ -52,7 +56,9 @@
                     {{ Auth::user()->name ?? '' }}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a href="{{route('user.edit', auth()->user()->id)}}" class="dropdown-item">Perfil</a></li>
+                    @if (auth()->user()->rol != 'alumno')
+                        <li><a href="{{ route('user.edit', auth()->user()->id) }}" class="dropdown-item">Perfil</a></li>
+                    @endif
                     <li>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>

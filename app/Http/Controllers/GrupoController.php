@@ -25,6 +25,9 @@ class GrupoController extends Controller
     //Crear un nuevo grupo
     public function create()
     {
+        if (Gate::denies('create_grupo'))
+        return back()->with('error', config('app.denies'));
+
         $cursos = Curso::activos();
         $docentes = Docente::createGrupo();
         return view('grupo.create', compact('cursos', 'docentes'));

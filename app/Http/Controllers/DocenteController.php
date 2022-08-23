@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use App\Models\Docente;
 use App\Http\Requests\DocenteRequest;
+use Illuminate\Support\Facades\Gate;
 
 class DocenteController extends Controller
 {
@@ -18,6 +19,9 @@ class DocenteController extends Controller
     //Agregar nuevo docente
     public function create()
     {
+        if (Gate::denies('create_docente'))
+            return back()->with('error', config('app.denies'));
+
         return view('docente.create');
     }
 

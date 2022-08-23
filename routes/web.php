@@ -74,12 +74,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('reportes/promotor/rango', [ReporteController::class, 'promotor_rango'])->name('reportes.rango.promotor');
     Route::post('reportes/matriculas/rango', [ReporteController::class, 'matriculas_rango'])->name('reportes.rango.matriculas');
     Route::get('reportes/notas/grupos', [ReporteController::class, 'notas'])->name('reportes.notas');
+    Route::get('reportes/asistencias/grupos', [ReporteController::class, 'asistencias'])->name('reportes.asistencias');
 
     Route::get('permisos/promotores', [PermisoController::class, 'promotores'])->name('permisos.promotores');
     Route::post('permisos/promotores', [PermisoController::class, 'promotor_store'])->name('permisos.promotor.store');
 
     Route::get('permisos/docentes', [PermisoController::class, 'docentes'])->name('permisos.docentes');
     Route::post('permisos/docentes', [PermisoController::class, 'docente_store'])->name('permisos.docente.store');
+
+    Route::get('permisos/adm', [PermisoController::class, 'adm'])->name('permisos.adm');
+    Route::post('permisos/adm', [PermisoController::class, 'adm_store'])->name('permisos.adm.store');
 
 });
 

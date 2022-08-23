@@ -49,12 +49,22 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-xl-3 col-md-6 py-2">
+                <div class="card h-100 py-2">
+                    <div class="card-body">
+                        <h4 class="card-title">Asistencias</h4>
+                        <p class="card-text">Reporte de asistencias de cada grupo</p>
+                        <a href="{{ route('reportes.asistencias') }}" class="btn btn-primary">Ver grupos</a>
+                    </div>
+                </div>
+            </div>
         </div>
         <x-main>
-            <hr>
+            {{-- <hr> --}}
             <form action="{{ route('reportes.rango.promotor') }}" method="post" target="_blank">
                 @csrf
-                <p class="text-primary">
+                <p>
                     Generar reporte de un Promotor específico en un rango de fechas determinado por el administrador.
                     Por favor, ingrese la fecha de inicio y fin de la consulta y el carnet del Promotor.
                 </p>
@@ -70,7 +80,7 @@
             <hr>
             <form action="{{ route('reportes.rango.matriculas') }}" method="post" target="_blank">
                 @csrf
-                <p class="text-primary">
+                <p>
                     Generar reporte de todas las matrículas en un rango de fechas determinado por el administrador.
                     Por favor, ingrese la fecha de inicio y fin de la consulta
                 </p>
