@@ -9,20 +9,22 @@
 
 @section('content')
     <x-header-0>Permisos</x-header-0>
-
+    <p class="card-body">
+        Permitir o negar el acceso para crear nuevas matriculas.
+    </p>
     <x-create-form ruta="permisos.promotor.store">
-        <p>
-            Permitir o negar el acceso para crear nuevas matriculas.
-        </p>
+
         <table class="table table-borderless">
             <thead>
                 <tr class="text-uppercase small text-primary">
+                    <th>Carnet</th>
                     <th>Nombre</th>
                     <th class="text-center">Matricular</th>
                 </tr>
             </thead>
             @foreach ($promotores as $key => $promotor)
                 <tr>
+                    <td>{{ $promotor->email }}</td>
                     <td>{{ $promotor->name }}</td>
                     <td class="text-center">
                         <input type="hidden" name="user_id[{{ $key }}]" value="{{ $promotor->id }}">
