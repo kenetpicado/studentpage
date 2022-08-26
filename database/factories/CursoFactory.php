@@ -16,7 +16,7 @@ class CursoFactory extends Factory
         return [
             'nombre' => $this->faker->unique()->words(3, true),
             'activo' => $this->faker->randomElement(['0', '1']),
-            'imagen' => 'computacion-1.svg'
+            'imagen' => 'computacion_1.svg'
         ];
     }
 }

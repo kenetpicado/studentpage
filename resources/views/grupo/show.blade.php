@@ -47,12 +47,11 @@
                                 Opciones <i class="fas fa-cog"></i>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <a class="dropdown-item" href="{{ route('notas.index', $inscripcion->id) }}"
-                                    class="btn btn-sm btn-primary">Notas</a>
-
+                                <a class="dropdown-item" href="{{ route('notas.index', $inscripcion->id) }}">Notas</a>
+                                <a class="dropdown-item" href="{{ route('asistencias.edit', $inscripcion->id) }}">Editar asistencias</a>
                                 @if (auth()->user()->rol == 'admin')
                                     <a href="{{ route('inscripciones.edit', $inscripcion->id) }}"
-                                        class="dropdown-item">Editar</a>
+                                        class="dropdown-item">Editar inscripción</a>
 
                                     <form action="{{ route('cambiar.estado', $inscripcion->matricula_id) }}"
                                         method="post">

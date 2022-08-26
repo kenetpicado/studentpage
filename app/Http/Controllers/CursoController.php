@@ -21,7 +21,7 @@ class CursoController extends Controller
     public function create()
     {
         if (Gate::denies('create_curso'))
-        return back()->with('error', config('app.denies'));
+            return back()->with('error', config('app.denies'));
 
         $imagenes = (new Imagenes)->get();
         return view('curso.create', compact('imagenes'));
@@ -64,5 +64,4 @@ class CursoController extends Controller
         $curso->delete();
         return redirect()->route('cursos.index')->with('success', config('app.deleted'));
     }
-
 }

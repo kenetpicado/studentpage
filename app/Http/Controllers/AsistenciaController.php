@@ -7,17 +7,45 @@ use App\Models\Matricula;
 use App\Models\Asistencia;
 use App\Models\Inscripcion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class AsistenciaController extends Controller
-{
+{    
+    /**
+     * Formulario crear asistencias de un grupo
+     *
+     * @param  Grupo $grupo_id
+     * @return view
+     */
     public function index($grupo_id)
     {
         Gate::authorize('docente_autorizado', $grupo_id);
         $inscripciones = Inscripcion::getByGrupo($grupo_id);
         return view('asistencia.index', compact('inscripciones', 'grupo_id'));
     }
-
+    
+    /**
+     * Editar las asistencias de un estudiante
+     *
+     * @param  Inscripcion $inscripcion_id
+     * @return view
+     */
+    public function edit($inscripcion_id)
+    {
+        $inscripcion = DB::table('inscripciones')->find($inscripcion_id);
+        Gate::authorize('docente_autorizado', $inscripcion->grupo_id);
+        $asistencias = DB::table('asistencias')->where('inscripcion_id', $inscripcion_id)->get();
+        return view('asistencia.edit', compact('asistencias', 'inscripcion'));
+    }
+    
+    /**
+     * Guardar asistencias
+     * Actualizar estado de la Matricula
+     *
+     * @param  Request $request
+     * @return view
+     */
     public function store(Request $request)
     {
         Gate::authorize('docente_autorizado', $request->grupo_id);
@@ -47,7 +75,19 @@ class AsistenciaController extends Controller
         return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.created'));
     }
 
-    /* Reporte de asistencias */
+    public function update(Request $request)
+    {
+        return $request;
+    }
+
+        
+    /**
+     * Generar reporte de asistencia
+     * de un grupo
+     *
+     * @param  Grupo $grupo_id
+     * @return view
+     */
     public function show($grupo_id)
     {
         Gate::authorize('docente_autorizado', $grupo_id);

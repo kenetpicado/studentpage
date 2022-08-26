@@ -105,7 +105,10 @@ Route::middleware(['auth', 'admin-docente'])->group(function () {
 
     Route::get('asistencias/{grupo_id}', [AsistenciaController::class, 'index'])->name('asistencias.index');
     Route::post('asistencias', [AsistenciaController::class, 'store'])->name('asistencias.store');
+    Route::put('asistencias', [AsistenciaController::class, 'update'])->name('asistencias.update');
     Route::get('asistencias/{grupo_id}/ver', [AsistenciaController::class, 'show'])->name('asistencias.show');
+    Route::get('asistencias/{inscripcion_id}/editar', [AsistenciaController::class, 'edit'])->name('asistencias.edit');
+
 });
 
 //Consulta de estudiantes
