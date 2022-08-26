@@ -13,7 +13,7 @@ class CursoController extends Controller
     //Mostrar todos los cursos
     public function index()
     {
-        $cursos = Curso::getCursos();
+        $cursos = DB::table('cursos')->orderBy('nombre')->get();
         return view('curso.index', compact('cursos'));
     }
 

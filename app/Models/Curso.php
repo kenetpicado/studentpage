@@ -19,12 +19,6 @@ class Curso extends Model
         'nombre' => Upper::class,
     ];
 
-    //Obtener todos los Cursos
-    public static function getCursos()
-    {
-        return DB::table('cursos')->orderBy('nombre')->get();
-    }
-
     //Obtener los Cursos activos
     public static function activos()
     {

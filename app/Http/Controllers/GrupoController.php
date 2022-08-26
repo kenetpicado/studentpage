@@ -7,9 +7,6 @@ use App\Models\Grupo;
 use App\Models\Docente;
 use App\Models\Inscripcion;
 use App\Http\Requests\GrupoRequest;
-use App\Models\Matricula;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
@@ -26,7 +23,7 @@ class GrupoController extends Controller
     public function create()
     {
         if (Gate::denies('create_grupo'))
-        return back()->with('error', config('app.denies'));
+            return back()->with('error', config('app.denies'));
 
         $cursos = Curso::activos();
         $docentes = Docente::createGrupo();
@@ -75,7 +72,7 @@ class GrupoController extends Controller
     //Ver grupos terminados
     public function index_closed()
     {
-        $grupos = Grupo::index('0');
+        $grupos = Grupo::index(0);
         return view('terminado.index', compact('grupos'));
     }
 

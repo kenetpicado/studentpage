@@ -7,11 +7,13 @@ use App\Casts\Ucwords;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Grupo;
+use App\Traits\rolesTraits;
 use Illuminate\Support\Facades\DB;
 
 class Docente extends Model
 {
     use HasFactory;
+    use rolesTraits;
 
     protected $fillable = ['carnet', 'nombre', 'correo', 'activo', 'sucursal'];
     public $timestamps = false;
@@ -23,18 +25,19 @@ class Docente extends Model
 
     public static function index()
     {
-        return auth()->user()->sucursal == 'all'
-            ? DB::table('docentes')->orderBy('nombre')->get()
-            : DB::table('docentes')
-            ->where('sucursal', auth()->user()->sucursal)
+        return DB::table('docentes')
+            ->when(Docente::enSucursal(), function ($q) {
+                $q->where('sucursal', auth()->user()->sucursal);
+            })
             ->orderBy('nombre')->get();
     }
 
     public static function createGrupo()
     {
-        return auth()->user()->sucursal != 'all'
-            ? Docente::sucursal(auth()->user()->sucursal)
-            : DB::table('docentes')
+        return DB::table('docentes')
+            ->when(Docente::enSucursal(), function ($q) {
+                $q->where('sucursal', auth()->user()->sucursal);
+            })
             ->where('activo', '1')
             ->orderBy('nombre')
             ->get(['id', 'nombre']);

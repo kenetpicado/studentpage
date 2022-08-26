@@ -19,7 +19,7 @@ class ConsultaController extends Controller
 
     public function notas($inscripcion_id)
     {
-        return response()->json(Nota::getByInscripcion($inscripcion_id), 200);
+        return response()->json(Nota::index($inscripcion_id), 200);
     }
 
     public function mensajes($grupo_id)

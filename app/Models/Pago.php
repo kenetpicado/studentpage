@@ -38,18 +38,14 @@ class Pago extends Model
     {
         return DB::table('pagos')
             ->where('pagos.id', $pago_id)
-            ->select([
+            ->leftjoin('grupos', 'pagos.grupo_id', '=', 'grupos.id')
+            ->leftjoin('cursos', 'grupos.curso_id', '=', 'cursos.id')
+            ->leftjoin('docentes', 'grupos.docente_id', '=', 'docentes.id')
+            ->first([
                 'pagos.*',
                 'grupos.horario as horario',
                 'cursos.nombre as curso',
                 'docentes.nombre as docente',
-                'grupos.sucursal as sucursal',
-                'matriculas.nombre as nombre'
-            ])
-            ->leftjoin('grupos', 'pagos.grupo_id', '=', 'grupos.id')
-            ->leftjoin('cursos', 'grupos.curso_id', '=', 'cursos.id')
-            ->leftjoin('docentes', 'grupos.docente_id', '=', 'docentes.id')
-            ->leftjoin('matriculas', 'pagos.matricula_id', '=', 'matriculas.id')
-            ->first();
+            ]);
     }
 }

@@ -21,7 +21,7 @@ class PermisoController extends Controller
     public function docentes()
     {
         $docentes = auth()->user()->sucursal != 'all'
-            ?  User::with('permisos')->where('rol', 'docente')->where('sucursal', auth()->user()->sucursal)->get()
+            ? User::with('permisos')->where('rol', 'docente')->where('sucursal', auth()->user()->sucursal)->get()
             : User::with('permisos')->where('rol', 'docente')->get();
 
         return view('permiso.docente', compact('docentes'));
@@ -79,7 +79,6 @@ class PermisoController extends Controller
             $this->setPermission($request->permitir_grupo, $key, $ids_grupo, $user_id, 'grupo');
             $this->setPermission($request->permitir_matricula, $key, $ids_matricula, $user_id, 'matricula');
             $this->setPermission($request->permitir_mensaje, $key, $ids_mensaje, $user_id, 'mensaje');
-
         }
 
         DB::table('permisos')->where('denegar', 'create_promotor')->whereIn('user_id', $ids_promotor)->delete();

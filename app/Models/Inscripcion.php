@@ -22,11 +22,6 @@ class Inscripcion extends Model
     {
         return Inscripcion::where('grupo_id', $grupo_id)
             ->where('matriculas.activo', '1')
-            ->select([
-                'inscripciones.id',
-                'nombre as matricula_nombre',
-                'carnet as matricula_carnet',
-            ])
             ->join('matriculas', 'inscripciones.matricula_id', '=', 'matriculas.id')
             ->with(['notas' => function ($q) {
                 $q->select([
@@ -34,7 +29,11 @@ class Inscripcion extends Model
                     'modulos.nombre as mod'
                 ])->join('modulos', 'notas.modulo_id', '=', 'modulos.id');
             }])
-            ->get();
+            ->get([
+                'inscripciones.id',
+                'nombre as matricula_nombre',
+                'carnet as matricula_carnet',
+            ]);
     }
 
     /* Para reporte de asistencias (ELOQUENT) */
@@ -42,14 +41,13 @@ class Inscripcion extends Model
     {
         return Inscripcion::where('grupo_id', $grupo_id)
             ->where('matriculas.activo', '1')
-            ->select([
+            ->join('matriculas', 'inscripciones.matricula_id', '=', 'matriculas.id')
+            ->with('asistencias')
+            ->get([
                 'inscripciones.id',
                 'nombre as matricula_nombre',
                 'carnet as matricula_carnet',
-            ])
-            ->join('matriculas', 'inscripciones.matricula_id', '=', 'matriculas.id')
-            ->with('asistencias')
-            ->get();
+            ]);
     }
 
     //Obtener todas las inscripciones de una Matricula
@@ -57,18 +55,17 @@ class Inscripcion extends Model
     {
         return DB::table('inscripciones')
             ->where('matricula_id', auth()->user()->sub_id)
-            ->select([
+            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
+            ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
+            ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
+            ->get([
                 'inscripciones.id',
                 'inscripciones.matricula_id',
                 'grupos.id as grupo_id',
                 'cursos.imagen as curso_imagen',
                 'cursos.nombre as curso_nombre',
                 'docentes.nombre as docente_nombre',
-            ])
-            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
-            ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
-            ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
-            ->get();
+            ]);
     }
 
     //Obtener todas las inscripciones de un Grupo
@@ -77,29 +74,27 @@ class Inscripcion extends Model
         return DB::table('inscripciones')
             ->where('inscripciones.grupo_id', $grupo_id)
             ->where('matriculas.activo', '1')
-            ->select([
+            ->join('matriculas', 'inscripciones.matricula_id', '=', 'matriculas.id')
+            ->orderBy('matriculas.nombre')
+            ->get([
                 'inscripciones.*',
                 'matriculas.carnet as matricula_carnet',
                 'matriculas.nombre as matricula_nombre',
-            ])
-            ->join('matriculas', 'inscripciones.matricula_id', '=', 'matriculas.id')
-            ->orderBy('matriculas.nombre')
-            ->get();
+            ]);
     }
 
     public static function withGrupoSucursal($inscripcion_id)
     {
         return DB::table('inscripciones')
             ->where('inscripciones.id', $inscripcion_id)
-            ->select([
+            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
+            ->latest('inscripciones.id')
+            ->first([
                 'inscripciones.id',
                 'grupo_id',
                 'matricula_id',
                 'grupos.sucursal as grupo_sucursal',
-            ])
-            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
-            ->latest('inscripciones.id')
-            ->first();
+            ]);
     }
 
     //Obtener inscripcion para crear nota
@@ -107,25 +102,23 @@ class Inscripcion extends Model
     {
         return DB::table('inscripciones')
             ->where('inscripciones.id', $inscripcion_id)
-            ->select([
+            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
+            ->first([
                 'inscripciones.*',
                 'grupos.curso_id as curso_id',
-            ])
-            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
-            ->first();
+            ]);
     }
 
     public static function grupos($matricula_id)
     {
         return DB::table('inscripciones')
             ->where('matricula_id', $matricula_id)
-            ->select([
-                'grupos.id as id',
-                'cursos.nombre as nombre',
-            ])
             ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
             ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
-            ->get();
+            ->get([
+                'grupos.id as id',
+                'cursos.nombre as nombre'
+            ]);
     }
 
     // RELACIONES

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class AsistenciaController extends Controller
-{    
+{
     /**
      * Formulario crear asistencias de un grupo
      *
@@ -24,7 +24,7 @@ class AsistenciaController extends Controller
         $inscripciones = Inscripcion::getByGrupo($grupo_id);
         return view('asistencia.index', compact('inscripciones', 'grupo_id'));
     }
-    
+
     /**
      * Editar las asistencias de un estudiante
      *
@@ -38,7 +38,7 @@ class AsistenciaController extends Controller
         $asistencias = DB::table('asistencias')->where('inscripcion_id', $inscripcion_id)->get();
         return view('asistencia.edit', compact('asistencias', 'inscripcion'));
     }
-    
+
     /**
      * Guardar asistencias
      * Actualizar estado de la Matricula
@@ -77,10 +77,17 @@ class AsistenciaController extends Controller
 
     public function update(Request $request)
     {
-        return $request;
+        $asistencias = Asistencia::find($request->asistencia_id, ['id', 'present']);
+
+        foreach ($asistencias as $key => $asistencia) {
+            if ($asistencia->present != $request->present[$key]) {
+                $asistencia->update(['present' => $request->present[$key]]);
+            }
+        }
+        return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.updated'));
+
     }
 
-        
     /**
      * Generar reporte de asistencia
      * de un grupo

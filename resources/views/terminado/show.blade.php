@@ -3,7 +3,8 @@
 @section('title', 'Grupo terminado')
 
 @section('bread')
-    <li class="breadcrumb-item"><a href="{{ route('grupos.closed') }}">Terminados</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('grupos.index.closed') }}">Terminados</a></li>
     <li class="breadcrumb-item active" aria-current="page">Alumnos</li>
 @endsection
 

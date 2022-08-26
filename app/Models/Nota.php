@@ -23,39 +23,25 @@ class Nota extends Model
     {
         return DB::table('notas')
             ->where('notas.inscripcion_id', $inscripcion_id)
-            ->select([
-                'notas.*',
-                'modulos.nombre as modulo_nombre',
-            ])
             ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')
-            ->get();
+            ->get([
+                'notas.*',
+                'modulos.nombre as modulo',
+            ]);
     }
 
     public static function edit($nota_id)
     {
         return DB::table('notas')
             ->where('notas.id', $nota_id)
-            ->select([
+            ->join('inscripciones', 'notas.inscripcion_id', '=', 'inscripciones.id')
+            ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')
+            ->first([
                 'notas.*',
                 'modulos.id as modulo_id',
                 'modulos.curso_id as curso_id',
                 'inscripciones.grupo_id as grupo_id'
-            ])
-            ->join('inscripciones', 'notas.inscripcion_id', '=', 'inscripciones.id')
-            ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')
-            ->first();
-    }
-
-    public static function getByInscripcion($inscripcion_id)
-    {
-        return DB::table('notas')
-            ->where('inscripcion_id', $inscripcion_id)
-            ->select([
-                'notas.*',
-                'modulos.nombre as modulo'
-            ])
-            ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')
-            ->get();
+            ]);
     }
 
     public function modulo()

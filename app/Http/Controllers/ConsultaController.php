@@ -22,7 +22,7 @@ class ConsultaController extends Controller
     public function notas($inscripcion_id)
     {
         Gate::authorize('alumno-nota', $inscripcion_id);
-        $notas = Nota::getByInscripcion($inscripcion_id);
+        $notas = Nota::index($inscripcion_id);
         return view('consulta.nota', compact('notas'));
     }
 

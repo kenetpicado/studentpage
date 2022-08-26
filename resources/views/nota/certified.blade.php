@@ -4,8 +4,8 @@
 
 @section('bread')
     <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('grupos.closed') }}">Terminados</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('grupos.thisClosed', $inscripcion->grupo_id) }}">Alumnos</a>
+    <li class="breadcrumb-item"><a href="{{ route('grupos.index.closed') }}">Terminados</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('grupos.show.closed', $inscripcion->grupo_id) }}">Alumnos</a>
     </li>
     <li class="breadcrumb-item active" aria-current="page">Certificado</li>
 @endsection

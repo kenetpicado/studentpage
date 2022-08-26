@@ -21,7 +21,7 @@
         <tbody>
             @foreach ($notas as $nota)
                 <tr>
-                    <td>{{ $nota->modulo_nombre }}</td>
+                    <td>{{ $nota->modulo }}</td>
                     <td>{{ $nota->valor }}</td>
                     <td>{{ $nota->created_at }}</td>
                     <td>
