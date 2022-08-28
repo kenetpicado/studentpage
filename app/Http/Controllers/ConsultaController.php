@@ -13,9 +13,9 @@ class ConsultaController extends Controller
     //Ventana principal de consulta de alumno
     public function index()
     {
-        $activo = Matricula::find(auth()->user()->sub_id, ['activo'])->activo;
+        $matricula = Matricula::find(auth()->user()->sub_id, ['activo', 'inasistencias']);
         $inscripciones = Inscripcion::getByMatricula();
-        return view('consulta.index', compact('inscripciones', 'activo'));
+        return view('consulta.index', compact('inscripciones', 'matricula'));
     }
 
     //Ver notas de un curso

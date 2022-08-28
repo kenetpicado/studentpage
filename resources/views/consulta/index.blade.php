@@ -9,7 +9,7 @@
         <div class="col-lg-4">
             <div class="card-body">
 
-                @if (!$activo)
+                @if ($matricula->activo == 0)
                     <div class="alert alert-danger" role="alert">
                         Matrícula inactiva, por favor comuníquese con el administrador.
                     </div>

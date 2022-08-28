@@ -15,7 +15,7 @@ class AsistenciaController extends Controller
     /**
      * Formulario crear asistencias de un grupo
      *
-     * @param  Grupo $grupo_id
+     * @param  int $grupo_id
      * @return view
      */
     public function index($grupo_id)
@@ -28,7 +28,7 @@ class AsistenciaController extends Controller
     /**
      * Editar las asistencias de un estudiante
      *
-     * @param  Inscripcion $inscripcion_id
+     * @param  int $inscripcion_id
      * @return view
      */
     public function edit($inscripcion_id)
@@ -65,6 +65,7 @@ class AsistenciaController extends Controller
                     $matricula[$key]->update(['activo' => 0]);
             }
 
+            /* Guardar asistencia */
             Asistencia::create([
                 'present' => $request->present[$key],
                 'created_at' => $request->created_at,
@@ -78,21 +79,38 @@ class AsistenciaController extends Controller
     public function update(Request $request)
     {
         $asistencias = Asistencia::find($request->asistencia_id, ['id', 'present']);
+        $matricula = Matricula::find($request->matricula_id, ['id', 'activo', 'inasistencias']);
 
         foreach ($asistencias as $key => $asistencia) {
+            
+            /* Solo si es diferente se actualiza */
             if ($asistencia->present != $request->present[$key]) {
+                
+                /* Presente */
+                if ($request->present[$key] == '1' && $matricula->inasistencias != '0')
+                    $matricula->update(['inasistencias' => '0']);
+
+                /* Ausente */
+                if ($request->present[$key] == '0') {
+                    $matricula->increment('inasistencias');
+
+                    if ($matricula->inasistencias > 2)
+                        $matricula->update(['activo' => 0]);
+                }
+
+                /* Actualizar */
                 $asistencia->update(['present' => $request->present[$key]]);
             }
         }
-        return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.updated'));
 
+        return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.updated'));
     }
 
     /**
      * Generar reporte de asistencia
      * de un grupo
      *
-     * @param  Grupo $grupo_id
+     * @param  int $grupo_id
      * @return view
      */
     public function show($grupo_id)
