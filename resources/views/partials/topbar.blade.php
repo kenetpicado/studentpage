@@ -11,8 +11,8 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 @if (Auth::user()->rol == 'admin')
-                    <div class="nav-item dropdown mx-2">
-                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                    <div class="nav-item dropdown mx-2 {{ request()->is('promotores*') || request()->is('docentes*')  ? 'border-2 border-bottom border-primary' : '' }}">
+                        <a class="nav-link {{ request()->is('promotores*') || request()->is('docentes*')  ? 'active' : '' }}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Personal
                         </a>

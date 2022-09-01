@@ -34,6 +34,7 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <a class="dropdown-item" href="{{ route('asistencias.show', $grupo->id) }}" target="_blank">Asistencias</a>
                                 <a class="dropdown-item" href="{{ route('notas.show', $grupo->id) }}" target="_blank">Notas</a>
+                                <a class="dropdown-item" href="{{ route('reportes.pagos', $grupo->id) }}" target="_blank">Pagos</a>
                                 <a class="dropdown-item" href="{{ route('reportes.grupo', $grupo->id) }}" target="_blank">General</a>
                             </ul>
                         </div>

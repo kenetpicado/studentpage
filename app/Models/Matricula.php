@@ -7,6 +7,7 @@ use App\Casts\Upper;
 use App\Casts\Ucfirst;
 use App\Casts\Ucwords;
 use App\Models\Inscripcion;
+use App\Models\Pago;
 use App\Traits\rolesTraits;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -107,5 +108,10 @@ class Matricula extends Model
     public function inscripciones()
     {
         return $this->hasMany(Inscripcion::class);
+    }
+
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class);
     }
 }

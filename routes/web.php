@@ -20,10 +20,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-// Autenticado, Administradores y Promotor
-Route::resource('matriculas', MatriculaController::class)
-    ->except(['destroy', 'show'])
-    ->middleware(['auth', 'admin-promotor']);
+/* Usuario autenticado, admin y promotor */
+Route::resource('matriculas', MatriculaController::class)->except(['destroy', 'show'])->middleware(['auth', 'admin-promotor']);
 
 // Autenticado y administradores
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -74,6 +72,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('reportes/grupo/{id}', [ReporteController::class, 'grupo'])->name('reportes.grupo');
     Route::post('reportes/matriculas/rango', [ReporteController::class, 'matriculas_rango'])->name('reportes.rango.matriculas');
 
+    Route::get('reportes/pagos/{id}', [ReporteController::class, 'pagos'])->name('reportes.pagos');
+
     Route::get('permisos/promotores', [PermisoController::class, 'promotores'])->name('permisos.promotores');
     Route::post('permisos/promotores', [PermisoController::class, 'promotor_store'])->name('permisos.promotor.store');
 
@@ -82,7 +82,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('permisos/adm', [PermisoController::class, 'adm'])->name('permisos.adm');
     Route::post('permisos/adm', [PermisoController::class, 'adm_store'])->name('permisos.adm.store');
-
 });
 
 // Autenticado, Administradores y Docente
@@ -101,12 +100,11 @@ Route::middleware(['auth', 'admin-docente'])->group(function () {
     Route::get('mensajes/{mensaje_id}/editar/{type}', [MensajeController::class, 'edit'])->name('mensajes.edit');
     Route::resource('mensajes', MensajeController::class)->only(['store', 'update', 'destroy']);
 
-    Route::get('asistencias/{grupo_id}', [AsistenciaController::class, 'index'])->name('asistencias.index');
+    Route::get('grupos/asistencias/{grupo_id}', [AsistenciaController::class, 'index'])->name('asistencias.index');
     Route::post('asistencias', [AsistenciaController::class, 'store'])->name('asistencias.store');
     Route::put('asistencias', [AsistenciaController::class, 'update'])->name('asistencias.update');
-    Route::get('asistencias/{grupo_id}/ver', [AsistenciaController::class, 'show'])->name('asistencias.show');
-    Route::get('asistencias/{inscripcion_id}/editar', [AsistenciaController::class, 'edit'])->name('asistencias.edit');
-
+    Route::get('grupos/asistencias/{grupo_id}/ver', [AsistenciaController::class, 'show'])->name('asistencias.show');
+    Route::get('grupos/asistencias/{inscripcion_id}/editar', [AsistenciaController::class, 'edit'])->name('asistencias.edit');
 });
 
 //Consulta de estudiantes
@@ -116,7 +114,6 @@ Route::middleware(['auth', 'alumno'])->group(function () {
     Route::get('consulta/mensajes/{id}', [ConsultaController::class, 'mensajes'])->name('consulta.mensajes');
 });
 
-//Login
 Auth::routes(['register' => false]);
 
 //Autenticado

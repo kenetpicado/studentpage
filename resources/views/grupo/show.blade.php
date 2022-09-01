@@ -48,13 +48,6 @@
                                 @if (auth()->user()->rol == 'admin')
                                     <a href="{{ route('inscripciones.edit', $inscripcion->id) }}"
                                         class="dropdown-item">Editar inscripción</a>
-
-                                    <form action="{{ route('cambiar.estado', $inscripcion->matricula_id) }}"
-                                        method="post">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="dropdown-item">Desactivar</button>
-                                    </form>
                                 @endif
                             </ul>
                         </div>

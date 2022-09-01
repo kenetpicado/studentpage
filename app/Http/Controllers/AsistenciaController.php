@@ -82,10 +82,10 @@ class AsistenciaController extends Controller
         $matricula = Matricula::find($request->matricula_id, ['id', 'activo', 'inasistencias']);
 
         foreach ($asistencias as $key => $asistencia) {
-            
+
             /* Solo si es diferente se actualiza */
             if ($asistencia->present != $request->present[$key]) {
-                
+
                 /* Presente */
                 if ($request->present[$key] == '1' && $matricula->inasistencias != '0')
                     $matricula->update(['inasistencias' => '0']);
@@ -118,6 +118,10 @@ class AsistenciaController extends Controller
         Gate::authorize('docente_autorizado', $grupo_id);
         $grupo = Grupo::reporte($grupo_id);
         $inscripciones = Inscripcion::asistencia($grupo_id);
+
+        if ($inscripciones->count() == 0)
+            return redirect()->route('reportes.grupos')->with('error', config('app.empty'));
+
         return view('asistencia.show', compact('grupo', 'inscripciones'));
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Curso;
 use App\Models\Grupo;
 use App\Models\Inscripcion;
+use App\Models\Matricula;
 use App\Models\Reporte;
 use App\Services\Info;
 use Illuminate\Http\Request;
@@ -23,6 +24,24 @@ class ReporteController extends Controller
     {
         $promotors = DB::table('promotors')->orderBy('nombre')->get();
         return view('reporte.index_promotores', compact('promotors'));
+    }
+
+    /* Reporte de pagos de un grupo */
+    public function pagos($grupo_id)
+    {
+        $grupo = Grupo::reporte($grupo_id);
+
+        $matriculas = Matricula::where('activo', 1)
+            ->whereHas('inscripciones', function ($q) use ($grupo_id) {
+                $q->where('grupo_id', $grupo_id);
+            })
+            ->orderBy('nombre')
+            ->with(['pagos' => function ($q) {
+                $q->latest('id');
+            }])
+            ->get();
+
+        return view('reporte.pagos', compact('matriculas', 'grupo'));
     }
 
     /* Reporte general de un grupo */
