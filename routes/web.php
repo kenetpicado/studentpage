@@ -65,16 +65,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('ver-recibo/{pago_id}', [PagoController::class, 'recibo'])->name('recibo');
 
     Route::get('reportes', [ReporteController::class, 'index'])->name('reportes.index');
-    Route::get('reportes/promotores/general', [ReporteController::class, 'promotores'])->name('reportes.promotores');
-    Route::get('reportes/promotor/{id}', [ReporteController::class, 'promotor'])->name('reportes.promotor');
-    Route::get('reportes/docentes/general', [ReporteController::class, 'docentes'])->name('reportes.docentes');
-    Route::get('reportes/docente/{id}', [ReporteController::class, 'docente'])->name('reportes.docente');
-    Route::get('reportes/grupos/general', [ReporteController::class, 'grupos'])->name('reportes.grupos');
+    Route::get('reportes/promotores', [ReporteController::class, 'promotores'])->name('reportes.promotores');
+    Route::get('reportes/promotores/{id}', [ReporteController::class, 'promotor'])->name('reportes.promotor');
+    Route::get('reportes/promotores-general', [ReporteController::class, 'promotorGeneral'])->name('reportes.promotorGeneral');
+    Route::post('reportes/promotores', [ReporteController::class, 'promotor_rango'])->name('reportes.rango.promotor');
+
+    Route::get('reportes/grupos', [ReporteController::class, 'grupos'])->name('reportes.grupos');
     Route::get('reportes/grupo/{id}', [ReporteController::class, 'grupo'])->name('reportes.grupo');
-    Route::post('reportes/promotor/rango', [ReporteController::class, 'promotor_rango'])->name('reportes.rango.promotor');
     Route::post('reportes/matriculas/rango', [ReporteController::class, 'matriculas_rango'])->name('reportes.rango.matriculas');
-    Route::get('reportes/notas/grupos', [ReporteController::class, 'notas'])->name('reportes.notas');
-    Route::get('reportes/asistencias/grupos', [ReporteController::class, 'asistencias'])->name('reportes.asistencias');
 
     Route::get('permisos/promotores', [PermisoController::class, 'promotores'])->name('permisos.promotores');
     Route::post('permisos/promotores', [PermisoController::class, 'promotor_store'])->name('permisos.promotor.store');
@@ -90,11 +88,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 // Autenticado, Administradores y Docente
 Route::middleware(['auth', 'admin-docente'])->group(function () {
 
-    Route::get('notas-agregar/{id}', [NotaController::class, 'create'])->name('notas.create');
+    Route::get('grupos/notas-agregar/{id}', [NotaController::class, 'create'])->name('notas.create');
 
-    Route::get('notas-alumno/{inscripcion}', [NotaController::class, 'index'])->name('notas.index');
+    Route::get('grupos/notas-alumno/{inscripcion}', [NotaController::class, 'index'])->name('notas.index');
 
-    Route::resource('notas', NotaController::class)->except(['index', 'create']);
+    Route::resource('grupos/notas', NotaController::class)->except(['index', 'create']);
 
     Route::resource('grupos', GrupoController::class)->only(['index', 'show']);
 

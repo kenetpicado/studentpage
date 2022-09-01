@@ -22,10 +22,6 @@
 
             <a href="{{ route('notas.show', $grupo_id) }}" class="dropdown-item" target="_blank">
                 Reporte de notas</a>
-            @if (auth()->user()->rol == 'admin')
-                <a href="{{ route('reportes.grupo', $grupo_id) }}" class="dropdown-item" target="_blank">
-                    Reporte de grupo</a>
-            @endif
         @endif
     </x-header-2>
 

@@ -12,34 +12,6 @@ class Reporte extends Model
     use HasFactory;
     use rolesTraits;
 
-    public static function docente($docente_id)
-    {
-        return DB::table('grupos')
-            ->where('docente_id', $docente_id)
-            ->where('grupos.activo', '1')
-            ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
-            ->orderBy('curso')
-            ->get([
-                'grupos.*',
-                'cursos.nombre as curso',
-                DB::raw('(select count(*) from inscripciones where grupos.id = inscripciones.grupo_id) as inscripciones_count')
-            ]);
-    }
-
-    public static function docentes()
-    {
-        return Docente::where('activo', '1')
-            ->with(['grupos' => function ($q) {
-                $q->select(['id', 'docente_id'])->where('activo', '1');
-            }])
-            ->when(Reporte::enSucursal(), function ($q) {
-                $q->where('sucursal', auth()->user()->sucursal);
-            })
-            ->orderBy('sucursal')
-            ->orderBy('nombre')
-            ->get();
-    }
-
     public static function promotores()
     {
         return Promotor::orderBy('nombre')

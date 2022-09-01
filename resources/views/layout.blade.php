@@ -37,7 +37,7 @@
                 </div>
             @endif
 
-            <div class="card pb-5 shadow mb-5">
+            <div class="card pb-5 mb-5">
                 @yield('content')
             </div>
         </div>

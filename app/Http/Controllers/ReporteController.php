@@ -21,22 +21,8 @@ class ReporteController extends Controller
     /* Reporte general de todos los promotores */
     public function promotores()
     {
-        $promotores = Reporte::promotores();
-        return view('reporte.promotores', compact('promotores'));
-    }
-
-    /* Reporte general de todos los docentes */
-    public function docentes()
-    {
-        $docentes = Reporte::docentes();
-        return view('reporte.docentes', compact('docentes'));
-    }
-
-    /* Reporte general de todos los grupos */
-    public function grupos()
-    {
-        $grupos = Grupo::index();
-        return view('reporte.grupos', compact('grupos'));
+        $promotors = DB::table('promotors')->orderBy('nombre')->get();
+        return view('reporte.index_promotores', compact('promotors'));
     }
 
     /* Reporte general de un grupo */
@@ -47,6 +33,13 @@ class ReporteController extends Controller
         return view('reporte.grupo', compact('inscripciones', 'grupo'));
     }
 
+    /* Reporte general de un grupo */
+    public function grupos()
+    {
+        $grupos = Grupo::index();
+        return view('reporte.grupos', compact('grupos'));
+    }
+
     /* Reporte general de un promotor*/
     public function promotor($promotor_id)
     {
@@ -55,25 +48,11 @@ class ReporteController extends Controller
         return view('reporte.promotor', compact('matriculas', 'promotor'));
     }
 
-    /* Reporte general de un docente */
-    public function docente($docente_id)
+    /* Reporte general de todos los promotores */
+    public function promotorGeneral()
     {
-        $docente = DB::table('docentes')->find($docente_id);
-        $grupos = Reporte::docente($docente_id);
-        return view('reporte.docente', compact('grupos', 'docente'));
-    }
-
-    /* Ver todos los grupos para generar reporte de notas */
-    public function notas()
-    {
-        $grupos = Grupo::index();
-        return view('reporte.notas', compact('grupos'));
-    }
-
-    public function asistencias()
-    {
-        $grupos = Grupo::index();
-        return view('reporte.asistencias', compact('grupos'));
+        $promotores = Reporte::promotores();
+        return view('reporte.promotores', compact('promotores'));
     }
 
     /* Reporte por rango de fechas: matriculas de un promotor */

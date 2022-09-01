@@ -16,6 +16,9 @@
         <p>
             Total: {{ $docentes->count() }}
         </p>
+        <p>
+            Se cuentan únicamente los grupos activos.
+        </p>
     </div>
     <table class="table table-borderless table-striped align-middle" width="100%" cellspacing="0">
         <thead>

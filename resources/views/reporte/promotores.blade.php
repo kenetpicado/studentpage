@@ -5,7 +5,7 @@
 @section('content')
     <div class="card-title">
         <h4 class="text-center">REPORTE GENERAL DE PROMOTORES</h4>
-        <h5 class="text-center">Información general de Matrículas registradas</h5>
+        <h5 class="text-center">Información general de Matrículas Registradas</h5>
         <hr>
         <p>
             Promotores registrados: {{ $promotores->count() }}
