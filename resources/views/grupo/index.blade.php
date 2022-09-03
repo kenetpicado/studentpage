@@ -22,7 +22,10 @@
             <th>Docente</th>
             <th>Horario</th>
             <th>Suc - Año</th>
-            <th></th>
+            <th>Alumnos</th>
+            @if (auth()->user()->rol == 'admin')
+                <th>Editar</th>
+            @endif
         </x-slot>
         <tbody>
             @foreach ($grupos as $grupo)
@@ -31,22 +34,12 @@
                     <td>{{ $grupo->docente_nombre }}</td>
                     <td>{{ $grupo->horario }}</td>
                     <td>{{ $grupo->sucursal }} - {{ $grupo->anyo }}</td>
-                    <td>
-                        <div class="dropdown">
-                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Opciones <i class="fas fa-cog"></i>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <a class="dropdown-item" href="{{ route('grupos.show', $grupo->id) }}">
-                                    Alumnos
-                                </a>
-                                @if (auth()->user()->rol == 'admin')
-                                    <a class="dropdown-item" href="{{ route('grupos.edit', $grupo->id) }}">Editar</a>
-                                @endif
-                            </ul>
-                        </div>
+                    <td><a class="btn btn-sm btn-primary" href="{{ route('grupos.show', $grupo->id) }}">
+                        Alumnos</a>
                     </td>
+                    @if (auth()->user()->rol == 'admin')
+                        <td><a class="btn btn-sm btn-outline-primary" href="{{ route('grupos.edit', $grupo->id) }}">Editar</a></td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>

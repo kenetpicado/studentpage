@@ -20,7 +20,7 @@ class Grupo extends Model
     protected $casts = [
         'horario' => Upper::class,
     ];
-    
+
     /**
      * Mostrar todos los Grupos
      *
@@ -114,6 +114,19 @@ class Grupo extends Model
                 'grupos.sucursal',
                 'grupos.anyo',
                 'cursos.nombre as curso_nombre'
+            ]);
+    }
+
+    public static function showThis($grupo_id)
+    {
+        return DB::table('grupos')
+            ->where('grupos.id', $grupo_id)
+            ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
+            ->first([
+                'grupos.id',
+                'grupos.horario',
+                'cursos.nombre',
+                'cursos.id as curso_id'
             ]);
     }
 

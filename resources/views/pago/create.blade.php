@@ -9,9 +9,14 @@
 @endsection
 
 @section('content')
-    <x-header-0>Crear Pago: {{ $matricula->nombre }}</x-header-0>
+    <x-header-0>Crear</x-header-0>
 
     <x-create-form ruta='pagos.store'>
+        <p>
+            Crear pago a nombre del Alumno:
+        </p>
+        <h5 class="fw-bolder">{{ $matricula->nombre }}</h5>
+        <hr>
         <x-input name="concepto"></x-input>
         <x-input name="monto"></x-input>
         <x-input name="saldo"></x-input>

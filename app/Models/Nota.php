@@ -24,6 +24,7 @@ class Nota extends Model
         return DB::table('notas')
             ->where('notas.inscripcion_id', $inscripcion_id)
             ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')
+            ->orderBy('notas.modulo_id')
             ->get([
                 'notas.*',
                 'modulos.nombre as modulo',

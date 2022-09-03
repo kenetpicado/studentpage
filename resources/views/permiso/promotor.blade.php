@@ -16,14 +16,17 @@
                 <x-slot name="title">
                     <th>Carnet</th>
                     <th>Nombre</th>
-                    <th class="text-center">Matricular</th>
+                    <th>Permisos</th>
                 </x-slot>
                 @foreach ($promotores as $key => $promotor)
                     <tr>
                         <input type="hidden" name="user_id[{{ $key }}]" value="{{ $promotor->id }}">
                         <td>{{ $promotor->email }}</td>
                         <td>{{ $promotor->name }}</td>
-                        <x-switch name="matricula" :key="$key" :adm="$promotor"></x-switch>
+                        <td>
+                            <x-switch deny="create_matricula" :key="$key" :adm="$promotor"
+                                label="Crear nueva Matricula"></x-switch>
+                        </td>
                     </tr>
                 @endforeach
             </x-table-head>

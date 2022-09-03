@@ -13,27 +13,27 @@
             data-bs-target="#modalCreate">
             Agregar
         </button>
-
-        <x-modal title="Curso - Agregar">
-            <form action="{{ route('cursos.store') }}" method="post">
-                @csrf
-                <div class="modal-body">
-                    <x-input name="nombre"></x-input>
-                    <x-imagenes :imagenes="$imagenes"></x-imagenes>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary rounded-3">Guardar</button>
-                </div>
-            </form>
-        </x-modal>
     </div>
+    <x-modal title="Curso - Agregar">
+        <form action="{{ route('cursos.store') }}" method="post">
+            @csrf
+            <div class="modal-body">
+                <x-input name="nombre"></x-input>
+                <x-imagenes :imagenes="$imagenes"></x-imagenes>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary rounded-3">Guardar</button>
+            </div>
+        </form>
+    </x-modal>
 
     <x-table-head>
         <x-slot name="title">
             <th>Nombre</th>
             <th>Imagen</th>
             <th>Estado</th>
-            <th></th>
+            <th>Modulos</th>
+            <th>Editar</th>
         </x-slot>
         <tbody>
             @foreach ($cursos as $curso)
@@ -41,18 +41,8 @@
                     <td>{{ $curso->nombre }}</td>
                     <td>{{ $curso->imagen }}</td>
                     <td>{{ $curso->activo == '1' ? 'Activo' : '-' }}</td>
-                    <td>
-                        <div class="dropdown">
-                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Opciones <i class="fas fa-cog"></i>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <a class="dropdown-item" href="{{ route('cursos.show', $curso->id) }}">Modulos</a>
-                                <a class="dropdown-item" href="{{ route('cursos.edit', $curso->id) }}">Editar</a>
-                            </ul>
-                        </div>
-                    </td>
+                    <td><a class="btn btn-sm btn-primary" href="{{ route('cursos.show', $curso->id) }}">Modulos</a></td>
+                    <td><a class="btn btn-sm btn-outline-primary" href="{{ route('cursos.edit', $curso->id) }}">Editar</a></td>
                 </tr>
             @endforeach
         </tbody>

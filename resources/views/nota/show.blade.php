@@ -24,10 +24,14 @@
     </div>
 
     <table class="table table-bordered table-sm align-middle" width="100%" cellspacing="0">
+        
         <tbody>
             <tr>
-                <td>Carnet</td>
-                <td>Nombre</td>
+                <th>Carnet</th>
+                <th>Nombre</th>
+                @foreach ($inscripciones->first()->notas as $nota)
+                    <th class="small">{{ $nota->mod }}</th>
+                @endforeach
             </tr>
             @foreach ($inscripciones as $inscripcion)
                 <tr>
@@ -36,7 +40,7 @@
 
                     @foreach ($inscripcion->notas as $nota)
                         <td>
-                            <div class="small">{{ $nota->mod }}: {{ $nota->valor }}</div>
+                            <div>{{ $nota->valor }}</div>
                         </td>
                     @endforeach
                 </tr>

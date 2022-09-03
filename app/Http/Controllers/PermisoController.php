@@ -38,67 +38,76 @@ class PermisoController extends Controller
 
     public function promotor_store(Request $request)
     {
-        $ids_delete = array();
+        $create_matricula = array();
         foreach ($request->user_id as $key => $user_id) {
-            $this->setPermission($request->permitir_matricula, $key, $ids_delete, $user_id, 'matricula');
+            $this->setPermission($request->create_matricula[$key], $user_id, $create_matricula);
         }
 
-        DB::table('permisos')->whereIn('user_id', $ids_delete)->delete();
+        DB::table('permisos')->whereIn('user_id', $create_matricula)->delete();
         return redirect()->route('promotores.index')->with('success', config('app.updated'));
     }
 
     public function docente_store(Request $request)
     {
-        $ids_nota = array();
-        $ids_mensaje = array();
+        $create_nota = array();
+        $edit_nota = array();
+        $create_mensaje = array();
 
         foreach ($request->user_id as $key => $user_id) {
-            $this->setPermission($request->permitir_nota, $key, $ids_nota, $user_id, 'nota');
-            $this->setPermission($request->permitir_mensaje, $key, $ids_mensaje, $user_id, 'mensaje');
+            $this->setPermission($request->create_nota[$key], $user_id, $create_nota);
+            $this->setPermission($request->create_mensaje[$key], $user_id, $create_mensaje);
+            $this->setPermission($request->edit_nota[$key], $user_id, $edit_nota);
         }
 
-        DB::table('permisos')->where('denegar', 'create_nota')->whereIn('user_id', $ids_nota)->delete();
-        DB::table('permisos')->where('denegar', 'create_mensaje')->whereIn('user_id', $ids_mensaje)->delete();
+        DB::table('permisos')->where('denegar', 'create_nota')->whereIn('user_id', $create_nota)->delete();
+        DB::table('permisos')->where('denegar', 'edit_nota')->whereIn('user_id', $edit_nota)->delete();
+        DB::table('permisos')->where('denegar', 'create_mensaje')->whereIn('user_id', $create_mensaje)->delete();
 
         return redirect()->route('docentes.index')->with('success', config('app.updated'));
     }
 
     public function adm_store(Request $request)
     {
-        $ids_promotor = array();
-        $ids_docente = array();
-        $ids_curso = array();
-        $ids_grupo = array();
-        $ids_matricula = array();
-        $ids_mensaje = array();
+        $create_promotor = array();
+        $create_docente = array();
+        $create_curso = array();
+        $create_grupo = array();
+        $create_matricula = array();
+        $create_mensaje = array();
+        $create_nota = array();
+        $edit_nota = array();
 
         foreach ($request->user_id as $key => $user_id) {
-            $this->setPermission($request->permitir_promotor, $key, $ids_promotor, $user_id, 'promotor');
-            $this->setPermission($request->permitir_docente, $key, $ids_docente, $user_id, 'docente');
-            $this->setPermission($request->permitir_curso, $key, $ids_curso, $user_id, 'curso');
-            $this->setPermission($request->permitir_grupo, $key, $ids_grupo, $user_id, 'grupo');
-            $this->setPermission($request->permitir_matricula, $key, $ids_matricula, $user_id, 'matricula');
-            $this->setPermission($request->permitir_mensaje, $key, $ids_mensaje, $user_id, 'mensaje');
+            $this->setPermission($request->create_promotor[$key], $user_id, $create_promotor);
+            $this->setPermission($request->create_docente[$key], $user_id, $create_docente);
+            $this->setPermission($request->create_curso[$key], $user_id, $create_curso);
+            $this->setPermission($request->create_grupo[$key], $user_id, $create_grupo);
+            $this->setPermission($request->create_matricula[$key], $user_id, $create_matricula);
+            $this->setPermission($request->create_mensaje[$key], $user_id, $create_mensaje);
+            $this->setPermission($request->create_nota[$key], $user_id, $create_nota);
+            $this->setPermission($request->edit_nota[$key], $user_id, $edit_nota);
         }
 
-        DB::table('permisos')->where('denegar', 'create_promotor')->whereIn('user_id', $ids_promotor)->delete();
-        DB::table('permisos')->where('denegar', 'create_docente')->whereIn('user_id', $ids_docente)->delete();
-        DB::table('permisos')->where('denegar', 'create_curso')->whereIn('user_id', $ids_curso)->delete();
-        DB::table('permisos')->where('denegar', 'create_grupo')->whereIn('user_id', $ids_grupo)->delete();
-        DB::table('permisos')->where('denegar', 'create_matricula')->whereIn('user_id', $ids_matricula)->delete();
-        DB::table('permisos')->where('denegar', 'create_mensaje')->whereIn('user_id', $ids_mensaje)->delete();
+        DB::table('permisos')->where('denegar', 'create_promotor')->whereIn('user_id', $create_promotor)->delete();
+        DB::table('permisos')->where('denegar', 'create_docente')->whereIn('user_id', $create_docente)->delete();
+        DB::table('permisos')->where('denegar', 'create_curso')->whereIn('user_id', $create_curso)->delete();
+        DB::table('permisos')->where('denegar', 'create_grupo')->whereIn('user_id', $create_grupo)->delete();
+        DB::table('permisos')->where('denegar', 'create_matricula')->whereIn('user_id', $create_matricula)->delete();
+        DB::table('permisos')->where('denegar', 'create_mensaje')->whereIn('user_id', $create_mensaje)->delete();
+        DB::table('permisos')->where('denegar', 'create_nota')->whereIn('user_id', $create_nota)->delete();
+        DB::table('permisos')->where('denegar', 'edit_nota')->whereIn('user_id', $edit_nota)->delete();
 
         return redirect()->route('permisos.adm')->with('success', config('app.updated'));
     }
 
-    public function setPermission($permitir, $key, &$ids, $user_id, $model)
+    public function setPermission($denegar, $user_id, &$users)
     {
-        if ($permitir[$key] == 1)
-            array_push($ids, $user_id);
-        else
+        if ($denegar != 0)
             Permiso::updateOrCreate([
-                'denegar' => 'create_' . $model,
+                'denegar' => $denegar,
                 'user_id' => $user_id,
             ]);
+        else
+            array_push($users, $user_id);
     }
 }

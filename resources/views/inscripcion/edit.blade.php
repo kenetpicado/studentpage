@@ -12,19 +12,23 @@
     <x-header-0>Editar</x-header-0>
 
     <x-edit-form ruta='inscripciones.update' :id="$inscripcion->id" btn="Mover">
-        <h5 class="mb-3">Mover a un nuevo grupo</h5>
+        <p>
+            Mover alumno a un nuevo Grupo
+        </p>
+        <h5 class="fw-bolder">{{ $matricula->nombre }}</h5>
+        <hr>
         <x-grupos :grupos="$grupos" :old="$inscripcion->grupo_id" text="Seleccionar grupo"></x-grupos>
         <input type="hidden" name="matricula_id" value="{{ $inscripcion->matricula_id }}">
     </x-edit-form>
     
     <x-edit-form ruta="inscripciones.destroy" :id="$inscripcion->id" btn="Eliminar" method="delete">
         <hr>
-        <h5 class="mb-3">Eliminar inscripción</h5>
+        <h5 class="mb-3">Eliminar</h5>
         <p>
             Esta opción elimina definitivamente la inscripción del alumno en el grupo. Tenga en cuenta que
             también se eliminarán las notas registradas.
         </p>
-        <p class="text-primary">
+        <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
     </x-edit-form>

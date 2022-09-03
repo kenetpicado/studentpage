@@ -64,6 +64,10 @@ class AuthServiceProvider extends ServiceProvider
             return !$user->permisos->contains('denegar', 'create_nota');
         });
 
+        Gate::define('edit_nota', function (User $user) {
+            return !$user->permisos->contains('denegar', 'edit_nota');
+        });
+
         Gate::define('create_docente', function (User $user) {
             return !$user->permisos->contains('denegar', 'create_docente');
         });

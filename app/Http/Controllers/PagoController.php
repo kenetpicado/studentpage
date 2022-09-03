@@ -6,6 +6,7 @@ use App\Models\Pago;
 use App\Services\Moneda;
 use App\Models\Inscripcion;
 use App\Http\Requests\PagoRequest;
+use App\Models\Matricula;
 use Illuminate\Support\Facades\DB;
 
 class PagoController extends Controller
@@ -13,7 +14,7 @@ class PagoController extends Controller
     //Cargar vista de los pagos
     public function index($matricula_id)
     {
-        $matricula = DB::table('matriculas')->find($matricula_id, ['id', 'nombre']);
+        $matricula = Matricula::nombre($matricula_id);
         $pagos = Pago::index($matricula_id);
         return view('pago.index', compact('pagos', 'matricula'));
     }
@@ -21,7 +22,7 @@ class PagoController extends Controller
     //Crear nuevo pago
     public function create($matricula_id)
     {
-        $matricula = DB::table('matriculas')->find($matricula_id, ['id', 'nombre']);
+        $matricula = Matricula::nombre($matricula_id);
         $grupos = Inscripcion::grupos($matricula_id);
         $monedas = (new Moneda)->get();
         return view('pago.create', compact('matricula_id', 'monedas', 'grupos', 'matricula'));
@@ -39,7 +40,8 @@ class PagoController extends Controller
     {
         $monedas = (new Moneda)->get();
         $grupos = Inscripcion::grupos($pago->matricula_id);
-        return view('pago.edit', compact('pago', 'monedas', 'grupos'));
+        $matricula = Matricula::nombre($pago->matricula_id);
+        return view('pago.edit', compact('pago', 'monedas', 'grupos', 'matricula'));
     }
 
     //Actualizar un pago

@@ -30,7 +30,8 @@
             <th>Nombre</th>
             <th>Carnet</th>
             <th>Correo</th>
-            <th></th>
+            <th>Matriculas</th>
+            <th>Editar</th>
         </x-slot>
         <tbody>
             @foreach ($promotors as $promotor)
@@ -38,18 +39,8 @@
                     <td>{{ $promotor->nombre }}</td>
                     <td>{{ $promotor->carnet }}</td>
                     <td>{{ $promotor->correo }}</td>
-                    <td>
-                        <div class="dropdown">
-                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Opciones <i class="fas fa-cog"></i>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <a class="dropdown-item" href="{{ route('promotores.show', $promotor->id) }}">Matriculas</a>
-                                <a class="dropdown-item" href="{{ route('promotores.edit', $promotor->id) }}">Editar</a>
-                            </ul>
-                        </div>
-                    </td>
+                    <td><a class="btn btn-sm btn-primary" href="{{ route('promotores.show', $promotor->id) }}">Matriculas</a></td>
+                    <td><a class="btn btn-sm btn-outline-primary" href="{{ route('promotores.edit', $promotor->id) }}">Editar</a></td>
                 </tr>
             @endforeach
         </tbody>

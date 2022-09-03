@@ -4,25 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Nota;
 use App\Models\Grupo;
-use App\Models\Modulo;
+use App\Models\Matricula;
 use App\Models\Inscripcion;
 use Illuminate\Http\Request;
 use App\Http\Requests\NotaRequest;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
-
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
 
 class NotaController extends Controller
 {
     //Ver notas
     public function index($inscripcion_id)
     {
+        $deny = auth()->user()->permisos->contains('denegar', 'edit_nota');
         $inscripcion = DB::table('inscripciones')->find($inscripcion_id);
-        $matricula = DB::table('matriculas')->find($inscripcion->matricula_id, ['id', 'nombre']);
+        $matricula = Matricula::nombre($inscripcion->matricula_id);
         $notas = Nota::index($inscripcion_id);
-        return view('nota.index', compact('notas', 'inscripcion', 'matricula'));
+        return view('nota.index', compact('notas', 'inscripcion', 'matricula', 'deny'));
     }
 
     //Crear nota
@@ -32,17 +30,8 @@ class NotaController extends Controller
             return back()->with('error', config('app.denies'));
 
         $inscripciones = Inscripcion::getByGrupo($grupo_id);
-        $grupo = DB::table('grupos')
-            ->where('grupos.id', $grupo_id)
-            ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
-            ->first([
-                'grupos.id',
-                'grupos.horario',
-                'cursos.nombre',
-                'cursos.id as curso_id'
-            ]);
+        $grupo = Grupo::showThis($grupo_id);
         $modulos = DB::table('modulos')->where('curso_id', $grupo->curso_id)->get();
-
         return view('nota.create', compact('inscripciones', 'grupo', 'modulos'));
     }
 
@@ -50,29 +39,30 @@ class NotaController extends Controller
     public function store(NotaRequest $request)
     {
         foreach ($request->inscripcion_id as $key => $inscripcion) {
-            Nota::create([
-                'valor' => $request->valor[$key],
-                'created_at' => $request->created_at,
-                'modulo_id' => $request->modulo_id,
-                'inscripcion_id' => $inscripcion,
-            ]);
+
+            if ($request->enviar[$key] == 0)
+                continue;
+
+            Nota::updateOrCreate(
+                ['modulo_id' => $request->modulo_id, 'inscripcion_id' => $inscripcion],
+                ['valor' => $request->valor[$key], 'created_at' => $request->created_at]
+            );
         }
+
         return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.created'));
     }
 
-    //Editar nota
-    public function edit($nota_id)
-    {
-        $nota = Nota::edit($nota_id);
-        $modulos = Modulo::where('curso_id', $nota->curso_id)->get();
-        return view('nota.edit', compact('nota', 'modulos'));
-    }
-
     //Actualizar nota
-    public function update(NotaRequest $request, Nota $nota)
+    public function update(NotaRequest $request)
     {
-        $nota->update($request->all());
-        return redirect()->route('notas.index', $nota->inscripcion_id)->with('success', config('app.updated'));
+        $notas = Nota::orderBy('modulo_id')->find($request->nota_id, ['id', 'valor']);
+
+        foreach ($notas as $key => $nota) {
+            if ($nota->valor != $request->valor[$key])
+                $nota->update(['valor' => $request->valor[$key]]);
+        }
+
+        return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.updated'));
     }
 
     //Eliminar una nota

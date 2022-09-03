@@ -46,6 +46,11 @@ class Matricula extends Model
         'created_at' => dmY::class,
     ];
 
+    public static function nombre($matricula_id)
+    {
+        return DB::table('matriculas')->find($matricula_id, ['id', 'nombre']);
+    }
+
     public static function index()
     {
         return DB::table('matriculas')
@@ -93,7 +98,13 @@ class Matricula extends Model
                 DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
             ]);
     }
-
+    
+    /**
+     * Buscar una matricula por Carnet o Nombre
+     *
+     * @param  Request $request
+     * @return Collection
+     */
     public static function buscar($request)
     {
         return DB::table('matriculas')

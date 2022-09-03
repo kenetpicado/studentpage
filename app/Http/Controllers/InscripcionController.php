@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use App\Models\Inscripcion;
 use App\Http\Requests\InscribirRequest;
+use App\Models\Matricula;
 use Illuminate\Support\Facades\DB;
 
 class InscripcionController extends Controller
@@ -33,7 +34,8 @@ class InscripcionController extends Controller
     {
         $inscripcion = Inscripcion::withGrupoSucursal($inscripcion_id);
         $grupos = Grupo::inscripcion($inscripcion->grupo_sucursal);
-        return view('inscripcion.edit', compact('inscripcion', 'grupos'));
+        $matricula = Matricula::nombre($inscripcion->matricula_id);
+        return view('inscripcion.edit', compact('inscripcion', 'grupos', 'matricula'));
     }
 
     //Actualizar grupo

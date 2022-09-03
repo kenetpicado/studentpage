@@ -27,8 +27,6 @@ class DocenteRequest extends FormRequest
             $this->merge([
                 'carnet' => (new Credenciales)->id($this->sucursal, 4)
             ]);
-        } else if (!$this->activo) {
-            $this->merge(['activo' => '0']);
         }
     }
 

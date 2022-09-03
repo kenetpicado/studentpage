@@ -11,6 +11,11 @@
     <x-header-0>Editar</x-header-0>
 
     <x-edit-form ruta='grupos.update' :id="$grupo->id">
+        <p>
+            Cambiar Docente / Horario:
+        </p>
+        <h5 class="fw-bolder">{{ $curso->nombre }}</h5>
+        <hr>
         <x-select-0 name="docente_id" :items="$docentes" text="Docente" :old="$grupo->docente_id"></x-select-0>
         <x-input name="horario" :val="$grupo->horario"></x-input>
     </x-edit-form>

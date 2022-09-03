@@ -22,7 +22,8 @@ class AsistenciaController extends Controller
     {
         Gate::authorize('docente_autorizado', $grupo_id);
         $inscripciones = Inscripcion::getByGrupo($grupo_id);
-        return view('asistencia.index', compact('inscripciones', 'grupo_id'));
+        $grupo = Grupo::showThis($grupo_id);
+        return view('asistencia.index', compact('inscripciones', 'grupo_id', 'grupo'));
     }
 
     /**

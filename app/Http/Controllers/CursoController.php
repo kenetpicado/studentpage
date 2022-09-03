@@ -24,7 +24,7 @@ class CursoController extends Controller
         if (Gate::denies('create_curso'))
             return back()->with('error', config('app.denies'));
 
-        Curso::create($request->all());
+        Curso::create($request->validated());
         return redirect()->route('cursos.index')->with('success',  config('app.created'));
     }
 
@@ -45,7 +45,7 @@ class CursoController extends Controller
     //Actualizar curso
     public function update(CursoRequest $request, Curso $curso)
     {
-        $curso->update($request->all());
+        $curso->update($request->validated());
         return redirect()->route('cursos.index')->with('success', config('app.created'));
     }
 

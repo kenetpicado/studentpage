@@ -27,7 +27,9 @@ class Inscripcion extends Model
                 $q->select([
                     'notas.*',
                     'modulos.nombre as mod'
-                ])->join('modulos', 'notas.modulo_id', '=', 'modulos.id');
+                ])
+                    ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')
+                    ->orderBy('notas.modulo_id');
             }])
             ->orderBy('matricula_nombre')
             ->get([

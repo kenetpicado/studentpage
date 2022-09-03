@@ -11,10 +11,16 @@
     <x-header-0>Editar</x-header-0>
 
     <x-edit-form ruta='cursos.update' :id="$curso->id">
-        
+
         <x-input name="nombre" :val="$curso->nombre"></x-input>
         <x-imagenes :old="$curso->imagen" :imagenes="$imagenes"></x-imagenes>
-        <x-check-activo :val="$curso->activo"></x-check-activo>
+        <input type="hidden" name="activo" value="0">
+        <div class="form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" name="activo" value="1"
+                {{ $curso->activo == 1 ? 'checked' :  ''}}>
+                <label class="form-check-label">Activo</label>
+        </div>
+
         <div class="text-center p-3 mb-3">
             <img src="{{ asset('courses/' . $curso->imagen) }}" style="height: 200px; width: 200px;">
         </div>

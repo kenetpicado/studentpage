@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <x-header-0>Terminados</x-header-0>
+    <x-header-0>Todos los grupos terminados</x-header-0>
 
     <x-table-head>
         <x-slot name="title">
@@ -18,7 +18,7 @@
             <th>Año</th>
             <th>Sucursal</th>
             <th>Alumnos</th>
-            <th>Opción</th>
+            <th>Activar</th>
         </x-slot>
         <tbody>
             @foreach ($grupos as $grupo)
@@ -30,14 +30,14 @@
                     <td>{{ $grupo->sucursal }}</td>
                     <td>
                         <a href="{{ route('grupos.show.closed', $grupo->id) }}" class="btn btn-primary btn-sm d-grid">
-                            Ver
+                            Alumnos
                         </a>
                     </td>
                     <td>
                         <form action="{{ route('cambiar.estado.grupo', $grupo->id) }}" method="post">
                             @csrf
                             @method('PUT')
-                            <button type="submit" class="btn btn-outline-primary btn-sm">Reactivar</button>
+                            <button type="submit" class="btn btn-outline-primary btn-sm">Activar</button>
                         </form>
                     </td>
                 </tr>

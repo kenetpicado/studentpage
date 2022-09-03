@@ -15,26 +15,36 @@
                 <x-slot name="title">
                     <th>Usuario</th>
                     <th>Nombre</th>
-                    <th class="text-center">Crear Promotor</th>
-                    <th class="text-center">Crear Docente</th>
-                    <th class="text-center">Crear Curso</th>
-                    <th class="text-center">Crear Grupo</th>
-                    <th class="text-center">Crear Matrícula</th>
-                    <th class="text-center">Crear Mensaje</th>
+                    <th>Sucursal</th>
+                    <th>Permisos</th>
                 </x-slot>
-                @foreach ($adms as $key => $adm)
-                    <tr>
-                        <input type="hidden" name="user_id[{{ $key }}]" value="{{ $adm->id }}">
-                        <td>{{ $adm->email }}</td>
-                        <td>{{ $adm->name }}</td>
-                        <x-switch name="promotor" :key="$key" :adm="$adm"></x-switch>
-                        <x-switch name="docente" :key="$key" :adm="$adm"></x-switch>
-                        <x-switch name="curso" :key="$key" :adm="$adm"></x-switch>
-                        <x-switch name="grupo" :key="$key" :adm="$adm"></x-switch>
-                        <x-switch name="matricula" :key="$key" :adm="$adm"></x-switch>
-                        <x-switch name="mensaje" :key="$key" :adm="$adm"></x-switch>
-                    </tr>
-                @endforeach
+                <tbody>
+                    @foreach ($adms as $key => $adm)
+                        <tr>
+                            <td>{{ $adm->email }}</td>
+                            <td>{{ $adm->name }}</td>
+                            <td>{{ $adm->sucursal == 'CH' ? 'Chinandega' : 'Managua' }}</td>
+                            <td>
+                                <x-switch deny="create_promotor" :key="$key" :adm="$adm"
+                                    label="Crear nuevo Promotor"></x-switch>
+                                <x-switch deny="create_docente" :key="$key" :adm="$adm"
+                                    label="Crear nuevo Docente"></x-switch>
+                                <x-switch deny="create_curso" :key="$key" :adm="$adm" label="Crear nuevo Curso">
+                                </x-switch>
+                                <x-switch deny="create_grupo" :key="$key" :adm="$adm" label="Crear nuevo Grupo">
+                                </x-switch>
+                                <x-switch deny="create_matricula" :key="$key" :adm="$adm"
+                                    label="Crear nueva Matricula"></x-switch>
+                                <x-switch deny="create_mensaje" :key="$key" :adm="$adm"
+                                    label="Enviar Mensajes"></x-switch>
+                                <x-switch deny="create_nota" :key="$key" :adm="$adm" label="Agregar Notas">
+                                </x-switch>
+                                <x-switch deny="edit_nota" :key="$key" :adm="$adm" label="Editar Nota">
+                                </x-switch>
+                                <input type="hidden" name="user_id[{{ $key }}]" value="{{ $adm->id }}">
+                            </td>
+                        </tr>
+                    @endforeach
             </x-table-head>
             <div class="mb-3">
                 <button type="submit" class="float-end btn btn-primary rounded-3">Guardar</button>

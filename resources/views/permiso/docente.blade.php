@@ -16,16 +16,18 @@
                 <x-slot name="title">
                     <th>Carnet</th>
                     <th>Nombre</th>
-                    <th class="text-center">Registrar notas</th>
-                    <th class="text-center">Enviar mensajes</th>
+                    <th>Permisos</th>
                 </x-slot>
                 @foreach ($docentes as $key => $docente)
                     <tr>
                         <input type="hidden" name="user_id[{{ $key }}]" value="{{ $docente->id }}">
                         <td>{{ $docente->email }}</td>
                         <td>{{ $docente->name }}</td>
-                        <x-switch name="nota" :key="$key" :adm="$docente"></x-switch>
-                        <x-switch name="mensaje" :key="$key" :adm="$docente"></x-switch>
+                        <td>
+                            <x-switch deny="create_nota" :key="$key" :adm="$docente" label="Agregar Notas"></x-switch>
+                            <x-switch deny="edit_nota" :key="$key" :adm="$docente" label="Editar Notas"></x-switch>
+                            <x-switch deny="create_mensaje" :key="$key" :adm="$docente" label="Enviar Mensajes"></x-switch>
+                        </td>
                     </tr>
                 @endforeach
             </x-table-head>

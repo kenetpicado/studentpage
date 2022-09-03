@@ -17,7 +17,6 @@ class Modulo extends Model
         'nombre' => Upper::class,
     ];
 
-    // RELACIONES
     public function notas()
     {
         return $this->hasMany(Nota::class);

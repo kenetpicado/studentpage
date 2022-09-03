@@ -96,7 +96,11 @@ Route::middleware(['auth', 'admin-docente'])->group(function () {
 
     Route::get('grupos/notas-alumno/{inscripcion}', [NotaController::class, 'index'])->name('notas.index');
 
-    Route::resource('grupos/notas', NotaController::class)->except(['index', 'create']);
+    Route::resource('grupos/notas', NotaController::class)
+        ->except(['index', 'create', 'update']);
+
+    Route::put('notas', [NotaController::class, 'update'])
+        ->name('notas.update');
 
     Route::resource('grupos', GrupoController::class)->only(['index', 'show']);
 

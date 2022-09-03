@@ -31,28 +31,20 @@ class NotaRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'modulo_id' => 'required',
-            'valor.*' => 'required|numeric|min:0|max:100'
-        ];
+        return ['valor.*' => 'required|numeric|min:0|max:100']
+            + ($this->isMethod('POST')
+                ? $this->store()
+                : $this->update());
     }
 
     protected function store()
     {
-        return [
-            'modulo_id' => [
-                'required', Rule::unique('notas')->where('inscripcion_id', $this->inscripcion_id)
-            ]
-        ];
+        return ['modulo_id' => 'required'];
     }
 
     protected function update()
     {
-        return [
-            'modulo_id' => [
-                'required', Rule::unique('notas')->where('inscripcion_id', $this->inscripcion_id)->ignore($this->nota_id)
-            ]
-        ];
+        return ['nota_id.*' => 'required'];
     }
 
     public function attributes()

@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <x-header-0>Editar Asistencias: {{$matricula->nombre}}</x-header-0>
+    <x-header-0>Editar</x-header-0>
 
     @if ($asistencias->isEmpty())
         <div class="row justify-content-center">
@@ -24,6 +24,11 @@
     @else
         <x-create-form ruta="asistencias.update">
             @method('PUT')
+            <p>
+                Editar asistencias del alumno:
+            </p>
+            <h5 class="fw-bolder">{{ $matricula->nombre }}</h5>
+            <hr>
             <input type="hidden" name="grupo_id" value="{{ $inscripcion->grupo_id }}">
             <input type="hidden" name="matricula_id" value="{{ $inscripcion->matricula_id }}">
             <table class="table table-borderless">

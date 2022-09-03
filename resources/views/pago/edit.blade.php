@@ -12,6 +12,11 @@
     <x-header-0>Editar</x-header-0>
     
     <x-edit-form ruta='pagos.update' :id="$pago->id">
+        <p>
+            Editar pago del Alumno:
+        </p>
+        <h5 class="fw-bolder">{{ $matricula->nombre }}</h5>
+        <hr>
         <x-input name="concepto" :val="$pago->concepto"></x-input>
         <x-input name="monto" :val="$pago->monto"></x-input>
         <x-input name="saldo" :val="$pago->saldo"></x-input>

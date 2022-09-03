@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Casts\dmY;
 use App\Casts\Upper;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pago extends Model
 {
@@ -28,12 +28,28 @@ class Pago extends Model
         'concepto' => Upper::class,
         'created_at' => dmY::class,
     ];
-
+    
+    /**
+     * Obtener todos los pagos de un alumno
+     *
+     * @param  int $matricula_id
+     * @return Collection
+     */
     public static function index($matricula_id)
     {
-        return DB::table('pagos')->where('matricula_id', $matricula_id)->latest('id')->get();
+        return DB::table('pagos')
+            ->where('matricula_id', $matricula_id)
+            ->latest('id')
+            ->get();
     }
-
+    
+    /**
+     * Obtener informacion de un pago
+     * Para generar un recibo
+     *
+     * @param  int $pago_id
+     * @return Collection
+     */
     public static function recibo($pago_id)
     {
         return DB::table('pagos')

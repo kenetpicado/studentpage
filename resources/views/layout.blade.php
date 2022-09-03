@@ -8,6 +8,7 @@
     <title>{{ config('app.name') }} - @yield('title')</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
     <link href="{{ asset('css/app2.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sp.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('DataTables/datatables.min.css') }}" />
 </head>
 
@@ -45,6 +46,7 @@
 
     <script src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript" src="{{ asset('DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/sp.js') }}"></script>
 
     @if ($errors->any())
         <script>
@@ -53,30 +55,6 @@
             });
         </script>
     @endif
-
-    <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable({
-                ordering: false,
-                responsive: true,
-                pageLength: 50,
-                lengthChange: false,
-                language: {
-                    search: "Buscar:",
-                    zeroRecords: "No hay registros",
-                    info: "_TOTAL_ resultados",
-                    infoEmpty: "",
-                    infoFiltered: "",
-                    paginate: {
-                        first: "««",
-                        previous: "«",
-                        next: "»",
-                        last: "»»"
-                    },
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

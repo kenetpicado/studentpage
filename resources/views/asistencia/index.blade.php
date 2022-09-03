@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <x-header-0>Registrar Asistencia</x-header-0>
+    <x-header-0>Registrar Asistencia: {{ $grupo->nombre }} {{ $grupo->horario }}</x-header-0>
 
     <x-create-form ruta="asistencias.store">
         <table class="table table-borderless">

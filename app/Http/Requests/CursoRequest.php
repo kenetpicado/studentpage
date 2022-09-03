@@ -17,12 +17,6 @@ class CursoRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation()
-    {
-        if ($this->isMethod('PUT') && !$this->activo)
-            $this->merge(['activo' => '0']);
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -30,7 +24,7 @@ class CursoRequest extends FormRequest
      */
     public function rules()
     {
-        return ['imagen' => 'required|min:3|max:50'] +
+        return ['imagen' => 'required|max:50|ends_with:.svg'] +
 
             ($this->isMethod('POST')
                 ? $this->store()
@@ -44,7 +38,10 @@ class CursoRequest extends FormRequest
 
     protected function update()
     {
-        return ['nombre' => ['required', 'max:45', Rule::unique('cursos')->ignore($this->curso_id)]];
+        return [
+            'nombre' => ['required', 'max:45', Rule::unique('cursos')->ignore($this->curso_id)],
+            'activo' => 'required|in:0,1'
+        ];
     }
 
     public function messages()

@@ -13,7 +13,12 @@
     <x-edit-form ruta='docentes.update' :id="$docente->id">
         <x-input name='nombre' :val="$docente->nombre"></x-input>
         <x-input name='correo' :val="$docente->correo" type="email"></x-input>
-        <x-check-activo :val="$docente->activo"></x-check-activo>
+        <input type="hidden" name="activo" value="0">
+        <div class="form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" name="activo" value="1"
+                {{ $docente->activo == 1 ? 'checked' :  ''}}>
+                <label class="form-check-label">Activo</label>
+        </div>
         <input type="hidden" name="docente_id" value="{{ $docente->id }}">
     </x-edit-form>
 

@@ -11,12 +11,19 @@ class Mensaje extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = ['from', 'contenido', 'created_at', 'enlace', 'grupo_id'];
-
+    
+    /**
+     * Obtener los mensajes de un Grupo
+     *
+     * @param  int $grupo_id
+     * @return Collection
+     */
     public static function getByGrupo($grupo_id)
     {
         return DB::table('mensajes')
             ->where('grupo_id', $grupo_id)
             ->orWhere('grupo_id', null)
-            ->latest('id')->get();
+            ->latest('id')
+            ->get();
     }
 }

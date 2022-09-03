@@ -52,8 +52,9 @@ class GrupoController extends Controller
     //Editar grupo
     public function edit(Grupo $grupo)
     {
+        $curso = DB::table('cursos')->find($grupo->curso_id, ['id', 'nombre']);
         $docentes = Docente::sucursal($grupo->sucursal);
-        return view('grupo.edit', compact('grupo', 'docentes'));
+        return view('grupo.edit', compact('grupo', 'docentes', 'curso'));
     }
 
     //Actualizar grupo

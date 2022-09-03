@@ -35,8 +35,8 @@
             <th>Carnet</th>
             <th>Correo</th>
             <th>Estado</th>
-            <th>Sucursal</th>
-            <th></th>
+            <th>Grupos</th>
+            <th>Editar</th>
         </x-slot>
         <tbody>
             @foreach ($docentes as $docente)
@@ -45,19 +45,8 @@
                     <td>{{ $docente->carnet }}</td>
                     <td>{{ $docente->correo }}</td>
                     <td>{{ $docente->activo == '1' ? 'Activo' : '-' }}</td>
-                    <td>{{ $docente->sucursal }}</td>
-                    <td>
-                        <div class="dropdown">
-                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Opciones <i class="fas fa-cog"></i>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <a class="dropdown-item" href="{{ route('docentes.show', $docente->id) }}">Grupos</a>
-                                <a class="dropdown-item" href="{{ route('docentes.edit', $docente->id) }}">Editar</a>
-                            </ul>
-                        </div>
-                    </td>
+                    <td><a class="btn btn-sm btn-primary" href="{{ route('docentes.show', $docente->id) }}">Grupos</a></td>
+                    <td><a class="btn btn-sm btn-outline-primary" href="{{ route('docentes.edit', $docente->id) }}">Editar</a></td>
                 </tr>
             @endforeach
         </tbody>

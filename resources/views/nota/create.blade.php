@@ -22,7 +22,7 @@
             <input type="hidden" name="grupo_id" value="{{ $grupo->id }}">
             <div class="row">
                 <div class="mb-3 col-lg-3">
-                    <label class="form-label">Modulo</label>
+                    <label class="form-label">Módulo</label>
                     <select name="modulo_id" class="form-control @error('modulo_id') is-invalid @enderror" autofocus>
 
                         <option selected disabled value="">Seleccionar</option>
@@ -41,11 +41,18 @@
                         </span>
                     @enderror
                 </div>
+                <p class="text-muted small">
+                    Por favor, asegúrese de seleccionar el módulo correcto.
+                </p>
+                <p class="text-muted small">
+                    Si selecciona un módulo que ya ha sido registrado, la(s) nota(s) se actualizarán.
+                </p>
             </div>
 
             <table class="table table-borderless">
                 <thead class="text-primary text-uppercase small">
                     <tr>
+                        <th>Enviar</th>
                         <th>Carnet</th>
                         <th>Nombre</th>
                         <th>Nota</th>
@@ -54,14 +61,23 @@
                 <tbody>
                     @foreach ($inscripciones as $key => $inscripcion)
                         <tr>
+                            <td>
+                                <input type="hidden" name="enviar[{{ $key }}]" value="0">
+
+                                <div class="form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        name="enviar[{{ $key }}]" value="1" checked>
+                                </div>
+                            </td>
                             <td>{{ $inscripcion->matricula_carnet }}</td>
                             <td>{{ $inscripcion->matricula_nombre }}</td>
                             <td>
                                 <input type="hidden" name="inscripcion_id[{{ $key }}]"
                                     value="{{ $inscripcion->id }}">
 
-                                <input type="number" class="form-control @error('valor.' . $key) is-invalid @enderror" name="valor[{{ $key }}]"
-                                    value="{{ old('valor.' . $key, 0) }}" min="0" max="100" required>
+                                <input type="number" class="form-control @error('valor.' . $key) is-invalid @enderror"
+                                    name="valor[{{ $key }}]" value="{{ old('valor.' . $key, 0) }}" min="0"
+                                    max="100" required>
 
                                 @error('valor.' . $key)
                                     <span class="invalid-feedback" role="alert">

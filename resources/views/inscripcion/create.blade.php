@@ -13,9 +13,14 @@
 @endsection
 
 @section('content')
-    <x-header-0>Inscribir: {{ $matricula->nombre }}</x-header-0>
+    <x-header-0>Inscribir</x-header-0>
 
     <x-create-form ruta='inscripciones.store' btn="Inscribir">
+        <p>
+            Inscribir a un grupo al Alumno:
+        </p>
+        <h5 class="fw-bolder">{{ $matricula->nombre }}</h5>
+        <hr>
         <x-grupos :grupos="$grupos"></x-grupos>
         <input type="hidden" name="from" value="{{ $type }}">
         <input type="hidden" name="matricula_id" value="{{ $matricula->id }}">
