@@ -14,7 +14,7 @@
 
 @section('content')
     <div class="card-header d-flex align-items-center justify-content-between">
-        Mensajes
+        Todos los Mensajes del Grupo
         <a href="{{ route('mensajes.create', [$type, $grupo_id]) }}" class="btn btn-sm btn-primary rounded-3 float-end">
             Agregar
         </a>
@@ -22,8 +22,8 @@
 
     <x-table-head>
         <x-slot name="title">
-            <th>Contenido</th>
-            <th width="10%">Editar</th>
+            <th></th>
+            <th width="10%"></th>
         </x-slot>
         <tbody>
             @foreach ($mensajes as $mensaje)

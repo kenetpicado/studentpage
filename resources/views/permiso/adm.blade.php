@@ -7,9 +7,8 @@
 @endsection
 
 @section('content')
-    <x-header-0>Permisos</x-header-0>
+    <x-header-0>Establecer permisos de Administradores</x-header-0>
     <div class="card-body">
-        <p>Permitir o negar el acceso a los administradores locales.</p>
         <form action="{{ route('permisos.adm.store') }}" method="post">
             @csrf
             <x-table-head>

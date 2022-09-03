@@ -21,8 +21,8 @@
 
     <x-edit-form ruta="pagos.destroy" :id="$pago->id" btn="Eliminar" method="delete">
         <hr>
-        <h4 class="mb-3">Eliminar Pago</h4>
-        <p class="text-primary">
+        <h4 class="mb-3">Eliminar</h4>
+        <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
     </x-edit-form>

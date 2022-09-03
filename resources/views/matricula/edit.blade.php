@@ -22,14 +22,13 @@
 
     <x-edit-form ruta="matriculas.destroy" :id="$matricula->id" btn="Eliminar" method="delete">
         <hr>
-        <h5 class="mb-3">Eliminar Matrícula</h5>
+        <h5 class="mb-3">Eliminar</h5>
         <p>
             Solo es posible eliminar una Matrícula que no tenga inscripción en un grupo.
-            De no ser así, primero elimine la inscripción y luego elimine la Matrícula.
             <br>
             Tenga en cuenta que toda la información relacionada con los pagos también se eliminará.
         </p>
-        <p class="text-primary">
+        <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
     </x-edit-form>

@@ -1,6 +1,6 @@
 @props(['text'])
 
-<div class="card-header d-flex align-items-center justify-content-between">
+<div class="card-header d-flex align-items-center justify-content-between border-0">
     {{ $text }}
 
     <div class="dropdown float-end">

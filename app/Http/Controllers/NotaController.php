@@ -11,32 +11,53 @@ use App\Http\Requests\NotaRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+
 class NotaController extends Controller
 {
     //Ver notas
     public function index($inscripcion_id)
     {
         $inscripcion = DB::table('inscripciones')->find($inscripcion_id);
+        $matricula = DB::table('matriculas')->find($inscripcion->matricula_id, ['id', 'nombre']);
         $notas = Nota::index($inscripcion_id);
-        return view('nota.index', compact('notas', 'inscripcion'));
+        return view('nota.index', compact('notas', 'inscripcion', 'matricula'));
     }
 
     //Crear nota
-    public function create($inscripcion_id)
+    public function create($grupo_id)
     {
         if (Gate::denies('create_nota'))
             return back()->with('error', config('app.denies'));
 
-        $inscripcion = Inscripcion::create_nota($inscripcion_id);
-        $modulos = Modulo::where('curso_id', $inscripcion->curso_id)->get();
-        return view('nota.create', compact('modulos', 'inscripcion'));
+        $inscripciones = Inscripcion::getByGrupo($grupo_id);
+        $grupo = DB::table('grupos')
+            ->where('grupos.id', $grupo_id)
+            ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
+            ->first([
+                'grupos.id',
+                'grupos.horario',
+                'cursos.nombre',
+                'cursos.id as curso_id'
+            ]);
+        $modulos = DB::table('modulos')->where('curso_id', $grupo->curso_id)->get();
+
+        return view('nota.create', compact('inscripciones', 'grupo', 'modulos'));
     }
 
     //Guardar nota
     public function store(NotaRequest $request)
     {
-        Nota::create($request->all());
-        return redirect()->route('notas.index', $request->inscripcion_id)->with('success', config('app.created'));
+        foreach ($request->inscripcion_id as $key => $inscripcion) {
+            Nota::create([
+                'valor' => $request->valor[$key],
+                'created_at' => $request->created_at,
+                'modulo_id' => $request->modulo_id,
+                'inscripcion_id' => $inscripcion,
+            ]);
+        }
+        return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.created'));
     }
 
     //Editar nota

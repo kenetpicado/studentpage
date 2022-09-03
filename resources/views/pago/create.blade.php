@@ -1,15 +1,15 @@
 @extends('layout')
 
-@section('title', 'Agregar nota')
+@section('title', 'Crear pago')
 
 @section('bread')
     <li class="breadcrumb-item"><a href="{{ route('matriculas.index') }}">Matriculas</a></li>
     <li class="breadcrumb-item"><a href="{{ route('pagos.index', $matricula_id) }}">Pagos</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Agregar</li>
+    <li class="breadcrumb-item active" aria-current="page">Crear</li>
 @endsection
 
 @section('content')
-    <x-header-0>Agregar pago</x-header-0>
+    <x-header-0>Crear Pago: {{ $matricula->nombre }}</x-header-0>
 
     <x-create-form ruta='pagos.store'>
         <x-input name="concepto"></x-input>

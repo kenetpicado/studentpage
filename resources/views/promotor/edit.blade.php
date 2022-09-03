@@ -16,7 +16,7 @@
         <input type="hidden" name="promotor_id" value="{{ $promotor->id }}">
     </x-edit-form>
 
-    <x-create-form ruta="cambiar.pin" btn="Restablecer PIN">
+    <x-create-form ruta="cambiar.pin" btn="Restablecer">
         @method('PUT')
         <hr>
         <h4 class="mb-3">Restablecer PIN</h4>
@@ -25,9 +25,6 @@
             Esto solo debería usarse en caso que el promotor(a) <strong>{{ $promotor->nombre }}</strong> haya perdido sus credenciales
             y solicite un restablecimiento.
         </p>
-        <p class="text-primary">
-            Esta opción no se puede deshacer.
-        </p>
         <input type="hidden" name="carnet" value="{{ $promotor->carnet }}">
         <input type="hidden" name="correo" value="{{ $promotor->correo }}">
         <input type="hidden" name="tipo" value="promotores">
@@ -35,11 +32,11 @@
 
     <x-edit-form ruta="promotores.destroy" :id="$promotor->id" btn="Eliminar" method="delete">
         <hr>
-        <h4 class="mb-3">Eliminar Promotor</h4>
+        <h4 class="mb-3">Eliminar</h4>
         <p>
-            Al eliminar este Promotor aún se conservan todas las Matrículas que hayan sido realizdas por él.
+            Se conservan todas las Matrículas que hayan sido realizadas por el Promotor <strong>{{ $promotor->nombre }}</strong>.
         </p>
-        <p class="text-primary">
+        <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
     </x-edit-form>

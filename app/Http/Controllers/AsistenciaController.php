@@ -36,7 +36,8 @@ class AsistenciaController extends Controller
         $inscripcion = DB::table('inscripciones')->find($inscripcion_id);
         Gate::authorize('docente_autorizado', $inscripcion->grupo_id);
         $asistencias = DB::table('asistencias')->where('inscripcion_id', $inscripcion_id)->get();
-        return view('asistencia.edit', compact('asistencias', 'inscripcion'));
+        $matricula = DB::table('matriculas')->find($inscripcion->matricula_id, ['id', 'nombre']);
+        return view('asistencia.edit', compact('asistencias', 'inscripcion', 'matricula'));
     }
 
     /**

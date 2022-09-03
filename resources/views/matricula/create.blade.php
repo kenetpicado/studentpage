@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <x-header-0>Crear matricula</x-header-0>
+    <x-header-0>Crear Matricula</x-header-0>
     
     <x-create-form ruta='matriculas.store'>
         <x-input name="nombre"></x-input>

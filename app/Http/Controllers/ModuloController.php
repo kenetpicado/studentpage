@@ -14,12 +14,6 @@ class ModuloController extends Controller
         return redirect()->route('cursos.show', $request->curso_id)->with('success', config('app.created'));
     }
 
-    //Agregar moduilo de un curso
-    public function create($curso_id)
-    {
-        return view('modulo.create', compact('curso_id'));
-    }
-
     //Editar un modulo
     public function edit(Modulo $modulo)
     {

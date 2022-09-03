@@ -20,12 +20,12 @@
                     <div class="card-body p-0">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 mb-4 fw-bolder">{{ config('app.name') }}</h1>
+                                <img src="{{ asset('img/SP.png') }}" alt="" srcset="" width="25%" height="auto">
                             </div>
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <x-input name="email" label="ID"></x-input>
-                                
+
                                 <div class="mb-3">
                                     <label class="form-label">PIN</label>
 
@@ -48,7 +48,6 @@
                                         {{ old('remember') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="remember">Recordarme</label>
                                 </div>
-
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-primary">Login</button>
                                 </div>

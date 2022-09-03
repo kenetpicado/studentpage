@@ -8,12 +8,12 @@
 
 @section('content')
     @if (auth()->user()->rol == 'admin')
-        <x-header-2 text="Grupos">
+        <x-header-2 text="Todos los Grupos">
             <a class="dropdown-item" href="{{ route('grupos.create') }}">Crear grupo</a>
-            <a class="dropdown-item" href="{{ route('grupos.index.closed') }}">Grupos terminados</a>
+            <a class="dropdown-item" href="{{ route('grupos.index.closed') }}">Terminados</a>
         </x-header-2>
     @else
-        <x-header-0>Grupos</x-header-0>
+        <x-header-0>Todos los Grupos</x-header-0>
     @endif
 
     <x-table-head>

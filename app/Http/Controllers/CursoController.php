@@ -13,32 +13,26 @@ class CursoController extends Controller
     //Mostrar todos los cursos
     public function index()
     {
-        $cursos = DB::table('cursos')->orderBy('nombre')->get();
-        return view('curso.index', compact('cursos'));
-    }
-
-    //Agregar un nuevo curso
-    public function create()
-    {
-        if (Gate::denies('create_curso'))
-            return back()->with('error', config('app.denies'));
-
         $imagenes = (new Imagenes)->get();
-        return view('curso.create', compact('imagenes'));
+        $cursos = DB::table('cursos')->orderBy('nombre')->get();
+        return view('curso.index', compact('cursos', 'imagenes'));
     }
 
     //Guardar nuevo curso
     public function store(CursoRequest $request)
     {
+        if (Gate::denies('create_curso'))
+            return back()->with('error', config('app.denies'));
+
         Curso::create($request->all());
         return redirect()->route('cursos.index')->with('success',  config('app.created'));
     }
 
     //Ver modulos de un curso
-    public function show($curso_id)
+    public function show(Curso $curso)
     {
-        $modulos = DB::table('modulos')->where('curso_id', $curso_id)->get();
-        return view('curso.show', compact('modulos', 'curso_id'));
+        $modulos = DB::table('modulos')->where('curso_id', $curso->id)->get();
+        return view('curso.show', compact('modulos', 'curso'));
     }
 
     //Mostrar formulario editar curso

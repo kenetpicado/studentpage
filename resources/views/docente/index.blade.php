@@ -7,13 +7,29 @@
 @endsection
 
 @section('content')
-    <x-header-2 text="Docentes">
-        <a class="dropdown-item" href="{{ route('docentes.create') }}">Agregar</a>
+    <x-header-2 text="Todos los Docentes">
+        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCreate">Agregar</a>
         <a class="dropdown-item" href="{{ route('permisos.docentes') }}">Permisos</a>
     </x-header-2>
 
+    <x-modal title="Docente - Agregar">
+        <form action="{{ route('docentes.store') }}" method="post">
+            @csrf
+            <div class="modal-body">
+                <x-input name="nombre"></x-input>
+                <x-input name="correo" type="email"></x-input>
+
+                @if (auth()->user()->sucursal == 'all')
+                    <x-sucursal-form></x-sucursal-form>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary rounded-3">Guardar</button>
+            </div>
+        </form>
+    </x-modal>
+
     <x-table-head>
-        <a href="">Configurar permisos</a>
         <x-slot name="title">
             <th>Nombre</th>
             <th>Carnet</th>

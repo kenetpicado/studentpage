@@ -6,29 +6,32 @@ use App\Models\Pago;
 use App\Services\Moneda;
 use App\Models\Inscripcion;
 use App\Http\Requests\PagoRequest;
+use Illuminate\Support\Facades\DB;
 
 class PagoController extends Controller
 {
     //Cargar vista de los pagos
     public function index($matricula_id)
     {
+        $matricula = DB::table('matriculas')->find($matricula_id, ['id', 'nombre']);
         $pagos = Pago::index($matricula_id);
-        return view('pago.index', compact('pagos', 'matricula_id'));
+        return view('pago.index', compact('pagos', 'matricula'));
     }
 
     //Crear nuevo pago
     public function create($matricula_id)
     {
+        $matricula = DB::table('matriculas')->find($matricula_id, ['id', 'nombre']);
         $grupos = Inscripcion::grupos($matricula_id);
         $monedas = (new Moneda)->get();
-        return view('pago.create', compact('matricula_id', 'monedas', 'grupos'));
+        return view('pago.create', compact('matricula_id', 'monedas', 'grupos', 'matricula'));
     }
 
     //Guardar pago
     public function store(PagoRequest $request)
     {
         Pago::create($request->all());
-        return redirect()->route('pagos.index', $request->matricula_id)->with('success', 'Pago guardado correctamente');
+        return redirect()->route('pagos.index', $request->matricula_id)->with('success', config('app.created'));
     }
 
     //Editar un pago
@@ -43,14 +46,14 @@ class PagoController extends Controller
     public function update(PagoRequest $request, Pago $pago)
     {
         $pago->update($request->all());
-        return redirect()->route('pagos.index', $pago->matricula_id)->with('success', 'Pago actualizado correctamente');
+        return redirect()->route('pagos.index', $pago->matricula_id)->with('success', config('app.updated'));
     }
 
     //Eliminar un pago
     public function destroy(Pago $pago)
     {
         $pago->delete();
-        return redirect()->route('pagos.index', $pago->matricula_id)->with('success', 'Pago eliminado correctamente');
+        return redirect()->route('pagos.index', $pago->matricula_id)->with('success', config('app.deleted'));
     }
 
     //Ver recibo

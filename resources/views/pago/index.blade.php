@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Ver pagos')
+@section('title', 'Pagos')
 
 @section('bread')
     <li class="breadcrumb-item"><a href="{{ route('matriculas.index') }}">Matriculas</a></li>
@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <x-header-1 ruta="pagos.create" :id="$matricula_id">Pagos</x-header-1>
+    <x-header-1 ruta="pagos.create" :id="$matricula->id">Pagos: {{ $matricula->nombre }}</x-header-1>
 
     <x-table-head>
         <x-slot name="title">
@@ -30,7 +30,8 @@
                                 Opciones <i class="fas fa-cog"></i>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <a href="{{ route('recibo', $pago->id) }}" target="_blank" class="dropdown-item">Ver recibo</a>
+                                <a href="{{ route('recibo', $pago->id) }}" target="_blank" class="dropdown-item">Ver
+                                    recibo</a>
                                 <a href="{{ route('pagos.edit', $pago->id) }}" class="dropdown-item">Editar</a>
                             </ul>
                         </div>

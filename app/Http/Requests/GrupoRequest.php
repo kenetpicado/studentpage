@@ -20,7 +20,6 @@ class GrupoRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'sucursal' => Docente::find($this->docente_id)->sucursal,
             'anyo' => now()->format('Y'),
         ]);
     }

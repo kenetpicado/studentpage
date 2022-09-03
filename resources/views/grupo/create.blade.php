@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Crear grupo')
+@section('title', 'Crear Grupo')
 
 @section('bread')
     <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-<x-header-0>Crear grupo</x-header-0>
+<x-header-0>Crear Grupo</x-header-0>
 
 <x-create-form ruta='grupos.store'>
     <x-select-0 name="docente_id" :items="$docentes" text="Docente"></x-select-0>

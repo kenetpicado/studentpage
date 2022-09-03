@@ -17,7 +17,7 @@
     <div class="container">
         <div class="justify-content-center">
             <nav aria-label="breadcrumb" class="rounded-3">
-                <ol class="breadcrumb p-1">
+                <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('index') }}">Inicio</a></li>
                     @yield('bread')
                 </ol>
@@ -49,7 +49,7 @@
     @if ($errors->any())
         <script>
             $(document).ready(function() {
-                $("#agregar").modal('show');
+                $("#modalCreate").modal('show');
             });
         </script>
     @endif

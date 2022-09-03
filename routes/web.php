@@ -21,19 +21,24 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 /* Usuario autenticado, admin y promotor */
+
 Route::resource('matriculas', MatriculaController::class)->except(['destroy', 'show'])->middleware(['auth', 'admin-promotor']);
 
 // Autenticado y administradores
 Route::middleware(['auth', 'admin'])->group(function () {
 
-    Route::resource('cursos', CursoController::class);
+    Route::resource('cursos', CursoController::class)
+        ->except(['create']);
+
+    Route::resource('docentes', DocenteController::class)
+        ->except(['create']);
+
+    Route::resource('promotores', PromotorController::class)
+        ->parameters(['promotores' => 'promotor'])
+        ->except(['create']);
 
     Route::resource('modulos', ModuloController::class)->except(['create']);
     Route::get('modulos-curso/{id}/crear', [ModuloController::class, 'create'])->name('modulos.create');
-
-    Route::resource('docentes', DocenteController::class);
-
-    Route::resource('promotores', PromotorController::class)->parameters(['promotores' => 'promotor']);
 
     Route::put('cambiar-estado-grupo/{grupo}', [GrupoController::class, 'cambiar_estado'])->name('cambiar.estado.grupo');
 
@@ -87,7 +92,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 // Autenticado, Administradores y Docente
 Route::middleware(['auth', 'admin-docente'])->group(function () {
 
-    Route::get('grupos/notas-agregar/{id}', [NotaController::class, 'create'])->name('notas.create');
+    Route::get('grupos/notas-crear/{grupo_id}', [NotaController::class, 'create'])->name('notas.create');
 
     Route::get('grupos/notas-alumno/{inscripcion}', [NotaController::class, 'index'])->name('notas.index');
 

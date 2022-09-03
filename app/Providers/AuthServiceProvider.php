@@ -76,6 +76,10 @@ class AuthServiceProvider extends ServiceProvider
             return !$user->permisos->contains('denegar', 'create_grupo');
         });
 
+        Gate::define('create_promotor', function (User $user) {
+            return !$user->permisos->contains('denegar', 'create_promotor');
+        });
+
         Gate::define('is_promotor', function (User $user) {
             return $user->rol == 'promotor';
         });

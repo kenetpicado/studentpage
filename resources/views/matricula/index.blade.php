@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <x-header-1 ruta='matriculas.create'>Matriculas</x-header-1>
+    <x-header-1 ruta='matriculas.create'>Todas las Matriculas</x-header-1>
 
     <x-table-head>
         <x-slot name="title">

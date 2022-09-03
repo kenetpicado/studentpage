@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Permisos')
+@section('title', 'Permisos Docentes')
 
 @section('bread')
     <li class="breadcrumb-item"><a href="{{ route('docentes.index') }}">Docentes</a></li>
@@ -8,10 +8,8 @@
 @endsection
 
 @section('content')
-    <x-header-0>Permisos</x-header-0>
+    <x-header-0>Establecer permisos de Docentes</x-header-0>
     <div class="card-body">
-        <p>Permitir o negar el acceso para registrar notas y enviar mensajes.</p>
-
         <form action="{{ route('permisos.docente.store') }}" method="post">
             @csrf
             <x-table-head>

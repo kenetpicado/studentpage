@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <x-header-0>Matriculas</x-header-0>
+    <x-header-0>Matriculas del Promotor: {{$promotor->nombre}}</x-header-0>
 
     <x-table-head>
         <x-slot name="title">

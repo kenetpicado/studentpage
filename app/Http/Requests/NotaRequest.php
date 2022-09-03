@@ -17,6 +17,13 @@ class NotaRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'created_at' => now()->format('Y-m-d'),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,12 +32,9 @@ class NotaRequest extends FormRequest
     public function rules()
     {
         return [
-            'valor' => 'required|numeric|min:0|max:100',
-            'inscripcion_id' => 'required'
-        ] +
-            ($this->isMethod('POST')
-                ? $this->store()
-                : $this->update());
+            'modulo_id' => 'required',
+            'valor.*' => 'required|numeric|min:0|max:100'
+        ];
     }
 
     protected function store()
@@ -54,7 +58,7 @@ class NotaRequest extends FormRequest
     public function attributes()
     {
         return [
-            'valor' => 'nota',
+            'valor.*' => 'nota',
             'modulo_id' => 'modulo'
         ];
     }

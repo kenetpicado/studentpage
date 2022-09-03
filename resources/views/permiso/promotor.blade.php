@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Permisos')
+@section('title', 'Permisos Promotores')
 
 @section('bread')
     <li class="breadcrumb-item"><a href="{{ route('promotores.index') }}">Promotores</a></li>
@@ -8,9 +8,8 @@
 @endsection
 
 @section('content')
-    <x-header-0>Permisos</x-header-0>
+    <x-header-0>Establecer permisos de Promotores</x-header-0>
     <div class="card-body">
-        <p>Permitir o negar el acceso para crear nuevas matriculas.</p>
         <form action="{{ route('permisos.promotor.store') }}" method="post">
             @csrf
             <x-table-head>

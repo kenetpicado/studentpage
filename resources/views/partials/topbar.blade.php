@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white static-top shadow-sm mb-3">
     <div class="container">
-        <a class="navbar-brand fw-bolder text-primary" href="/">{{ config('app.name') }}</a>
+        {{-- <a class="navbar-brand fw-bolder text-primary small" href="/">SP</a> --}}
+        <a class="navbar-brand" href="/">
+            <img src="{{ asset('img/SP.png') }}" alt="" width="30" height="auto">
+          </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

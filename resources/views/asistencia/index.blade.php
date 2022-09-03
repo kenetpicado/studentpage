@@ -9,10 +9,10 @@
 @endsection
 
 @section('content')
-    <x-header-0>Asistencia</x-header-0>
+    <x-header-0>Registrar Asistencia</x-header-0>
 
     <x-create-form ruta="asistencias.store">
-        <table class="table table-borderless table-striped">
+        <table class="table table-borderless">
             <thead>
                 <tr>
                     <th>Nombre</th>

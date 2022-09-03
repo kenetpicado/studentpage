@@ -29,6 +29,7 @@ class Inscripcion extends Model
                     'modulos.nombre as mod'
                 ])->join('modulos', 'notas.modulo_id', '=', 'modulos.id');
             }])
+            ->orderBy('matricula_nombre')
             ->get([
                 'inscripciones.id',
                 'nombre as matricula_nombre',

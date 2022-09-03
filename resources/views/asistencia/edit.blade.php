@@ -5,11 +5,11 @@
 @section('bread')
     <li class="breadcrumb-item"><a href="{{ route('grupos.index') }}">Grupos</a></li>
     <li class="breadcrumb-item"><a href="{{ route('grupos.show', $inscripcion->grupo_id) }}">Alumnos</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Editar asistencias</li>
+    <li class="breadcrumb-item active" aria-current="page">Asistencias</li>
 @endsection
 
 @section('content')
-    <x-header-0>Asistencia</x-header-0>
+    <x-header-0>Editar Asistencias: {{$matricula->nombre}}</x-header-0>
 
     @if ($asistencias->isEmpty())
         <div class="row justify-content-center">
@@ -26,7 +26,7 @@
             @method('PUT')
             <input type="hidden" name="grupo_id" value="{{ $inscripcion->grupo_id }}">
             <input type="hidden" name="matricula_id" value="{{ $inscripcion->matricula_id }}">
-            <table class="table table-borderless table-striped">
+            <table class="table table-borderless">
                 <thead>
                     <tr>
                         <th>Fecha</th>

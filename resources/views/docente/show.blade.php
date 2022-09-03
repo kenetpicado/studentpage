@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <x-header-0>Grupos</x-header-0>
+    <x-header-0>Grupos del Docente: {{ $docente->nombre }}</x-header-0>
 
     <x-table-head>
         <x-slot name="title">

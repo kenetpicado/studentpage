@@ -21,8 +21,8 @@
 
     <x-edit-form ruta="notas.destroy" :id="$nota->id" btn="Eliminar" method="delete">
         <hr>
-        <h5 class="mb-3">Eliminar Nota</h5>
-        <p class="text-primary">
+        <h5 class="mb-3">Eliminar</h5>
+        <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
     </x-edit-form>

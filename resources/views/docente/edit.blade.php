@@ -17,7 +17,7 @@
         <input type="hidden" name="docente_id" value="{{ $docente->id }}">
     </x-edit-form>
 
-    <x-create-form ruta="cambiar.pin" btn="Restablecer PIN">
+    <x-create-form ruta="cambiar.pin" btn="Restablecer">
         @method('PUT')
         <hr>
         <h4 class="mb-3">Restablecer PIN</h4>
@@ -27,9 +27,6 @@
             credenciales
             y solicite un restablecimiento.
         </p>
-        <p class="text-primary">
-            Esta opción no se puede deshacer.
-        </p>
         <input type="hidden" name="carnet" value="{{ $docente->carnet }}">
         <input type="hidden" name="correo" value="{{ $docente->correo }}">
         <input type="hidden" name="tipo" value="docentes">
@@ -37,12 +34,11 @@
 
     <x-edit-form ruta="docentes.destroy" :id="$docente->id" btn="Eliminar" method="delete">
         <hr>
-        <h4 class="mb-3">Eliminar Docente</h4>
+        <h4 class="mb-3">Eliminar</h4>
         <p>
-            Solo es posible eliminar un Docente que no haya sido asignado en un grupo.
-            De no ser así, primero elimine al Docente del grupo.
+            Solo es posible eliminar un Docente que no haya sido asignado a un grupo.
         </p>
-        <p class="text-primary">
+        <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
     </x-edit-form>

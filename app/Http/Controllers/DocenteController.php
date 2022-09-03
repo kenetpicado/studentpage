@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use App\Models\Docente;
 use App\Http\Requests\DocenteRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class DocenteController extends Controller
@@ -16,18 +17,12 @@ class DocenteController extends Controller
         return view('docente.index', compact('docentes'));
     }
 
-    //Agregar nuevo docente
-    public function create()
+    //Guardar docente
+    public function store(DocenteRequest $request)
     {
         if (Gate::denies('create_docente'))
             return back()->with('error', config('app.denies'));
 
-        return view('docente.create');
-    }
-
-    //Guardar docente
-    public function store(DocenteRequest $request)
-    {
         Docente::create($request->validated());
         return redirect()->route('docentes.index')->with('success', config('app.created'));
     }
@@ -35,8 +30,9 @@ class DocenteController extends Controller
     //Ver grupos de un docente
     public function show($docente_id)
     {
-        $grupos = Grupo::docente($docente_id);
-        return view('docente.show', compact('grupos','docente_id'));
+        $docente = DB::table('docentes')->find($docente_id, ['id', 'nombre']);
+        $grupos = Grupo::docente($docente->id);
+        return view('docente.show', compact('grupos','docente'));
     }
 
     //Formulario para editar un docente

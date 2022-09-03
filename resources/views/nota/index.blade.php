@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <x-header-1 ruta="notas.create" :id="$inscripcion->id">Notas</x-header-1>
+    <x-header-0>Todas las Notas: {{ $matricula->nombre }}</x-header-0>
 
     <x-table-head>
         <x-slot name="title">
@@ -25,7 +25,7 @@
                     <td>{{ $nota->valor }}</td>
                     <td>{{ $nota->created_at }}</td>
                     <td>
-                        <a href="{{ route('notas.edit', $nota->id) }}">Editar</a>
+                        <a class="btn btn-sm btn-primary" href="{{ route('notas.edit', $nota->id) }}">Editar</a>
                     </td>
                 </tr>
             @endforeach

@@ -17,18 +17,12 @@ class PromotorController extends Controller
         return view('promotor.index', compact('promotors'));
     }
 
-    //Crear un nuevo promotor
-    public function create()
-    {
-        if (Gate::denies('create_promotor'))
-        return back()->with('error', config('app.denies'));
-
-        return view('promotor.create');
-    }
-
     //Guardar nuevo promotor
     public function store(PromotorRequest $request)
     {
+        if (Gate::denies('create_promotor'))
+            return back()->with('error', config('app.denies'));
+
         Promotor::create($request->validated());
         return redirect()->route('promotores.index')->with('success', config('app.created'));
     }
@@ -36,8 +30,9 @@ class PromotorController extends Controller
     //Ver matriculas de un promotor
     public function show($promotor_id)
     {
-        $matriculas = Matricula::promotor($promotor_id);
-        return view('promotor.show', compact('matriculas', 'promotor_id'));
+        $promotor = DB::table('promotors')->find($promotor_id, ['id', 'nombre']);
+        $matriculas = Matricula::promotor($promotor->id);
+        return view('promotor.show', compact('matriculas', 'promotor'));
     }
 
     //Editar promotor

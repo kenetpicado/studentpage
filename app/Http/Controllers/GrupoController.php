@@ -33,6 +33,10 @@ class GrupoController extends Controller
     //Guardar grupo
     public function store(GrupoRequest $request)
     {
+        $request->merge([
+            'sucursal' => Docente::find($request->docente_id)->sucursal
+        ]);
+
         Grupo::create($request->all());
         return redirect()->route('grupos.index')->with('success', config('app.created'));
     }
