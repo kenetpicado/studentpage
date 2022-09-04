@@ -27,6 +27,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function docentes()
+    {
+        return User::with('permisos')
+            ->where('rol', 'docente')
+            ->when(auth()->user()->sucursal != 'all', function ($q) {
+                $q->where('sucursal', auth()->user()->sucursal);
+            })
+            ->get(['id', 'email', 'name']);
+    }
+
+    public static function promotores()
+    {
+        return User::with('permisos')
+            ->where('rol', 'promotor')
+            ->get(['id', 'email', 'name']);
+    }
+
     public function permisos()
     {
         return $this->hasMany(Permiso::class);

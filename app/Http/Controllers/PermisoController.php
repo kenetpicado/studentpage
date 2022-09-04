@@ -14,16 +14,13 @@ class PermisoController extends Controller
         if (auth()->user()->sucursal != 'all')
             return back()->with('error', config('app.denies'));
 
-        $promotores = User::with('permisos')->where('rol', 'promotor')->get();
+        $promotores = User::promotores();
         return view('permiso.promotor', compact('promotores'));
     }
 
     public function docentes()
     {
-        $docentes = auth()->user()->sucursal != 'all'
-            ? User::with('permisos')->where('rol', 'docente')->where('sucursal', auth()->user()->sucursal)->get()
-            : User::with('permisos')->where('rol', 'docente')->get();
-
+        $docentes = User::docentes();
         return view('permiso.docente', compact('docentes'));
     }
 
