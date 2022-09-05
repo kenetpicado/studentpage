@@ -7,8 +7,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('img/SP.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }} - Login</title>
-    <link href="css/app2.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('css/app.min.css') }}" rel="stylesheet">
 </head>
 
 <body class="bg-light">
