@@ -11,9 +11,9 @@
 @section('content')
     <x-header-0>Agregar modulo</x-header-0>
 
-    <x-create-form ruta='modulos.store'>
+    <x-form ruta='modulos.store'>
         <x-input name="nombre"></x-input>
         <input type="hidden" name="curso_id" value="{{ $curso_id }}">
-    </x-create-form>
+    </x-form>
 
 @endsection

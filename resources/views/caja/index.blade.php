@@ -9,24 +9,17 @@
 @section('content')
     <x-header-0>Caja</x-header-0>
 
-    <div class="card-body">
-        <div class="row justify-content-center mb-4">
-            <div class="col-lg-6">
-                <form class="d-flex" method="POST" action="{{ route('caja.buscar') }}">
-                    @csrf
-                    <input class="form-control me-2  @error('buscar') is-invalid @enderror" type="search"
-                        placeholder="Ingrese el carnet o nombre" name="buscar">
-                    <button class="btn btn-primary" type="submit">Buscar</button>
-                </form>
-            </div>
-        </div>
+    <x-form ruta="caja.buscar" btn="Buscar">
+        <x-input name="buscar" label="Buscar por Carnet o Nombre"></x-input>
+    </x-form>
 
-        <table class="table table-borderless aligh-middle" id="dataTable" width="100%" cellspacing="0">
+    <div class="card-body">
+        <table class="table table-borderless" width="100%" cellspacing="0">
             <thead>
-                <tr class="text-primary text-uppercase small">
+                <tr>
                     <th>NOMBRE</th>
                     <th>CARNET</th>
-                    <th></th>
+                    <th>PAGOS</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,10 +29,14 @@
                             <td>{{ $matricula->nombre }}</td>
                             <td>{{ $matricula->carnet }}</td>
                             <td>
-                                <a href="{{ route('pagos.index', $matricula->id) }}">Realizar pago</a>
+                                <a style="width: 150px;" class="btn btn-sm btn-primary" href="{{ route('pagos.index', $matricula->id) }}">Pagos</a>
                             </td>
                         </tr>
                     @endforeach
+                @else
+                    <tr>
+                        <td colspan="3" class="text-center">No hay registros</td>
+                    </tr>
                 @endif
             </tbody>
         </table>

@@ -10,10 +10,10 @@
 @section('content')
 <x-header-0>Crear Grupo</x-header-0>
 
-<x-create-form ruta='grupos.store'>
-    <x-select-0 name="docente_id" :items="$docentes" text="Docente"></x-select-0>
-    <x-select-0 name="curso_id" :items="$cursos" text="Curso"></x-select-0>
+<x-form ruta='grupos.store'>
+    <x-select name="docente_id" :items="$docentes" text="Docente"></x-select>
+    <x-select name="curso_id" :items="$cursos" text="Curso"></x-select>
     <x-input name="horario"></x-input>
-</x-create-form>
+</x-form>
 
 @endsection

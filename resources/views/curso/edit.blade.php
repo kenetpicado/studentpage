@@ -10,8 +10,8 @@
 @section('content')
     <x-header-0>Editar</x-header-0>
 
-    <x-edit-form ruta='cursos.update' :id="$curso->id">
-
+    <x-form ruta='cursos.update' :id="$curso->id">
+        @method('PUT')
         <x-input name="nombre" :val="$curso->nombre"></x-input>
         <x-imagenes :old="$curso->imagen" :imagenes="$imagenes"></x-imagenes>
         <input type="hidden" name="activo" value="0">
@@ -25,9 +25,10 @@
             <img src="{{ asset('courses/' . $curso->imagen) }}" style="height: 200px; width: 200px;">
         </div>
         <input type="hidden" name="curso_id" value="{{ $curso->id }}">
-    </x-edit-form>
+    </x-form>
 
-    <x-edit-form ruta="cursos.destroy" :id="$curso->id" btn="Eliminar" method="delete">
+    <x-form ruta="cursos.destroy" :id="$curso->id" btn="Eliminar">
+        @method('DELETE')
         <hr>
         <h4 class="mb-3">Eliminar</h4>
         <p>
@@ -36,5 +37,5 @@
         <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
-    </x-edit-form>
+    </x-form>
 @endsection

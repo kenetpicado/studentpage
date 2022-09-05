@@ -22,7 +22,7 @@
             </div>
         </div>
     @else
-        <x-create-form ruta="asistencias.update">
+        <x-form ruta="asistencias.update">
             @method('PUT')
             <p>
                 Editar asistencias del alumno:
@@ -59,6 +59,6 @@
                     </tr>
                 @endforeach
             </table>
-        </x-create-form>
+        </x-form>
     @endif
 @endsection

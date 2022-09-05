@@ -46,6 +46,7 @@ class Inscripcion extends Model
             ->where('matriculas.activo', '1')
             ->join('matriculas', 'inscripciones.matricula_id', '=', 'matriculas.id')
             ->with('asistencias')
+            ->orderBy('matricula_nombre')
             ->get([
                 'inscripciones.id',
                 'nombre as matricula_nombre',

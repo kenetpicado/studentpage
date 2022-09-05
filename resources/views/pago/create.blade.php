@@ -11,7 +11,7 @@
 @section('content')
     <x-header-0>Crear</x-header-0>
 
-    <x-create-form ruta='pagos.store'>
+    <x-form ruta='pagos.store'>
         <p>
             Crear pago a nombre del Alumno:
         </p>
@@ -20,9 +20,9 @@
         <x-input name="concepto"></x-input>
         <x-input name="monto"></x-input>
         <x-input name="saldo"></x-input>
-        <x-select-0 name="moneda" :items="$monedas"></x-select-0>
-        <x-select-0 name="grupo_id" :items="$grupos" text="Curso"></x-select-0>
+        <x-select name="moneda" :items="$monedas"></x-select>
+        <x-select name="grupo_id" :items="$grupos" text="Curso"></x-select>
         <input type="hidden" name="matricula_id" value="{{ $matricula_id }}">
-    </x-create-form>
+    </x-form>
 
 @endsection

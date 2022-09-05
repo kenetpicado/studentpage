@@ -17,10 +17,11 @@
 @section('content')
     <x-header-0>Editar</x-header-0>
 
-    <x-edit-form ruta='mensajes.update' :id="$mensaje->id">
+    <x-form ruta='mensajes.update' :id="$mensaje->id">
+        @method('PUT')
         <div class="mb-3">
             <label class="form-label">Contenido</label>
-            <textarea name="contenido" rows="5" class="form-control @error('contenido') is-invalid @enderror">{{ old('contenido', $mensaje->contenido) }}</textarea>
+            <textarea name="contenido" rows="10" class="form-control @error('contenido') is-invalid @enderror">{{ old('contenido', $mensaje->contenido) }}</textarea>
 
             @error('contenido')
                 <span class="invalid-feedback" role="alert">
@@ -32,15 +33,16 @@
         <x-input name="enlace" label="Enlace - (Opcional)" :val="$mensaje->enlace"></x-input>
         <input type="hidden" name="grupo_id" value="{{ $mensaje->grupo_id }}">
         <input type="hidden" name="type" value="{{ $type }}">
-    </x-edit-form>
+    </x-form>
 
-    <x-edit-form ruta="mensajes.destroy" :id="$mensaje->id" btn="Eliminar" method="delete">
+    <x-form ruta="mensajes.destroy" :id="$mensaje->id" btn="Eliminar">
+        @method('DELETE')
         <hr>
-        <h5 class="mb-3">Eliminar Mensaje</h5>
-        <p class="text-primary">
+        <h5 class="mb-3">Eliminar</h5>
+        <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
         <input type="hidden" name="grupo_id" value="{{ $mensaje->grupo_id }}">
         <input type="hidden" name="type" value="{{ $type }}">
-    </x-edit-form>
+    </x-form>
 @endsection

@@ -11,6 +11,7 @@ use App\Observers\MatriculaObserver;
 use App\Observers\PagoObserver;
 use App\Observers\PromotorObserver;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,5 +36,6 @@ class AppServiceProvider extends ServiceProvider
         Promotor::observe(PromotorObserver::class);
         Matricula::observe(MatriculaObserver::class);
         Pago::observe(PagoObserver::class);
+        Paginator::useBootstrap();
     }
 }

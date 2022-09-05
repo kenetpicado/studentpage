@@ -2,7 +2,7 @@
     <table class="table table-borderless align-middle display responsive nowrap" id="dataTable" width="100%"
         cellspacing="0">
         <thead>
-            <tr class="text-primary text-uppercase small">
+            <tr>
                 {{ $title }}
             </tr>
         </thead>

@@ -9,9 +9,14 @@
 @endsection
 
 @section('content')
-    <x-header-0>Registrar Asistencia: {{ $grupo->nombre }} {{ $grupo->horario }}</x-header-0>
+    <x-header-0>Asistencia</x-header-0>
 
-    <x-create-form ruta="asistencias.store">
+    <x-form ruta="asistencias.store">
+        <p>
+            Registrar asistencia del grupo:
+        </p>
+        <h5 class="fw-bolder">{{ $grupo->nombre }} {{ $grupo->horario }}</h5>
+        <hr>
         <table class="table table-borderless">
             <thead>
                 <tr>
@@ -41,5 +46,5 @@
         </table>
         <x-input name="created_at" label="Fecha" type="date" :val="date('Y-m-d')"></x-input>
         <input type="hidden" name="grupo_id" value="{{ $grupo_id }}">
-    </x-create-form>
+    </x-form>
 @endsection

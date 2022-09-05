@@ -4,10 +4,9 @@
     {{ $text }}
 
     <div class="dropdown float-end">
-        <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+        <button style="width: 80px;" class="btn btn-primary btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
             aria-expanded="false">
             Opciones
-            {{-- Opciones <i class="fas fa-cog"></i> --}}
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             {{ $slot }}

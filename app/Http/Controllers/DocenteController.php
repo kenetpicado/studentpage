@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use App\Models\Docente;
 use App\Http\Requests\DocenteRequest;
+use App\Services\Sucursal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,7 +15,8 @@ class DocenteController extends Controller
     public function index()
     {
         $docentes = Docente::index();
-        return view('docente.index', compact('docentes'));
+        $sucursales = (new Sucursal)->get();
+        return view('docente.index', compact('docentes', 'sucursales'));
     }
 
     //Guardar docente

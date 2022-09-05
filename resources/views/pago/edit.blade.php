@@ -11,7 +11,8 @@
 @section('content')
     <x-header-0>Editar</x-header-0>
     
-    <x-edit-form ruta='pagos.update' :id="$pago->id">
+    <x-form ruta='pagos.update' :id="$pago->id">
+        @method('PUT')
         <p>
             Editar pago del Alumno:
         </p>
@@ -20,15 +21,16 @@
         <x-input name="concepto" :val="$pago->concepto"></x-input>
         <x-input name="monto" :val="$pago->monto"></x-input>
         <x-input name="saldo" :val="$pago->saldo"></x-input>
-        <x-select-0 name="moneda" :items="$monedas" :old="$pago->moneda"></x-select-0>
-        <x-select-0 name="grupo_id" :items="$grupos" text="Curso" :old="$pago->grupo_id"></x-select-0>
-    </x-edit-form>
+        <x-select name="moneda" :items="$monedas" :old="$pago->moneda"></x-select>
+        <x-select name="grupo_id" :items="$grupos" text="Curso" :old="$pago->grupo_id"></x-select>
+    </x-form>
 
-    <x-edit-form ruta="pagos.destroy" :id="$pago->id" btn="Eliminar" method="delete">
+    <x-form ruta="pagos.destroy" :id="$pago->id" btn="Eliminar">
+        @method('DELETE')
         <hr>
         <h4 class="mb-3">Eliminar</h4>
         <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
-    </x-edit-form>
+    </x-form>
 @endsection

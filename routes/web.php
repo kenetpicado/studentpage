@@ -49,9 +49,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::put('user-pin', [UserController::class, 'pin'])->name('cambiar.pin');
 
-    Route::get('pagos-alumno/{matricula}', [PagoController::class, 'index'])->name('pagos.index');
-    Route::get('pagos-agregar/{matricula}', [PagoController::class, 'create'])->name('pagos.create');
-    Route::resource('pagos', PagoController::class)->except(['index', 'create']);
+    Route::get('matricula/pagos-alumno/{matricula}', [PagoController::class, 'index'])->name('pagos.index');
+    Route::get('matricula/pagos-agregar/{matricula}', [PagoController::class, 'create'])->name('pagos.create');
+    Route::resource('matricula/pagos', PagoController::class)->except(['index', 'create']);
 
     Route::get('certificado/notas/{inscripcion}', [NotaController::class, 'certificado'])->name('notas.certified');
 
@@ -104,9 +104,8 @@ Route::middleware(['auth', 'admin-docente'])->group(function () {
 
     Route::resource('grupos', GrupoController::class)->only(['index', 'show']);
 
-    Route::get('mensajes/{type}/{grupo_id?}', [MensajeController::class, 'index'])->name('mensajes.index');
-    Route::get('mensajes-crear/{type}/{grupo_id?}', [MensajeController::class, 'create'])->name('mensajes.create');
-    Route::get('mensajes/{mensaje_id}/editar/{type}', [MensajeController::class, 'edit'])->name('mensajes.edit');
+    Route::get('{type}/mensajes/{grupo_id?}', [MensajeController::class, 'index'])->name('mensajes.index');
+    Route::get('{type}/mensajes/{mensaje_id}/editar', [MensajeController::class, 'edit'])->name('mensajes.edit');
     Route::resource('mensajes', MensajeController::class)->only(['store', 'update', 'destroy']);
 
     Route::get('grupos/asistencias/{grupo_id}', [AsistenciaController::class, 'index'])->name('asistencias.index');

@@ -10,13 +10,14 @@
 @section('content')
     <x-header-0>Editar</x-header-0>
 
-    <x-edit-form ruta='promotores.update' :id="$promotor->id">
+    <x-form ruta='promotores.update' :id="$promotor->id">
+        @method('PUT')
         <x-input name="nombre" :val="$promotor->nombre"></x-input>
         <x-input name="correo" :val="$promotor->correo" type="email"></x-input>
         <input type="hidden" name="promotor_id" value="{{ $promotor->id }}">
-    </x-edit-form>
+    </x-form>
 
-    <x-create-form ruta="cambiar.pin" btn="Restablecer">
+    <x-form ruta="cambiar.pin" btn="Restablecer">
         @method('PUT')
         <hr>
         <h4 class="mb-3">Restablecer PIN</h4>
@@ -28,9 +29,10 @@
         <input type="hidden" name="carnet" value="{{ $promotor->carnet }}">
         <input type="hidden" name="correo" value="{{ $promotor->correo }}">
         <input type="hidden" name="tipo" value="promotores">
-    </x-create-form>
+    </x-form>
 
-    <x-edit-form ruta="promotores.destroy" :id="$promotor->id" btn="Eliminar" method="delete">
+    <x-form ruta="promotores.destroy" :id="$promotor->id" btn="Eliminar">
+        @method('DELETE')
         <hr>
         <h4 class="mb-3">Eliminar</h4>
         <p>
@@ -39,5 +41,5 @@
         <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
-    </x-edit-form>
+    </x-form>
 @endsection

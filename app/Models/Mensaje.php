@@ -24,6 +24,6 @@ class Mensaje extends Model
             ->where('grupo_id', $grupo_id)
             ->orWhere('grupo_id', null)
             ->latest('id')
-            ->get();
+            ->paginate(10);
     }
 }

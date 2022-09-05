@@ -10,7 +10,8 @@
 @section('content')
     <x-header-0>Editar</x-header-0>
 
-    <x-edit-form ruta='docentes.update' :id="$docente->id">
+    <x-form ruta='docentes.update' :id="$docente->id">
+        @method('PUT')
         <x-input name='nombre' :val="$docente->nombre"></x-input>
         <x-input name='correo' :val="$docente->correo" type="email"></x-input>
         <input type="hidden" name="activo" value="0">
@@ -20,9 +21,9 @@
                 <label class="form-check-label">Activo</label>
         </div>
         <input type="hidden" name="docente_id" value="{{ $docente->id }}">
-    </x-edit-form>
+    </x-form>
 
-    <x-create-form ruta="cambiar.pin" btn="Restablecer">
+    <x-form ruta="cambiar.pin" btn="Restablecer">
         @method('PUT')
         <hr>
         <h4 class="mb-3">Restablecer PIN</h4>
@@ -35,9 +36,10 @@
         <input type="hidden" name="carnet" value="{{ $docente->carnet }}">
         <input type="hidden" name="correo" value="{{ $docente->correo }}">
         <input type="hidden" name="tipo" value="docentes">
-    </x-create-form>
+    </x-form>
 
-    <x-edit-form ruta="docentes.destroy" :id="$docente->id" btn="Eliminar" method="delete">
+    <x-form ruta="docentes.destroy" :id="$docente->id" btn="Eliminar">
+        @method('DELETE')
         <hr>
         <h4 class="mb-3">Eliminar</h4>
         <p>
@@ -46,5 +48,5 @@
         <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
-    </x-edit-form>
+    </x-form>
 @endsection

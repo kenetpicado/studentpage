@@ -20,7 +20,7 @@
                 <x-input name="correo" type="email"></x-input>
 
                 @if (auth()->user()->sucursal == 'all')
-                    <x-sucursal-form></x-sucursal-form>
+                    <x-select name="sucursal" :items="$sucursales"></x-select>
                 @endif
             </div>
             <div class="modal-footer">
@@ -46,7 +46,8 @@
                     <td>{{ $docente->correo }}</td>
                     <td>{{ $docente->activo == '1' ? 'Activo' : '-' }}</td>
                     <td><a class="btn btn-sm btn-primary" href="{{ route('docentes.show', $docente->id) }}">Grupos</a></td>
-                    <td><a class="btn btn-sm btn-outline-primary" href="{{ route('docentes.edit', $docente->id) }}">Editar</a></td>
+                    <td><a class="btn btn-sm btn-outline-primary"
+                            href="{{ route('docentes.edit', $docente->id) }}">Editar</a></td>
                 </tr>
             @endforeach
         </tbody>

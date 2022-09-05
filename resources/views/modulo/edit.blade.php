@@ -11,13 +11,15 @@
 @section('content')
     <x-header-0>Editar</x-header-0>
 
-    <x-edit-form ruta='modulos.update' :id="$modulo->id">
+    <x-form ruta='modulos.update' :id="$modulo->id">
+        @method('PUT')
         <x-input name="nombre" :val="$modulo->nombre"></x-input>
         <input type="hidden" name="curso_id" value="{{ $modulo->curso_id }}">
         <input type="hidden" name="modulo_id" value="{{ $modulo->id }}">
-    </x-edit-form>
+    </x-form>
 
-    <x-edit-form ruta="modulos.destroy" :id="$modulo->id" btn="Eliminar" method="delete">
+    <x-form ruta="modulos.destroy" :id="$modulo->id" btn="Eliminar">
+        @method('DELETE')
         <hr>
         <h5 class="mb-3">Eliminar Módulo</h5>
         <p>
@@ -26,6 +28,6 @@
         <p class="text-primary">
             Esta opción no se puede deshacer.
         </p>
-    </x-edit-form>
+    </x-form>
 
 @endsection

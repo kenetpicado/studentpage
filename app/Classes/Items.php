@@ -7,9 +7,9 @@ class Items
     public $id;
     public $nombre;
 
-    public function __construct($id)
+    public function __construct($nombre, $id = null)
     {
-        $this->nombre = $id;
-        $this->id = $id;
+        $this->id = $id == null ? $nombre : $id;
+        $this->nombre = $nombre;
     }
 }

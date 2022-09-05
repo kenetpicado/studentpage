@@ -9,8 +9,8 @@
 
 @section('content')
     <x-header-0>Crear Matricula</x-header-0>
-    
-    <x-create-form ruta='matriculas.store'>
+
+    <x-form ruta='matriculas.store'>
         <x-input name="nombre"></x-input>
         <x-input name="fecha_nac" label="Fecha de nacimiento" type='date'></x-input>
         <x-input name="cedula"></x-input>
@@ -23,13 +23,14 @@
         @endif
 
         @if (auth()->user()->sucursal == 'all')
-            <x-sucursal-form></x-sucursal-form>
+            <x-select name="sucursal" :items="$sucursales"></x-select>
         @endif
         <div class="mb-3">
-            <label class="form-label text-primary">Por favor, revise que todos los datos sean correctos y asegúrese que la
-                fecha de nacimiento no contenga nigún dígito erróneo, ya que a partir
+            <label class="form-label text-muted small">Por favor, revise que todos los datos sean correctos y asegúrese que
+                la
+                fecha de nacimiento no contenga ningún dígito erróneo, ya que a partir
                 de esta se obtendrá el carnet del alumno y una vez generado no se podrá cambiar.</label>
         </div>
-    </x-create-form>
+    </x-form>
 
 @endsection

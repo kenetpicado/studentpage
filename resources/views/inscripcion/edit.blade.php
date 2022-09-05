@@ -11,7 +11,8 @@
 @section('content')
     <x-header-0>Editar</x-header-0>
 
-    <x-edit-form ruta='inscripciones.update' :id="$inscripcion->id" btn="Mover">
+    <x-form ruta='inscripciones.update' :id="$inscripcion->id" btn="Mover">
+        @method('PUT')
         <p>
             Mover alumno a un nuevo Grupo
         </p>
@@ -19,9 +20,10 @@
         <hr>
         <x-grupos :grupos="$grupos" :old="$inscripcion->grupo_id" text="Seleccionar grupo"></x-grupos>
         <input type="hidden" name="matricula_id" value="{{ $inscripcion->matricula_id }}">
-    </x-edit-form>
+    </x-form>
     
-    <x-edit-form ruta="inscripciones.destroy" :id="$inscripcion->id" btn="Eliminar" method="delete">
+    <x-form ruta="inscripciones.destroy" :id="$inscripcion->id" btn="Eliminar">
+        @method('DELETE')
         <hr>
         <h5 class="mb-3">Eliminar</h5>
         <p>
@@ -31,6 +33,6 @@
         <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
-    </x-edit-form>
+    </x-form>
 
 @endsection

@@ -45,16 +45,16 @@
                 @endif
 
                 @if (Auth::user()->rol == 'docente' || Auth::user()->rol == 'admin')
-                    <x-itembar when="grupos" text="Grupos" route="grupos.index"></x-itembar>
+                    <x-itembar when="grupo" text="Grupos" route="grupos.index"></x-itembar>
                 @endif
 
                 @if (Auth::user()->rol == 'promotor' || Auth::user()->rol == 'admin')
-                    <x-itembar when="matriculas" text="Matriculas" route="matriculas.index"></x-itembar>
+                    <x-itembar when="matricula" text="Matriculas" route="matriculas.index"></x-itembar>
                 @endif
             </ul>
 
             <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                <a class="nav-link" href="#" id="navbarDropdown" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     {{ Auth::user()->name ?? '' }}
                 </a>

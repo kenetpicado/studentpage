@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Matricula;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\MatriculaRequest;
+use App\Services\Sucursal;
 
 class MatriculaController extends Controller
 {
@@ -21,12 +22,13 @@ class MatriculaController extends Controller
         if (Gate::denies('create_matricula'))
             return back()->with('error', config('app.denies'));
 
-        return view('matricula.create');
+        $sucursales = (new Sucursal)->get();
+        return view('matricula.create', compact('sucursales'));
     }
 
     //Guardar nueva matricula
     public function store(MatriculaRequest $request)
-    { 
+    {
         Matricula::create($request->validated());
         return redirect()->route('matriculas.index')->with('success', config('app.created'));
     }

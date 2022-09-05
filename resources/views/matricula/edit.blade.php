@@ -10,7 +10,8 @@
 @section('content')
     <x-header-0>Editar</x-header-0>
 
-    <x-edit-form ruta='matriculas.update' :id="$matricula->id">
+    <x-form ruta='matriculas.update' :id="$matricula->id">
+        @method('PUT')
         <x-input name="nombre" :val="$matricula->nombre"></x-input>
         <x-input name="fecha_nac" label="Fecha de nacimiento" :val="$matricula->fecha_nac" type="date">
         </x-input>
@@ -18,9 +19,10 @@
         <x-input name="grado" text="Ultimo grado aprobado" :val="$matricula->grado"></x-input>
         <x-input name="tutor" :val="$matricula->tutor"></x-input>
         <x-input name="celular" :val="$matricula->celular"></x-input>
-    </x-edit-form>
+    </x-form>
 
-    <x-edit-form ruta="matriculas.destroy" :id="$matricula->id" btn="Eliminar" method="delete">
+    <x-form ruta="matriculas.destroy" :id="$matricula->id" btn="Eliminar">
+        @method('DELETE')
         <hr>
         <h5 class="mb-3">Eliminar</h5>
         <p>
@@ -31,6 +33,6 @@
         <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
-    </x-edit-form>
+    </x-form>
 
 @endsection
