@@ -61,7 +61,7 @@ class Matricula extends Model
                 $q->where('sucursal', auth()->user()->sucursal);
             })
             ->latest('id')
-            ->get([
+            ->select([
                 'id',
                 'carnet',
                 'nombre',
@@ -69,7 +69,8 @@ class Matricula extends Model
                 'activo',
                 'sucursal',
                 DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
-            ]);
+            ])
+            ->paginate(20);
     }
 
 

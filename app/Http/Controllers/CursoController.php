@@ -14,7 +14,7 @@ class CursoController extends Controller
     public function index()
     {
         $imagenes = (new Imagenes)->get();
-        $cursos = DB::table('cursos')->orderBy('nombre')->get();
+        $cursos = DB::table('cursos')->orderBy('nombre')->paginate(10);
         return view('curso.index', compact('cursos', 'imagenes'));
     }
 

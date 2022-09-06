@@ -87,6 +87,21 @@ class Inscripcion extends Model
             ]);
     }
 
+    public static function alumnos($grupo_id)
+    {
+        return DB::table('inscripciones')
+            ->where('inscripciones.grupo_id', $grupo_id)
+            ->where('matriculas.activo', '1')
+            ->join('matriculas', 'inscripciones.matricula_id', '=', 'matriculas.id')
+            ->orderBy('matriculas.nombre')
+            ->select([
+                'inscripciones.*',
+                'matriculas.carnet as matricula_carnet',
+                'matriculas.nombre as matricula_nombre',
+            ])
+            ->paginate(20);
+    }
+
     public static function withGrupoSucursal($inscripcion_id)
     {
         return DB::table('inscripciones')

@@ -7,13 +7,8 @@
 @endsection
 
 @section('content')
-    <div class="card-header d-flex align-items-center justify-content-between border-0">
-        Todos los Cursos
-        <button type="button" class="btn btn-sm btn-primary rounded-3 float-end" data-bs-toggle="modal"
-            data-bs-target="#modalCreate">
-            Agregar
-        </button>
-    </div>
+    <x-header-modal>Todos los Cursos</x-header-modal>
+
     <x-modal title="Curso - Agregar">
         <form action="{{ route('cursos.store') }}" method="post">
             @csrf
@@ -27,24 +22,41 @@
         </form>
     </x-modal>
 
-    <x-table-head>
-        <x-slot name="title">
-            <th>Nombre</th>
-            <th>Imagen</th>
-            <th>Estado</th>
-            <th>Modulos</th>
-            <th>Editar</th>
-        </x-slot>
-        <tbody>
-            @foreach ($cursos as $curso)
+    <div class="card-body">
+
+        <form class="col-lg-2 mb-3" method="POST" action="">
+            @csrf
+            <div class="input-group input-group-sm">
+                <input type="search" class="form-control" name="search" placeholder="Buscar">
+                <button type="submit" class="input-group-text"><i class="fa fa-search"></i></button>
+            </div>
+        </form>
+
+        <table class="table table-borderless" width="100%" cellspacing="0">
+            <thead>
                 <tr>
-                    <td>{{ $curso->nombre }}</td>
-                    <td>{{ $curso->imagen }}</td>
-                    <td>{{ $curso->activo == '1' ? 'Activo' : '-' }}</td>
-                    <td><a class="btn btn-sm btn-primary" href="{{ route('cursos.show', $curso->id) }}">Modulos</a></td>
-                    <td><a class="btn btn-sm btn-outline-primary" href="{{ route('cursos.edit', $curso->id) }}">Editar</a></td>
+                    <th>Nombre</th>
+                    <th>Imagen</th>
+                    <th>Estado</th>
+                    <th>Modulos</th>
+                    <th>Editar</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </x-table-head>
+            </thead>
+            <tbody>
+                @foreach ($cursos as $curso)
+                    <tr>
+                        <td>{{ $curso->nombre }}</td>
+                        <td>{{ $curso->imagen }}</td>
+                        <td>{{ $curso->activo == '1' ? 'Activo' : '-' }}</td>
+                        <td><a class="btn btn-sm btn-primary" href="{{ route('cursos.show', $curso->id) }}">Modulos</a></td>
+                        <td><a class="btn btn-sm btn-outline-primary"
+                                href="{{ route('cursos.edit', $curso->id) }}">Editar</a></td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="float-end small">
+            {!! $cursos->links() !!}
+        </div>
+    </div>
 @endsection

@@ -28,32 +28,41 @@
         @endif
     </x-header-2>
 
-    <x-table-head>
-        <x-slot name="title">
-            <th>Nombre</th>
-            <th>Carnet</th>
-            <th>Notas</th>
-            <th>Asistencias</th>
-            @if (auth()->user()->rol == 'admin')
-                <th>Editar</th>
-            @endif
-        </x-slot>
-        <tbody>
-            @foreach ($inscripciones as $inscripcion)
+    <div class="card-body">
+        <table class="table table-borderless" id="no-more-tables" width="100%" cellspacing="0">
+            <thead>
                 <tr>
-                    <td>{{ $inscripcion->matricula_nombre }}</td>
-                    <td>{{ $inscripcion->matricula_carnet }}</td>
-                    <td><a class="btn btn-sm btn-primary" href="{{ route('notas.index', $inscripcion->id) }}">Notas</a></td>
-                    <td><a class="btn btn-sm btn-primary" href="{{ route('asistencias.edit', $inscripcion->id) }}">Asistencias</a>
-                    </td>
+                    <th>Nombre</th>
+                    <th>Carnet</th>
+                    <th>Notas</th>
+                    <th>Asistencias</th>
                     @if (auth()->user()->rol == 'admin')
-                        <td><a class="btn btn-sm btn-outline-primary"
-                                href="{{ route('inscripciones.edit', $inscripcion->id) }}">Editar</a>
-                        </td>
+                        <th>Editar</th>
                     @endif
-
                 </tr>
-            @endforeach
-        </tbody>
-    </x-table-head>
+            </thead>
+            <tbody>
+                @foreach ($inscripciones as $inscripcion)
+                    <tr>
+                        <td data-title="Nombre">{{ $inscripcion->matricula_nombre }}</td>
+                        <td data-title="Carnet">{{ $inscripcion->matricula_carnet }}</td>
+                        <td><a class="btn btn-sm btn-primary" href="{{ route('notas.index', $inscripcion->id) }}">Notas</a>
+                        </td>
+                        <td><a class="btn btn-sm btn-primary"
+                                href="{{ route('asistencias.edit', $inscripcion->id) }}">Asistencia</a>
+                        </td>
+                        @if (auth()->user()->rol == 'admin')
+                            <td><a class="btn btn-sm btn-outline-primary"
+                                    href="{{ route('inscripciones.edit', $inscripcion->id) }}">Editar</a>
+                            </td>
+                        @endif
+
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="float-end small">
+            {!! $inscripciones->links() !!}
+        </div>
+    </div>
 @endsection

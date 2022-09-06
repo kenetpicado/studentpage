@@ -41,14 +41,15 @@ class Grupo extends Model
             ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
             ->latest('grupos.id')
             ->orderBy('sucursal')
-            ->get([
+            ->select([
                 'grupos.id',
                 'horario',
                 'anyo',
                 'grupos.sucursal',
                 'cursos.nombre as curso_nombre',
                 'docentes.nombre as docente_nombre',
-            ]);
+            ])
+            ->paginate(20);
     }
 
     /**

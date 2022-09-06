@@ -49,8 +49,8 @@
                 </p>
             </div>
 
-            <table class="table table-borderless">
-                <thead class="text-primary text-uppercase small">
+            <table class="table table-borderless" id="no-more-tables" width="100%" cellspacing="0">
+                <thead>
                     <tr>
                         <th>Enviar</th>
                         <th>Carnet</th>
@@ -61,7 +61,7 @@
                 <tbody>
                     @foreach ($inscripciones as $key => $inscripcion)
                         <tr>
-                            <td>
+                            <td data-title="Enviar">
                                 <input type="hidden" name="enviar[{{ $key }}]" value="0">
 
                                 <div class="form-switch">
@@ -69,9 +69,9 @@
                                         name="enviar[{{ $key }}]" value="1" checked>
                                 </div>
                             </td>
-                            <td>{{ $inscripcion->matricula_carnet }}</td>
-                            <td>{{ $inscripcion->matricula_nombre }}</td>
-                            <td>
+                            <td data-title="Carnet">{{ $inscripcion->matricula_carnet }}</td>
+                            <td data-title="Nombre">{{ $inscripcion->matricula_nombre }}</td>
+                            <td data-title="Nota">
                                 <input type="hidden" name="inscripcion_id[{{ $key }}]"
                                     value="{{ $inscripcion->id }}">
 
