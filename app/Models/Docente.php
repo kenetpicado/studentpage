@@ -29,7 +29,8 @@ class Docente extends Model
             ->when(Docente::enSucursal(), function ($q) {
                 $q->where('sucursal', auth()->user()->sucursal);
             })
-            ->orderBy('nombre')->get();
+            ->orderBy('nombre')
+            ->paginate(20);
     }
 
     public static function createGrupo()

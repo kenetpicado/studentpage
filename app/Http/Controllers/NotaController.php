@@ -56,12 +56,15 @@ class NotaController extends Controller
     public function update(NotaRequest $request)
     {
         $notas = Nota::orderBy('modulo_id')->find($request->nota_id, ['id', 'valor']);
+        if (!$notas)
+            goto end;
 
         foreach ($notas as $key => $nota) {
             if ($nota->valor != $request->valor[$key])
                 $nota->update(['valor' => $request->valor[$key]]);
         }
 
+        end:
         return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.updated'));
     }
 

@@ -21,42 +21,26 @@
             </div>
         </form>
     </x-modal>
-
-    <div class="card-body">
-
-        <form class="col-lg-2 mb-3" method="POST" action="">
-            @csrf
-            <div class="input-group input-group-sm">
-                <input type="search" class="form-control" name="search" placeholder="Buscar">
-                <button type="submit" class="input-group-text"><i class="fa fa-search"></i></button>
-            </div>
-        </form>
-
-        <table class="table table-borderless" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Imagen</th>
-                    <th>Estado</th>
-                    <th>Modulos</th>
-                    <th>Editar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($cursos as $curso)
-                    <tr>
-                        <td>{{ $curso->nombre }}</td>
-                        <td>{{ $curso->imagen }}</td>
-                        <td>{{ $curso->activo == '1' ? 'Activo' : '-' }}</td>
-                        <td><a class="btn btn-sm btn-primary" href="{{ route('cursos.show', $curso->id) }}">Modulos</a></td>
-                        <td><a class="btn btn-sm btn-outline-primary"
-                                href="{{ route('cursos.edit', $curso->id) }}">Editar</a></td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="float-end small">
+    <x-table>
+        @slot('title')
+            <th>Nombre</th>
+            <th>Imagen</th>
+            <th>Estado</th>
+            <th>Modulos</th>
+            <th>Editar</th>
+        @endslot
+        @foreach ($cursos as $curso)
+            <tr>
+                <td>{{ $curso->nombre }}</td>
+                <td>{{ $curso->imagen }}</td>
+                <td>{{ $curso->activo == '1' ? 'Activo' : '-' }}</td>
+                <td><a class="btn btn-sm btn-primary" href="{{ route('cursos.show', $curso->id) }}">Modulos</a></td>
+                <td><a class="btn btn-sm btn-outline-primary" href="{{ route('cursos.edit', $curso->id) }}">Editar</a></td>
+            </tr>
+        @endforeach
+        @slot('links')
             {!! $cursos->links() !!}
-        </div>
+        @endslot
+    </x-table>
     </div>
 @endsection

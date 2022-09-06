@@ -12,22 +12,24 @@
 
 @section('content')
     <x-header-0>Certificado de Notas</x-header-0>
-    <x-table-head>
-        <x-slot name="title">
-            <th>Fecha de registro</th>
-            <th>Modulo</th>
-            <th>Nota</th>
-        </x-slot>
-        <tbody>
-            @foreach ($notas as $nota)
-                <tr>
-                    <td>{{ $nota->created_at }}</td>
-                    <td>
-                        {{ $nota->modulo }}
-                    </td>
-                    <td>{{ $nota->valor }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </x-table-head>
+    <x-main>
+        <table class="table table-borderless">
+            <tr>
+                <th>Fecha de registro</th>
+                <th>Modulo</th>
+                <th>Nota</th>
+            </tr>
+            <tbody>
+                @foreach ($notas as $nota)
+                    <tr>
+                        <td>{{ $nota->created_at }}</td>
+                        <td>
+                            {{ $nota->modulo }}
+                        </td>
+                        <td>{{ $nota->valor }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </x-main>
 @endsection

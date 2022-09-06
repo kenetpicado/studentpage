@@ -110,12 +110,13 @@ class Grupo extends Model
             ->where('grupos.activo', '1')
             ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
             ->orderBy('cursos.nombre')
-            ->get([
+            ->select([
                 'grupos.horario',
                 'grupos.sucursal',
                 'grupos.anyo',
                 'cursos.nombre as curso_nombre'
-            ]);
+            ])
+            ->paginate(20);
     }
 
     public static function showThis($grupo_id)

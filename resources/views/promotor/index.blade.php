@@ -25,24 +25,27 @@
         </form>
     </x-modal>
 
-    <x-table-head>
-        <x-slot name="title">
+    <x-table>
+        @slot('title')
             <th>Nombre</th>
             <th>Carnet</th>
             <th>Correo</th>
             <th>Matriculas</th>
             <th>Editar</th>
-        </x-slot>
-        <tbody>
-            @foreach ($promotors as $promotor)
-                <tr>
-                    <td>{{ $promotor->nombre }}</td>
-                    <td>{{ $promotor->carnet }}</td>
-                    <td>{{ $promotor->correo }}</td>
-                    <td><a class="btn btn-sm btn-primary" href="{{ route('promotores.show', $promotor->id) }}">Matriculas</a></td>
-                    <td><a class="btn btn-sm btn-outline-primary" href="{{ route('promotores.edit', $promotor->id) }}">Editar</a></td>
-                </tr>
-            @endforeach
-        </tbody>
-    </x-table-head>
+        @endslot
+        @foreach ($promotors as $promotor)
+            <tr>
+                <td data-title="Nombre">{{ $promotor->nombre }}</td>
+                <td data-title="Carnet">{{ $promotor->carnet }}</td>
+                <td data-title="Correo">{{ $promotor->correo }}</td>
+                <td><a class="btn btn-sm btn-primary" href="{{ route('promotores.show', $promotor->id) }}">Matriculas</a>
+                </td>
+                <td><a class="btn btn-sm btn-outline-primary"
+                        href="{{ route('promotores.edit', $promotor->id) }}">Editar</a></td>
+            </tr>
+        @endforeach
+        @slot('links')
+            {!! $promotors->links() !!}
+        @endslot
+    </x-table>
 @endsection

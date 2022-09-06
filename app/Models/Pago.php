@@ -40,7 +40,7 @@ class Pago extends Model
         return DB::table('pagos')
             ->where('matricula_id', $matricula_id)
             ->latest('id')
-            ->get();
+            ->paginate(20);
     }
     
     /**

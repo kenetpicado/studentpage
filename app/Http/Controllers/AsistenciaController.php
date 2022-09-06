@@ -55,19 +55,16 @@ class AsistenciaController extends Controller
 
         foreach ($request->inscripcion_id as $key => $inscripcion_id) {
 
-            /* Presente */
+            /* Presente - Ausente */
             if ($request->present[$key] == '1' && $matricula[$key]->inasistencias != '0')
                 $matricula[$key]->update(['inasistencias' => '0']);
-
-            /* Ausente */
-            if ($request->present[$key] == '0') {
+            else {
                 $matricula[$key]->increment('inasistencias');
 
                 if ($matricula[$key]->inasistencias > 2)
                     $matricula[$key]->update(['activo' => 0]);
             }
 
-            /* Guardar asistencia */
             Asistencia::create([
                 'present' => $request->present[$key],
                 'created_at' => $request->created_at,
@@ -81,6 +78,10 @@ class AsistenciaController extends Controller
     public function update(Request $request)
     {
         $asistencias = Asistencia::find($request->asistencia_id, ['id', 'present']);
+
+        if (!$asistencias)
+            goto end;
+
         $matricula = Matricula::find($request->matricula_id, ['id', 'activo', 'inasistencias']);
 
         foreach ($asistencias as $key => $asistencia) {
@@ -91,20 +92,18 @@ class AsistenciaController extends Controller
                 /* Presente */
                 if ($request->present[$key] == '1' && $matricula->inasistencias != '0')
                     $matricula->update(['inasistencias' => '0']);
-
-                /* Ausente */
-                if ($request->present[$key] == '0') {
+                else {
                     $matricula->increment('inasistencias');
 
                     if ($matricula->inasistencias > 2)
                         $matricula->update(['activo' => 0]);
                 }
 
-                /* Actualizar */
                 $asistencia->update(['present' => $request->present[$key]]);
             }
         }
 
+        end:
         return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.updated'));
     }
 

@@ -8,24 +8,24 @@
 @endsection
 
 @section('content')
-    <x-header-0>Grupos del Docente: {{ $docente->nombre }}</x-header-0>
-
-    <x-table-head>
-        <x-slot name="title">
+    <x-header-0>Grupos: {{ $docente->nombre }}</x-header-0>
+    <x-table>
+        @slot('title')
             <th>Curso</th>
             <th>Horario</th>
             <th>Sucursal</th>
             <th>Año</th>
-        </x-slot>
-        <tbody>
-            @foreach ($grupos as $grupo)
-                <tr>
-                    <td>{{ $grupo->curso_nombre }}</td>
-                    <td>{{ $grupo->horario }}</td>
-                    <td>{{ $grupo->sucursal }}</td>
-                    <td>{{ $grupo->anyo }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </x-table-head>
+        @endslot
+        @foreach ($grupos as $grupo)
+            <tr>
+                <td data-title="Curso">{{ $grupo->curso_nombre }}</td>
+                <td data-title="Horario">{{ $grupo->horario }}</td>
+                <td data-title="Cursal">{{ $grupo->sucursal }}</td>
+                <td data-title="Año">{{ $grupo->anyo }}</td>
+            </tr>
+        @endforeach
+        @slot('links')
+            {!! $grupos->links() !!}
+        @endslot
+    </x-table>
 @endsection

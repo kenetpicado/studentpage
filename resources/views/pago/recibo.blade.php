@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="{{ asset('img/SP.png') }}">
     <title>{{ config('app.name') }} - Recibo</title>
-    <link href="{{ asset('css/app2.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.min.css') }}" rel="stylesheet">
 
     <style>
         .page {
@@ -45,10 +45,10 @@
             <div class="row" style="margin-top: 2px; margin-left: 3cm;">
                 <td>{{ auth()->user()->name }}</td>
             </div>
-            <div class="row" style="margin-top: 0.2cm; margin-left: 4cm;">
+            <div class="row" style="margin-top: 0.3cm; margin-left: 4cm;">
                 <td>{{ $pago->monto }} {{ $pago->moneda }}</td>
             </div>
-            <div class="row" style="margin-top: 0.2cm; margin-left: 4cm;">
+            <div class="row" style="margin-top: 0.3cm; margin-left: 4cm;">
                 <td>{{ $pago->concepto }}</td>
             </div>
             <div class="row" style="margin-top: 0.2cm; margin-left: 12cm;">
@@ -60,7 +60,7 @@
                     @endif
                 </td>
             </div>
-            <div class="row" style="margin-top: 0.2cm; margin-left: 10.4cm;">
+            <div class="row" style="margin-top: 0.25cm; margin-left: 10.4cm;">
                 {{ $pago->curso }}
             </div>
             <div class="row" style="margin-top: 0.2cm; margin-left: 2.5cm;">

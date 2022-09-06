@@ -40,6 +40,7 @@ class NotaRequest extends FormRequest
     protected function store()
     {
         return ['modulo_id' => 'required'];
+        //return ['modulo_id' => 'required', Rule::unique('notas')->where($this->grupo_id)];
     }
 
     protected function update()

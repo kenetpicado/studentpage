@@ -51,7 +51,7 @@ class Matricula extends Model
         return DB::table('matriculas')->find($matricula_id, ['id', 'nombre']);
     }
 
-    public static function index()
+    public static function index($promotor_id = null)
     {
         return DB::table('matriculas')
             ->when(Matricula::esPromotor(), function ($q) {
@@ -59,6 +59,9 @@ class Matricula extends Model
             })
             ->when(Matricula::adminSucursal(), function ($q) {
                 $q->where('sucursal', auth()->user()->sucursal);
+            })
+            ->when($promotor_id, function ($q) use($promotor_id) {
+                $q->where('promotor_id', $promotor_id);
             })
             ->latest('id')
             ->select([
@@ -68,36 +71,10 @@ class Matricula extends Model
                 'created_at',
                 'activo',
                 'sucursal',
+                'promotor_id',
                 DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
             ])
             ->paginate(20);
-    }
-
-
-    /**
-     * Obtener matriculas de un promotor
-     *
-     * @param  int $promotor_id
-     * @return Collection
-     */
-    public static function promotor($promotor_id)
-    {
-        return DB::table('matriculas')
-            ->when(Matricula::enSucursal(), function ($q) {
-                $q->where('sucursal', auth()->user()->sucursal);
-            })
-            ->where('promotor_id', $promotor_id)
-            ->latest('id')
-            ->get([
-                'id',
-                'carnet',
-                'nombre',
-                'created_at',
-                'activo',
-                'sucursal',
-                'promotor_id',
-                DB::raw('(select count(*) from inscripciones where matriculas.id = inscripciones.matricula_id) as inscripciones_count')
-            ]);
     }
     
     /**

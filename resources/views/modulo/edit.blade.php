@@ -21,11 +21,11 @@
     <x-form ruta="modulos.destroy" :id="$modulo->id" btn="Eliminar">
         @method('DELETE')
         <hr>
-        <h5 class="mb-3">Eliminar Módulo</h5>
+        <h5 class="mb-3">Eliminar</h5>
         <p>
             Solo es posible eliminar un Módulo que no haya sido usado para registrar una nota.
         </p>
-        <p class="text-primary">
+        <p class="text-danger small">
             Esta opción no se puede deshacer.
         </p>
     </x-form>

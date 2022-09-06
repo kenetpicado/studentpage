@@ -8,10 +8,10 @@
 @endsection
 
 @section('content')
-    <x-header-0>Todos los grupos terminados</x-header-0>
+    <x-header-0>Todos los Grupos terminados</x-header-0>
 
-    <x-table-head>
-        <x-slot name="title">
+    <x-table>
+        @slot('title')
             <th>Curso</th>
             <th>Docente</th>
             <th>Horario</th>
@@ -19,29 +19,29 @@
             <th>Sucursal</th>
             <th>Alumnos</th>
             <th>Activar</th>
-        </x-slot>
-        <tbody>
-            @foreach ($grupos as $grupo)
-                <tr>
-                    <td>{{ $grupo->curso_nombre }}</td>
-                    <td>{{ $grupo->docente_nombre }}</td>
-                    <td>{{ $grupo->horario }}</td>
-                    <td>{{ $grupo->anyo }}</td>
-                    <td>{{ $grupo->sucursal }}</td>
-                    <td>
-                        <a href="{{ route('grupos.show.closed', $grupo->id) }}" class="btn btn-primary btn-sm d-grid">
-                            Alumnos
-                        </a>
-                    </td>
-                    <td>
-                        <form action="{{ route('cambiar.estado.grupo', $grupo->id) }}" method="post">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="btn btn-outline-primary btn-sm">Activar</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </x-table-head>
+        @endslot
+        @foreach ($grupos as $grupo)
+            <tr>
+                <td>{{ $grupo->curso_nombre }}</td>
+                <td>{{ $grupo->docente_nombre }}</td>
+                <td>{{ $grupo->horario }}</td>
+                <td>{{ $grupo->anyo }}</td>
+                <td>{{ $grupo->sucursal }}</td>
+                <td>
+                    <a href="{{ route('grupos.show.closed', $grupo->id) }}" class="btn btn-primary btn-sm d-grid">
+                        Alumnos
+                    </a>
+                </td>
+                <td>
+                    <form action="{{ route('cambiar.estado.grupo', $grupo->id) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" class="btn btn-outline-primary btn-sm">Activar</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+        @slot('links')
+        @endslot
+    </x-table>
 @endsection

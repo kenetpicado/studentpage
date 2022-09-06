@@ -26,7 +26,9 @@
             </thead>
             @foreach ($inscripciones as $key => $inscripcion)
                 <tr>
-                    <td>{{ $inscripcion->matricula_nombre }}</td>
+                    <td>
+                        <div class="small text-primary opacity-75">{{ $inscripcion->matricula_carnet }}</div>
+                        {{ $inscripcion->matricula_nombre }}</td>
                     <td>
                         <input type="hidden" name="inscripcion_id[{{ $key }}]"
                             value="{{ $inscripcion->id }}">

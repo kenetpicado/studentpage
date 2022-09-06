@@ -6,6 +6,8 @@ use App\Models\Matricula;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\MatriculaRequest;
 use App\Services\Sucursal;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class MatriculaController extends Controller
 {
@@ -64,12 +66,16 @@ class MatriculaController extends Controller
         return redirect()->route('matriculas.index')->with('success', config('app.deleted'));
     }
 
-    public function cambiarEstado($matricula_id)
+    public function cambiarEstado(Request $request, $matricula_id)
     {
         $matricula = Matricula::find($matricula_id, ['id', 'activo']);
         $matricula->update([
             'activo' => $matricula->activo == '1'  ? '0' : '1'
         ]);
-        return back()->with('success', config('app.updated'));
+
+        if ($request->has('global'))
+            return redirect()->route('matriculas.index')->with('success', config('app.updated'));
+
+        return redirect()->route('promotores.show', $request->promotor_id)->with('success', config('app.updated'));
     }
 }

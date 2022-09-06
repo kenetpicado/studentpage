@@ -32,7 +32,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <div class="card-body">
-                <table class="table table-borderless align-middle"width="100%" cellspacing="0">
+                <table class="table table-borderless align-middle" width="100%" cellspacing="0">
                     <thead>
                         <tr class="text-primary text-uppercase small">
                             <th>Nombre</th>

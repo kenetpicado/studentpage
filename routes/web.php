@@ -16,13 +16,23 @@ use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 /* Usuario autenticado, admin y promotor */
 
-Route::resource('matriculas', MatriculaController::class)->except(['destroy', 'show'])->middleware(['auth', 'admin-promotor']);
+Route::middleware(['auth', 'admin-promotor'])->group(function () {
+    Route::resource('matriculas', MatriculaController::class)
+        ->except(['destroy', 'show', 'store']);
+
+    Route::post('store/matriculas', [MatriculaController::class, 'store'])
+        ->name('matriculas.store');
+
+    Route::post('matriculas', [SearchController::class, 'matriculas'])
+        ->name('search.matriculas');
+});
 
 // Autenticado y administradores
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -58,7 +68,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('inscripciones', InscripcionController::class)->parameters(['inscripciones' => 'inscripcion'])->except(['create', 'index']);
     Route::get('inscribir/{matricula}/{type}', [InscripcionController::class, 'create'])->name('inscripciones.create');
 
-    Route::resource('grupos', GrupoController::class)->except(['index', 'show']);
+    Route::resource('grupos', GrupoController::class)->except(['index', 'show', 'store']);
+    Route::post('store/grupos', [GrupoController::class, 'store'])->name('grupos.store');
 
     Route::resource('matriculas', MatriculaController::class)->only(['show', 'destroy']);
 
@@ -92,7 +103,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 // Autenticado, Administradores y Docente
 Route::middleware(['auth', 'admin-docente'])->group(function () {
 
-    Route::get('grupos/notas-crear/{grupo_id}', [NotaController::class, 'create'])->name('notas.create');
+    Route::post('grupos', [SearchController::class, 'grupos'])
+        ->name('search.grupos');
+
+    Route::get('grupos/notas-crear/{grupo_id}', [NotaController::class, 'create'])
+        ->name('notas.create');
 
     Route::get('grupos/notas-alumno/{inscripcion}', [NotaController::class, 'index'])->name('notas.index');
 

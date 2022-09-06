@@ -13,7 +13,7 @@ class PromotorController extends Controller
     //Ver todos los promotores
     public function index()
     {
-        $promotors = DB::table('promotors')->orderBy('nombre')->get();
+        $promotors = DB::table('promotors')->orderBy('nombre')->paginate(20);
         return view('promotor.index', compact('promotors'));
     }
 
@@ -31,7 +31,7 @@ class PromotorController extends Controller
     public function show($promotor_id)
     {
         $promotor = DB::table('promotors')->find($promotor_id, ['id', 'nombre']);
-        $matriculas = Matricula::promotor($promotor->id);
+        $matriculas = Matricula::index($promotor->id);
         return view('promotor.show', compact('matriculas', 'promotor'));
     }
 

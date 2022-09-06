@@ -29,7 +29,7 @@
                             <td>{{ $matricula->nombre }}</td>
                             <td>{{ $matricula->carnet }}</td>
                             <td>
-                                <a style="width: 150px;" class="btn btn-sm btn-primary" href="{{ route('pagos.index', $matricula->id) }}">Pagos</a>
+                                <a class="btn btn-sm btn-primary" href="{{ route('pagos.index', $matricula->id) }}">Pagos</a>
                             </td>
                         </tr>
                     @endforeach

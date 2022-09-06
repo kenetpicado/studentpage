@@ -29,27 +29,28 @@
         </form>
     </x-modal>
 
-    <x-table-head>
-        <x-slot name="title">
+    <x-table>
+        @slot('title')
             <th>Nombre</th>
             <th>Carnet</th>
             <th>Correo</th>
             <th>Estado</th>
             <th>Grupos</th>
             <th>Editar</th>
-        </x-slot>
-        <tbody>
-            @foreach ($docentes as $docente)
-                <tr>
-                    <td>{{ $docente->nombre }}</td>
-                    <td>{{ $docente->carnet }}</td>
-                    <td>{{ $docente->correo }}</td>
-                    <td>{{ $docente->activo == '1' ? 'Activo' : '-' }}</td>
-                    <td><a class="btn btn-sm btn-primary" href="{{ route('docentes.show', $docente->id) }}">Grupos</a></td>
-                    <td><a class="btn btn-sm btn-outline-primary"
-                            href="{{ route('docentes.edit', $docente->id) }}">Editar</a></td>
-                </tr>
-            @endforeach
-        </tbody>
-    </x-table-head>
-@endsection
+        @endslot
+        @foreach ($docentes as $docente)
+            <tr>
+                <td data-title="Nombre">{{ $docente->nombre }}</td>
+                <td data-title="Carnet">{{ $docente->carnet }}</td>
+                <td data-title="Correo">{{ $docente->correo }}</td>
+                <td data-title="Estado">{{ $docente->activo == '1' ? 'Activo' : '-' }}</td>
+                <td><a class="btn btn-sm btn-primary" href="{{ route('docentes.show', $docente->id) }}">Grupos</a></td>
+                <td><a class="btn btn-sm btn-outline-primary" href="{{ route('docentes.edit', $docente->id) }}">Editar</a>
+                </td>
+            </tr>
+        @endforeach
+        @slot('links')
+            {!! $docentes->links() !!}
+        @endslot
+        </x-table>
+    @endsection
