@@ -14,17 +14,16 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">
-
-                <div class="card o-hidden border-1 my-5 shadow">
-                    <div class="card-body p-0">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <img src="{{ asset('img/SP.png') }}" alt="" srcset="" width="25%" height="auto">
-                            </div>
-                            <form method="POST" action="{{ route('login') }}">
+                <div class="card my-5 shadow">
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('login') }}">
+                            <div class="modal-body">
+                                <div class="text-center">
+                                    <img src="{{ asset('img/SP.png') }}" alt="" srcset="" width="25%"
+                                        height="auto">
+                                </div>
                                 @csrf
                                 <x-input name="email" label="ID"></x-input>
-
                                 <div class="mb-3">
                                     <label class="form-label">PIN</label>
 
@@ -42,16 +41,16 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-check mb-3">
+                                <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember"
                                         {{ old('remember') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="remember">Recordarme</label>
                                 </div>
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">Login</button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary float-end">Iniciar sesión</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
