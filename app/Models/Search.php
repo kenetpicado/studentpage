@@ -24,7 +24,6 @@ class Search extends Model
             })
             ->join('cursos', 'grupos.curso_id', '=', 'cursos.id')
             ->join('docentes', 'grupos.docente_id', '=', 'docentes.id')
-
             ->orWhere('curso_nombre', 'LIKE', '%' . $request->search . '%')
             ->orWhere('docente_nombre', 'LIKE', '%' . $request->search . '%')
             ->latest('grupos.id')
