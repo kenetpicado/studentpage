@@ -7,49 +7,6 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('img/SP.png') }}">
     <title>{{ config('app.name') }} - @yield('title')</title>
     <link href="{{ asset('css/app.min.css') }}" rel="stylesheet">
-
-    <style>
-        @media only screen and (max-width:800px) {
-
-            #no-more-tables tbody,
-            #no-more-tables tr,
-            #no-more-tables td {
-                display: block;
-            }
-
-            #no-more-tables thead tr {
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
-
-            #no-more-tables td {
-                position: relative;
-                padding-left: 25%;
-                border: none;
-                border-bottom: 1px solid #fff;
-            }
-
-            #no-more-tables td:before {
-                content: attr(data-title);
-                position: absolute;
-                left: 4px;
-                font-weight: bold;
-            }
-
-            #no-more-tables tr {
-                border-bottom: 1px solid #aaaa;
-            }
-        }
-
-        .btn {
-            width: 150px;
-        }
-
-        .btn-sm {
-            width: 80px;
-        }
-    </style>
 </head>
 
 <body class="bg-light">
@@ -84,8 +41,10 @@
         </div>
     </div>
 
+    <footer class="pt-3 my-4">
+        <p class="text-center text-muted">&copy; {{ date('Y') }} {{ config('app.name') }}</p>
+    </footer>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/sp.js') }}"></script>
 
     @if ($errors->any())
         <script>

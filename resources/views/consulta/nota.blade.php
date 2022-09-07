@@ -8,34 +8,30 @@
 
 @section('content')
     <x-header-0>Notas</x-header-0>
-    <div class="card-body">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                @if (count($notas) > 0)
-                    <div class="table-responsive">
-                        <table class="table table-borderless" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>Modulo</th>
-                                    <th>Nota</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($notas as $nota)
-                                    <tr>
-                                        <td>{{ $nota->modulo }}</td>
-                                        <td>{{ $nota->valor }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                @else
-                    <div class="alert alert-primary" role="alert">
-                        No se han registrado
-                    </div>
-                @endif
-            </div>
-        </div>
-    </div>
+    <x-main>
+        <p>
+            Notas del Curso
+        </p>
+        <h5 class="fw-bolder">{{$grupo->nombre}} {{$grupo->horario}}</h5>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>Modulo</th>
+                    <th>Nota</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($notas as $nota)
+                    <tr>
+                        <td>{{ $nota->modulo }}</td>
+                        <td>{{ $nota->valor }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td>No hay registros</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </x-main>
 @endsection

@@ -132,9 +132,14 @@ Route::middleware(['auth', 'admin-docente'])->group(function () {
 
 //Consulta de estudiantes
 Route::middleware(['auth', 'alumno'])->group(function () {
-    Route::get('consulta', [ConsultaController::class, 'index'])->name('consulta.index');
-    Route::get('consulta/notas/{id}', [ConsultaController::class, 'notas'])->name('consulta.notas');
-    Route::get('consulta/mensajes/{id}', [ConsultaController::class, 'mensajes'])->name('consulta.mensajes');
+    Route::get('consulta', [ConsultaController::class, 'index'])
+        ->name('consulta.index');
+
+    Route::get('consulta/notas/{id}', [ConsultaController::class, 'notas'])
+        ->name('consulta.notas');
+
+    Route::get('consulta/mensajes-grupo/{id}', [ConsultaController::class, 'mensajes'])
+        ->name('consulta.mensajes');
 });
 
 Auth::routes(['register' => false]);

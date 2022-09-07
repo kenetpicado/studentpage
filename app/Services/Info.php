@@ -8,17 +8,26 @@ class Info
 {
     public function home()
     {
-        $matriculas = auth()->user()->sucursal != 'all'
-            ? DB::table('matriculas')->where('sucursal', auth()->user()->sucursal)->get(['id', 'activo', 'created_at'])
-            : DB::table('matriculas')->get(['id', 'activo', 'created_at']);
+        $matriculas = DB::table('matriculas')
+            ->when(auth()->user()->sucursal != 'all', function ($q) {
+                $q->where('sucursal', auth()->user()->sucursal);
+            })
+            ->where('activo', 1)
+            ->get(['id', 'activo', 'created_at']);
 
-        $docentes = auth()->user()->sucursal != 'all'
-            ? DB::table('docentes')->where('sucursal', auth()->user()->sucursal)->get(['id', 'activo'])
-            : DB::table('docentes')->get(['id', 'activo']);
+        $docentes = DB::table('docentes')
+            ->when(auth()->user()->sucursal != 'all', function ($q) {
+                $q->where('sucursal', auth()->user()->sucursal);
+            })
+            ->where('activo', 1)
+            ->get(['id', 'activo']);
 
-        $grupos = auth()->user()->sucursal != 'all'
-            ? DB::table('grupos')->where('sucursal', auth()->user()->sucursal)->get(['id', 'activo', 'anyo'])
-            : DB::table('grupos')->get(['id', 'activo', 'anyo']);
+        $grupos = DB::table('grupos')
+            ->when(auth()->user()->sucursal != 'all', function ($q) {
+                $q->where('sucursal', auth()->user()->sucursal);
+            })
+            ->where('activo', 1)
+            ->get(['id', 'activo', 'anyo']);
 
         $cursos = DB::table('cursos')->get(['id', 'activo']);
         $promotores = DB::table('promotors')->get('id');
@@ -30,15 +39,8 @@ class Info
             'matriculas_total' => $matriculas->count(),
             'promotores_total' => $promotores->count(),
 
-            'docentes_activos' => $docentes->where('activo', '1')->count(),
-            'cursos_activos' => $cursos->where('activo', '1')->count(),
-            'grupos_activos' => $grupos->where('activo', '1')->count(),
-            'matriculas_activos' => $matriculas->where('activo', '1')->count(),
-
             'grupos_anyo' => $grupos->where('anyo', date('Y'))->count(),
-            'grupos_anyo_activo' => $grupos->where('anyo', date('Y'))->where('activo', '1')->count(),
             'matriculas_anyo' => $matriculas->where('created_at', '>=', date('Y') . '-01-01')->count(),
-            'matriculas_anyo_activo' => $matriculas->where('created_at', '>=', date('Y') . '-01-01')->where('activo', '1')->count(),
         ];
     }
 
