@@ -29,7 +29,7 @@ class PermisoController extends Controller
         if (auth()->user()->sucursal != 'all')
             return back()->with('error', config('app.denies'));
 
-        $adms = User::with('permisos')->where('rol', 'admin')->where('sucursal', '!=', 'all')->get();
+        $adms = User::admins();
         return view('permiso.adm', compact('adms'));
     }
 
@@ -39,7 +39,6 @@ class PermisoController extends Controller
         foreach ($request->user_id as $key => $user_id) {
             $this->setPermission($request->create_matricula[$key], $user_id, $create_matricula);
         }
-
         DB::table('permisos')->whereIn('user_id', $create_matricula)->delete();
         return redirect()->route('promotores.index')->with('success', config('app.updated'));
     }
@@ -60,7 +59,7 @@ class PermisoController extends Controller
         DB::table('permisos')->where('denegar', 'edit_nota')->whereIn('user_id', $edit_nota)->delete();
         DB::table('permisos')->where('denegar', 'create_mensaje')->whereIn('user_id', $create_mensaje)->delete();
 
-        return redirect()->route('docentes.index')->with('success', config('app.updated'));
+        return redirect()->route('permisos.docentes')->with('success', config('app.updated'));
     }
 
     public function adm_store(Request $request)

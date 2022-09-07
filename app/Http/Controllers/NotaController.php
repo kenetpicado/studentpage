@@ -38,6 +38,9 @@ class NotaController extends Controller
     //Guardar nota
     public function store(NotaRequest $request)
     {
+        if (!$request->inscripcion_id)
+            goto end;
+
         foreach ($request->inscripcion_id as $key => $inscripcion) {
 
             if ($request->enviar[$key] == 0)
@@ -49,6 +52,7 @@ class NotaController extends Controller
             );
         }
 
+        end:
         return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.created'));
     }
 

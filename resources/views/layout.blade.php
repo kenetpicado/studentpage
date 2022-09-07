@@ -7,7 +7,6 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('img/SP.png') }}">
     <title>{{ config('app.name') }} - @yield('title')</title>
     <link href="{{ asset('css/app.min.css') }}" rel="stylesheet">
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('DataTables/datatables.min.css') }}" /> --}}
 
     <style>
         @media only screen and (max-width:800px) {
@@ -86,7 +85,6 @@
     </div>
 
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-    {{-- <script type="text/javascript" src="{{ asset('DataTables/datatables.min.js') }}"></script> --}}
     <script src="{{ asset('js/sp.js') }}"></script>
 
     @if ($errors->any())

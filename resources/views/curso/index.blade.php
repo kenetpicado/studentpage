@@ -42,5 +42,4 @@
             {!! $cursos->links() !!}
         @endslot
     </x-table>
-    </div>
 @endsection

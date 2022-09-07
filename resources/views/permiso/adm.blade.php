@@ -7,23 +7,25 @@
 @endsection
 
 @section('content')
-    <x-header-0>Establecer permisos de Administradores</x-header-0>
+    <x-header-0>Permisos: Administradores</x-header-0>
     <div class="card-body">
         <form action="{{ route('permisos.adm.store') }}" method="post">
             @csrf
-            <x-table-head>
-                <x-slot name="title">
-                    <th>Usuario</th>
-                    <th>Nombre</th>
-                    <th>Sucursal</th>
-                    <th>Permisos</th>
-                </x-slot>
+            <table class="table table-borderless" id="no-more-tables" width="100%">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Sucursal</th>
+                        <th>Permisos</th>
+                    </tr>
+                </thead>
                 <tbody>
                     @foreach ($adms as $key => $adm)
                         <tr>
-                            <td>{{ $adm->email }}</td>
-                            <td>{{ $adm->name }}</td>
-                            <td>{{ $adm->sucursal == 'CH' ? 'Chinandega' : 'Managua' }}</td>
+                            <td  data-title="Usuario">{{ $adm->email }}</td>
+                            <td  data-title="Nombre">{{ $adm->name }}</td>
+                            <td  data-title="Sucursal">{{ $adm->sucursal }}</td>
                             <td>
                                 <x-switch deny="create_promotor" :key="$key" :adm="$adm"
                                     label="Crear nuevo Promotor"></x-switch>
@@ -45,7 +47,8 @@
                             </td>
                         </tr>
                     @endforeach
-            </x-table-head>
+                </tbody>
+            </table>
             <div class="mb-3">
                 <button type="submit" class="float-end btn btn-primary rounded-3">Guardar</button>
             </div>

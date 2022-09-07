@@ -44,6 +44,14 @@ class User extends Authenticatable
             ->get(['id', 'email', 'name']);
     }
 
+    public static function admins()
+    {
+        return User::with('permisos')
+            ->where('rol', 'admin')
+            ->where('sucursal', '!=', 'all')
+            ->get(['id', 'email', 'name', 'sucursal']);
+    }
+
     public function permisos()
     {
         return $this->hasMany(Permiso::class);

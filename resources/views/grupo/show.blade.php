@@ -42,7 +42,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($inscripciones as $inscripcion)
+                @forelse ($inscripciones as $inscripcion)
                     <tr>
                         <td data-title="Nombre">{{ $inscripcion->matricula_nombre }}</td>
                         <td data-title="Carnet">{{ $inscripcion->matricula_carnet }}</td>
@@ -58,7 +58,11 @@
                         @endif
 
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td>No hay registros</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
         <div class="float-end small">

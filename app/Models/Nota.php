@@ -26,7 +26,8 @@ class Nota extends Model
             ->join('modulos', 'notas.modulo_id', '=', 'modulos.id')
             ->orderBy('notas.modulo_id')
             ->get([
-                'notas.*',
+                'notas.id',
+                'notas.valor',
                 'modulos.nombre as modulo',
             ]);
     }

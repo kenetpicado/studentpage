@@ -8,28 +8,35 @@
 @endsection
 
 @section('content')
-    <x-header-0>Establecer permisos de Promotores</x-header-0>
+    <x-header-0>Permisos: Promotores</x-header-0>
     <div class="card-body">
+        <p>
+            Permitir o negar el acceso a crear nuevas Matriculas a un determinado Promotor.
+        </p>
         <form action="{{ route('permisos.promotor.store') }}" method="post">
             @csrf
-            <x-table-head>
-                <x-slot name="title">
-                    <th>Carnet</th>
-                    <th>Nombre</th>
-                    <th>Permisos</th>
-                </x-slot>
-                @foreach ($promotores as $key => $promotor)
+            <table class="table table-borderless" id="no-more-tables" width="100%">
+                <thead>
                     <tr>
-                        <input type="hidden" name="user_id[{{ $key }}]" value="{{ $promotor->id }}">
-                        <td>{{ $promotor->email }}</td>
-                        <td>{{ $promotor->name }}</td>
-                        <td>
-                            <x-switch deny="create_matricula" :key="$key" :adm="$promotor"
-                                label="Crear nueva Matricula"></x-switch>
-                        </td>
+                        <th>Carnet</th>
+                        <th>Nombre</th>
+                        <th>Permisos</th>
                     </tr>
-                @endforeach
-            </x-table-head>
+                </thead>
+                <tbody>
+                    @foreach ($promotores as $key => $promotor)
+                        <tr>
+                            <input type="hidden" name="user_id[{{ $key }}]" value="{{ $promotor->id }}">
+                            <td  data-title="Carnet">{{ $promotor->email }}</td>
+                            <td  data-title="Nombre">{{ $promotor->name }}</td>
+                            <td>
+                                <x-switch deny="create_matricula" :key="$key" :adm="$promotor"
+                                    label="Crear nueva Matricula"></x-switch>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
             <div class="mb-3">
                 <button type="submit" class="float-end btn btn-primary rounded-3">Guardar</button>
             </div>

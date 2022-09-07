@@ -15,17 +15,12 @@
     <x-main>
         <table class="table table-borderless">
             <tr>
-                <th>Fecha de registro</th>
                 <th>Modulo</th>
                 <th>Nota</th>
             </tr>
             <tbody>
                 @foreach ($notas as $nota)
-                    <tr>
-                        <td>{{ $nota->created_at }}</td>
-                        <td>
-                            {{ $nota->modulo }}
-                        </td>
+                        <td>{{ $nota->modulo }}</td>
                         <td>{{ $nota->valor }}</td>
                     </tr>
                 @endforeach

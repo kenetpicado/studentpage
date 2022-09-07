@@ -11,45 +11,44 @@
     <x-header-0>Promotores</x-header-0>
 
     <x-main>
-        <div class="card">
-            <div class="card-body">
-                <p>
-                    Generar reporte de un Promotor específico en un rango de fechas determinado por el administrador.
-                    Por favor, ingrese la fecha de inicio y fin de la consulta y el carnet del Promotor.
-                </p>
-                <form action="{{ route('reportes.rango.promotor') }}" method="post" target="_blank">
-                    @csrf
-                    <x-input name="inicio" type="date"></x-input>
-                    <x-input name="fin" type="date" :val="date('Y-m-d')"></x-input>
-                    <x-input name="carnet"></x-input>
-                    <div class="mb-3">
-                        <button type="submit" class="float-end btn btn-primary rounded-3">Generar</button>
-                    </div>
-                </form>
+        <p>
+            Generar reporte de un Promotor específico en un rango de fechas.
+            Por favor, ingrese el rango de fechas y carnet del Promotor.
+        </p>
+        <p>
+            Si desea obtener un reporte general de los Promotores <a href="{{ route('reportes.promotorGeneral') }}"
+                target="_blank">haga click aqui</a>
+        </p>
+        <form action="{{ route('reportes.rango.promotor') }}" method="post" target="_blank">
+            @csrf
+            <x-input name="inicio" type="date"></x-input>
+            <x-input name="fin" type="date" :val="date('Y-m-d')"></x-input>
+            <x-input name="carnet"></x-input>
+            <div class="mb-3">
+                <button type="submit" class="float-end btn btn-primary rounded-3">Generar</button>
             </div>
-        </div>
+        </form>
     </x-main>
 
-    <x-table-head>
-        <a href="{{ route('reportes.promotorGeneral') }}" target="_blank">Reporte General</a>
-        <x-slot name="title">
+    <x-table>
+        @slot('title')
             <th>Nombre</th>
             <th>Carnet</th>
             <th>Correo</th>
             <th></th>
-        </x-slot>
-        <tbody>
-            @foreach ($promotors as $promotor)
-                <tr>
-                    <td>{{ $promotor->nombre }}</td>
-                    <td>{{ $promotor->carnet }}</td>
-                    <td>{{ $promotor->correo }}</td>
-                    <td>
-                        <a href="{{ route('reportes.promotor', $promotor->id) }}" target="_blank">Reporte <i
-                                class="fas fa-clipboard-check"></i></a>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </x-table-head>
+        @endslot
+        @foreach ($promotors as $promotor)
+            <tr>
+                <td>{{ $promotor->nombre }}</td>
+                <td>{{ $promotor->carnet }}</td>
+                <td>{{ $promotor->correo }}</td>
+                <td>
+                    <a href="{{ route('reportes.promotor', $promotor->id) }}" target="_blank">Reporte <i
+                            class="fas fa-clipboard-check"></i></a>
+                </td>
+            </tr>
+        @endforeach
+        @slot('links')
+        @endslot
+    </x-table>
 @endsection

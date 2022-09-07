@@ -50,6 +50,9 @@ class AsistenciaController extends Controller
      */
     public function store(Request $request)
     {
+        if (!$request->matricula_id)
+            goto end;
+
         Gate::authorize('docente_autorizado', $request->grupo_id);
         $matricula = Matricula::find($request->matricula_id, ['id', 'activo', 'inasistencias']);
 
@@ -72,6 +75,7 @@ class AsistenciaController extends Controller
             ]);
         }
 
+        end:
         return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.created'));
     }
 

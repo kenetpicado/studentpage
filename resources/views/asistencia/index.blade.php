@@ -24,14 +24,14 @@
                     <th>Asistió</th>
                 </tr>
             </thead>
-            @foreach ($inscripciones as $key => $inscripcion)
+            @forelse ($inscripciones as $key => $inscripcion)
                 <tr>
                     <td>
                         <div class="small text-primary opacity-75">{{ $inscripcion->matricula_carnet }}</div>
-                        {{ $inscripcion->matricula_nombre }}</td>
+                        {{ $inscripcion->matricula_nombre }}
+                    </td>
                     <td>
-                        <input type="hidden" name="inscripcion_id[{{ $key }}]"
-                            value="{{ $inscripcion->id }}">
+                        <input type="hidden" name="inscripcion_id[{{ $key }}]" value="{{ $inscripcion->id }}">
 
                         <input type="hidden" name="matricula_id[{{ $key }}]"
                             value="{{ $inscripcion->matricula_id }}">
@@ -44,7 +44,11 @@
                         </div>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td>No hay registros</td>
+                </tr>
+            @endforelse
         </table>
         <x-input name="created_at" label="Fecha" type="date" :val="date('Y-m-d')"></x-input>
         <input type="hidden" name="grupo_id" value="{{ $grupo_id }}">

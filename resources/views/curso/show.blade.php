@@ -8,13 +8,7 @@
 @endsection
 
 @section('content')
-    <div class="card-header d-flex align-items-center justify-content-between border-0">
-        Modulos del Curso: {{ $curso->nombre }}
-        <button type="button" class="btn btn-sm btn-primary rounded-3 float-end" data-bs-toggle="modal"
-            data-bs-target="#modalCreate">
-            Agregar
-        </button>
-    </div>
+    <x-header-modal>Módulos</x-header-modal>
 
     <x-modal title="Modulo - Agregar">
         <form action="{{ route('modulos.store') }}" method="post">
@@ -29,28 +23,28 @@
         </form>
     </x-modal>
 
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card-body">
-                <table class="table table-borderless align-middle" width="100%" cellspacing="0">
-                    <thead>
-                        <tr class="text-primary text-uppercase small">
-                            <th>Nombre</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($modulos as $modulo)
-                            <tr>
-                                <td>{{ $modulo->nombre }}</td>
-                                <td>
-                                    <a class="btn btn-sm btn-primary" href="{{ route('modulos.edit', $modulo->id) }}">Editar</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <x-main>
+        <p>
+            Módulos del Curso:
+        </p>
+        <h5 class="fw-bolder">{{ $curso->nombre }}</h5>
+        <hr>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>Módulo</th>
+                    <th>Editar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($modulos as $modulo)
+                    <tr>
+                        <td>{{ $modulo->nombre }}</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="{{ route('modulos.edit', $modulo->id) }}">Editar</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+    </x-main>
 @endsection

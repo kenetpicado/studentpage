@@ -25,7 +25,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label class="form-label">Contenido</label>
-                    <textarea name="contenido" rows="5" class="form-control @error('contenido') is-invalid @enderror">{{ old('contenido') }}</textarea>
+                    <textarea name="contenido" rows="10" class="form-control @error('contenido') is-invalid @enderror">{{ old('contenido') }}</textarea>
 
                     @error('contenido')
                         <span class="invalid-feedback" role="alert">
