@@ -11,7 +11,6 @@
 
 <body class="bg-light">
     @include('partials.topbar')
-
     <div class="container">
         <div class="justify-content-center">
             <nav aria-label="breadcrumb" class="rounded-3">

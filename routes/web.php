@@ -1,23 +1,7 @@
 <?php
 
-use App\Http\Controllers\AsistenciaController;
-use App\Http\Controllers\CajaController;
-use App\Http\Controllers\ConsultaController;
-use App\Http\Controllers\CursoController;
-use App\Http\Controllers\DocenteController;
-use App\Http\Controllers\MatriculaController;
-use App\Http\Controllers\GrupoController;
-use App\Http\Controllers\PromotorController;
-use App\Http\Controllers\PagoController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\NotaController;
-use App\Http\Controllers\InscripcionController;
-use App\Http\Controllers\MensajeController;
-use App\Http\Controllers\ModuloController;
-use App\Http\Controllers\PermisoController;
-use App\Http\Controllers\ReporteController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\UserController;
+namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -149,3 +133,4 @@ Route::middleware('auth')->group(function () {
     Route::resource('user', UserController::class)->only(['edit', 'update']);
     Route::resource('/', HomeController::class);
 });
+
