@@ -22,6 +22,9 @@ class AsistenciaController extends Controller
     {
         Gate::authorize('docente_autorizado', $grupo_id);
         $inscripciones = Inscripcion::getByGrupo($grupo_id);
+        if ($inscripciones->count() == 0)
+            return redirect()->back()->with('error', config('app.empty'));
+
         $grupo = Grupo::showThis($grupo_id);
         return view('asistencia.index', compact('inscripciones', 'grupo_id', 'grupo'));
     }
@@ -50,9 +53,6 @@ class AsistenciaController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->matricula_id)
-            goto end;
-
         Gate::authorize('docente_autorizado', $request->grupo_id);
         $matricula = Matricula::find($request->matricula_id, ['id', 'activo', 'inasistencias']);
 
@@ -74,8 +74,6 @@ class AsistenciaController extends Controller
                 'inscripcion_id' => $inscripcion_id,
             ]);
         }
-
-        end:
         return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.created'));
     }
 
@@ -84,7 +82,7 @@ class AsistenciaController extends Controller
         $asistencias = Asistencia::find($request->asistencia_id, ['id', 'present']);
 
         if (!$asistencias)
-            goto end;
+            return redirect()->route('grupos.show', $request->grupo_id)->with('error', config('app.noupdated'));
 
         $matricula = Matricula::find($request->matricula_id, ['id', 'activo', 'inasistencias']);
 
@@ -107,7 +105,6 @@ class AsistenciaController extends Controller
             }
         }
 
-        end:
         return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.updated'));
     }
 

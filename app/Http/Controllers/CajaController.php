@@ -17,7 +17,7 @@ class CajaController extends Controller
     public function buscar(Request $request)
     {
         $request->validate([
-            'buscar' => 'required'
+            'search' => 'required'
         ]);
         
         $matriculas = Matricula::buscar($request);

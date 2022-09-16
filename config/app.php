@@ -18,6 +18,7 @@ return [
 
     'empty' => 'No hay datos para mostrar',
     'created' => 'Registro guardado correctamente',
+    'noupdated' => 'No hay registros que actualizar',
     'updated' => 'Registro actualizado correctamente',
     'deleted' => 'Registro eliminado correctamente',
     'undeleted' => 'No es posible eliminar este registro',

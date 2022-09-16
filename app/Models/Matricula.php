@@ -60,7 +60,7 @@ class Matricula extends Model
             ->when(Matricula::adminSucursal(), function ($q) {
                 $q->where('sucursal', auth()->user()->sucursal);
             })
-            ->when($promotor_id, function ($q) use($promotor_id) {
+            ->when($promotor_id, function ($q) use ($promotor_id) {
                 $q->where('promotor_id', $promotor_id);
             })
             ->latest('id')
@@ -76,7 +76,7 @@ class Matricula extends Model
             ])
             ->paginate(20);
     }
-    
+
     /**
      * Buscar una matricula por Carnet o Nombre
      *
@@ -89,8 +89,10 @@ class Matricula extends Model
             ->when(Matricula::enSucursal(), function ($q) {
                 $q->where('sucursal', auth()->user()->sucursal);
             })
-            ->where('carnet', 'LIKE', '%' . $request->buscar . '%')
-            ->orWhere('nombre', 'LIKE', '%' . $request->buscar . '%')
+            ->where(function ($query) use ($request) {
+                $query->where('nombre', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('carnet', 'LIKE', '%' . $request->search . '%');
+            })
             ->get(['id', 'nombre', 'carnet']);
     }
 

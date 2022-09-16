@@ -39,10 +39,6 @@
             </div>
         </div>
     </div>
-
-    <footer class="pt-3 my-4">
-        <p class="text-center text-muted">&copy; {{ date('Y') }} {{ config('app.name') }}</p>
-    </footer>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 
     @if ($errors->any())

@@ -30,6 +30,9 @@ class NotaController extends Controller
             return back()->with('error', config('app.denies'));
 
         $inscripciones = Inscripcion::getByGrupo($grupo_id);
+        if ($inscripciones->count() == 0)
+            return redirect()->back()->with('error', config('app.empty'));
+
         $grupo = Grupo::showThis($grupo_id);
         $modulos = DB::table('modulos')->where('curso_id', $grupo->curso_id)->get();
         return view('nota.create', compact('inscripciones', 'grupo', 'modulos'));
@@ -38,9 +41,6 @@ class NotaController extends Controller
     //Guardar nota
     public function store(NotaRequest $request)
     {
-        if (!$request->inscripcion_id)
-            goto end;
-
         foreach ($request->inscripcion_id as $key => $inscripcion) {
 
             if ($request->enviar[$key] == 0)
@@ -51,8 +51,6 @@ class NotaController extends Controller
                 ['valor' => $request->valor[$key], 'created_at' => $request->created_at]
             );
         }
-
-        end:
         return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.created'));
     }
 
@@ -61,14 +59,12 @@ class NotaController extends Controller
     {
         $notas = Nota::orderBy('modulo_id')->find($request->nota_id, ['id', 'valor']);
         if (!$notas)
-            goto end;
-
-        foreach ($notas as $key => $nota) {
+            return redirect()->route('grupos.show', $request->grupo_id)->with('error', config('app.noupdated'));
+            
+        $notas->each(function ($nota, $key) use ($request) {
             if ($nota->valor != $request->valor[$key])
                 $nota->update(['valor' => $request->valor[$key]]);
-        }
-
-        end:
+        });
         return redirect()->route('grupos.show', $request->grupo_id)->with('success', config('app.updated'));
     }
 

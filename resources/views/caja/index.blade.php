@@ -9,11 +9,15 @@
 @section('content')
     <x-header-0>Caja</x-header-0>
 
-    <x-form ruta="caja.buscar" btn="Buscar">
-        <x-input name="buscar" label="Buscar por Carnet o Nombre"></x-input>
-    </x-form>
-
     <div class="card-body">
+        <form class="col-6 col-sm-2 mb-3" method="POST" action="{{ route('caja.buscar') }}">
+            @csrf
+            <div class="input-group input-group-sm">
+                <input type="search" class="form-control" name="search" placeholder="Buscar">
+                <button type="submit" class="input-group-text"><i class="fa fa-search"></i></button>
+            </div>
+        </form>
+
         <table class="table table-borderless" width="100%" cellspacing="0">
             <thead>
                 <tr>
@@ -29,7 +33,8 @@
                             <td>{{ $matricula->nombre }}</td>
                             <td>{{ $matricula->carnet }}</td>
                             <td>
-                                <a class="btn btn-sm btn-primary" href="{{ route('pagos.index', $matricula->id) }}">Pagos</a>
+                                <a class="btn btn-sm btn-primary"
+                                    href="{{ route('pagos.index', $matricula->id) }}">Pagos</a>
                             </td>
                         </tr>
                     @endforeach
