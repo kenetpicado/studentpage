@@ -6,11 +6,14 @@ use App\Models\Matricula;
 use Illuminate\Http\Request;
 use App\Services\Credenciales;
 use App\Http\Controllers\Controller;
+use App\Traits\ApiTraits;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Gate;
 
 class MatriculaController extends Controller
 {
+    use ApiTraits;
+
     public function index()
     {
         if (Gate::denies('is_promotor'))
@@ -75,27 +78,11 @@ class MatriculaController extends Controller
         return $this->success();
     }
 
-    public function success()
-    {
-        return response()->json([
-            'status' => '1',
-            'message' => 'success',
-        ], 200);
-    }
-
     public function fail($validator)
     {
         return response()->json([
             'status' => '2',
             'message' => $validator->errors()->first(),
         ], 422);
-    }
-
-    public function unauthorized()
-    {
-        return response()->json([
-            'status' => '0',
-            'message' => 'unauthorized',
-        ], 403);
     }
 }

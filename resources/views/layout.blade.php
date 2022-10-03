@@ -39,8 +39,8 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     @if ($errors->any())
         <script>
             $(document).ready(function() {

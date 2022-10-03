@@ -1,10 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\ConsultaController;
+namespace App\Http\Controllers\Api;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\MatriculaController;
-use App\Http\Controllers\Api\LoginController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,6 +22,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('logout', [LoginController::class, 'logout']);
 
         Route::apiResource('v1/matriculas', MatriculaController::class);
+
+        Route::apiResource('v1/grupos', GrupoController::class)
+                ->only(['show', 'index']);
+
+        Route::get('v1/grupos-notas/{id}', [GrupoController::class, 'create_nota']);
+        Route::post('v1/grupos-notas', [GrupoController::class, 'store_nota']);
 
         Route::get('consulta', [ConsultaController::class, 'index']);
         Route::get('consulta/notas/{id}', [ConsultaController::class, 'notas']);
